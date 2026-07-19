@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema(
     {
@@ -29,14 +28,14 @@ const UserSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: false, // <-- NOW OPTIONAL for Google users
+            required: false,
             minlength: [6, 'Password must be at least 6 characters'],
             select: false,
         },
         googleId: {
             type: String,
             unique: true,
-            sparse: true, // Allows multiple null values for unique index
+            sparse: true,
         },
         profilePicture: {
             type: String,
@@ -71,18 +70,10 @@ const UserSchema = new mongoose.Schema(
     }
 );
 
-// Encrypt password ONLY if it exists and is modified
-UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password') || !this.password) {
-        return next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-});
-
-// Method to compare entered password with hashed password
+// Match password method (still needed)
 UserSchema.methods.matchPassword = async function (enteredPassword) {
-    if (!this.password) return false; // Google users don't have a password
+    if (!this.password) return false;
+    const bcrypt = require('bcryptjs');
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
