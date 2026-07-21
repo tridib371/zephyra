@@ -15,12 +15,41 @@ const Register = () => {
     const { register, error } = useAuth();
     const navigate = useNavigate();
 
+    // --- Password strength checks ---
+    const [passwordChecks, setPasswordChecks] = useState({
+        length: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        special: false,
+    });
+
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        // If password field is being changed, update checks
+        if (name === 'password') {
+            setPasswordChecks({
+                length: value.length >= 8,
+                uppercase: /[A-Z]/.test(value),
+                lowercase: /[a-z]/.test(value),
+                number: /[0-9]/.test(value),
+                special: /[@$!%*?&]/.test(value),
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Final check before submission
+        const allValid = Object.values(passwordChecks).every(Boolean);
+        if (!allValid) {
+            alert('Please meet all password requirements before submitting.');
+            return;
+        }
+
         setIsLoading(true);
         const { name, username, email, password } = formData;
         const result = await register(name, username, email, password);
@@ -29,6 +58,9 @@ const Register = () => {
             navigate('/feed');
         }
     };
+
+    // Check if all requirements are met for styling
+    const isPasswordValid = Object.values(passwordChecks).every(Boolean);
 
     return (
         <motion.div
@@ -119,12 +151,41 @@ const Register = () => {
                             type="password"
                             name="password"
                             required
-                            minLength="6"
                             value={formData.password}
                             onChange={handleChange}
-                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition outline-none"
-                            placeholder="•••••••• (min 6 characters)"
+                            className={`w-full px-4 py-3 border rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition outline-none ${formData.password.length > 0 && !isPasswordValid
+                                ? 'border-red-500 dark:border-red-500'
+                                : formData.password.length > 0 && isPasswordValid
+                                    ? 'border-green-500 dark:border-green-500'
+                                    : 'border-gray-300 dark:border-gray-600'
+                                }`}
+                            placeholder="Enter a strong password"
                         />
+
+                        {/* Password Strength Checklist */}
+                        {formData.password.length > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                className="mt-2 text-xs space-y-1"
+                            >
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-green-500' : 'text-red-500'}`}>
+                                    {passwordChecks.length ? '✅' : '❌'} At least 8 characters
+                                </p>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-green-500' : 'text-red-500'}`}>
+                                    {passwordChecks.uppercase ? '✅' : '❌'} At least 1 uppercase letter
+                                </p>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-green-500' : 'text-red-500'}`}>
+                                    {passwordChecks.lowercase ? '✅' : '❌'} At least 1 lowercase letter
+                                </p>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-green-500' : 'text-red-500'}`}>
+                                    {passwordChecks.number ? '✅' : '❌'} At least 1 number
+                                </p>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-green-500' : 'text-red-500'}`}>
+                                    {passwordChecks.special ? '✅' : '❌'} At least 1 special character (@, $, !, %, *, ?, &)
+                                </p>
+                            </motion.div>
+                        )}
                     </div>
 
                     <button
@@ -146,7 +207,7 @@ const Register = () => {
                     </button>
                 </form>
 
-                {/* ====== GOOGLE BUTTON SECTION (NEW) ====== */}
+                {/* Google Button */}
                 <div className="relative my-4">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>

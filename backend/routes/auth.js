@@ -1,10 +1,14 @@
-const { verifyIdToken } = require('../config/firebaseAdmin');
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const { verifyIdToken } = require('../config/firebaseAdmin');
 const router = express.Router();
 
-const bcrypt = require('bcryptjs');
+// ============================================
+// PASSWORD STRENGTH REGEX
+// ============================================
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 // @route   POST /api/auth/register
 // @desc    Register a new user
@@ -12,6 +16,14 @@ const bcrypt = require('bcryptjs');
 router.post('/register', async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
+
+        // --- PASSWORD STRENGTH CHECK ---
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &).',
+            });
+        }
 
         // Check if user already exists
         const userExists = await User.findOne({ $or: [{ email }, { username }] });
@@ -66,7 +78,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// ========== NEW LOGIN ROUTE (ADD THIS) ==========
 // @route   POST /api/auth/login
 // @desc    Login a user
 // @access  Public
@@ -74,7 +85,6 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Check if user exists with password field included
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(401).json({
@@ -83,7 +93,6 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        // Check if password matches (only if user has a password)
         if (user.password) {
             const isMatch = await user.matchPassword(password);
             if (!isMatch) {
@@ -93,14 +102,12 @@ router.post('/login', async (req, res) => {
                 });
             }
         } else {
-            // User signed up with Google, doesn't have a password
             return res.status(401).json({
                 success: false,
                 message: 'This account uses Google Sign-In. Please use "Continue with Google".',
             });
         }
 
-        // Generate JWT token
         const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,
@@ -132,7 +139,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// ========== GOOGLE AUTH ROUTE ==========
 // @route   POST /api/auth/google
 // @desc    Authenticate with Google (Firebase)
 // @access  Public
@@ -147,17 +153,13 @@ router.post('/google', async (req, res) => {
             });
         }
 
-        // Verify Firebase ID token
         const decodedToken = await verifyIdToken(idToken);
         const { email, name, picture, uid } = decodedToken;
 
-        // Check if user exists with this googleId OR email
         let user = await User.findOne({ $or: [{ googleId: uid }, { email }] });
 
         if (!user) {
-            // Create new user
             let username = email.split('@')[0];
-            // Check if username exists and make it unique
             let usernameExists = await User.findOne({ username });
             if (usernameExists) {
                 username = `${username}_${Math.floor(Math.random() * 1000)}`;
@@ -171,19 +173,16 @@ router.post('/google', async (req, res) => {
                 profilePicture: picture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
             });
         } else {
-            // If user exists but doesn't have googleId, update it
             if (!user.googleId) {
                 user.googleId = uid;
                 await user.save();
             }
-            // Update profile picture if Firebase has a new one
             if (picture && user.profilePicture !== picture) {
                 user.profilePicture = picture;
                 await user.save();
             }
         }
 
-        // Generate JWT token
         const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,
