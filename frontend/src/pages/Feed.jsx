@@ -5,8 +5,7 @@ import api from '../api/axios';
 import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 
-// ---------- Icon set (matching Navbar/Footer icon language) ----------
-
+// ===== Icons (from your design language) =====
 const HeartIcon = ({ filled = false }) => (
     <svg viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" strokeLinejoin="round" />
@@ -42,18 +41,29 @@ const FeatherMark = () => (
     </svg>
 );
 
+// ===== Feed Component =====
 const Feed = () => {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    // Store liked post IDs in a Set for fast lookup
     const [likedPosts, setLikedPosts] = useState(new Set());
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
                 const res = await api.get('/posts');
-                setPosts(res.data.posts);
+                const fetchedPosts = res.data.posts;
+                setPosts(fetchedPosts);
+                // Pre-populate liked set by checking if current user's ID is in each post's likes
+                const likedSet = new Set();
+                fetchedPosts.forEach(post => {
+                    if (post.likes && post.likes.includes(user?._id)) {
+                        likedSet.add(post._id);
+                    }
+                });
+                setLikedPosts(likedSet);
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching posts:', err);
@@ -62,34 +72,66 @@ const Feed = () => {
             }
         };
         fetchPosts();
-    }, []);
+    }, [user]);
 
+    // Handle like/unlike
     const handleLike = async (postId) => {
+        const isLiked = likedPosts.has(postId);
+        // Optimistic update
+        setLikedPosts(prev => {
+            const newSet = new Set(prev);
+            if (isLiked) {
+                newSet.delete(postId);
+            } else {
+                newSet.add(postId);
+            }
+            return newSet;
+        });
+        // Update the post's like count locally
+        setPosts(prevPosts =>
+            prevPosts.map(post =>
+                post._id === postId
+                    ? {
+                        ...post,
+                        likes: isLiked
+                            ? post.likes.filter(id => id !== user._id)
+                            : [...post.likes, user._id],
+                    }
+                    : post
+            )
+        );
+
+        // Actually call the API
         try {
-            const res = await api.post(`/posts/${postId}/like`);
-            // Update local state
-            setPosts((prevPosts) =>
-                prevPosts.map((post) =>
+            if (isLiked) {
+                await api.delete(`/posts/${postId}/like`);
+            } else {
+                await api.post(`/posts/${postId}/like`);
+            }
+        } catch (err) {
+            console.error('Like error:', err);
+            // Rollback on error
+            setLikedPosts(prev => {
+                const newSet = new Set(prev);
+                if (isLiked) {
+                    newSet.add(postId);
+                } else {
+                    newSet.delete(postId);
+                }
+                return newSet;
+            });
+            setPosts(prevPosts =>
+                prevPosts.map(post =>
                     post._id === postId
                         ? {
                             ...post,
-                            likes: res.data.likes,
+                            likes: isLiked
+                                ? [...post.likes, user._id]
+                                : post.likes.filter(id => id !== user._id),
                         }
                         : post
                 )
             );
-            // Toggle liked state
-            setLikedPosts((prev) => {
-                const newSet = new Set(prev);
-                if (newSet.has(postId)) {
-                    newSet.delete(postId);
-                } else {
-                    newSet.add(postId);
-                }
-                return newSet;
-            });
-        } catch (err) {
-            console.error('Error liking post:', err);
         }
     };
 
@@ -201,7 +243,7 @@ const Feed = () => {
                                     </span>
                                 </button>
 
-                                {/* Comment Button */}
+                                {/* Comment Button (placeholder for now) */}
                                 <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group">
                                     <CommentIcon />
                                     <span className="text-sm font-medium font-[Manrope]">

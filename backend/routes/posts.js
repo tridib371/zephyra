@@ -130,4 +130,57 @@ router.delete('/:id', protect, async (req, res) => {
     }
 });
 
+// ========== LIKE / UNLIKE ==========
+
+// @route   POST /api/posts/:id/like
+// @desc    Like a post
+// @access  Private
+router.post('/:id/like', protect, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ success: false, message: 'Post not found' });
+        }
+
+        // Check if user already liked
+        if (post.likes.includes(req.user._id)) {
+            return res.status(400).json({ success: false, message: 'Post already liked' });
+        }
+
+        post.likes.push(req.user._id);
+        await post.save();
+
+        res.status(200).json({ success: true, likes: post.likes });
+    } catch (error) {
+        console.error('Like error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// @route   DELETE /api/posts/:id/like
+// @desc    Unlike a post
+// @access  Private
+router.delete('/:id/like', protect, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ success: false, message: 'Post not found' });
+        }
+
+        // Check if user has liked
+        const index = post.likes.indexOf(req.user._id);
+        if (index === -1) {
+            return res.status(400).json({ success: false, message: 'Post not liked yet' });
+        }
+
+        post.likes.splice(index, 1);
+        await post.save();
+
+        res.status(200).json({ success: true, likes: post.likes });
+    } catch (error) {
+        console.error('Unlike error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 module.exports = router;
