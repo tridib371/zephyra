@@ -183,4 +183,75 @@ router.delete('/:id/like', protect, async (req, res) => {
     }
 });
 
+// ========== COMMENTS ==========
+
+// @route   POST /api/posts/:id/comments
+// @desc    Add a comment to a post
+// @access  Private
+router.post('/:id/comments', protect, async (req, res) => {
+    try {
+        const { text } = req.body;
+        if (!text || text.trim() === '') {
+            return res.status(400).json({ success: false, message: 'Comment text is required' });
+        }
+
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ success: false, message: 'Post not found' });
+        }
+
+        const newComment = {
+            user: req.user._id,
+            text: text.trim(),
+            createdAt: new Date(),
+        };
+
+        post.comments.push(newComment);
+        await post.save();
+
+        // Populate the new comment with user details
+        await post.populate('comments.user', 'name username profilePicture');
+
+        // Get the newly added comment (last in the array)
+        const addedComment = post.comments[post.comments.length - 1];
+
+        res.status(201).json({ success: true, comment: addedComment });
+    } catch (error) {
+        console.error('Add comment error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// @route   DELETE /api/posts/:id/comments/:commentId
+// @desc    Delete a comment
+// @access  Private
+router.delete('/:id/comments/:commentId', protect, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ success: false, message: 'Post not found' });
+        }
+
+        // Find the comment index
+        const commentIndex = post.comments.findIndex(c => c._id.toString() === req.params.commentId);
+        if (commentIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Comment not found' });
+        }
+
+        // Check if the user owns the comment or is the post author
+        const comment = post.comments[commentIndex];
+        if (comment.user.toString() !== req.user._id.toString() && post.author.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ success: false, message: 'Not authorized to delete this comment' });
+        }
+
+        post.comments.splice(commentIndex, 1);
+        await post.save();
+
+        res.status(200).json({ success: true, message: 'Comment deleted' });
+    } catch (error) {
+        console.error('Delete comment error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 module.exports = router;

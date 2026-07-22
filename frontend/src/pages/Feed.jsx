@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
+import ConfirmDialog from '../components/ConfirmDialog';
 
-// ===== Icons (from your design language) =====
+// ===== Icons =====
 const HeartIcon = ({ filled = false }) => (
     <svg viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" strokeLinejoin="round" />
     </svg>
 );
 
-const CommentIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+const CommentIcon = ({ active = false }) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={`h-5 w-5 ${active ? 'text-[#D97B4F] dark:text-[#F5C36B]' : ''}`}>
         <path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4.5 4V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z" strokeLinejoin="round" />
     </svg>
 );
@@ -41,53 +42,57 @@ const FeatherMark = () => (
     </svg>
 );
 
+const TrashIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+        <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
 // ===== Feed Component =====
 const Feed = () => {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    // Store liked post IDs in a Set for fast lookup
     const [likedPosts, setLikedPosts] = useState(new Set());
+    const [commentTexts, setCommentTexts] = useState({});
+    const [openComments, setOpenComments] = useState({});
+    const [submittingComment, setSubmittingComment] = useState({});
+    const [deleteModal, setDeleteModal] = useState({ isOpen: false, postId: null, commentId: null });
+
+    const fetchPosts = async () => {
+        try {
+            const res = await api.get('/posts');
+            const fetchedPosts = res.data.posts;
+            setPosts(fetchedPosts);
+            const likedSet = new Set();
+            fetchedPosts.forEach(post => {
+                if (post.likes && post.likes.includes(user?._id)) {
+                    likedSet.add(post._id);
+                }
+            });
+            setLikedPosts(likedSet);
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching posts:', err);
+            setError('Failed to load posts. Please try again.');
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const res = await api.get('/posts');
-                const fetchedPosts = res.data.posts;
-                setPosts(fetchedPosts);
-                // Pre-populate liked set by checking if current user's ID is in each post's likes
-                const likedSet = new Set();
-                fetchedPosts.forEach(post => {
-                    if (post.likes && post.likes.includes(user?._id)) {
-                        likedSet.add(post._id);
-                    }
-                });
-                setLikedPosts(likedSet);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching posts:', err);
-                setError('Failed to load posts. Please try again.');
-                setLoading(false);
-            }
-        };
         fetchPosts();
     }, [user]);
 
-    // Handle like/unlike
+    // Like/Unlike
     const handleLike = async (postId) => {
         const isLiked = likedPosts.has(postId);
-        // Optimistic update
         setLikedPosts(prev => {
             const newSet = new Set(prev);
-            if (isLiked) {
-                newSet.delete(postId);
-            } else {
-                newSet.add(postId);
-            }
+            if (isLiked) newSet.delete(postId);
+            else newSet.add(postId);
             return newSet;
         });
-        // Update the post's like count locally
         setPosts(prevPosts =>
             prevPosts.map(post =>
                 post._id === postId
@@ -101,7 +106,6 @@ const Feed = () => {
             )
         );
 
-        // Actually call the API
         try {
             if (isLiked) {
                 await api.delete(`/posts/${postId}/like`);
@@ -110,14 +114,10 @@ const Feed = () => {
             }
         } catch (err) {
             console.error('Like error:', err);
-            // Rollback on error
             setLikedPosts(prev => {
                 const newSet = new Set(prev);
-                if (isLiked) {
-                    newSet.add(postId);
-                } else {
-                    newSet.delete(postId);
-                }
+                if (isLiked) newSet.add(postId);
+                else newSet.delete(postId);
                 return newSet;
             });
             setPosts(prevPosts =>
@@ -132,6 +132,77 @@ const Feed = () => {
                         : post
                 )
             );
+        }
+    };
+
+    // Toggle comments visibility
+    const toggleComments = (postId) => {
+        setOpenComments(prev => ({
+            ...prev,
+            [postId]: !prev[postId],
+        }));
+    };
+
+    // Handle comment text change
+    const handleCommentChange = (postId, text) => {
+        setCommentTexts(prev => ({ ...prev, [postId]: text }));
+    };
+
+    // Submit comment
+    const handleCommentSubmit = async (postId) => {
+        const text = commentTexts[postId] || '';
+        if (!text.trim()) return;
+
+        setSubmittingComment(prev => ({ ...prev, [postId]: true }));
+
+        try {
+            const res = await api.post(`/posts/${postId}/comments`, { text });
+            const newComment = res.data.comment;
+            setPosts(prevPosts =>
+                prevPosts.map(post =>
+                    post._id === postId
+                        ? {
+                            ...post,
+                            comments: [...post.comments, newComment],
+                        }
+                        : post
+                )
+            );
+            setCommentTexts(prev => ({ ...prev, [postId]: '' }));
+            setOpenComments(prev => ({ ...prev, [postId]: true }));
+        } catch (err) {
+            console.error('Comment error:', err);
+            alert('Failed to add comment. Please try again.');
+        } finally {
+            setSubmittingComment(prev => ({ ...prev, [postId]: false }));
+        }
+    };
+
+    // Delete comment - opens the confirmation modal
+    const handleDeleteComment = (postId, commentId) => {
+        setDeleteModal({ isOpen: true, postId, commentId });
+    };
+
+    // Actually perform the deletion
+    const confirmDeleteComment = async () => {
+        const { postId, commentId } = deleteModal;
+        try {
+            await api.delete(`/posts/${postId}/comments/${commentId}`);
+            setPosts(prevPosts =>
+                prevPosts.map(post =>
+                    post._id === postId
+                        ? {
+                            ...post,
+                            comments: post.comments.filter(c => c._id !== commentId),
+                        }
+                        : post
+                )
+            );
+            setDeleteModal({ isOpen: false, postId: null, commentId: null });
+        } catch (err) {
+            console.error('Delete comment error:', err);
+            alert('Failed to delete comment. Please try again.');
+            setDeleteModal({ isOpen: false, postId: null, commentId: null });
         }
     };
 
@@ -190,6 +261,9 @@ const Feed = () => {
             ) : (
                 posts.map((post, index) => {
                     const isLiked = likedPosts.has(post._id);
+                    const isCommentsOpen = openComments[post._id] || false;
+                    const commentCount = post.comments?.length || 0;
+
                     return (
                         <motion.div
                             key={post._id}
@@ -243,11 +317,17 @@ const Feed = () => {
                                     </span>
                                 </button>
 
-                                {/* Comment Button (placeholder for now) */}
-                                <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group">
-                                    <CommentIcon />
+                                {/* Comment Button */}
+                                <button
+                                    onClick={() => toggleComments(post._id)}
+                                    className={`flex items-center gap-2 transition group ${isCommentsOpen
+                                        ? 'text-[#D97B4F] dark:text-[#F5C36B]'
+                                        : 'text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B]'
+                                        }`}
+                                >
+                                    <CommentIcon active={isCommentsOpen} />
                                     <span className="text-sm font-medium font-[Manrope]">
-                                        {post.comments?.length || 0}
+                                        {commentCount}
                                     </span>
                                 </button>
 
@@ -261,10 +341,110 @@ const Feed = () => {
                                     <ShareIcon />
                                 </button>
                             </div>
+
+                            {/* Comments Section */}
+                            <AnimatePresence>
+                                {isCommentsOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="mt-4 border-t border-gray-100 dark:border-[#1F232C] pt-4 space-y-3"
+                                    >
+                                        {/* Comment Input */}
+                                        <div className="flex items-center gap-2">
+                                            <img
+                                                src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
+                                                alt="Your avatar"
+                                                className="w-8 h-8 rounded-full object-cover ring-1 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40 flex-shrink-0"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={commentTexts[post._id] || ''}
+                                                onChange={(e) => handleCommentChange(post._id, e.target.value)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') handleCommentSubmit(post._id);
+                                                }}
+                                                placeholder="Write a comment..."
+                                                className="flex-1 px-3 py-2 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-200 dark:border-[#3A3F4B] rounded-full text-sm text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                            />
+                                            <button
+                                                onClick={() => handleCommentSubmit(post._id)}
+                                                disabled={submittingComment[post._id] || !(commentTexts[post._id] || '').trim()}
+                                                className="px-4 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full text-sm hover:brightness-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] whitespace-nowrap"
+                                            >
+                                                {submittingComment[post._id] ? '...' : 'Post'}
+                                            </button>
+                                        </div>
+
+                                        {/* Comments List */}
+                                        {commentCount === 0 ? (
+                                            <p className="text-sm text-gray-400 dark:text-[#6E7280] text-center font-[Manrope] py-2">
+                                                No comments yet. Be the first! 💬
+                                            </p>
+                                        ) : (
+                                            <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+                                                {post.comments.map((comment) => {
+                                                    const isOwn = comment.user?._id === user?._id;
+                                                    const isPostAuthor = post.author?._id === user?._id;
+                                                    const canDelete = isOwn || isPostAuthor;
+
+                                                    return (
+                                                        <div key={comment._id} className="flex items-start gap-2">
+                                                            <img
+                                                                src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
+                                                                alt={comment.user?.name}
+                                                                className="w-7 h-7 rounded-full object-cover ring-1 ring-gray-300 dark:ring-[#3A3F4B] flex-shrink-0 mt-0.5"
+                                                            />
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-center gap-2 flex-wrap">
+                                                                    <span className="text-sm font-semibold text-gray-900 dark:text-[#EDEBE6] font-[Manrope]">
+                                                                        {comment.user?.name}
+                                                                    </span>
+                                                                    <span className="text-xs text-gray-400 dark:text-[#6E7280] font-[Manrope]">
+                                                                        @{comment.user?.username}
+                                                                    </span>
+                                                                    <span className="text-xs text-gray-400 dark:text-[#6E7280] font-[Manrope]">
+                                                                        • {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                                                                    </span>
+                                                                </div>
+                                                                <p className="text-sm text-gray-700 dark:text-[#D9D3E6] font-[Manrope] break-words">
+                                                                    {comment.text}
+                                                                </p>
+                                                            </div>
+                                                            {canDelete && (
+                                                                <button
+                                                                    onClick={() => handleDeleteComment(post._id, comment._id)}
+                                                                    className="text-gray-400 dark:text-[#6E7280] hover:text-red-500 dark:hover:text-red-400 transition flex-shrink-0 mt-1"
+                                                                    aria-label="Delete comment"
+                                                                >
+                                                                    <TrashIcon />
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </motion.div>
                     );
                 })
             )}
+
+            {/* ===== CUSTOM CONFIRMATION MODAL ===== */}
+            <ConfirmDialog
+                isOpen={deleteModal.isOpen}
+                onClose={() => setDeleteModal({ isOpen: false, postId: null, commentId: null })}
+                onConfirm={confirmDeleteComment}
+                title="Delete Comment?"
+                message="This action cannot be undone. Are you sure you want to delete this comment?"
+                confirmText="Delete"
+                cancelText="Cancel"
+            />
         </div>
     );
 };
