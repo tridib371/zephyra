@@ -1,39 +1,43 @@
 @import "tailwindcss";
 
-/* ========================================
+/* ============================================
    FORCE DARK MODE TO WORK IN TAILWIND v4
-   ======================================== */
+   ============================================ */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Base styles */
+/* ============================================
+   BASE STYLES
+   ============================================ */
 @layer base {
     html {
         @apply transition-colors duration-300;
     }
 
     body {
-        @apply bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100;
+        @apply bg-white dark:bg-[#0E1116] text-gray-900 dark:text-[#E7E6E3] font-[Manrope];
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-gray-100 dark:bg-[#0B0D12];
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-[#D97B4F] dark:bg-[#F5C36B] rounded-full;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-[#B5652F] dark:bg-[#FF8F6B];
     }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-800;
-}
-
-::-webkit-scrollbar-thumb {
-    @apply bg-purple-400 dark:bg-purple-600 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    @apply bg-purple-500 dark:bg-purple-500;
-}
-
-/* Gradient Animation */
+/* ============================================
+   GRADIENT ANIMATION
+   ============================================ */
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -51,4 +55,40 @@
 .animate-gradient {
     background-size: 200% 200%;
     animation: gradient 4s ease infinite;
+}
+
+/* ============================================
+   FRAUNCES ITALIC UTILITY
+   ============================================ */
+.font-fraunces-italic {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 30, 'wght' 500, 'SOFT' 0, 'WONK' 0;
+}
+
+/* ============================================
+   WIND LINE ANIMATIONS (for landing page)
+   ============================================ */
+@keyframes windDrift {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(12px);
+    }
+}
+
+@keyframes gustOpacity {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
 }

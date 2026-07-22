@@ -5,19 +5,10 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /*
-  FONTS
-  Add these to the <head> of your index.html (or import in your global CSS):
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  - Fraunces (italic) is the display face — used only for the wordmark and section headlines.
-  - Manrope is the body/UI face.
+  FONTS – already loaded in index.html
+  Fraunces (italic) – display; Manrope – body/UI.
 */
 
-// A handful of hand-placed gust paths that sweep across the hero.
-// Each one draws itself in on load, then drifts almost imperceptibly forever.
 const GUST_PATHS = [
     'M -100 140 C 150 60, 350 220, 620 110 S 1000 40, 1300 130',
     'M -100 300 C 200 380, 420 220, 700 320 S 1050 260, 1300 340',
@@ -87,7 +78,7 @@ const Particles = ({ reduce }) => {
             {PARTICLES.map((p) => (
                 <motion.span
                     key={p.id}
-                    className="absolute rounded-full bg-[#F5D8B0]"
+                    className="absolute rounded-full bg-[#F5D8B0] dark:bg-[#F5D8B0]/80"
                     style={{
                         left: p.left,
                         bottom: '-4%',
@@ -146,7 +137,7 @@ const FEATURES = [
     {
         icon: FeatherIcon,
         title: 'Set your thoughts adrift',
-        description: 'Post updates, photos, and half-finished ideas — Zephyra carries them to the people who want to see.',
+        description: 'Post updates, photos, and half-finished ideas - Zephyra carries them to the people who want to see.',
     },
     {
         icon: PulseIcon,
@@ -156,7 +147,7 @@ const FEATURES = [
     {
         icon: CloudLockIcon,
         title: 'Choose your weather',
-        description: 'Every post has a climate you control — public gust, private calm, or somewhere between.',
+        description: 'Every post has a climate you control - public gust, private calm, or somewhere between.',
     },
     {
         icon: CompassIcon,
@@ -182,9 +173,9 @@ const Home = () => {
     );
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#0E1116] font-[Manrope]">
+        <div className="min-h-screen flex flex-col bg-white dark:bg-[#0E1116] font-[Manrope] transition-colors duration-300">
             {/* Hero */}
-            <section className="relative flex-1 flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 py-24 sm:py-32 bg-gradient-to-b from-[#151A24] via-[#0E1116] to-[#0B0D12]">
+            <section className="relative flex-1 flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 py-24 sm:py-32 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-[#151A24] dark:via-[#0E1116] dark:to-[#0B0D12] transition-colors duration-300">
                 <WindLines reduce={reduce} />
                 <Particles reduce={reduce} />
 
@@ -194,24 +185,24 @@ const Home = () => {
                     transition={{ duration: 0.7 }}
                     className="relative z-10 text-center max-w-2xl"
                 >
-                    <span className="inline-block text-[11px] sm:text-xs tracking-[0.3em] uppercase text-[#F5C36B]/80 mb-6">
+                    <span className="inline-block text-[11px] sm:text-xs tracking-[0.3em] uppercase text-[#D97B4F] dark:text-[#F5C36B]/80 mb-6 font-[Manrope]">
                         A gentle current for your thoughts
                     </span>
 
                     <h1
-                        className="font-['Fraunces'] italic font-medium text-6xl sm:text-7xl md:text-8xl leading-[1.15] pb-2 bg-gradient-to-r from-[#FF8F6B] via-[#F5C36B] to-[#FF8F6B] bg-clip-text text-transparent"
+                        className="font-['Fraunces'] italic font-medium text-6xl sm:text-7xl md:text-8xl leading-[1.15] pb-2 bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent"
                         style={{ fontVariationSettings: '"opsz" 40, "wght" 500, "SOFT" 0, "WONK" 0' }}
                     >
                         Zephyra
                     </h1>
 
-                    <p className="mt-6 text-lg sm:text-xl text-[#E7E6E3] leading-relaxed">
+                    <p className="mt-6 text-lg sm:text-xl text-gray-700 dark:text-[#E7E6E3] leading-relaxed font-[Manrope]">
                         Share your world the way wind shares a season -
                         <br className="hidden sm:block" />
                         freely, and everywhere at once.
                     </p>
 
-                    <p className="mt-4 text-sm sm:text-base text-[#8A8F9C] max-w-md mx-auto">
+                    <p className="mt-4 text-sm sm:text-base text-gray-500 dark:text-[#8A8F9C] max-w-md mx-auto font-[Manrope]">
                         A social space for people who create, wonder, and drift between ideas.
                     </p>
 
@@ -223,27 +214,27 @@ const Home = () => {
                     >
                         <Link
                             to="/register"
-                            className="px-8 py-3 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_30px_-6px_rgba(255,143,107,0.55)] transition-all duration-300 text-center"
+                            className="px-8 py-3 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_30px_-6px_rgba(255,143,107,0.55)] transition-all duration-300 text-center font-[Manrope]"
                         >
                             Get Started Free
                         </Link>
                         <Link
                             to="/login"
-                            className="group px-8 py-3 border border-[#3A3F4B] text-[#E7E6E3] font-semibold rounded-full hover:border-[#F5C36B]/60 hover:text-[#F5C36B] transition-all duration-300 text-center"
+                            className="group px-8 py-3 border border-gray-300 dark:border-[#3A3F4B] text-gray-700 dark:text-[#E7E6E3] font-semibold rounded-full hover:border-[#D97B4F] dark:hover:border-[#F5C36B]/60 hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-all duration-300 text-center font-[Manrope]"
                         >
                             Sign In <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
                         </Link>
                     </motion.div>
                 </motion.div>
 
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B0D12] to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-[#0B0D12] to-transparent" />
             </section>
 
             {/* Features */}
-            <section className="relative py-24 px-4 sm:px-6 bg-[#0B0D12]">
+            <section className="relative py-24 px-4 sm:px-6 bg-gray-50 dark:bg-[#0B0D12] transition-colors duration-300">
                 <div className="max-w-6xl mx-auto">
                     <motion.h2
-                        className="font-['Fraunces'] italic text-3xl sm:text-4xl text-center text-[#EDEBE6] mb-4"
+                        className="font-['Fraunces'] italic text-3xl sm:text-4xl text-center text-gray-900 dark:text-[#EDEBE6] mb-4"
                         style={{ fontVariationSettings: '"opsz" 30, "SOFT" 0, "WONK" 0' }}
                         initial={{ opacity: 0, y: 16 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -252,13 +243,13 @@ const Home = () => {
                     >
                         Why Zephyra?
                     </motion.h2>
-                    <p className="text-center text-sm text-[#6E7280] mb-16 max-w-md mx-auto">
+                    <p className="text-center text-sm text-gray-500 dark:text-[#6E7280] mb-16 max-w-md mx-auto font-[Manrope]">
                         Four reasons people stay longer than they mean to.
                     </p>
 
                     <div className="relative">
                         <svg
-                            className="hidden lg:block absolute -top-4 left-0 w-full h-24 text-[#F5C36B]/15"
+                            className="hidden lg:block absolute -top-4 left-0 w-full h-24 text-[#D97B4F]/30 dark:text-[#F5C36B]/15"
                             viewBox="0 0 1160 80"
                             preserveAspectRatio="none"
                             aria-hidden="true"
@@ -276,14 +267,18 @@ const Home = () => {
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
-                                        className={`relative bg-[#12151C] rounded-2xl p-6 border border-[#1F232C] hover:border-[#F5C36B]/30 transition-all duration-300 hover:-translate-y-1.5 ${index % 2 === 0 ? 'lg:mt-0' : 'lg:mt-10'
+                                        className={`relative bg-white dark:bg-[#12151C] rounded-2xl p-6 border border-gray-200 dark:border-[#1F232C] hover:border-[#D97B4F]/30 dark:hover:border-[#F5C36B]/30 transition-all duration-300 hover:-translate-y-1.5 ${index % 2 === 0 ? 'lg:mt-0' : 'lg:mt-10'
                                             }`}
                                     >
-                                        <div className="h-11 w-11 rounded-full bg-gradient-to-br from-[#FF8F6B]/15 to-[#F5C36B]/15 flex items-center justify-center text-[#F5C36B] mb-4">
+                                        <div className="h-11 w-11 rounded-full bg-gradient-to-br from-[#FF8F6B]/15 to-[#F5C36B]/15 flex items-center justify-center text-[#D97B4F] dark:text-[#F5C36B] mb-4">
                                             <Icon />
                                         </div>
-                                        <h3 className="text-base font-semibold text-[#EDEBE6]">{feature.title}</h3>
-                                        <p className="text-sm text-[#8A8F9C] mt-2 leading-relaxed">{feature.description}</p>
+                                        <h3 className="text-base font-semibold text-gray-900 dark:text-[#EDEBE6] font-[Manrope]">
+                                            {feature.title}
+                                        </h3>
+                                        <p className="text-sm text-gray-600 dark:text-[#8A8F9C] mt-2 leading-relaxed font-[Manrope]">
+                                            {feature.description}
+                                        </p>
                                     </motion.div>
                                 );
                             })}
@@ -293,7 +288,7 @@ const Home = () => {
             </section>
 
             {/* CTA */}
-            <section className="relative py-24 px-4 sm:px-6 overflow-hidden bg-gradient-to-br from-[#241F3E] via-[#3B2F4A] to-[#4A2E2A]">
+            <section className="relative py-24 px-4 sm:px-6 overflow-hidden bg-gradient-to-br from-[#F5EFE6] to-[#F8F4EC] dark:from-[#241F3E] dark:via-[#3B2F4A] dark:to-[#4A2E2A] transition-colors duration-300">
                 <WindLines reduce={reduce} />
                 <motion.div
                     className="relative z-10 max-w-2xl mx-auto text-center"
@@ -303,17 +298,17 @@ const Home = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <h2
-                        className="font-['Fraunces'] italic text-4xl sm:text-5xl text-[#F8F4EC]"
+                        className="font-['Fraunces'] italic text-4xl sm:text-5xl text-gray-900 dark:text-[#F8F4EC]"
                         style={{ fontVariationSettings: '"opsz" 30, "SOFT" 0, "WONK" 0' }}
                     >
                         Ready to catch the wind?
                     </h2>
-                    <p className="text-base sm:text-lg mt-4 text-[#D9D3E6]">
+                    <p className="text-base sm:text-lg mt-4 text-gray-700 dark:text-[#D9D3E6] font-[Manrope]">
                         Thousands of creators are already riding the Zephyra current. Your story is next.
                     </p>
                     <Link
                         to="/register"
-                        className="inline-block mt-8 px-8 py-3 bg-[#F8F4EC] text-[#241F3E] font-semibold rounded-full hover:scale-105 transition-all duration-300"
+                        className="inline-block mt-8 px-8 py-3 bg-[#1A140D] dark:bg-[#F8F4EC] text-white dark:text-[#241F3E] font-semibold rounded-full hover:scale-105 transition-all duration-300 font-[Manrope]"
                     >
                         Create Your Account
                     </Link>

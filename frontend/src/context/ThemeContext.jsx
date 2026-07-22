@@ -36,7 +36,6 @@ export const ThemeProvider = ({ children }) => {
             document.documentElement.classList.remove('dark');
         }
         localStorage.setItem('zephyra_theme', newTheme);
-        console.log('Theme toggled to:', newTheme); // <-- This helps debug
     };
 
     const value = { theme, toggleTheme };
