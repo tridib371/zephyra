@@ -5,9 +5,7 @@ const User = require('../models/User');
 const { verifyIdToken } = require('../config/firebaseAdmin');
 const router = express.Router();
 
-// ============================================
-// PASSWORD STRENGTH REGEX
-// ============================================
+// Password strength regex
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 // @route   POST /api/auth/register
@@ -17,7 +15,7 @@ router.post('/register', async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
 
-        // --- PASSWORD STRENGTH CHECK ---
+        // Password strength check
         if (!passwordRegex.test(password)) {
             return res.status(400).json({
                 success: false,
@@ -25,7 +23,7 @@ router.post('/register', async (req, res) => {
             });
         }
 
-        // Check if user already exists
+        // Check if user exists
         const userExists = await User.findOne({ $or: [{ email }, { username }] });
         if (userExists) {
             return res.status(400).json({
@@ -34,11 +32,10 @@ router.post('/register', async (req, res) => {
             });
         }
 
-        // Hash password manually
+        // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create the user with hashed password
         const user = await User.create({
             name,
             username,
@@ -46,7 +43,6 @@ router.post('/register', async (req, res) => {
             password: hashedPassword,
         });
 
-        // Generate JWT token
         const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,

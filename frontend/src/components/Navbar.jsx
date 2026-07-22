@@ -28,6 +28,13 @@ const PlusGustIcon = () => (
     </svg>
 );
 
+const CompassIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+        <circle cx="12" cy="12" r="9" />
+        <path d="m14.5 9.5-2 5-3 1.5 2-5 3-1.5Z" strokeLinejoin="round" />
+    </svg>
+);
+
 const BellIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
         <path d="M6 8a6 6 0 0 1 12 0c0 4.2 1.2 6 2 7H4c.8-1 2-2.8 2-7Z" strokeLinecap="round" strokeLinejoin="round" />
@@ -154,6 +161,15 @@ const Navbar = () => {
                                     New Post
                                 </Link>
 
+                                {/* ===== DISCOVER LINK (ADDED) ===== */}
+                                <Link
+                                    to="/discover"
+                                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors duration-200"
+                                >
+                                    <CompassIcon />
+                                    Discover
+                                </Link>
+
                                 <button className={iconButtonClasses} aria-label="Notifications">
                                     <BellIcon />
                                 </button>
@@ -262,6 +278,16 @@ const Navbar = () => {
                         >
                             <PlusGustIcon /> New Post
                         </Link>
+
+                        {/* ===== DISCOVER LINK (ADDED IN MOBILE MENU) ===== */}
+                        <Link
+                            to="/discover"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            <CompassIcon /> Discover
+                        </Link>
+
                         <Link
                             to="/feed"
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors"

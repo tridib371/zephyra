@@ -1,3 +1,4 @@
+import Discover from './pages/Discover';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -25,6 +26,8 @@ function App() {
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/create" element={<CreatePost />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/:id" element={<Profile />} />
+                <Route path="/discover" element={<Discover />} />  {/* ADD THIS */}
               </Route>
             </Routes>
           </main>
