@@ -188,6 +188,9 @@ const Navbar = () => {
                                             src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                             alt="Profile"
                                             className="w-9 h-9 rounded-full object-cover ring-2 ring-[#F5C36B]/60 hover:ring-[#F5C36B] transition-all duration-200"
+                                            onError={(e) => {
+                                                e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                            }}
                                         />
                                     </button>
                                     {isProfileMenuOpen && (

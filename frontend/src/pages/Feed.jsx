@@ -278,6 +278,9 @@ const Feed = () => {
                                     src={post.author?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                     alt={post.author?.name}
                                     className="w-10 h-10 rounded-full object-cover ring-2 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60"
+                                    onError={(e) => {
+                                        e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                    }}
                                 />
                                 <div className="flex-1">
                                     <div className="flex items-center flex-wrap gap-2">
@@ -358,6 +361,9 @@ const Feed = () => {
                                                 src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                                 alt="Your avatar"
                                                 className="w-8 h-8 rounded-full object-cover ring-1 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40 flex-shrink-0"
+                                                onError={(e) => {
+                                                    e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                                }}
                                             />
                                             <input
                                                 type="text"
@@ -396,6 +402,9 @@ const Feed = () => {
                                                                 src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                                                 alt={comment.user?.name}
                                                                 className="w-7 h-7 rounded-full object-cover ring-1 ring-gray-300 dark:ring-[#3A3F4B] flex-shrink-0 mt-0.5"
+                                                                onError={(e) => {
+                                                                    e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                                                }}
                                                             />
                                                             <div className="flex-1 min-w-0">
                                                                 <div className="flex items-center gap-2 flex-wrap">

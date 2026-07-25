@@ -18,41 +18,41 @@ const Profile = () => {
 
     // Modal state
     const [modalOpen, setModalOpen] = useState(false);
-    const [modalType, setModalType] = useState('followers'); // 'followers' or 'following'
+    const [modalType, setModalType] = useState('followers');
     const [modalUsers, setModalUsers] = useState([]);
+    const [modalLoading, setModalLoading] = useState(false);
+
+    const fetchProfile = async () => {
+        try {
+            const userId = id || currentUser?._id;
+            if (!userId) return;
+
+            const res = await api.get(`/users/profile/${userId}`);
+            const userData = res.data.user;
+            setProfileUser(userData);
+            setFollowersCount(userData.followers?.length || 0);
+            setFollowingCount(userData.following?.length || 0);
+
+            if (currentUser && userData._id !== currentUser._id) {
+                const isFollow = userData.followers?.some(
+                    (f) => f._id === currentUser._id
+                ) || false;
+                setIsFollowing(isFollow);
+            } else {
+                setIsFollowing(false);
+            }
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching profile:', err);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
             return;
         }
-
-        const fetchProfile = async () => {
-            try {
-                const userId = id || currentUser?._id;
-                if (!userId) return;
-
-                const res = await api.get(`/users/profile/${userId}`);
-                const userData = res.data.user;
-                setProfileUser(userData);
-                setFollowersCount(userData.followers?.length || 0);
-                setFollowingCount(userData.following?.length || 0);
-
-                if (currentUser && userData._id !== currentUser._id) {
-                    const isFollow = userData.followers?.some(
-                        (f) => f._id === currentUser._id
-                    ) || false;
-                    setIsFollowing(isFollow);
-                } else {
-                    setIsFollowing(false);
-                }
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching profile:', err);
-                setLoading(false);
-            }
-        };
-
         fetchProfile();
     }, [id, currentUser, isAuthenticated, navigate]);
 
@@ -78,21 +78,21 @@ const Profile = () => {
         }
     };
 
-    // Open modal with followers or following list
     const openModal = async (type) => {
         if (!profileUser) return;
         setModalType(type);
-        setLoading(true);
+        setModalLoading(true);
+        setModalOpen(true);
         try {
             const endpoint = type === 'followers' ? 'followers' : 'following';
             const res = await api.get(`/users/${profileUser._id}/${endpoint}`);
             setModalUsers(res.data[type] || []);
-            setModalOpen(true);
         } catch (err) {
             console.error(`Error fetching ${type}:`, err);
             alert(`Failed to load ${type}. Please try again.`);
+            setModalOpen(false);
         } finally {
-            setLoading(false);
+            setModalLoading(false);
         }
     };
 
@@ -101,15 +101,25 @@ const Profile = () => {
         setModalUsers([]);
     };
 
-    // Update follow state after modal action
+    // ===== FIX: Update following/followers count when modal action happens =====
     const handleFollowToggleFromModal = (userId, isNowFollowing) => {
-        // Update followers count if the user is the profile owner
+        // If the action involves the profile user (someone else viewing your profile)
         if (profileUser && userId === profileUser._id) {
             setFollowersCount(prev => isNowFollowing ? prev + 1 : prev - 1);
             setIsFollowing(isNowFollowing);
         }
-        // Refresh the modal list
-        openModal(modalType);
+
+        // If this is the current user's own profile, update following count
+        // Because we're viewing our own profile and following/unfollowing someone
+        const isOwnProfile = currentUser?._id === profileUser?._id;
+        if (isOwnProfile) {
+            setFollowingCount(prev => isNowFollowing ? prev + 1 : prev - 1);
+        }
+
+        // Refresh the modal data
+        if (modalOpen) {
+            openModal(modalType);
+        }
     };
 
     if (loading) {
@@ -145,6 +155,9 @@ const Profile = () => {
                                 src={profileUser.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                 alt="Profile"
                                 className="w-28 h-28 rounded-full object-cover ring-4 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60"
+                                onError={(e) => {
+                                    e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                }}
                             />
                             <div className="flex-1 text-center sm:text-left">
                                 <h1 className="text-3xl font-bold text-gray-900 dark:text-[#EDEBE6]">
@@ -169,7 +182,6 @@ const Profile = () => {
                                     </button>
                                 </div>
 
-                                {/* Follow Button */}
                                 {!isOwnProfile && (
                                     <button
                                         onClick={handleFollowToggle}
@@ -179,11 +191,7 @@ const Profile = () => {
                                             : 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)]'
                                             } disabled:opacity-50 disabled:cursor-not-allowed`}
                                     >
-                                        {isTogglingFollow
-                                            ? '...'
-                                            : isFollowing
-                                                ? 'Unfollow'
-                                                : 'Follow'}
+                                        {isTogglingFollow ? '...' : (isFollowing ? 'Unfollow' : 'Follow')}
                                     </button>
                                 )}
                             </div>
@@ -192,11 +200,8 @@ const Profile = () => {
                         {/* Divider */}
                         <div className="mt-8 border-t border-gray-200 dark:border-[#1F232C] pt-6">
                             <p className="text-center text-gray-500 dark:text-[#6E7280] text-sm font-[Manrope]">
-                                {isOwnProfile
-                                    ? 'This is your profile. 🌬️'
-                                    : `Viewing ${profileUser.name}'s profile`}
+                                {isOwnProfile ? 'This is your profile. 🌬️' : `Viewing ${profileUser.name}'s profile`}
                             </p>
-                            {/* Placeholder for posts grid */}
                             <div className="mt-4 grid grid-cols-3 gap-2">
                                 {[1, 2, 3, 4, 5, 6].map((i) => (
                                     <div
@@ -215,7 +220,6 @@ const Profile = () => {
                 </div>
             </motion.div>
 
-            {/* Followers/Following Modal */}
             <FollowListModal
                 isOpen={modalOpen}
                 onClose={closeModal}

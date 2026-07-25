@@ -135,6 +135,9 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// ============================================
+// GOOGLE AUTH - FIXED PROFILE PICTURE
+// ============================================
 // @route   POST /api/auth/google
 // @desc    Authenticate with Google (Firebase)
 // @access  Public
@@ -149,42 +152,66 @@ router.post('/google', async (req, res) => {
             });
         }
 
+        // Verify Firebase ID token
         const decodedToken = await verifyIdToken(idToken);
+        console.log('Decoded token:', JSON.stringify(decodedToken, null, 2));
+
+        // Extract user data from decoded token
         const { email, name, picture, uid } = decodedToken;
 
+        console.log('Google user data:', { email, name, picture, uid });
+
+        // Check if user exists with this googleId OR email
         let user = await User.findOne({ $or: [{ googleId: uid }, { email }] });
 
         if (!user) {
+            // Generate a unique username from email
             let username = email.split('@')[0];
+            // Remove special characters from username
+            username = username.replace(/[^a-zA-Z0-9_]/g, '');
             let usernameExists = await User.findOne({ username });
             if (usernameExists) {
                 username = `${username}_${Math.floor(Math.random() * 1000)}`;
             }
 
+            // Use the picture from Google, or fallback to default
+            const profilePicture = picture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+
+            // Create new user
             user = await User.create({
                 name: name || email.split('@')[0],
                 username,
                 email,
                 googleId: uid,
-                profilePicture: picture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
+                profilePicture: profilePicture, // <-- Save Google photo
+                bio: '',
             });
+
+            console.log('✅ New user created with Google photo:', profilePicture);
         } else {
-            if (!user.googleId) {
-                user.googleId = uid;
-                await user.save();
-            }
+            // User exists - update profile picture if needed
             if (picture && user.profilePicture !== picture) {
                 user.profilePicture = picture;
                 await user.save();
+                console.log('✅ Updated profile picture for existing user:', picture);
+            }
+
+            // If user exists but doesn't have googleId, update it
+            if (!user.googleId) {
+                user.googleId = uid;
+                await user.save();
+                console.log('✅ Updated googleId for existing user');
             }
         }
 
+        // Generate JWT token
         const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,
             { expiresIn: '30d' }
         );
 
+        // Return user data
         res.status(200).json({
             success: true,
             token,
