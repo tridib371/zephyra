@@ -10,6 +10,7 @@ import Feed from './pages/Feed';
 import CreatePost from './pages/CreatePost';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
+import PostDetail from './pages/PostDetail';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/discover" element={<Discover />} />  {/* ADD THIS */}
+                <Route path="/post/:id" element={<PostDetail />} />
               </Route>
             </Routes>
           </main>

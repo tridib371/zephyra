@@ -254,4 +254,28 @@ router.delete('/:id/comments/:commentId', protect, async (req, res) => {
     }
 });
 
+
+// @route   GET /api/posts/user/:userId
+// @desc    Get all posts by a specific user
+// @access  Private
+router.get('/user/:userId', protect, async (req, res) => {
+    try {
+        const posts = await Post.find({ author: req.params.userId })
+            .populate('author', 'name username profilePicture')
+            .populate('comments.user', 'name username profilePicture')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: posts.length,
+            posts,
+        });
+    } catch (error) {
+        console.error('Get user posts error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+        });
+    }
+});
 module.exports = router;

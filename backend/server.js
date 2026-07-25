@@ -10,13 +10,20 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
+// ===== MIDDLEWARE =====
+// Helmet for security headers
 app.use(helmet());
+
+// CORS for cross-origin requests
 app.use(cors());
-app.use(express.json());
+
+// JSON parser with increased limit for image uploads (10MB)
+app.use(express.json({ limit: '10mb' }));
+
+// Morgan for logging
 app.use(morgan('dev'));
 
-// MongoDB Connection
+// ===== MONGODB CONNECTION =====
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('✅ MongoDB Connected Successfully');
@@ -29,9 +36,11 @@ mongoose.connect(process.env.MONGO_URI)
 // ===== ROUTES =====
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
-app.use('/api/users', require('./routes/users')); // <-- MUST HAVE THIS
+app.use('/api/users', require('./routes/users'));
+app.use('/api/upload', require('./routes/upload'));
 
-// Test route
+// ===== TEST ROUTES =====
+// Public test route
 app.get('/', (req, res) => {
     res.send('Zephyra API is running... 🌬️');
 });
@@ -44,6 +53,7 @@ app.get('/api/profile', protect, (req, res) => {
     });
 });
 
+// ===== START SERVER =====
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

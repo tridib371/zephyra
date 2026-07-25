@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
+import { formatDistanceToNow } from 'date-fns';
 import FollowListModal from '../components/FollowListModal';
 
 const Profile = () => {
@@ -10,7 +11,9 @@ const Profile = () => {
     const { user: currentUser, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [profileUser, setProfileUser] = useState(null);
+    const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [postsLoading, setPostsLoading] = useState(true);
     const [isFollowing, setIsFollowing] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
     const [followingCount, setFollowingCount] = useState(0);
@@ -21,6 +24,9 @@ const Profile = () => {
     const [modalType, setModalType] = useState('followers');
     const [modalUsers, setModalUsers] = useState([]);
     const [modalLoading, setModalLoading] = useState(false);
+
+    // Filter state
+    const [activeFilter, setActiveFilter] = useState('all');
 
     const fetchProfile = async () => {
         try {
@@ -48,12 +54,27 @@ const Profile = () => {
         }
     };
 
+    const fetchUserPosts = async () => {
+        try {
+            const userId = id || currentUser?._id;
+            if (!userId) return;
+
+            const res = await api.get(`/posts/user/${userId}`);
+            setUserPosts(res.data.posts || []);
+            setPostsLoading(false);
+        } catch (err) {
+            console.error('Error fetching user posts:', err);
+            setPostsLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
             return;
         }
         fetchProfile();
+        fetchUserPosts();
     }, [id, currentUser, isAuthenticated, navigate]);
 
     const handleFollowToggle = async () => {
@@ -101,26 +122,74 @@ const Profile = () => {
         setModalUsers([]);
     };
 
-    // ===== FIX: Update following/followers count when modal action happens =====
     const handleFollowToggleFromModal = (userId, isNowFollowing) => {
-        // If the action involves the profile user (someone else viewing your profile)
         if (profileUser && userId === profileUser._id) {
             setFollowersCount(prev => isNowFollowing ? prev + 1 : prev - 1);
             setIsFollowing(isNowFollowing);
         }
-
-        // If this is the current user's own profile, update following count
-        // Because we're viewing our own profile and following/unfollowing someone
-        const isOwnProfile = currentUser?._id === profileUser?._id;
-        if (isOwnProfile) {
-            setFollowingCount(prev => isNowFollowing ? prev + 1 : prev - 1);
-        }
-
-        // Refresh the modal data
         if (modalOpen) {
             openModal(modalType);
         }
     };
+
+    // ===== Helper function to determine post type =====
+    const getPostType = (post) => {
+        if (post.image) {
+            const imageUrl = post.image.toLowerCase();
+            if (imageUrl.includes('.mp4') || imageUrl.includes('.webm') || imageUrl.includes('.mov') || imageUrl.includes('.avi')) {
+                return {
+                    type: 'video',
+                    label: 'Video',
+                    icon: '🎬',
+                    className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                };
+            }
+            if (imageUrl.includes('.gif')) {
+                return {
+                    type: 'gif',
+                    label: 'GIF',
+                    icon: '🎞️',
+                    className: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+                };
+            }
+            return {
+                type: 'photo',
+                label: 'Photo',
+                icon: '📷',
+                className: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+            };
+        }
+        return {
+            type: 'text',
+            label: 'Text',
+            icon: '📝',
+            className: 'bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-300'
+        };
+    };
+
+    // Filter posts based on active filter
+    const getFilteredPosts = () => {
+        if (activeFilter === 'all') return userPosts;
+        return userPosts.filter(post => getPostType(post).type === activeFilter);
+    };
+
+    // Count posts by type for stats
+    const postStats = userPosts.reduce((acc, post) => {
+        const { type } = getPostType(post);
+        acc[type] = (acc[type] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Filter tabs configuration
+    const filterTabs = [
+        { key: 'all', label: 'All Posts', icon: '📰' },
+        { key: 'photo', label: 'Photos', icon: '📷' },
+        { key: 'video', label: 'Videos', icon: '🎬' },
+        { key: 'text', label: 'Text', icon: '📝' },
+        { key: 'gif', label: 'GIFs', icon: '🎞️' },
+    ];
+
+    const filteredPosts = getFilteredPosts();
 
     if (loading) {
         return (
@@ -197,24 +266,120 @@ const Profile = () => {
                             </div>
                         </div>
 
-                        {/* Divider */}
-                        <div className="mt-8 border-t border-gray-200 dark:border-[#1F232C] pt-6">
-                            <p className="text-center text-gray-500 dark:text-[#6E7280] text-sm font-[Manrope]">
-                                {isOwnProfile ? 'This is your profile. 🌬️' : `Viewing ${profileUser.name}'s profile`}
-                            </p>
-                            <div className="mt-4 grid grid-cols-3 gap-2">
-                                {[1, 2, 3, 4, 5, 6].map((i) => (
-                                    <div
-                                        key={i}
-                                        className="aspect-square bg-gray-100 dark:bg-[#1A1E27] rounded-xl flex items-center justify-center text-gray-400 dark:text-[#6E7280] text-sm"
-                                    >
-                                        📷
-                                    </div>
-                                ))}
+                        {/* Post Type Stats */}
+                        {userPosts.length > 0 && (
+                            <div className="mt-6 flex flex-wrap gap-3 justify-center sm:justify-start text-sm text-gray-500 dark:text-[#6E7280]">
+                                {Object.entries(postStats).map(([type, count]) => {
+                                    const typeMap = {
+                                        photo: { label: 'Photos', icon: '📷' },
+                                        video: { label: 'Videos', icon: '🎬' },
+                                        gif: { label: 'GIFs', icon: '🎞️' },
+                                        text: { label: 'Text Posts', icon: '📝' },
+                                    };
+                                    const info = typeMap[type] || { label: type, icon: '📄' };
+                                    return (
+                                        <span key={type}>
+                                            {info.icon} {count} {info.label}
+                                        </span>
+                                    );
+                                })}
                             </div>
-                            <p className="text-center text-xs text-gray-400 dark:text-[#6E7280] mt-4 font-[Manrope]">
-                                Posts coming soon.
-                            </p>
+                        )}
+
+                        {/* Filter Tabs */}
+                        <div className="mt-6 border-t border-gray-200 dark:border-[#1F232C] pt-4">
+                            <div className="flex flex-wrap gap-1 sm:gap-2">
+                                {filterTabs.map((tab) => {
+                                    const isActive = activeFilter === tab.key;
+                                    const count = tab.key === 'all'
+                                        ? userPosts.length
+                                        : userPosts.filter(p => getPostType(p).type === tab.key).length;
+
+                                    // Hide tabs with zero count except "All"
+                                    if (count === 0 && tab.key !== 'all') return null;
+
+                                    return (
+                                        <button
+                                            key={tab.key}
+                                            onClick={() => setActiveFilter(tab.key)}
+                                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive
+                                                ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-md'
+                                                : 'bg-gray-100 dark:bg-[#1A1E27] text-gray-600 dark:text-[#8A8F9C] hover:bg-gray-200 dark:hover:bg-[#2A2E3A]'
+                                                }`}
+                                        >
+                                            {tab.icon} {tab.label} {count > 0 && `(${count})`}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Posts Grid */}
+                        <div className="mt-4">
+                            {postsLoading ? (
+                                <div className="flex justify-center py-12">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#D97B4F] dark:border-[#F5C36B]"></div>
+                                </div>
+                            ) : filteredPosts.length === 0 ? (
+                                <div className="text-center py-12">
+                                    <p className="text-gray-500 dark:text-[#8A8F9C] font-[Manrope]">
+                                        {activeFilter === 'all'
+                                            ? (isOwnProfile ? "You haven't posted anything yet. 🌬️" : `${profileUser.name} hasn't posted anything yet.`)
+                                            : `No ${activeFilter} posts found.`}
+                                    </p>
+                                    {isOwnProfile && activeFilter === 'all' && (
+                                        <Link
+                                            to="/create"
+                                            className="inline-block mt-3 px-6 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 transition-all duration-200 font-[Manrope]"
+                                        >
+                                            Create Your First Post
+                                        </Link>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-3 gap-2">
+                                    {filteredPosts.map((post) => {
+                                        const postType = getPostType(post);
+                                        return (
+                                            <Link
+                                                key={post._id}
+                                                to={`/post/${post._id}`}
+                                                className="aspect-square bg-gray-100 dark:bg-[#1A1E27] rounded-xl overflow-hidden relative group cursor-pointer"
+                                            >
+                                                {post.image ? (
+                                                    <img
+                                                        src={post.image}
+                                                        alt="Post"
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-[#6E7280] text-4xl">
+                                                        {postType.icon}
+                                                    </div>
+                                                )}
+                                                {/* Overlay */}
+                                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                                                    <span className="text-white text-3xl mb-1">{postType.icon}</span>
+                                                    <span className="text-white text-xs font-medium font-[Manrope] px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
+                                                        {postType.label}
+                                                    </span>
+                                                    <div className="flex items-center gap-4 mt-2 text-white text-sm">
+                                                        <span className="flex items-center gap-1">❤️ {post.likes?.length || 0}</span>
+                                                        <span className="flex items-center gap-1">💬 {post.comments?.length || 0}</span>
+                                                    </div>
+                                                </div>
+                                                {/* Badge */}
+                                                <span className={`absolute top-2 right-2 text-xs px-2 py-0.5 rounded-full font-medium ${postType.className}`}>
+                                                    {postType.label}
+                                                </span>
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

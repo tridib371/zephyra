@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -51,6 +51,7 @@ const TrashIcon = () => (
 // ===== Feed Component =====
 const Feed = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -136,7 +137,8 @@ const Feed = () => {
     };
 
     // Toggle comments visibility
-    const toggleComments = (postId) => {
+    const toggleComments = (postId, e) => {
+        e.stopPropagation();
         setOpenComments(prev => ({
             ...prev,
             [postId]: !prev[postId],
@@ -149,7 +151,8 @@ const Feed = () => {
     };
 
     // Submit comment
-    const handleCommentSubmit = async (postId) => {
+    const handleCommentSubmit = async (postId, e) => {
+        e.stopPropagation();
         const text = commentTexts[postId] || '';
         if (!text.trim()) return;
 
@@ -204,6 +207,11 @@ const Feed = () => {
             alert('Failed to delete comment. Please try again.');
             setDeleteModal({ isOpen: false, postId: null, commentId: null });
         }
+    };
+
+    // Navigate to post detail
+    const goToPost = (postId) => {
+        navigate(`/post/${postId}`);
     };
 
     if (loading) {
@@ -270,21 +278,28 @@ const Feed = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.08 }}
-                            className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-[#1F232C] hover:border-[#D97B4F]/30 dark:hover:border-[#F5C36B]/30 transition-all duration-300"
+                            className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-[#1F232C] hover:border-[#D97B4F]/30 dark:hover:border-[#F5C36B]/30 transition-all duration-300 cursor-pointer"
+                            onClick={() => goToPost(post._id)}
                         >
-                            {/* Author Info */}
-                            <div className="flex items-start space-x-3">
+                            {/* Author Info - Clicking this navigates to the author's profile */}
+                            <div
+                                className="flex items-start space-x-3"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/profile/${post.author?._id}`);
+                                }}
+                            >
                                 <img
                                     src={post.author?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                     alt={post.author?.name}
-                                    className="w-10 h-10 rounded-full object-cover ring-2 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60"
+                                    className="w-10 h-10 rounded-full object-cover ring-2 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60 cursor-pointer hover:ring-[#D97B4F] dark:hover:ring-[#F5C36B] transition-all"
                                     onError={(e) => {
                                         e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
                                     }}
                                 />
                                 <div className="flex-1">
                                     <div className="flex items-center flex-wrap gap-2">
-                                        <span className="font-semibold text-gray-900 dark:text-[#EDEBE6] font-[Manrope]">
+                                        <span className="font-semibold text-gray-900 dark:text-[#EDEBE6] font-[Manrope] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors">
                                             {post.author?.name}
                                         </span>
                                         <span className="text-sm text-gray-500 dark:text-[#6E7280] font-[Manrope]">
@@ -297,18 +312,33 @@ const Feed = () => {
                                 </div>
                             </div>
 
-                            {/* Post Content */}
-                            <div className="mt-3">
+                            {/* Post Content - Clicking this navigates to post detail */}
+                            <div className="mt-3" onClick={(e) => e.stopPropagation()}>
                                 <p className="text-gray-800 dark:text-[#E7E6E3] whitespace-pre-wrap break-words font-[Manrope] leading-relaxed">
                                     {post.content}
                                 </p>
+                                {post.image && (
+                                    <div className="mt-3 rounded-xl overflow-hidden border border-gray-200 dark:border-[#1F232C]">
+                                        <img
+                                            src={post.image}
+                                            alt="Post image"
+                                            className="w-full max-h-96 object-contain bg-gray-50 dark:bg-[#0E1116]"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Post Actions */}
+                            {/* Post Actions - Click handlers with stopPropagation */}
                             <div className="mt-4 flex items-center gap-6 border-t border-gray-100 dark:border-[#1F232C] pt-4">
                                 {/* Like Button */}
                                 <button
-                                    onClick={() => handleLike(post._id)}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleLike(post._id);
+                                    }}
                                     className={`flex items-center gap-2 transition group ${isLiked
                                         ? 'text-[#D97B4F] dark:text-[#FF8F6B]'
                                         : 'text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'
@@ -322,7 +352,7 @@ const Feed = () => {
 
                                 {/* Comment Button */}
                                 <button
-                                    onClick={() => toggleComments(post._id)}
+                                    onClick={(e) => toggleComments(post._id, e)}
                                     className={`flex items-center gap-2 transition group ${isCommentsOpen
                                         ? 'text-[#D97B4F] dark:text-[#F5C36B]'
                                         : 'text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B]'
@@ -335,12 +365,18 @@ const Feed = () => {
                                 </button>
 
                                 {/* Bookmark Button */}
-                                <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group">
+                                <button
+                                    className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
                                     <BookmarkIcon />
                                 </button>
 
                                 {/* Share Button */}
-                                <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group ml-auto">
+                                <button
+                                    className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group ml-auto"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
                                     <ShareIcon />
                                 </button>
                             </div>
@@ -354,6 +390,7 @@ const Feed = () => {
                                         exit={{ opacity: 0, height: 0 }}
                                         transition={{ duration: 0.2 }}
                                         className="mt-4 border-t border-gray-100 dark:border-[#1F232C] pt-4 space-y-3"
+                                        onClick={(e) => e.stopPropagation()}
                                     >
                                         {/* Comment Input */}
                                         <div className="flex items-center gap-2">
@@ -370,13 +407,13 @@ const Feed = () => {
                                                 value={commentTexts[post._id] || ''}
                                                 onChange={(e) => handleCommentChange(post._id, e.target.value)}
                                                 onKeyDown={(e) => {
-                                                    if (e.key === 'Enter') handleCommentSubmit(post._id);
+                                                    if (e.key === 'Enter') handleCommentSubmit(post._id, e);
                                                 }}
                                                 placeholder="Write a comment..."
                                                 className="flex-1 px-3 py-2 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-200 dark:border-[#3A3F4B] rounded-full text-sm text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                             />
                                             <button
-                                                onClick={() => handleCommentSubmit(post._id)}
+                                                onClick={(e) => handleCommentSubmit(post._id, e)}
                                                 disabled={submittingComment[post._id] || !(commentTexts[post._id] || '').trim()}
                                                 className="px-4 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full text-sm hover:brightness-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] whitespace-nowrap"
                                             >
@@ -398,19 +435,29 @@ const Feed = () => {
 
                                                     return (
                                                         <div key={comment._id} className="flex items-start gap-2">
-                                                            <img
-                                                                src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                                                alt={comment.user?.name}
-                                                                className="w-7 h-7 rounded-full object-cover ring-1 ring-gray-300 dark:ring-[#3A3F4B] flex-shrink-0 mt-0.5"
-                                                                onError={(e) => {
-                                                                    e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                                                }}
-                                                            />
+                                                            <Link
+                                                                to={`/profile/${comment.user?._id}`}
+                                                                className="flex-shrink-0"
+                                                                onClick={(e) => e.stopPropagation()}
+                                                            >
+                                                                <img
+                                                                    src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
+                                                                    alt={comment.user?.name}
+                                                                    className="w-7 h-7 rounded-full object-cover ring-1 ring-gray-300 dark:ring-[#3A3F4B] mt-0.5 hover:ring-[#D97B4F] dark:hover:ring-[#F5C36B] transition-all"
+                                                                    onError={(e) => {
+                                                                        e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                                                    }}
+                                                                />
+                                                            </Link>
                                                             <div className="flex-1 min-w-0">
                                                                 <div className="flex items-center gap-2 flex-wrap">
-                                                                    <span className="text-sm font-semibold text-gray-900 dark:text-[#EDEBE6] font-[Manrope]">
+                                                                    <Link
+                                                                        to={`/profile/${comment.user?._id}`}
+                                                                        className="text-sm font-semibold text-gray-900 dark:text-[#EDEBE6] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
+                                                                        onClick={(e) => e.stopPropagation()}
+                                                                    >
                                                                         {comment.user?.name}
-                                                                    </span>
+                                                                    </Link>
                                                                     <span className="text-xs text-gray-400 dark:text-[#6E7280] font-[Manrope]">
                                                                         @{comment.user?.username}
                                                                     </span>
