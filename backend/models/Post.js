@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema(
         },
         image: {
             type: String,
-            default: '', // Will store Cloudinary URL later
+            default: '',
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,
@@ -47,13 +47,13 @@ const PostSchema = new mongoose.Schema(
     }
 );
 
-// Virtual to count likes and comments (optional but useful)
+// ===== SAFE VIRTUAL GETTERS (prevent undefined errors) =====
 PostSchema.virtual('likesCount').get(function () {
-    return this.likes.length;
+    return this.likes ? this.likes.length : 0;
 });
 
 PostSchema.virtual('commentsCount').get(function () {
-    return this.comments.length;
+    return this.comments ? this.comments.length : 0;
 });
 
 // Ensure virtuals are included in JSON output

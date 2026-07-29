@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
@@ -48,6 +48,7 @@ const ArrowLeftIcon = () => (
 
 const PostDetail = () => {
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
@@ -57,6 +58,8 @@ const PostDetail = () => {
     const [commentText, setCommentText] = useState('');
     const [submittingComment, setSubmittingComment] = useState(false);
     const [deleteModal, setDeleteModal] = useState({ isOpen: false, commentId: null });
+    const [highlightedCommentId, setHighlightedCommentId] = useState(null);
+    const commentRefs = useRef({});
 
     const fetchPost = async () => {
         try {
@@ -77,6 +80,28 @@ const PostDetail = () => {
     useEffect(() => {
         fetchPost();
     }, [id, user]);
+
+    useEffect(() => {
+        if (!post) return;
+
+        const commentId = searchParams.get('commentId');
+        if (!commentId) {
+            setHighlightedCommentId(null);
+            return;
+        }
+
+        const target = commentRefs.current[commentId];
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setHighlightedCommentId(commentId);
+
+            const timeoutId = window.setTimeout(() => {
+                setHighlightedCommentId((current) => (current === commentId ? null : current));
+            }, 2500);
+
+            return () => window.clearTimeout(timeoutId);
+        }
+    }, [post, searchParams]);
 
     const handleLike = async () => {
         try {
@@ -325,7 +350,16 @@ const PostDetail = () => {
                                 post.comments.map((comment) => {
                                     const isOwnComment = comment.user?._id === user?._id;
                                     return (
-                                        <div key={comment._id} className="flex items-start gap-3">
+                                        <div
+                                            key={comment._id}
+                                            ref={(node) => {
+                                                if (node) {
+                                                    commentRefs.current[comment._id] = node;
+                                                }
+                                            }}
+                                            id={`comment-${comment._id}`}
+                                            className={`flex items-start gap-3 rounded-xl px-2 py-2 transition-colors ${highlightedCommentId === comment._id ? 'bg-[#F5EFE6] dark:bg-[#1A1E27] ring-1 ring-[#D97B4F]/30 dark:ring-[#F5C36B]/30' : ''}`}
+                                        >
                                             <Link to={`/profile/${comment.user?._id}`}>
                                                 <img
                                                     src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}

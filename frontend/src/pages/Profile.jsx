@@ -25,9 +25,6 @@ const Profile = () => {
     const [modalUsers, setModalUsers] = useState([]);
     const [modalLoading, setModalLoading] = useState(false);
 
-    // Filter state
-    const [activeFilter, setActiveFilter] = useState('all');
-
     const fetchProfile = async () => {
         try {
             const userId = id || currentUser?._id;
@@ -122,13 +119,34 @@ const Profile = () => {
         setModalUsers([]);
     };
 
+    // ===== FIX: Live count update when following/unfollowing from modal =====
     const handleFollowToggleFromModal = (userId, isNowFollowing) => {
+        // If the action involves the profile user (someone else viewing your profile)
         if (profileUser && userId === profileUser._id) {
             setFollowersCount(prev => isNowFollowing ? prev + 1 : prev - 1);
             setIsFollowing(isNowFollowing);
         }
+
+        // If this is the current user's own profile, update following count
+        // Because we're viewing our own profile and following/unfollowing someone
+        const isOwnProfile = currentUser?._id === profileUser?._id;
+        if (isOwnProfile) {
+            setFollowingCount(prev => isNowFollowing ? prev + 1 : prev - 1);
+        }
+
+        // Refresh the modal data to reflect the change
         if (modalOpen) {
-            openModal(modalType);
+            // Re-fetch the list with updated data
+            const fetchUpdatedList = async () => {
+                try {
+                    const endpoint = modalType === 'followers' ? 'followers' : 'following';
+                    const res = await api.get(`/users/${profileUser?._id}/${endpoint}`);
+                    setModalUsers(res.data[modalType] || []);
+                } catch (err) {
+                    console.error('Error refreshing modal list:', err);
+                }
+            };
+            fetchUpdatedList();
         }
     };
 
@@ -168,6 +186,8 @@ const Profile = () => {
     };
 
     // Filter posts based on active filter
+    const [activeFilter, setActiveFilter] = useState('all');
+
     const getFilteredPosts = () => {
         if (activeFilter === 'all') return userPosts;
         return userPosts.filter(post => getPostType(post).type === activeFilter);

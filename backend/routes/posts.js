@@ -1,12 +1,12 @@
 const express = require('express');
 const Post = require('../models/Post');
-const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+const createNotification = require('../utils/notificationHelper');
 const router = express.Router();
 
 // @route   POST /api/posts
 // @desc    Create a new post
-// @access  Private (requires token)
+// @access  Private
 router.post('/', protect, async (req, res) => {
     try {
         const { content, image } = req.body;
@@ -24,7 +24,6 @@ router.post('/', protect, async (req, res) => {
             author: req.user._id,
         });
 
-        // Populate the author details before sending response
         await post.populate('author', 'name username profilePicture');
 
         res.status(201).json({
@@ -48,7 +47,7 @@ router.get('/', protect, async (req, res) => {
         const posts = await Post.find()
             .populate('author', 'name username profilePicture')
             .populate('comments.user', 'name username profilePicture')
-            .sort({ createdAt: -1 }); // Newest first
+            .sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
@@ -107,7 +106,6 @@ router.delete('/:id', protect, async (req, res) => {
             });
         }
 
-        // Check if the logged-in user is the author
         if (post.author.toString() !== req.user._id.toString()) {
             return res.status(403).json({
                 success: false,
@@ -130,7 +128,7 @@ router.delete('/:id', protect, async (req, res) => {
     }
 });
 
-// ========== LIKE / UNLIKE ==========
+// ========== LIKES ==========
 
 // @route   POST /api/posts/:id/like
 // @desc    Like a post
@@ -142,13 +140,20 @@ router.post('/:id/like', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Post not found' });
         }
 
-        // Check if user already liked
         if (post.likes.includes(req.user._id)) {
             return res.status(400).json({ success: false, message: 'Post already liked' });
         }
 
         post.likes.push(req.user._id);
         await post.save();
+
+        await createNotification({
+            recipient: post.author,
+            sender: req.user._id,
+            type: 'like',
+            post: post._id,
+            io: req.app.get('io'),
+        });
 
         res.status(200).json({ success: true, likes: post.likes });
     } catch (error) {
@@ -167,7 +172,6 @@ router.delete('/:id/like', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Post not found' });
         }
 
-        // Check if user has liked
         const index = post.likes.indexOf(req.user._id);
         if (index === -1) {
             return res.status(400).json({ success: false, message: 'Post not liked yet' });
@@ -209,11 +213,19 @@ router.post('/:id/comments', protect, async (req, res) => {
         post.comments.push(newComment);
         await post.save();
 
-        // Populate the new comment with user details
         await post.populate('comments.user', 'name username profilePicture');
 
-        // Get the newly added comment (last in the array)
         const addedComment = post.comments[post.comments.length - 1];
+
+        await createNotification({
+            recipient: post.author,
+            sender: req.user._id,
+            type: 'comment',
+            post: post._id,
+            commentId: addedComment._id.toString(),
+            commentText: addedComment.text,
+            io: req.app.get('io'),
+        });
 
         res.status(201).json({ success: true, comment: addedComment });
     } catch (error) {
@@ -232,13 +244,11 @@ router.delete('/:id/comments/:commentId', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Post not found' });
         }
 
-        // Find the comment index
         const commentIndex = post.comments.findIndex(c => c._id.toString() === req.params.commentId);
         if (commentIndex === -1) {
             return res.status(404).json({ success: false, message: 'Comment not found' });
         }
 
-        // Check if the user owns the comment or is the post author
         const comment = post.comments[commentIndex];
         if (comment.user.toString() !== req.user._id.toString() && post.author.toString() !== req.user._id.toString()) {
             return res.status(403).json({ success: false, message: 'Not authorized to delete this comment' });
@@ -253,7 +263,6 @@ router.delete('/:id/comments/:commentId', protect, async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
-
 
 // @route   GET /api/posts/user/:userId
 // @desc    Get all posts by a specific user
@@ -278,4 +287,5 @@ router.get('/user/:userId', protect, async (req, res) => {
         });
     }
 });
+
 module.exports = router;

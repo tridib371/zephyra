@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+const createNotification = require('../utils/notificationHelper');
 const router = express.Router();
 
 // @route   GET /api/users
@@ -64,6 +65,13 @@ router.post('/:id/follow', protect, async (req, res) => {
 
         userToFollow.followers.push(req.user._id);
         await userToFollow.save();
+
+        await createNotification({
+            recipient: userToFollow._id,
+            sender: req.user._id,
+            type: 'follow',
+            io: req.app.get('io'),
+        });
 
         res.status(200).json({
             success: true,
