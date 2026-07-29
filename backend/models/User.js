@@ -46,6 +46,45 @@ const UserSchema = new mongoose.Schema(
             maxlength: [200, 'Bio cannot be more than 200 characters'],
             default: '',
         },
+        location: {
+            type: String,
+            maxlength: [100, 'Location cannot be more than 100 characters'],
+            default: '',
+        },
+        website: {
+            type: String,
+            maxlength: [200, 'Website cannot be more than 200 characters'],
+            default: '',
+        },
+        coverPhoto: {
+            type: String,
+            default: '',
+        },
+        preferences: {
+            theme: {
+                type: String,
+                enum: ['light', 'dark', 'system'],
+                default: 'system',
+            },
+            profileVisibility: {
+                type: String,
+                enum: ['public', 'private'],
+                default: 'public',
+            },
+            dmAccess: {
+                type: String,
+                enum: ['everyone', 'followers'],
+                default: 'everyone',
+            },
+            emailNotifications: {
+                type: Boolean,
+                default: true,
+            },
+            pushNotifications: {
+                type: Boolean,
+                default: true,
+            },
+        },
         followers: [
             {
                 type: mongoose.Schema.Types.ObjectId,

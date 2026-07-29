@@ -9,6 +9,9 @@ import Feed from './pages/Feed';
 import CreatePost from './pages/CreatePost';
 import Profile from './pages/Profile';
 import Discover from './pages/Discover';
+import Search from './pages/Search';
+import Messages from './pages/Messages';
+import Settings from './pages/Settings';
 import PostDetail from './pages/PostDetail';
 import Notifications from './pages/Notifications';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -23,18 +26,19 @@ function App() {
             <Navbar />
             <main className="grow">
               <Routes>
-                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                {/* Protected Routes */}
                 <Route element={<ProtectedRoute />}>
                   <Route path="/feed" element={<Feed />} />
                   <Route path="/create" element={<CreatePost />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/profile/:id" element={<Profile />} />
                   <Route path="/discover" element={<Discover />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/messages" element={<Messages />} />
+                  <Route path="/settings" element={<Settings />} />
                   <Route path="/post/:id" element={<PostDetail />} />
                   <Route path="/notifications" element={<Notifications />} />
                 </Route>

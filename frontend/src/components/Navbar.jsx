@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -52,6 +52,13 @@ const SunIcon = () => (
 const MoonIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
         <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" strokeLinejoin="round" />
+    </svg>
+);
+
+const SearchIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" strokeLinecap="round" />
     </svg>
 );
 
@@ -150,6 +157,9 @@ const Navbar = () => {
                     </Link>
 
                     <div className="hidden md:flex items-center gap-1.5 font-[Manrope]">
+                        <Link to="/search" className="p-2 rounded-full text-[#6E7280] dark:text-[#8A8F9C] hover:text-[#B5652F] dark:hover:text-[#F5C36B] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] transition-colors duration-200" aria-label="Search">
+                            <SearchIcon />
+                        </Link>
                         <button onClick={toggleTheme} className={iconButtonClasses} aria-label="Toggle theme">
                             {theme === 'light' ? <MoonIcon /> : <SunIcon />}
                         </button>
@@ -161,6 +171,9 @@ const Navbar = () => {
                                 </Link>
                                 <Link to="/discover" className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors duration-200">
                                     <CompassIcon /> Discover
+                                </Link>
+                                <Link to="/messages" className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors duration-200">
+                                    <MessageIcon /> Messages
                                 </Link>
 
                                 <div className="relative" ref={notificationRef}>
@@ -184,7 +197,7 @@ const Navbar = () => {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 10, scale: 0.98 }}
                                                 transition={{ duration: 0.16 }}
-                                                className="absolute right-0 mt-3 w-[22rem] sm:w-[26rem] overflow-hidden rounded-[1.75rem] border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] backdrop-blur-xl z-50"
+                                                className="absolute right-0 mt-3 w-88 sm:w-104 overflow-hidden rounded-[1.75rem] border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] backdrop-blur-xl z-50"
                                             >
                                                 <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-[#1F232C]">
                                                     <div>
@@ -198,7 +211,7 @@ const Navbar = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="max-h-[28rem] overflow-y-auto">
+                                                <div className="max-h-112 overflow-y-auto">
                                                     {notificationPreview.length === 0 ? (
                                                         <div className="px-5 py-10 text-center">
                                                             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-r from-[#FF8F6B]/15 to-[#F5C36B]/15 text-2xl">
@@ -289,6 +302,9 @@ const Navbar = () => {
                                             <Link to="/profile" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors" onClick={() => setIsProfileMenuOpen(false)}>
                                                 <ProfileGlyphIcon /> My Profile
                                             </Link>
+                                            <Link to="/search" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors" onClick={() => setIsProfileMenuOpen(false)}>
+                                                <SearchIcon /> Search
+                                            </Link>
                                             <Link to="/settings" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors" onClick={() => setIsProfileMenuOpen(false)}>
                                                 <GearIcon /> Settings
                                             </Link>
@@ -309,6 +325,9 @@ const Navbar = () => {
                     </div>
 
                     <div className="flex md:hidden items-center gap-2">
+                        <Link to="/search" className={iconButtonClasses} aria-label="Search">
+                            <SearchIcon />
+                        </Link>
                         <button onClick={toggleTheme} className={iconButtonClasses} aria-label="Toggle theme">
                             {theme === 'light' ? <MoonIcon /> : <SunIcon />}
                         </button>
@@ -341,11 +360,17 @@ const Navbar = () => {
 
                 {isAuthenticated && isMobileMenuOpen && (
                     <div className="md:hidden pb-4 space-y-1 border-t border-gray-200 dark:border-[#1F232C] pt-3 font-[Manrope]">
+                        <Link to="/search" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                            <SearchIcon /> Search
+                        </Link>
                         <Link to="/create" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                             <PlusGustIcon /> New Post
                         </Link>
                         <Link to="/discover" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                             <CompassIcon /> Discover
+                        </Link>
+                        <Link to="/messages" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                            <MessageIcon /> Messages
                         </Link>
                         <Link to="/feed" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                             <MessageIcon /> Feed
@@ -369,7 +394,7 @@ const Navbar = () => {
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 8 }}
-                            className="md:hidden fixed inset-x-4 top-[4.5rem] z-50 rounded-[1.5rem] border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-xl shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] overflow-hidden"
+                            className="md:hidden fixed inset-x-4 top-18 z-50 rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-xl shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] overflow-hidden"
                         >
                             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-[#1F232C]">
                                 <div>
@@ -382,7 +407,7 @@ const Navbar = () => {
                                     </button>
                                 )}
                             </div>
-                            <div className="max-h-[26rem] overflow-y-auto">
+                            <div className="max-h-104 overflow-y-auto">
                                 {notifications.slice(0, 4).length === 0 ? (
                                     <div className="px-5 py-10 text-center text-sm text-gray-500 dark:text-[#8A8F9C]">No notifications yet.</div>
                                 ) : (

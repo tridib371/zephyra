@@ -40,6 +40,61 @@ router.get('/profile/:id', protect, async (req, res) => {
     }
 });
 
+// @route   PUT /api/users/me
+// @desc    Update my profile/settings
+// @access  Private
+router.put('/me', protect, async (req, res) => {
+    try {
+        const {
+            name,
+            username,
+            bio,
+            location,
+            website,
+            profilePicture,
+            coverPhoto,
+            preferences,
+        } = req.body;
+
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        if (username && username !== user.username) {
+            const usernameExists = await User.findOne({ username: username.toLowerCase(), _id: { $ne: user._id } });
+            if (usernameExists) {
+                return res.status(400).json({ success: false, message: 'Username already taken' });
+            }
+        }
+
+        if (name !== undefined) user.name = name;
+        if (username !== undefined) user.username = username.toLowerCase();
+        if (bio !== undefined) user.bio = bio;
+        if (location !== undefined) user.location = location;
+        if (website !== undefined) user.website = website;
+        if (profilePicture !== undefined) user.profilePicture = profilePicture;
+        if (coverPhoto !== undefined) user.coverPhoto = coverPhoto;
+
+        if (preferences) {
+            user.preferences = {
+                ...(user.preferences?._doc || user.preferences || {}),
+                ...preferences,
+            };
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            user,
+        });
+    } catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // ========== FOLLOW / UNFOLLOW ==========
 
 // @route   POST /api/users/:id/follow

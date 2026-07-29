@@ -83,6 +83,10 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const updateUser = (nextUser) => {
+        setUser(nextUser);
+    };
+
     // =====================================================
     // VALUE OBJECT (UPDATED TO INCLUDE googleLogin)
     // =====================================================
@@ -94,6 +98,7 @@ export const AuthProvider = ({ children }) => {
         register,
         googleLogin,   // <-- THIS IS WHERE IT GOES
         logout,
+        updateUser,
         isAuthenticated: !!user,
     };
 

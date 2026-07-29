@@ -38,6 +38,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/search', require('./routes/search'));
+app.use('/api/messages', require('./routes/messages'));
 app.use('/api/notifications', require('./routes/notifications'));
 
 // Test route
@@ -53,6 +55,12 @@ io.on('connection', (socket) => {
     socket.on('join', (userId) => {
         if (userId) {
             socket.join(`user_${userId}`);
+        }
+    });
+
+    socket.on('join_conversation', (conversationId) => {
+        if (conversationId) {
+            socket.join(`conversation_${conversationId}`);
         }
     });
 });
