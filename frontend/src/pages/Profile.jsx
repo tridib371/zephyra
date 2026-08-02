@@ -272,16 +272,25 @@ const Profile = () => {
                                 </div>
 
                                 {!isOwnProfile && (
-                                    <button
-                                        onClick={handleFollowToggle}
-                                        disabled={isTogglingFollow}
-                                        className={`mt-4 px-6 py-2 rounded-full font-semibold text-sm transition-all duration-200 ${isFollowing
-                                            ? 'border border-gray-300 dark:border-[#3A3F4B] text-gray-700 dark:text-[#E7E6E3] hover:bg-gray-50 dark:hover:bg-[#1A1E27]'
-                                            : 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)]'
-                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
-                                    >
-                                        {isTogglingFollow ? '...' : (isFollowing ? 'Unfollow' : 'Follow')}
-                                    </button>
+                                    <div className="mt-4 flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                                        <button
+                                            onClick={handleFollowToggle}
+                                            disabled={isTogglingFollow}
+                                            className={`px-6 py-2 rounded-full font-semibold text-sm transition-all duration-200 ${isFollowing
+                                                ? 'border border-gray-300 dark:border-[#3A3F4B] text-gray-700 dark:text-[#E7E6E3] hover:bg-gray-50 dark:hover:bg-[#1A1E27]'
+                                                : 'bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)]'
+                                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                        >
+                                            {isTogglingFollow ? '...' : (isFollowing ? 'Unfollow' : 'Follow')}
+                                        </button>
+
+                                        <button
+                                            onClick={() => navigate(`/messages?userId=${profileUser._id}`)}
+                                            className="px-6 py-2 rounded-full font-semibold text-sm border border-gray-300 dark:border-[#3A3F4B] text-gray-700 dark:text-[#E7E6E3] hover:bg-gray-50 dark:hover:bg-[#1A1E27] transition-all duration-200"
+                                        >
+                                            Message
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -323,7 +332,7 @@ const Profile = () => {
                                             key={tab.key}
                                             onClick={() => setActiveFilter(tab.key)}
                                             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive
-                                                ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-md'
+                                                ? 'bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-md'
                                                 : 'bg-gray-100 dark:bg-[#1A1E27] text-gray-600 dark:text-[#8A8F9C] hover:bg-gray-200 dark:hover:bg-[#2A2E3A]'
                                                 }`}
                                         >
@@ -350,7 +359,7 @@ const Profile = () => {
                                     {isOwnProfile && activeFilter === 'all' && (
                                         <Link
                                             to="/create"
-                                            className="inline-block mt-3 px-6 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 transition-all duration-200 font-[Manrope]"
+                                            className="inline-block mt-3 px-6 py-2 bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 transition-all duration-200 font-[Manrope]"
                                         >
                                             Create Your First Post
                                         </Link>

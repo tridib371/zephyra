@@ -58,10 +58,11 @@ router.get('/conversations', protect, async (req, res) => {
     }
 });
 
-// @route   POST /api/messages/conversations/:userId
-// @desc    Get or create a private conversation
+// @route   POST /api/messages/conversations/user/:userId
+// @desc    Get or create a private conversation (by user id)
 // @access  Private
-router.post('/conversations/:userId', protect, async (req, res) => {
+// Note: separated path to avoid colliding with POST /conversations/:conversationId (send message)
+router.post('/conversations/user/:userId', protect, async (req, res) => {
     try {
         const { userId } = req.params;
 
@@ -74,12 +75,22 @@ router.post('/conversations/:userId', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        let conversation = await Conversation.findOne(buildConversationQuery(req.user._id, userId));
+        // Use a canonical threadKey to ensure exactly one conversation per unordered pair
+        const ids = [req.user._id.toString(), userId.toString()].sort();
+        const threadKey = `${ids[0]}_${ids[1]}`;
+
+        let conversation = await Conversation.findOne({ threadKey });
 
         if (!conversation) {
-            conversation = await Conversation.create({
-                participants: [req.user._id, userId],
-            });
+            try {
+                conversation = await Conversation.create({
+                    participants: [req.user._id, userId],
+                    threadKey,
+                });
+            } catch (err) {
+                // If a race created the conversation concurrently, attempt to read it again
+                conversation = await Conversation.findOne({ threadKey });
+            }
         }
 
         const populatedConversation = await Conversation.findById(conversation._id)
@@ -128,6 +139,9 @@ router.get('/conversations/:conversationId', protect, async (req, res) => {
 router.post('/conversations/:conversationId', protect, async (req, res) => {
     try {
         const { text } = req.body;
+        if (!text) {
+            console.warn('Send message received empty body for conversationId', req.params.conversationId, 'body:', req.body);
+        }
         if (!text || !text.trim()) {
             return res.status(400).json({ success: false, message: 'Message text is required' });
         }
@@ -141,11 +155,17 @@ router.post('/conversations/:conversationId', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Conversation not found' });
         }
 
-        const recipientId = conversation.participants.find((participant) => participant.toString() !== req.user._id.toString());
+        // participants may be populated objects or ObjectId values
+        const otherParticipant = conversation.participants.find((participant) => {
+            const pid = participant && participant._id ? participant._id.toString() : participant.toString();
+            return pid !== req.user._id.toString();
+        });
 
-        if (!recipientId) {
+        if (!otherParticipant) {
             return res.status(400).json({ success: false, message: 'Recipient not found' });
         }
+
+        const recipientId = otherParticipant._id ? otherParticipant._id : otherParticipant;
 
         const message = await Message.create({
             conversation: conversation._id,

@@ -42,7 +42,8 @@ export const NotificationProvider = ({ children }) => {
     useEffect(() => {
         if (!user) return undefined;
 
-        const socket = io('http://localhost:5000', {
+        const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5007';
+        const socket = io(SOCKET_URL, {
             transports: ['websocket'],
         });
 
@@ -59,6 +60,27 @@ export const NotificationProvider = ({ children }) => {
             } else {
                 setUnreadCount(prev => prev + 1);
             }
+        });
+
+        // Also listen for incoming messages so logged-in users can be notified
+        socket.on('message:new', ({ message, conversationId }) => {
+            // Create a lightweight notification for the incoming message
+            const notif = {
+                _id: message._id + '_msg',
+                recipient: user._id,
+                sender: message.sender || {},
+                type: 'message',
+                read: false,
+                createdAt: message.createdAt,
+                text: message.text,
+                conversationId,
+            };
+
+            setNotifications(prev => {
+                const exists = prev.some(item => item._id === notif._id);
+                return exists ? prev : [notif, ...prev];
+            });
+            setUnreadCount(prev => prev + 1);
         });
 
         return () => socket.disconnect();

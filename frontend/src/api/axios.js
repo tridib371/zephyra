@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+// Prefer explicit VITE_API_URL; otherwise fall back to the known backend port used by the server
+const base = import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api`
+    : 'http://localhost:5007/api';
+
 const api = axios.create({
-    baseURL: '/api',
+    baseURL: base,
     headers: {
         'Content-Type': 'application/json',
     },

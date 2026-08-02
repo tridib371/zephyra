@@ -1,71 +1,81 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import io from 'socket.io-client';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
-const Messages = () => {
+const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5007';
+
+export default function Messages() {
     const { user } = useAuth();
     const [searchParams, setSearchParams] = useSearchParams();
     const [conversations, setConversations] = useState([]);
+    const [searchQueryText, setSearchQueryText] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [searching, setSearching] = useState(false);
     const [activeConversation, setActiveConversation] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [messagesLoading, setMessagesLoading] = useState(false);
-    const [messageText, setMessageText] = useState('');
-    const [socketReady, setSocketReady] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [sending, setSending] = useState(false);
+    const [text, setText] = useState('');
     const socketRef = useRef(null);
     const bottomRef = useRef(null);
-
-    const activePartner = useMemo(() => {
-        if (!activeConversation || !user) return null;
-        return activeConversation.participants.find((participant) => participant._id !== user._id) || null;
-    }, [activeConversation, user]);
-
-    const scrollToBottom = () => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
+    const startedWithUserRef = useRef(null);
+    const activeConversationRef = useRef(null);
 
     const fetchConversations = async () => {
         try {
             const res = await api.get('/messages/conversations');
             setConversations(res.data.conversations || []);
-        } catch (error) {
-            console.error('Fetch conversations error:', error);
+        } catch (err) {
+            console.error('fetchConversations', err);
         } finally {
             setLoading(false);
         }
     };
 
-    const openConversation = async (conversation) => {
+    const openConversation = async (conversation, { replaceUrl = false } = {}) => {
         if (!conversation) return;
-
         setActiveConversation(conversation);
+        // indicate loading so UI doesn't flash old messages
         setMessagesLoading(true);
-        setSearchParams({ conversationId: conversation._id });
-
         try {
+            // leave previous conversation room if any
+            const prevId = activeConversationRef.current;
+            if (socketRef.current && prevId && prevId !== conversation._id) {
+                socketRef.current.emit('leave_conversation', prevId);
+            }
+
             const res = await api.get(`/messages/conversations/${conversation._id}`);
-            setMessages(res.data.messages || []);
-            await api.put(`/messages/conversations/${conversation._id}/read`);
-            setConversations((prev) => prev.map((item) => item._id === conversation._id ? { ...item, unreadCount: 0 } : item));
-        } catch (error) {
-            console.error('Open conversation error:', error);
+            const msgs = res.data.messages || [];
+            // set the active conversation ref before joining
+            activeConversationRef.current = conversation._id;
+
+            setMessages(msgs);
+            await api.put(`/messages/conversations/${conversation._id}/read`).catch(() => { });
+            setConversations((prev) => prev.map((c) => (c._id === conversation._id ? { ...c, unreadCount: 0, lastMessage: res.data.messages?.[res.data.messages.length - 1] || c.lastMessage } : c)));
+            if (socketRef.current) socketRef.current.emit('join_conversation', conversation._id);
+            if (replaceUrl) setSearchParams({ conversationId: conversation._id }, { replace: true });
+            else setSearchParams({ conversationId: conversation._id });
+            scrollToBottom();
+        } catch (err) {
+            console.error('openConversation', err);
         } finally {
             setMessagesLoading(false);
         }
     };
 
     const startConversationWithUser = async (userId) => {
+        if (!userId || userId === user?._id) return;
         try {
-            const res = await api.post(`/messages/conversations/${userId}`);
-            const createdConversation = res.data.conversation;
+            const res = await api.post(`/messages/conversations/user/${userId}`);
+            const conv = res.data.conversation;
             await fetchConversations();
-            await openConversation(createdConversation);
-        } catch (error) {
-            console.error('Start conversation error:', error);
+            await openConversation(conv, { replaceUrl: true });
+        } catch (err) {
+            console.error('startConversationWithUser', err);
         }
     };
 
@@ -73,113 +83,179 @@ const Messages = () => {
         fetchConversations();
     }, []);
 
+    // Debounced search for users
     useEffect(() => {
-        if (!user) return undefined;
+        const q = searchQueryText.trim();
+        if (!q) {
+            setSearchResults([]);
+            setSearching(false);
+            return;
+        }
 
-        const socket = io('http://localhost:5000', { transports: ['websocket'] });
+        let cancelled = false;
+        setSearching(true);
+        const t = setTimeout(async () => {
+            try {
+                const res = await api.get(`/search?q=${encodeURIComponent(q)}`);
+                if (!cancelled) {
+                    setSearchResults(res.data.users || []);
+                }
+            } catch (err) {
+                console.error('search users', err);
+                if (!cancelled) setSearchResults([]);
+            } finally {
+                if (!cancelled) setSearching(false);
+            }
+        }, 300);
+
+        return () => {
+            cancelled = true;
+            clearTimeout(t);
+        };
+    }, [searchQueryText]);
+
+    useEffect(() => {
+        if (!user) return;
+        const socket = io(SOCKET_URL, { transports: ['websocket'] });
         socketRef.current = socket;
-
         socket.emit('join', user._id);
 
         socket.on('message:new', ({ message, conversationId }) => {
-            setConversations((prev) => prev.map((conversation) => {
-                if (conversation._id !== conversationId) {
-                    return conversation;
+            setConversations((prev) => {
+                const found = prev.find((c) => c._id === conversationId);
+                if (found) {
+                    return prev.map((c) => (c._id === conversationId ? { ...c, lastMessage: message, lastMessageAt: new Date(), unreadCount: (c.unreadCount || 0) + (message.sender?._id === user._id ? 0 : 1) } : c));
                 }
+                return [
+                    { _id: conversationId, participants: [message.sender, message.recipient], lastMessage: message, lastMessageAt: new Date(), unreadCount: message.sender?._id === user._id ? 0 : 1 },
+                    ...prev,
+                ];
+            });
 
-                return {
-                    ...conversation,
-                    lastMessage: message,
-                    lastMessageAt: new Date(),
-                    unreadCount: activeConversation?._id === conversationId && message.sender?._id !== user._id ? 0 : (conversation.unreadCount || 0) + (message.sender?._id === user._id ? 0 : 1),
-                };
-            }));
-
-            if (activeConversation?._id === conversationId) {
-                setMessages((prev) => {
-                    const exists = prev.some((item) => item._id === message._id);
-                    return exists ? prev : [...prev, message];
-                });
-                scrollToBottom();
-            }
+            setMessages((prev) => {
+                // Use ref to know which conversation is currently active
+                if (activeConversationRef.current === conversationId) {
+                    const exists = prev.some((m) => m._id === message._id);
+                    if (!exists) {
+                        // append message
+                        setTimeout(() => scrollToBottom(), 30);
+                        return [...prev, message];
+                    }
+                }
+                return prev;
+            });
         });
 
-        setSocketReady(true);
-
-        return () => socket.disconnect();
-    }, [user, activeConversation]);
+        return () => {
+            socket.disconnect();
+            socketRef.current = null;
+        };
+    }, [user]);
 
     useEffect(() => {
         const conversationId = searchParams.get('conversationId');
         const userId = searchParams.get('userId');
 
+        // If a conversationId is present, open it only if it's not already active
         if (conversationId && conversations.length > 0) {
-            const target = conversations.find((conversation) => conversation._id === conversationId);
-            if (target) {
+            const target = conversations.find((c) => c._id === conversationId);
+            if (target && (!activeConversation || activeConversation._id !== conversationId)) {
                 openConversation(target);
             }
             return;
         }
 
-        if (userId) {
+        // If userId param is present, start a conversation only once per userId
+        if (userId && startedWithUserRef.current !== userId) {
+            startedWithUserRef.current = userId;
             startConversationWithUser(userId);
         }
-    }, [conversations]);
+    }, [searchParams, conversations, activeConversation]);
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+    const scrollToBottom = () => bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
 
-    const handleSend = async (event) => {
-        event.preventDefault();
-        if (!activeConversation || !messageText.trim()) return;
-
+    const handleSend = async (e) => {
+        e.preventDefault();
+        if (!activeConversation || !text.trim()) return;
+        setSending(true);
         try {
-            const res = await api.post(`/messages/conversations/${activeConversation._id}`, { text: messageText });
-            setMessages((prev) => [...prev, res.data.message]);
-            setMessageText('');
-            setConversations((prev) => prev.map((conversation) => conversation._id === activeConversation._id ? { ...conversation, lastMessage: res.data.message, lastMessageAt: new Date() } : conversation));
-        } catch (error) {
-            console.error('Send message error:', error);
+            const res = await api.post(`/messages/conversations/${activeConversation._id}`, { text: text.trim() });
+            const msg = res.data.message;
+            setMessages((prev) => [...prev, msg]);
+            setConversations((prev) => prev.map((c) => (c._id === activeConversation._id ? { ...c, lastMessage: msg, lastMessageAt: new Date() } : c)));
+            setText('');
+            setTimeout(() => scrollToBottom(), 30);
+        } catch (err) {
+            console.error('send', err);
+        } finally {
+            setSending(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(255,143,107,0.12),transparent_38%),linear-gradient(180deg,#fff_0%,#fbf7f2_100%)] dark:bg-[radial-gradient(circle_at_top,rgba(245,195,107,0.12),transparent_34%),linear-gradient(180deg,#0E1116_0%,#0B0E13_100%)] px-4 sm:px-6 py-8 transition-colors duration-300">
-            <div className="max-w-7xl mx-auto grid gap-6 lg:grid-cols-12">
-                <motion.aside initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-4 xl:col-span-3 rounded-4xl border border-white/40 dark:border-white/8 bg-white/80 dark:bg-[#11151D]/80 backdrop-blur-xl shadow-[0_24px_80px_-40px_rgba(0,0,0,0.35)] overflow-hidden">
-                    <div className="border-b border-gray-100 dark:border-[#1F232C] px-5 py-4">
-                        <p className="text-xs uppercase tracking-[0.2em] text-[#D97B4F] dark:text-[#F5C36B]">Direct Messages</p>
-                        <h1 className="mt-1 text-2xl font-['Fraunces'] italic text-gray-900 dark:text-white">Chats</h1>
+        <div className="min-h-[calc(100dvh-4rem)] overflow-hidden px-4 sm:px-6 py-6 sm:py-8">
+            <div className="mx-auto grid h-[calc(100dvh-7.5rem)] max-w-7xl gap-6 lg:grid-cols-12 overflow-hidden">
+                <aside className="lg:col-span-4 xl:col-span-3 flex min-h-0 flex-col rounded-3xl border bg-white/80 dark:bg-[#0E1116]/80 overflow-hidden">
+                    <div className="px-5 py-4 border-b">
+                        <p className="text-xs uppercase text-[#D97B4F]">Direct Messages</p>
+                        <h2 className="mt-1 text-xl font-semibold">Chats</h2>
                     </div>
-                    <div className="max-h-[calc(100vh-12rem)] overflow-y-auto">
-                        {loading ? (
-                            <div className="p-5 text-sm text-gray-500 dark:text-[#8A8F9C]">Loading conversations...</div>
-                        ) : conversations.length === 0 ? (
-                            <div className="p-5 text-sm text-gray-500 dark:text-[#8A8F9C]">
-                                No conversations yet. Use search or visit a profile to start a chat.
-                            </div>
-                        ) : (
-                            conversations.map((conversation) => {
-                                const partner = conversation.participants.find((participant) => participant._id !== user._id);
-                                const unreadCount = conversation.unreadCount || 0;
-                                const lastMessageText = conversation.lastMessage?.text || 'No messages yet';
 
+                    <div className="px-4 py-3 border-b">
+                        <input
+                            placeholder="Search conversations"
+                            className="w-full rounded-full border px-4 py-2"
+                            value={searchQueryText}
+                            onChange={(e) => setSearchQueryText(e.target.value)}
+                        />
+
+                        {searchQueryText.trim().length > 0 && (
+                            <div className="mt-2 bg-white dark:bg-[#0B0D10] rounded-lg shadow-md border overflow-hidden">
+                                {searching ? (
+                                    <div className="p-2 text-sm text-gray-500">Searching...</div>
+                                ) : searchResults.length === 0 ? (
+                                    <div className="p-2 text-sm text-gray-500">No users found.</div>
+                                ) : (
+                                    searchResults.map((u) => (
+                                        <button
+                                            key={u._id}
+                                            onClick={() => {
+                                                setSearchQueryText('');
+                                                setSearchResults([]);
+                                                startConversationWithUser(u._id);
+                                            }}
+                                            className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#0F1317] flex items-center gap-3"
+                                        >
+                                            <img src={u.profilePicture || ''} alt="" className="h-8 w-8 rounded-full object-cover" />
+                                            <div className="min-w-0">
+                                                <div className="truncate font-medium">{u.name}</div>
+                                                <div className="text-xs text-gray-500">@{u.username}</div>
+                                            </div>
+                                        </button>
+                                    ))
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="min-h-0 flex-1 overflow-y-auto">
+                        {loading ? (
+                            <div className="p-4 text-sm text-gray-500">Loading...</div>
+                        ) : conversations.length === 0 ? (
+                            <div className="p-4 text-sm text-gray-500">No conversations yet.</div>
+                        ) : (
+                            conversations.map((c) => {
+                                const partner = (c.participants || []).find((p) => p._id !== user?._id) || {};
                                 return (
-                                    <button
-                                        key={conversation._id}
-                                        onClick={() => openConversation(conversation)}
-                                        className={`w-full border-b border-gray-100 dark:border-[#1F232C] px-5 py-4 text-left transition-colors ${activeConversation?._id === conversation._id ? 'bg-[#FFF7F2] dark:bg-white/5' : 'hover:bg-gray-50 dark:hover:bg-white/5'}`}
-                                    >
+                                    <button key={c._id} onClick={() => openConversation(c)} className={`w-full px-4 py-3 border-b text-left ${activeConversation?._id === c._id ? 'bg-gray-100' : 'hover:bg-gray-50'}`}>
                                         <div className="flex items-center gap-3">
-                                            <img src={partner?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'} alt={partner?.name} className="h-12 w-12 rounded-2xl object-cover" />
-                                            <div className="min-w-0 flex-1">
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <p className="truncate font-semibold text-gray-900 dark:text-white">{partner?.name || 'Unknown user'}</p>
-                                                    {unreadCount > 0 && <span className="rounded-full bg-[#D97B4F] px-2 py-0.5 text-[10px] font-bold text-white">{unreadCount}</span>}
+                                            <img src={partner.profilePicture || ''} alt="" className="h-10 w-10 rounded-full object-cover" />
+                                            <div className="min-w-0">
+                                                <div className="flex items-center justify-between">
+                                                    <p className="truncate font-medium">{partner.name || 'Unknown'}</p>
+                                                    <span className="text-xs text-gray-500">{c.unreadCount > 0 ? c.unreadCount : ''}</span>
                                                 </div>
-                                                <p className="truncate text-sm text-gray-500 dark:text-[#8A8F9C]">@{partner?.username}</p>
-                                                <p className="truncate text-xs text-gray-400 dark:text-[#6E7280]">{lastMessageText}</p>
+                                                <p className="text-sm text-gray-500 truncate">{c.lastMessage?.text || 'No messages yet'}</p>
                                             </div>
                                         </div>
                                     </button>
@@ -187,73 +263,59 @@ const Messages = () => {
                             })
                         )}
                     </div>
-                </motion.aside>
+                </aside>
 
-                <motion.section initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-8 xl:col-span-9 rounded-4xl border border-white/40 dark:border-white/8 bg-white/80 dark:bg-[#11151D]/80 backdrop-blur-xl shadow-[0_24px_80px_-40px_rgba(0,0,0,0.35)] overflow-hidden flex flex-col min-h-[75vh]">
+                <section className="lg:col-span-8 xl:col-span-9 flex min-h-0 flex-col rounded-3xl border bg-white/80 dark:bg-[#0E1116]/80 overflow-hidden">
                     {!activeConversation ? (
-                        <div className="flex flex-1 items-center justify-center p-8 text-center">
-                            <div>
-                                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-r from-[#FF8F6B]/15 to-[#F5C36B]/15 text-2xl">✉️</div>
-                                <h2 className="mt-4 text-2xl font-semibold text-gray-900 dark:text-white">Choose a chat</h2>
-                                <p className="mt-2 text-sm text-gray-500 dark:text-[#8A8F9C]">Select a conversation or start one from search.</p>
+                        <div className="flex-1 flex items-center justify-center">
+                            <div className="text-center">
+                                <div className="text-3xl">✉️</div>
+                                <p className="mt-4">Select a conversation to start chatting.</p>
                             </div>
                         </div>
                     ) : (
                         <>
-                            <div className="border-b border-gray-100 dark:border-[#1F232C] px-5 py-4 flex items-center justify-between gap-4">
-                                <Link to={`/profile/${activePartner?._id}`} className="flex items-center gap-3">
-                                    <img src={activePartner?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'} alt={activePartner?.name} className="h-11 w-11 rounded-2xl object-cover" />
+                            <div className="px-5 py-4 border-b flex items-center justify-between">
+                                <Link to={`/profile/${(activeConversation.participants || []).find((p) => p._id !== user._id)?._id}`} className="flex items-center gap-3">
+                                    <img src={(activeConversation.participants || []).find((p) => p._id !== user._id)?.profilePicture || ''} alt="" className="h-10 w-10 rounded-full object-cover" />
                                     <div>
-                                        <p className="font-semibold text-gray-900 dark:text-white">{activePartner?.name}</p>
-                                        <p className="text-sm text-gray-500 dark:text-[#8A8F9C]">@{activePartner?.username}</p>
+                                        <p className="font-medium">{(activeConversation.participants || []).find((p) => p._id !== user._id)?.name}</p>
+                                        <p className="text-sm text-gray-500">@{(activeConversation.participants || []).find((p) => p._id !== user._id)?.username}</p>
                                     </div>
                                 </Link>
-                                <span className="rounded-full border border-gray-200 dark:border-[#1F232C] px-3 py-1 text-xs text-gray-500 dark:text-[#8A8F9C]">
-                                    {socketReady ? 'Live' : 'Connecting...'}
-                                </span>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-4">
+                            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 space-y-4">
                                 {messagesLoading ? (
-                                    <div className="py-16 text-center text-sm text-gray-500 dark:text-[#8A8F9C]">Loading messages...</div>
+                                    <div className="text-center text-sm text-gray-500">Loading messages...</div>
                                 ) : messages.length === 0 ? (
-                                    <div className="py-16 text-center text-sm text-gray-500 dark:text-[#8A8F9C]">Say hello and start the conversation.</div>
-                                ) : messages.map((message) => {
-                                    const isOwn = message.sender?._id === user._id;
-                                    return (
-                                        <div key={message._id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}>
-                                            <div className={`max-w-[85%] sm:max-w-[70%] rounded-3xl px-4 py-3 shadow-[0_16px_40px_-28px_rgba(0,0,0,0.35)] ${isOwn ? 'bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D]' : 'bg-white dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] border border-gray-200 dark:border-[#1F232C]'}`}>
-                                                <p className="whitespace-pre-wrap wrap-break-word text-sm leading-6">{message.text}</p>
-                                                <p className={`mt-2 text-[11px] ${isOwn ? 'text-[#1A140D]/70' : 'text-gray-400 dark:text-[#6E7280]'}`}>
-                                                    {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
-                                                </p>
+                                    <div className="text-center text-sm text-gray-500">No messages yet — say hello.</div>
+                                ) : (
+                                    messages.map((m) => {
+                                        const isMine = m.sender?._id === user._id;
+                                        return (
+                                            <div key={m._id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+                                                <div className={`max-w-[80%] px-4 py-3 rounded-2xl ${isMine ? 'bg-[#F5C36B]' : 'bg-white border'}`}>
+                                                    <p className="whitespace-pre-wrap text-sm">{m.text}</p>
+                                                    <p className="text-xs text-gray-500 mt-1">{formatDistanceToNow(new Date(m.createdAt), { addSuffix: true })}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })
+                                )}
                                 <div ref={bottomRef} />
                             </div>
 
-                            <form onSubmit={handleSend} className="border-t border-gray-100 dark:border-[#1F232C] p-4 sm:p-5">
+                            <form onSubmit={handleSend} className="p-4 border-t">
                                 <div className="flex items-end gap-3">
-                                    <textarea
-                                        value={messageText}
-                                        onChange={(e) => setMessageText(e.target.value)}
-                                        rows="1"
-                                        placeholder={`Message @${activePartner?.username}`}
-                                        className="flex-1 resize-none rounded-[1.4rem] border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-[#0E1116] px-4 py-3 outline-none focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] text-gray-900 dark:text-[#EDEBE6]"
-                                    />
-                                    <button disabled={!messageText.trim()} className="rounded-full bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] px-5 py-3 text-sm font-semibold text-[#1A140D] disabled:opacity-50">
-                                        Send
-                                    </button>
+                                    <textarea value={text} onChange={(e) => setText(e.target.value)} rows={1} placeholder="Write a message" className="flex-1 resize-none rounded-lg border px-3 py-2" />
+                                    <button disabled={sending || !text.trim()} className="px-4 py-2 rounded bg-[#D97B4F] text-white">Send</button>
                                 </div>
                             </form>
                         </>
                     )}
-                </motion.section>
+                </section>
             </div>
         </div>
     );
-};
-
-export default Messages;
+}

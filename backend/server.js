@@ -65,7 +65,42 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-    console.log(`🚀 Zephyra backend running on http://localhost:${PORT}`);
-});
+const START_PORT = parseInt(process.env.PORT, 10) || 5000;
+
+// Try to start the server, automatically retrying on the next port if the
+// current port is already in use. This helps avoid repeated EADDRINUSE crashes
+// during local development when ports are occupied.
+const MAX_PORT_ATTEMPTS = 10;
+
+const net = require('net');
+
+async function findFreePort(startPort, maxAttempts) {
+    let port = startPort;
+    for (let i = 0; i < maxAttempts; i += 1) {
+        // Try to bind a temporary server to check availability
+        // If it listens successfully, the port is free.
+        // Use a promise to wait for the result.
+        const isFree = await new Promise((resolve) => {
+            const tester = net.createServer()
+                .once('error', () => resolve(false))
+                .once('listening', () => tester.close(() => resolve(true)))
+                .listen(port);
+        });
+
+        if (isFree) return port;
+        port += 1;
+    }
+    throw new Error(`No free port found in range ${startPort}..${startPort + maxAttempts - 1}`);
+}
+
+(async () => {
+    try {
+        const port = await findFreePort(START_PORT, MAX_PORT_ATTEMPTS);
+        server.listen(port, () => {
+            console.log(`🚀 Zephyra backend running on http://localhost:${port}`);
+        });
+    } catch (err) {
+        console.error(err.message || err);
+        process.exit(1);
+    }
+})();

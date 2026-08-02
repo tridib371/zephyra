@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -17,35 +17,44 @@ import Notifications from './pages/Notifications';
 import ProtectedRoute from './components/ProtectedRoute';
 import { NotificationProvider } from './context/NotificationContext';
 
+function AppShell() {
+  const location = useLocation();
+  const hideFooter = location.pathname === '/messages';
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0E1116] transition-colors duration-300">
+      <Navbar />
+      <main className="grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/create" element={<CreatePost />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/discover" element={<Discover />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/notifications" element={<Notifications />} />
+          </Route>
+        </Routes>
+      </main>
+      {!hideFooter && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
       <AuthProvider>
         <NotificationProvider>
-          <div className="min-h-screen flex flex-col bg-white dark:bg-[#0E1116] transition-colors duration-300">
-            <Navbar />
-            <main className="grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/feed" element={<Feed />} />
-                  <Route path="/create" element={<CreatePost />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/discover" element={<Discover />} />
-                  <Route path="/search" element={<Search />} />
-                  <Route path="/messages" element={<Messages />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/post/:id" element={<PostDetail />} />
-                  <Route path="/notifications" element={<Notifications />} />
-                </Route>
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <AppShell />
         </NotificationProvider>
       </AuthProvider>
     </Router>

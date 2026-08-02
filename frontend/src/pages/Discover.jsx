@@ -15,8 +15,11 @@ const Discover = () => {
         const fetchUsers = async () => {
             try {
                 const res = await api.get('/users');
-                const fetchedUsers = res.data.users;
-                setUsers(fetchedUsers);
+                const fetchedUsers = res.data.users || [];
+                // Deduplicate users by _id in case backend returns duplicates
+                const byId = new Map();
+                fetchedUsers.forEach(u => { if (u && u._id) byId.set(u._id, u); });
+                setUsers(Array.from(byId.values()));
                 // Pre-populate following set
                 const followingSet = new Set();
                 fetchedUsers.forEach(u => {

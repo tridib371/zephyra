@@ -189,6 +189,7 @@ const Home = () => {
                         A gentle current for your thoughts
                     </span>
 
+
                     <h1
                         className="font-['Fraunces'] italic font-medium text-6xl sm:text-7xl md:text-8xl leading-[1.15] pb-2 bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent"
                         style={{ fontVariationSettings: '"opsz" 40, "wght" 500, "SOFT" 0, "WONK" 0' }}
@@ -314,6 +315,8 @@ const Home = () => {
                     </Link>
                 </motion.div>
             </section>
+
+
         </div>
     );
 };
