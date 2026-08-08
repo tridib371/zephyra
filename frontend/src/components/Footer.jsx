@@ -86,14 +86,11 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-6">
                     <div className="col-span-2 sm:col-span-3 lg:col-span-2 pr-4">
-                        <Link to="/" className="flex items-center gap-2 w-fit">
-                            <span className="text-[#D97B4F] dark:text-[#F5C36B]">
+                        <Link to="/" className="flex items-center gap-2.5 group w-fit">
+                            <span className="grid h-9.5 w-9.5 place-items-center rounded-2xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-[0_8px_20px_-6px_rgba(217,123,79,0.6)] group-hover:scale-105 group-hover:shadow-[0_10px_25px_-4px_rgba(217,123,79,0.8)] transition-all duration-300 ring-2 ring-[#FF8F6B]/30">
                                 <FeatherMark />
                             </span>
-                            <span
-                                className="font-['Fraunces'] italic font-medium text-xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent"
-                                style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
-                            >
+                            <span className="font-['Fraunces'] font-extrabold text-2xl tracking-tight bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:to-[#F5C36B] bg-clip-text text-transparent">
                                 Zephyra
                             </span>
                         </Link>

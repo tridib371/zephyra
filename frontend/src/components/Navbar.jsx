@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNotifications } from '../context/NotificationContext';
@@ -14,68 +14,74 @@ const FeatherMark = () => (
 );
 
 const PlusGustIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-4 w-4">
         <path d="M12 5v14M5 12h14" strokeLinecap="round" />
     </svg>
 );
 
 const CompassIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4.5 w-4.5">
         <circle cx="12" cy="12" r="9" />
         <path d="m14.5 9.5-2 5-3 1.5 2-5 3-1.5Z" strokeLinejoin="round" />
     </svg>
 );
 
 const MessageIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4.5 w-4.5">
         <path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4.5 4V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z" strokeLinejoin="round" />
     </svg>
 );
 
+const FeedIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4.5 w-4.5">
+        <path d="M4 6h16M4 12h16M4 18h10" strokeLinecap="round" />
+    </svg>
+);
+
 const BellIcon = ({ hasUnread = false }) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5 relative">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
         <path d="M6 8a6 6 0 0 1 12 0c0 4.2 1.2 6 2 7H4c.8-1 2-2.8 2-7Z" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M9.5 18a2.5 2.5 0 0 0 5 0" strokeLinecap="round" />
-        {hasUnread && <circle cx="19" cy="5" r="3.5" fill="#EF4444" stroke="white" strokeWidth="1.5" />}
+        {hasUnread && <circle cx="18.5" cy="5.5" r="3.5" fill="#EF4444" className="animate-ping" />}
     </svg>
 );
 
 const SunIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
-        <circle cx="12" cy="12" r="4" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4.5 w-4.5 text-amber-500">
+        <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.2" />
         <path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.4 5.6l-1.4 1.4M7 17l-1.4 1.4M18.4 18.4 17 17M7 7 5.6 5.6" strokeLinecap="round" />
     </svg>
 );
 
 const MoonIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
-        <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" strokeLinejoin="round" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4.5 w-4.5 text-amber-400">
+        <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="currentColor" fillOpacity="0.2" strokeLinejoin="round" />
     </svg>
 );
 
 const SearchIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4.5 w-4.5">
         <circle cx="11" cy="11" r="7" />
         <path d="m20 20-3.5-3.5" strokeLinecap="round" />
     </svg>
 );
 
 const ProfileGlyphIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
         <circle cx="12" cy="8" r="3.2" />
         <path d="M5 20c1.2-3.4 4-5 7-5s5.8 1.6 7 5" strokeLinecap="round" />
     </svg>
 );
 
 const GearIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
         <circle cx="12" cy="12" r="3" />
         <path d="M19 12a7 7 0 0 0-.1-1.2l1.9-1.5-2-3.4-2.2.9a7 7 0 0 0-2-1.2L14.2 3h-4.4l-.4 2.6a7 7 0 0 0-2 1.2l-2.2-.9-2 3.4L5.1 10.8A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-1.9 1.5 2 3.4 2.2-.9c.6.5 1.3.9 2 1.2l.4 2.6h4.4l.4-2.6a7 7 0 0 0 2-1.2l2.2.9 2-3.4-1.9-1.5c.1-.4.1-.8.1-1.2Z" strokeLinejoin="round" />
     </svg>
 );
 
 const LogoutIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
         <path d="M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M16 17l5-5-5-5M21 12H9" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -88,7 +94,7 @@ const TrashIcon = () => (
 );
 
 const HamburgerIcon = ({ open }) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
         {open ? (
             <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
         ) : (
@@ -102,6 +108,8 @@ const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
     const { notifications, unreadCount, unreadMessageCount, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -146,118 +154,151 @@ const Navbar = () => {
         await deleteNotification(notification._id);
     };
 
-    const iconButtonClasses = "p-2 rounded-full text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-all duration-200 cursor-pointer";
+    const isActive = (path) => location.pathname === path;
+
+    const navLinkClasses = (path) => `
+        flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all duration-200 cursor-pointer font-[Manrope]
+        ${isActive(path)
+            ? 'bg-[#FFF0E6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] shadow-xs'
+            : 'text-[#2D241C] dark:text-[#EDEBE6] hover:bg-[#FAF0E6] dark:hover:bg-white/5 hover:text-[#B85323] dark:hover:text-[#F5C36B]'
+        }
+    `;
+
+    const iconBtnClasses = `
+        p-2 rounded-full text-[#2D241C] dark:text-[#EDEBE6] hover:bg-[#FAF0E6] dark:hover:bg-white/10 
+        hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-all duration-200 cursor-pointer relative
+        border border-transparent hover:border-[#FF8F6B]/30 dark:hover:border-white/10
+    `;
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-gray-200/70 dark:border-[#1F232C] bg-[#FAF7F2]/80 dark:bg-[#0B0D10]/80 backdrop-blur-xl transition-colors duration-300">
+        <nav className="sticky top-0 z-40 w-full border-b border-[#EFE8DC]/80 dark:border-[#1F232C]/80 bg-white/80 dark:bg-[#0B0D10]/85 backdrop-blur-2xl shadow-[0_4px_30px_-10px_rgba(217,123,79,0.08)] dark:shadow-[0_4px_30px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
+
+                    {/* Logo Section */}
                     <div className="flex items-center gap-3">
-                        <Link to="/" className="flex items-center gap-2 group">
-                            <span className="grid h-9 w-9 place-items-center rounded-2xl bg-linear-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-[0_10px_24px_-10px_rgba(217,123,79,0.7)] group-hover:scale-105 transition-transform duration-200">
+                        <Link to="/" className="flex items-center gap-2.5 group">
+                            <span className="grid h-9.5 w-9.5 place-items-center rounded-2xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-[0_8px_20px_-6px_rgba(217,123,79,0.6)] group-hover:scale-105 group-hover:shadow-[0_10px_25px_-4px_rgba(217,123,79,0.8)] transition-all duration-300 ring-2 ring-[#FF8F6B]/30">
                                 <FeatherMark />
                             </span>
-                            <span className="font-['Fraunces'] font-bold text-xl tracking-tight text-gray-900 dark:text-[#EDEBE6]">
-                                Zephyra<span className="text-[#D97B4F] dark:text-[#F5C36B]"> </span>
+                            <span className="font-['Fraunces'] font-extrabold text-2xl tracking-tight bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:to-[#F5C36B] bg-clip-text text-transparent">
+                                Zephyra
                             </span>
                         </Link>
                     </div>
 
-                    <div className="hidden md:flex items-center gap-2 font-[Manrope]">
-                        <Link to="/search" className={iconButtonClasses} title="Search">
-                            <SearchIcon />
-                        </Link>
-
+                    {/* Desktop Navigation Links */}
+                    <div className="hidden md:flex items-center gap-2">
                         {isAuthenticated ? (
                             <>
-                                <Link to="/create" className="flex items-center gap-1.5 ml-1 px-4 py-2 bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-sm font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)] transition-all duration-200">
-                                    <PlusGustIcon /> New Post
+                                <Link to="/feed" className={navLinkClasses('/feed')}>
+                                    <FeedIcon /> Feed
                                 </Link>
-                                <Link to="/discover" className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors duration-200">
+
+                                <Link to="/discover" className={navLinkClasses('/discover')}>
                                     <CompassIcon /> Discover
                                 </Link>
-                                <Link to="/messages" className="relative flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors duration-200">
+
+                                <Link to="/messages" className={navLinkClasses('/messages')}>
                                     <MessageIcon /> Messages
                                     {unreadMessageCount > 0 && (
-                                        <span className="ml-1 grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-[#D97B4F] px-1.5 text-[10px] font-bold leading-none text-white">
+                                        <span className="ml-1 grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-[#D97B4F] dark:bg-[#FF8F6B] px-1.5 text-[10px] font-extrabold leading-none text-white shadow-xs">
                                             {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
                                         </span>
                                     )}
                                 </Link>
 
-                                <div className="relative" ref={notificationRef}>
+                                <Link to="/search" className={iconBtnClasses} title="Search Users & Posts">
+                                    <SearchIcon />
+                                </Link>
+
+                                {/* New Post Pulsing CTA */}
+                                <Link
+                                    to="/create"
+                                    className="flex items-center gap-1.5 ml-2 px-4.5 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold rounded-full hover:brightness-105 hover:scale-105 shadow-[0_6px_20px_-4px_rgba(217,123,79,0.5)] hover:shadow-[0_8px_25px_-2px_rgba(217,123,79,0.65)] transition-all duration-300 font-[Manrope]"
+                                >
+                                    <PlusGustIcon /> New Post
+                                </Link>
+
+                                {/* Notifications Button */}
+                                <div className="relative ml-1" ref={notificationRef}>
                                     <button
                                         onClick={() => setIsNotificationOpen(prev => !prev)}
-                                        className={iconButtonClasses}
+                                        className={iconBtnClasses}
                                         aria-label="Notifications"
+                                        title="Notifications"
                                     >
                                         <BellIcon hasUnread={unreadCount > 0} />
                                         {unreadCount > 0 && (
-                                            <span className="absolute -top-0.5 -right-0.5 grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white">
+                                            <span className="absolute -top-0.5 -right-0.5 grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-rose-500 px-1 text-[10px] font-extrabold leading-none text-white shadow-xs">
                                                 {unreadCount > 99 ? '99+' : unreadCount}
                                             </span>
                                         )}
                                     </button>
 
+                                    {/* Notification Dropdown Drawer */}
                                     <AnimatePresence>
                                         {isNotificationOpen && (
                                             <motion.div
-                                                initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                                                initial={{ opacity: 0, y: 12, scale: 0.95 }}
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-xl shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] overflow-hidden z-50"
+                                                exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-50"
                                             >
-                                                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-[#1F232C]">
+                                                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-[#1F232C] bg-[#FFFDF9]/60 dark:bg-transparent">
                                                     <div>
-                                                        <p className="text-xs uppercase tracking-[0.2em] text-[#D97B4F] dark:text-[#F5C36B]">Inbox</p>
-                                                        <h4 className="font-['Fraunces'] italic text-lg text-gray-900 dark:text-[#EDEBE6]">Notifications</h4>
+                                                        <p className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#B85323] dark:text-[#F5C36B]">Realtime Inbox</p>
+                                                        <h4 className="font-['Fraunces'] italic text-lg font-bold text-[#1A140D] dark:text-[#EDEBE6]">Notifications</h4>
                                                     </div>
                                                     {unreadCount > 0 && (
-                                                        <button onClick={markAllAsRead} className="text-xs font-semibold text-[#D97B4F] dark:text-[#F5C36B] hover:underline">
+                                                        <button onClick={markAllAsRead} className="text-xs font-bold text-[#B85323] dark:text-[#F5C36B] hover:underline cursor-pointer">
                                                             Mark all read
                                                         </button>
                                                     )}
                                                 </div>
 
-                                                <div className="max-h-96 overflow-y-auto">
+                                                <div className="max-h-96 overflow-y-auto divide-y divide-gray-100 dark:divide-[#1F232C]/60">
                                                     {notifications.length === 0 ? (
-                                                        <div className="px-5 py-10 text-center text-sm text-gray-500 dark:text-[#8A8F9C]">
-                                                            No notifications yet.
+                                                        <div className="px-5 py-10 text-center text-sm font-medium text-gray-500 dark:text-[#8A8F9C]">
+                                                            🔔 No notifications yet.
                                                         </div>
                                                     ) : (
                                                         notifications.map((notification) => {
                                                             const unread = !notification.read;
-                                                            const meta = getNotificationMeta(notification);
                                                             const detail = getNotificationDetail(notification);
 
                                                             return (
                                                                 <div
                                                                     key={notification._id}
                                                                     onClick={() => handleNotificationClick(notification)}
-                                                                    className={`flex items-start gap-3 px-5 py-4 border-b border-gray-100/70 dark:border-[#1F232C]/60 hover:bg-[#FAF7F2]/80 dark:hover:bg-[#1A1E27] transition-colors cursor-pointer ${unread ? 'bg-[#FFF8F4] dark:bg-white/5' : ''}`}
+                                                                    className={`flex items-start gap-3 px-5 py-4 transition-colors cursor-pointer ${unread
+                                                                            ? 'bg-[#FFF8F4] dark:bg-white/5 hover:bg-[#FFEFE6] dark:hover:bg-white/10'
+                                                                            : 'hover:bg-[#FAF7F2] dark:hover:bg-[#1A1E27]'
+                                                                        }`}
                                                                 >
                                                                     <img
-                                                                        src={notification.sender?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
+                                                                        src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`}
                                                                         alt={notification.sender?.name || 'Sender'}
-                                                                        className="h-10 w-10 rounded-2xl object-cover shrink-0"
-                                                                        onError={(e) => { e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'; }}
+                                                                        className="h-10 w-10 rounded-2xl object-cover shrink-0 ring-2 ring-[#FF8F6B]/30"
+                                                                        onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`; }}
                                                                     />
                                                                     <div className="min-w-0 flex-1">
-                                                                        <p className={`text-sm ${unread ? 'font-semibold text-gray-900 dark:text-[#EDEBE6]' : 'text-gray-600 dark:text-[#A0A6B6]'}`}>
+                                                                        <p className={`text-xs sm:text-sm ${unread ? 'font-bold text-[#1A140D] dark:text-[#EDEBE6]' : 'text-gray-600 dark:text-[#A0A6B6]'}`}>
                                                                             {getNotificationMessage(notification)}
                                                                         </p>
                                                                         {detail && (
-                                                                            <p className="mt-1 text-xs text-gray-500 dark:text-[#8A8F9C] line-clamp-2">
+                                                                            <p className="mt-1 text-xs text-gray-500 dark:text-[#8A8F9C] line-clamp-2 font-medium">
                                                                                 {detail}
                                                                             </p>
                                                                         )}
-                                                                        <p className="mt-1 text-[11px] text-gray-400 dark:text-[#6E7280]">
+                                                                        <p className="mt-1 text-[10px] font-semibold text-gray-400 dark:text-[#6E7280]">
                                                                             {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
                                                                         </p>
                                                                     </div>
                                                                     <button
                                                                         onClick={(event) => handleDeleteNotification(event, notification)}
-                                                                        className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                                                                        className="text-gray-400 hover:text-rose-500 transition-colors p-1 cursor-pointer"
                                                                         aria-label="Delete notification"
                                                                     >
                                                                         <TrashIcon />
@@ -268,13 +309,13 @@ const Navbar = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="border-t border-gray-100 dark:border-[#1F232C] px-5 py-3 bg-[#FAF7F2]/50 dark:bg-[#0E1116]/50">
+                                                <div className="border-t border-gray-100 dark:border-[#1F232C] px-5 py-3 bg-[#FAF7F2]/60 dark:bg-[#0E1116]/60">
                                                     <Link
                                                         to="/notifications"
                                                         onClick={() => setIsNotificationOpen(false)}
-                                                        className="block rounded-full bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] px-4 py-2 text-center text-sm font-semibold text-[#1A140D] hover:brightness-105 transition-all"
+                                                        className="block rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] px-4 py-2 text-center text-xs font-extrabold text-[#1A140D] hover:brightness-105 transition-all shadow-xs"
                                                     >
-                                                        View all notifications
+                                                        View all notifications →
                                                     </Link>
                                                 </div>
                                             </motion.div>
@@ -282,21 +323,31 @@ const Navbar = () => {
                                     </AnimatePresence>
                                 </div>
                             </>
-                        ) : null}
+                        ) : (
+                            <Link to="/search" className={iconBtnClasses} title="Search Users & Posts">
+                                <SearchIcon />
+                            </Link>
+                        )}
 
+                        {/* Theme Toggle Pill */}
                         <button
                             onClick={toggleTheme}
-                            className={iconButtonClasses}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#EFE8DC] dark:border-[#1F232C] bg-[#FFF8F4] dark:bg-[#12151C] text-[#2D241C] dark:text-[#EDEBE6] hover:border-[#FF8F6B]/50 transition-all cursor-pointer shadow-xs ml-1"
                             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                         >
                             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+                            <span className="text-xs font-bold font-[Manrope]">
+                                {theme === 'dark' ? 'Light' : 'Dark'}
+                            </span>
                         </button>
 
+                        {/* Profile Dropdown or Auth CTA */}
                         {isAuthenticated ? (
-                            <div className="relative ml-1" ref={profileRef}>
+                            <div className="relative ml-2" ref={profileRef}>
                                 <button
                                     onClick={() => setIsProfileMenuOpen(prev => !prev)}
-                                    className="flex items-center gap-2 p-1 rounded-full hover:ring-2 hover:ring-[#FF8F6B]/40 transition-all cursor-pointer"
+                                    className="flex items-center gap-2 p-0.5 rounded-full hover:ring-2 hover:ring-[#FF8F6B]/60 transition-all cursor-pointer"
                                 >
                                     <img
                                         src={user?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=D97B4F&color=fff`}
@@ -305,35 +356,36 @@ const Navbar = () => {
                                         onError={(e) => {
                                             e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=D97B4F&color=fff`;
                                         }}
-                                        className="h-9 w-9 rounded-full object-cover border-2 border-[#D97B4F] dark:border-[#F5C36B]"
+                                        className="h-9 w-9 rounded-full object-cover border-2 border-[#D97B4F] dark:border-[#F5C36B] shadow-xs"
                                     />
                                 </button>
 
                                 <AnimatePresence>
                                     {isProfileMenuOpen && (
                                         <motion.div
-                                            initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                                            initial={{ opacity: 0, y: 12, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                                            className="absolute right-0 mt-3 w-56 rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-xl shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] overflow-hidden z-50 py-2"
+                                            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="absolute right-0 mt-3 w-56 rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-50 py-2"
                                         >
-                                            <div className="px-4 py-3 border-b border-gray-100 dark:border-[#1F232C]">
-                                                <p className="text-sm font-semibold text-gray-900 dark:text-[#EDEBE6] truncate">{user?.name}</p>
-                                                <p className="text-xs text-gray-500 dark:text-[#8A8F9C] truncate">@{user?.username}</p>
+                                            <div className="px-4 py-3 border-b border-gray-100 dark:border-[#1F232C] bg-[#FFFDF9]/60 dark:bg-transparent">
+                                                <p className="text-sm font-bold text-[#1A140D] dark:text-[#EDEBE6] truncate">{user?.name}</p>
+                                                <p className="text-xs font-semibold text-gray-500 dark:text-[#8A8F9C] truncate">@{user?.username}</p>
                                             </div>
 
                                             <div className="py-1">
                                                 <Link
                                                     to="/profile"
                                                     onClick={() => setIsProfileMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-gray-700 dark:text-[#E7E6E3] hover:bg-[#FFF5EF] dark:hover:bg-[#1A1E27] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                                 >
-                                                    <ProfileGlyphIcon /> Profile
+                                                    <ProfileGlyphIcon /> My Profile
                                                 </Link>
                                                 <Link
                                                     to="/settings"
                                                     onClick={() => setIsProfileMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-gray-700 dark:text-[#E7E6E3] hover:bg-[#FFF5EF] dark:hover:bg-[#1A1E27] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                                 >
                                                     <GearIcon /> Settings
                                                 </Link>
@@ -342,7 +394,7 @@ const Navbar = () => {
                                             <div className="border-t border-gray-100 dark:border-[#1F232C] pt-1 mt-1">
                                                 <button
                                                     onClick={handleLogout}
-                                                    className="w-full flex items-center gap-2.5 text-left px-4 py-2 text-sm text-[#C4573F] dark:text-[#FF8F6B] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] transition-colors"
+                                                    className="w-full flex items-center gap-2.5 text-left px-4 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors cursor-pointer"
                                                 >
                                                     <LogoutIcon /> Logout
                                                 </button>
@@ -352,27 +404,28 @@ const Navbar = () => {
                                 </AnimatePresence>
                             </div>
                         ) : (
-                            <div className="flex items-center gap-3 ml-2">
+                            <div className="flex items-center gap-2 ml-2">
                                 <Link
                                     to="/login"
-                                    className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors"
+                                    className="px-4 py-2 text-xs sm:text-sm font-bold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                 >
-                                    Login
+                                    Sign In
                                 </Link>
                                 <Link
                                     to="/register"
-                                    className="px-4 py-2 bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-sm font-semibold rounded-full hover:brightness-105 transition-all shadow-xs"
+                                    className="px-4 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold rounded-full hover:brightness-105 hover:scale-105 transition-all shadow-xs"
                                 >
-                                    Register
+                                    Get Started
                                 </Link>
                             </div>
                         )}
                     </div>
 
+                    {/* Mobile Controls */}
                     <div className="flex md:hidden items-center gap-2">
                         <button
                             onClick={toggleTheme}
-                            className={iconButtonClasses}
+                            className={iconBtnClasses}
                             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                         >
                             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
@@ -381,7 +434,7 @@ const Navbar = () => {
                         {isAuthenticated && (
                             <button
                                 onClick={() => setIsNotificationOpen(prev => !prev)}
-                                className={iconButtonClasses}
+                                className={iconBtnClasses}
                                 aria-label="Notifications"
                             >
                                 <BellIcon hasUnread={unreadCount > 0} />
@@ -390,7 +443,7 @@ const Navbar = () => {
 
                         <button
                             onClick={() => setIsMobileMenuOpen(prev => !prev)}
-                            className={iconButtonClasses}
+                            className={iconBtnClasses}
                             aria-label="Toggle menu"
                         >
                             <HamburgerIcon open={isMobileMenuOpen} />
@@ -398,104 +451,54 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {isAuthenticated && isMobileMenuOpen && (
-                    <div className="md:hidden pb-4 space-y-1 border-t border-gray-200 dark:border-[#1F232C] pt-3 font-[Manrope]">
-                        <Link to="/search" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <SearchIcon /> Search
-                        </Link>
-                        <Link to="/create" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <PlusGustIcon /> New Post
-                        </Link>
-                        <Link to="/discover" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <CompassIcon /> Discover
-                        </Link>
-                        <Link to="/messages" className="flex items-center justify-between px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <span className="flex items-center gap-2.5"><MessageIcon /> Messages</span>
-                            {unreadMessageCount > 0 && (
-                                <span className="grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-[#D97B4F] px-1.5 text-[10px] font-bold leading-none text-white">
-                                    {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
-                                </span>
-                            )}
-                        </Link>
-                        <Link to="/feed" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <MessageIcon /> Feed
-                        </Link>
-                        <Link to="/profile" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <ProfileGlyphIcon /> Profile
-                        </Link>
-                        <Link to="/settings" className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-[#E7E6E3] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] hover:text-[#B5652F] dark:hover:text-[#F5C36B] rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                            <GearIcon /> Settings
-                        </Link>
-                        <hr className="my-1.5 border-gray-200 dark:border-[#1F232C]" />
-                        <button onClick={handleLogout} className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 text-sm font-medium text-[#C4573F] dark:text-[#FF8F6B] hover:bg-[#F5EFE6] dark:hover:bg-[#1A1E27] rounded-xl transition-colors">
-                            <LogoutIcon /> Logout
-                        </button>
-                    </div>
-                )}
-
-                <AnimatePresence>
-                    {isNotificationOpen && isAuthenticated && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 8 }}
-                            className="md:hidden fixed inset-x-4 top-18 z-50 rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-xl shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)] overflow-hidden"
-                        >
-                            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-[#1F232C]">
-                                <div>
-                                    <p className="text-xs uppercase tracking-[0.2em] text-[#D97B4F] dark:text-[#F5C36B]">Inbox</p>
-                                    <h4 className="font-['Fraunces'] italic text-lg text-gray-900 dark:text-[#EDEBE6]">Notifications</h4>
-                                </div>
-                                {unreadCount > 0 && (
-                                    <button onClick={markAllAsRead} className="text-xs font-semibold text-[#D97B4F] dark:text-[#F5C36B] hover:underline">
-                                        Mark all read
-                                    </button>
-                                )}
-                            </div>
-                            <div className="max-h-104 overflow-y-auto">
-                                {notifications.slice(0, 4).length === 0 ? (
-                                    <div className="px-5 py-10 text-center text-sm text-gray-500 dark:text-[#8A8F9C]">No notifications yet.</div>
-                                ) : (
-                                    notifications.slice(0, 4).map((notification) => {
-                                        const unread = !notification.read;
-                                        const meta = getNotificationMeta(notification);
-                                        const detail = getNotificationDetail(notification);
-
-                                        return (
-                                            <div
-                                                key={notification._id}
-                                                onClick={() => handleNotificationClick(notification)}
-                                                className={`flex items-start gap-3 px-4 py-4 ${unread ? 'bg-[#FFF8F4] dark:bg-white/5' : ''}`}
-                                            >
-                                                <img
-                                                    src={notification.sender?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                                    alt={notification.sender?.name || 'Sender'}
-                                                    className="h-10 w-10 rounded-2xl object-cover shrink-0"
-                                                    onError={(e) => { e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'; }}
-                                                />
-                                                <div className="min-w-0 flex-1">
-                                                    <p className={`text-sm ${unread ? 'font-semibold text-gray-900 dark:text-[#EDEBE6]' : 'text-gray-600 dark:text-[#A0A6B6]'}`}>
-                                                        {getNotificationMessage(notification)}
-                                                    </p>
-                                                    {detail && <p className="mt-1 text-xs text-gray-500 dark:text-[#8A8F9C] line-clamp-2">{detail}</p>}
-                                                    <p className="mt-1 text-[11px] text-gray-400 dark:text-[#6E7280]">{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}</p>
-                                                </div>
-                                                <button onClick={(event) => handleDeleteNotification(event, notification)} className="text-gray-400 hover:text-red-500" aria-label="Delete notification">
-                                                    <TrashIcon />
-                                                </button>
-                                            </div>
-                                        );
-                                    })
-                                )}
-                            </div>
-                            <div className="border-t border-gray-100 dark:border-[#1F232C] px-4 py-3">
-                                <Link to="/notifications" onClick={() => setIsNotificationOpen(false)} className="block rounded-full bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] px-4 py-2 text-center text-sm font-semibold text-[#1A140D]">
-                                    Open inbox
+                {/* Mobile Menu Drawer */}
+                {isMobileMenuOpen && (
+                    <div className="md:hidden pb-4 space-y-1.5 border-t border-[#EFE8DC] dark:border-[#1F232C] pt-3 font-[Manrope]">
+                        {isAuthenticated ? (
+                            <>
+                                <Link to="/feed" className={navLinkClasses('/feed')} onClick={() => setIsMobileMenuOpen(false)}>
+                                    <FeedIcon /> Feed
+                                </Link>
+                                <Link to="/discover" className={navLinkClasses('/discover')} onClick={() => setIsMobileMenuOpen(false)}>
+                                    <CompassIcon /> Discover
+                                </Link>
+                                <Link to="/messages" className={navLinkClasses('/messages')} onClick={() => setIsMobileMenuOpen(false)}>
+                                    <span className="flex items-center gap-2"><MessageIcon /> Messages</span>
+                                    {unreadMessageCount > 0 && (
+                                        <span className="ml-auto grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-[#D97B4F] px-1.5 text-[10px] font-extrabold leading-none text-white">
+                                            {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
+                                        </span>
+                                    )}
+                                </Link>
+                                <Link to="/search" className={navLinkClasses('/search')} onClick={() => setIsMobileMenuOpen(false)}>
+                                    <SearchIcon /> Search
+                                </Link>
+                                <Link to="/create" className="flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold text-[#1A140D] bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] rounded-full text-center shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <PlusGustIcon /> New Post
+                                </Link>
+                                <Link to="/profile" className={navLinkClasses('/profile')} onClick={() => setIsMobileMenuOpen(false)}>
+                                    <ProfileGlyphIcon /> Profile
+                                </Link>
+                                <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
+                                    <GearIcon /> Settings
+                                </Link>
+                                <hr className="my-2 border-gray-200 dark:border-[#1F232C]" />
+                                <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
+                                    <LogoutIcon /> Logout
+                                </button>
+                            </>
+                        ) : (
+                            <div className="flex flex-col gap-2 p-2">
+                                <Link to="/login" className="px-4 py-2.5 text-center text-xs font-bold border border-gray-200 dark:border-[#1F232C] rounded-full text-[#1A140D] dark:text-[#EDEBE6]" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Sign In
+                                </Link>
+                                <Link to="/register" className="px-4 py-2.5 text-center text-xs font-extrabold bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] rounded-full shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Get Started
                                 </Link>
                             </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        )}
+                    </div>
+                )}
             </div>
         </nav>
     );
