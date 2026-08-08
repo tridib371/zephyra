@@ -35,10 +35,8 @@ const ShareIcon = () => (
 );
 
 const FeatherMark = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
-        <path d="M20.24 3.76 9.5 14.5a4.95 4.95 0 0 0 0 7 4.95 4.95 0 0 0 7 0L20.24 10a4.95 4.95 0 0 0 0-7 4.95 4.95 0 0 0-7 0Z" />
-        <path d="M9 15 4 20" strokeLinecap="round" />
-        <path d="M13.5 10.5 11 13" strokeLinecap="round" />
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13a1.5 1.5 0 0 1 1.06 2.56L9.62 16.5H18.5a1.5 1.5 0 0 1 0 3h-13a1.5 1.5 0 0 1-1.06-2.56L14.38 7.5H5.5A1.5 1.5 0 0 1 4 5.5z" />
     </svg>
 );
 
