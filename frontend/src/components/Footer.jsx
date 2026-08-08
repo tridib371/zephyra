@@ -147,7 +147,7 @@ const Footer = () => {
                     <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
                     <p className="flex items-center gap-1.5">
                         Made for people who create, wonder, and drift between ideas
-                        <span className="text-[#D97B4F] dark:text-[#F5C36B]">
+                        <span className="grid h-5.5 w-5.5 place-items-center rounded-md bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-xs ring-1 ring-[#FF8F6B]/30 shrink-0">
                             <FeatherMark />
                         </span>
                     </p>
