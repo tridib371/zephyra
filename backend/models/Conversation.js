@@ -24,6 +24,12 @@ const ConversationSchema = new mongoose.Schema(
             unique: true,
             index: true,
         },
+        deletedBy: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
     },
     {
         timestamps: true,

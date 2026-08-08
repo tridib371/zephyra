@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// Prefer explicit VITE_API_URL; otherwise fall back to the known backend port used by the server
+// Prefer explicit VITE_API_URL; otherwise fall back to backend port 5000
 const base = import.meta.env.VITE_API_URL
     ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api`
-    : 'http://localhost:5007/api';
+    : 'http://localhost:5000/api';
 
 const api = axios.create({
     baseURL: base,

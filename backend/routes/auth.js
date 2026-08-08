@@ -36,11 +36,14 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        const avatarFallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || username)}&background=D97B4F&color=fff`;
+
         const user = await User.create({
             name,
             username,
             email,
             password: hashedPassword,
+            profilePicture: avatarFallback,
         });
 
         const token = jwt.sign(
@@ -157,43 +160,47 @@ router.post('/google', async (req, res) => {
         console.log('Decoded token:', JSON.stringify(decodedToken, null, 2));
 
         // Extract user data from decoded token
-        const { email, name, picture, uid } = decodedToken;
+        const { email, name, uid } = decodedToken;
+        const picture = decodedToken.picture || decodedToken.photoURL || decodedToken.picture_url || '';
 
         console.log('Google user data:', { email, name, picture, uid });
 
         // Check if user exists with this googleId OR email
         let user = await User.findOne({ $or: [{ googleId: uid }, { email }] });
 
+        const displayName = name || email.split('@')[0];
+        const avatarFallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=D97B4F&color=fff`;
+        const profilePicture = picture || avatarFallback;
+
         if (!user) {
             // Generate a unique username from email
             let username = email.split('@')[0];
-            // Remove special characters from username
             username = username.replace(/[^a-zA-Z0-9_]/g, '');
             let usernameExists = await User.findOne({ username });
             if (usernameExists) {
                 username = `${username}_${Math.floor(Math.random() * 1000)}`;
             }
 
-            // Use the picture from Google, or fallback to default
-            const profilePicture = picture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-
             // Create new user
             user = await User.create({
-                name: name || email.split('@')[0],
+                name: displayName,
                 username,
                 email,
                 googleId: uid,
-                profilePicture: profilePicture, // <-- Save Google photo
+                profilePicture: profilePicture,
                 bio: '',
             });
 
             console.log('✅ New user created with Google photo:', profilePicture);
         } else {
-            // User exists - update profile picture if needed
+            // User exists - update profile picture if missing or updated
             if (picture && user.profilePicture !== picture) {
                 user.profilePicture = picture;
                 await user.save();
                 console.log('✅ Updated profile picture for existing user:', picture);
+            } else if (!user.profilePicture) {
+                user.profilePicture = profilePicture;
+                await user.save();
             }
 
             // If user exists but doesn't have googleId, update it

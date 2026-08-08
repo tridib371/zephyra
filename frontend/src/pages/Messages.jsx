@@ -1,89 +1,276 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import io from 'socket.io-client';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
+import ConfirmDialog from '../components/ConfirmDialog';
 
-const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5007';
+const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function Messages() {
     const { user } = useAuth();
+    const { setUnreadMessageCount, fetchUnreadMessageCount } = useNotifications();
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+
+    // Primary State
     const [conversations, setConversations] = useState([]);
+    const [activeConversation, setActiveConversation] = useState(null);
+    const [messages, setMessages] = useState([]);
+
+    // Loading States
+    const [conversationsLoading, setConversationsLoading] = useState(true);
+    const [messagesLoading, setMessagesLoading] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [text, setText] = useState('');
+
+    // Search State
     const [searchQueryText, setSearchQueryText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [searching, setSearching] = useState(false);
-    const [activeConversation, setActiveConversation] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [messagesLoading, setMessagesLoading] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [sending, setSending] = useState(false);
-    const [text, setText] = useState('');
+
+    // Typing State
+    const [isPartnerTyping, setIsPartnerTyping] = useState(false);
+    const typingTimeoutRef = useRef(null);
+
+    // Dialog & UI State
+    const [confirmDeleteConv, setConfirmDeleteConv] = useState(null);
+    const [confirmDeleteMsg, setConfirmDeleteMsg] = useState(null);
+
+    // Refs to prevent state update loops and duplicate socket setups
     const socketRef = useRef(null);
     const bottomRef = useRef(null);
-    const startedWithUserRef = useRef(null);
     const activeConversationRef = useRef(null);
+    const processedUserIdRef = useRef(null);
+    const processedConversationIdRef = useRef(null);
 
-    const fetchConversations = async () => {
+    // Keep activeConversationRef in sync
+    useEffect(() => {
+        activeConversationRef.current = activeConversation?._id || null;
+    }, [activeConversation]);
+
+    // 1. Fetch Conversations List once on mount / user change
+    const fetchConversations = useCallback(async () => {
         try {
             const res = await api.get('/messages/conversations');
-            setConversations(res.data.conversations || []);
+            const fetched = res.data.conversations || [];
+            setConversations(fetched);
+            const totalUnread = fetched.reduce((acc, c) => acc + (c.unreadCount || 0), 0);
+            if (setUnreadMessageCount) setUnreadMessageCount(totalUnread);
+            return fetched;
         } catch (err) {
-            console.error('fetchConversations', err);
+            console.error('Error fetching conversations:', err);
+            return [];
         } finally {
-            setLoading(false);
+            setConversationsLoading(false);
         }
-    };
+    }, [setUnreadMessageCount]);
 
-    const openConversation = async (conversation, { replaceUrl = false } = {}) => {
-        if (!conversation) return;
-        setActiveConversation(conversation);
-        // indicate loading so UI doesn't flash old messages
+    useEffect(() => {
+        if (user) {
+            fetchConversations();
+        }
+    }, [user, fetchConversations]);
+
+    // 2. Open a conversation by object or ID cleanly
+    const selectConversation = async (conv, { replaceUrl = false } = {}) => {
+        if (!conv) return;
+
+        const prevId = activeConversationRef.current;
+        if (socketRef.current && prevId && prevId !== conv._id) {
+            socketRef.current.emit('leave_conversation', prevId);
+        }
+
+        setActiveConversation(conv);
         setMessagesLoading(true);
+
         try {
-            // leave previous conversation room if any
-            const prevId = activeConversationRef.current;
-            if (socketRef.current && prevId && prevId !== conversation._id) {
-                socketRef.current.emit('leave_conversation', prevId);
+            const res = await api.get(`/messages/conversations/${conv._id}`);
+            const fetchedMsgs = res.data.messages || [];
+            setMessages(fetchedMsgs);
+
+            // Join socket room for active conversation
+            if (socketRef.current) {
+                socketRef.current.emit('join_conversation', conv._id);
             }
 
-            const res = await api.get(`/messages/conversations/${conversation._id}`);
-            const msgs = res.data.messages || [];
-            // set the active conversation ref before joining
-            activeConversationRef.current = conversation._id;
+            // Mark unread messages as read
+            await api.put(`/messages/conversations/${conv._id}/read`).catch(() => { });
 
-            setMessages(msgs);
-            await api.put(`/messages/conversations/${conversation._id}/read`).catch(() => { });
-            setConversations((prev) => prev.map((c) => (c._id === conversation._id ? { ...c, unreadCount: 0, lastMessage: res.data.messages?.[res.data.messages.length - 1] || c.lastMessage } : c)));
-            if (socketRef.current) socketRef.current.emit('join_conversation', conversation._id);
-            if (replaceUrl) setSearchParams({ conversationId: conversation._id }, { replace: true });
-            else setSearchParams({ conversationId: conversation._id });
-            scrollToBottom();
+            // Update local unread state
+            setConversations((prev) =>
+                prev.map((c) =>
+                    c._id === conv._id
+                        ? {
+                            ...c,
+                            unreadCount: 0,
+                            lastMessage: fetchedMsgs[fetchedMsgs.length - 1] || c.lastMessage,
+                        }
+                        : c
+                )
+            );
+
+            if (fetchUnreadMessageCount) fetchUnreadMessageCount();
+
+            // Update URL without triggering infinite effect loops
+            if (replaceUrl) {
+                setSearchParams({ conversationId: conv._id }, { replace: true });
+            } else {
+                setSearchParams({ conversationId: conv._id });
+            }
+
+            setTimeout(() => scrollToBottom(), 50);
         } catch (err) {
-            console.error('openConversation', err);
+            console.error('Error opening conversation:', err);
         } finally {
             setMessagesLoading(false);
         }
     };
 
-    const startConversationWithUser = async (userId) => {
-        if (!userId || userId === user?._id) return;
+    // 3. Start or retrieve conversation with a given userId
+    const startConversationWithUser = async (targetUserId) => {
+        if (!targetUserId || targetUserId === user?._id) return;
         try {
-            const res = await api.post(`/messages/conversations/user/${userId}`);
+            setMessagesLoading(true);
+            const res = await api.post(`/messages/conversations/user/${targetUserId}`);
             const conv = res.data.conversation;
-            await fetchConversations();
-            await openConversation(conv, { replaceUrl: true });
+
+            // Refresh conversation list to include newly created/un-deleted conversation
+            const updatedConvs = await fetchConversations();
+            const target = updatedConvs.find((c) => c._id === conv._id) || conv;
+
+            await selectConversation(target, { replaceUrl: true });
         } catch (err) {
-            console.error('startConversationWithUser', err);
+            console.error('Error starting conversation with user:', err);
+        } finally {
+            setMessagesLoading(false);
         }
     };
 
+    // 4. Handle URL search params (`userId` or `conversationId`) cleanly without re-render loops
     useEffect(() => {
-        fetchConversations();
-    }, []);
+        const conversationIdParam = searchParams.get('conversationId');
+        const userIdParam = searchParams.get('userId');
 
-    // Debounced search for users
+        if (conversationIdParam) {
+            if (processedConversationIdRef.current !== conversationIdParam) {
+                processedConversationIdRef.current = conversationIdParam;
+                // If conversations are loaded, select target
+                const target = conversations.find((c) => c._id === conversationIdParam);
+                if (target) {
+                    selectConversation(target);
+                } else if (!conversationsLoading) {
+                    // Fetch directly if not in list
+                    api.get(`/messages/conversations/${conversationIdParam}`)
+                        .then((res) => {
+                            if (res.data.conversation) {
+                                selectConversation(res.data.conversation);
+                            }
+                        })
+                        .catch(() => { });
+                }
+            }
+        } else if (userIdParam) {
+            if (processedUserIdRef.current !== userIdParam) {
+                processedUserIdRef.current = userIdParam;
+                startConversationWithUser(userIdParam);
+            }
+        }
+    }, [searchParams, conversationsLoading]);
+
+    // 5. Setup Socket.IO connection & listeners
+    useEffect(() => {
+        if (!user) return;
+
+        const socket = io(SOCKET_URL, { transports: ['websocket'] });
+        socketRef.current = socket;
+
+        socket.emit('join', user._id);
+
+        socket.on('message:new', ({ message, conversationId }) => {
+            // Update conversations list (last message & unread badge)
+            setConversations((prev) => {
+                const exists = prev.some((c) => c._id === conversationId);
+                if (exists) {
+                    return prev.map((c) => {
+                        if (c._id === conversationId) {
+                            const isCurrentActive = activeConversationRef.current === conversationId;
+                            const isSender = message.sender?._id === user._id;
+                            return {
+                                ...c,
+                                lastMessage: message,
+                                lastMessageAt: new Date(),
+                                unreadCount: isCurrentActive || isSender ? 0 : (c.unreadCount || 0) + 1,
+                            };
+                        }
+                        return c;
+                    });
+                } else {
+                    // Add new conversation if not present
+                    return [
+                        {
+                            _id: conversationId,
+                            participants: [message.sender, message.recipient],
+                            lastMessage: message,
+                            lastMessageAt: new Date(),
+                            unreadCount: message.sender?._id === user._id ? 0 : 1,
+                        },
+                        ...prev,
+                    ];
+                }
+            });
+
+            // Append to current message thread if open
+            if (activeConversationRef.current === conversationId) {
+                setMessages((prevMsgs) => {
+                    const alreadyHas = prevMsgs.some((m) => m._id === message._id);
+                    if (alreadyHas) return prevMsgs;
+                    setTimeout(() => scrollToBottom(), 40);
+                    return [...prevMsgs, message];
+                });
+
+                // Automatically mark as read if active
+                if (message.sender?._id !== user._id) {
+                    api.put(`/messages/conversations/${conversationId}/read`).catch(() => { });
+                }
+            }
+        });
+
+        socket.on('message:read', ({ conversationId }) => {
+            if (activeConversationRef.current === conversationId) {
+                setMessages((prevMsgs) =>
+                    prevMsgs.map((m) => ({ ...m, read: true }))
+                );
+            }
+        });
+
+        socket.on('message:deleted', ({ messageId, conversationId }) => {
+            if (activeConversationRef.current === conversationId) {
+                setMessages((prevMsgs) => prevMsgs.filter((m) => m._id !== messageId));
+            }
+        });
+
+        socket.on('typing', ({ conversationId }) => {
+            if (activeConversationRef.current === conversationId) {
+                setIsPartnerTyping(true);
+            }
+        });
+
+        socket.on('stop_typing', ({ conversationId }) => {
+            if (activeConversationRef.current === conversationId) {
+                setIsPartnerTyping(false);
+            }
+        });
+
+        return () => {
+            socket.disconnect();
+            socketRef.current = null;
+        };
+    }, [user]);
+
+    // 6. User search debounced effect
     useEffect(() => {
         const q = searchQueryText.trim();
         if (!q) {
@@ -94,14 +281,16 @@ export default function Messages() {
 
         let cancelled = false;
         setSearching(true);
-        const t = setTimeout(async () => {
+        const timer = setTimeout(async () => {
             try {
                 const res = await api.get(`/search?q=${encodeURIComponent(q)}`);
                 if (!cancelled) {
-                    setSearchResults(res.data.users || []);
+                    // Filter out current user from results
+                    const filtered = (res.data.users || []).filter((u) => u._id !== user?._id);
+                    setSearchResults(filtered);
                 }
             } catch (err) {
-                console.error('search users', err);
+                console.error('Search error:', err);
                 if (!cancelled) setSearchResults([]);
             } finally {
                 if (!cancelled) setSearching(false);
@@ -110,111 +299,197 @@ export default function Messages() {
 
         return () => {
             cancelled = true;
-            clearTimeout(t);
+            clearTimeout(timer);
         };
-    }, [searchQueryText]);
+    }, [searchQueryText, user?._id]);
 
-    useEffect(() => {
-        if (!user) return;
-        const socket = io(SOCKET_URL, { transports: ['websocket'] });
-        socketRef.current = socket;
-        socket.emit('join', user._id);
+    const scrollToBottom = () => {
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
 
-        socket.on('message:new', ({ message, conversationId }) => {
-            setConversations((prev) => {
-                const found = prev.find((c) => c._id === conversationId);
-                if (found) {
-                    return prev.map((c) => (c._id === conversationId ? { ...c, lastMessage: message, lastMessageAt: new Date(), unreadCount: (c.unreadCount || 0) + (message.sender?._id === user._id ? 0 : 1) } : c));
-                }
-                return [
-                    { _id: conversationId, participants: [message.sender, message.recipient], lastMessage: message, lastMessageAt: new Date(), unreadCount: message.sender?._id === user._id ? 0 : 1 },
-                    ...prev,
-                ];
-            });
+    // Handle typing events
+    const handleTextChange = (e) => {
+        setText(e.target.value);
+        if (!activeConversation || !socketRef.current) return;
 
-            setMessages((prev) => {
-                // Use ref to know which conversation is currently active
-                if (activeConversationRef.current === conversationId) {
-                    const exists = prev.some((m) => m._id === message._id);
-                    if (!exists) {
-                        // append message
-                        setTimeout(() => scrollToBottom(), 30);
-                        return [...prev, message];
-                    }
-                }
-                return prev;
-            });
+        socketRef.current.emit('typing', {
+            conversationId: activeConversation._id,
+            userId: user._id,
+            username: user.username,
         });
 
-        return () => {
-            socket.disconnect();
-            socketRef.current = null;
-        };
-    }, [user]);
-
-    useEffect(() => {
-        const conversationId = searchParams.get('conversationId');
-        const userId = searchParams.get('userId');
-
-        // If a conversationId is present, open it only if it's not already active
-        if (conversationId && conversations.length > 0) {
-            const target = conversations.find((c) => c._id === conversationId);
-            if (target && (!activeConversation || activeConversation._id !== conversationId)) {
-                openConversation(target);
+        if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+        typingTimeoutRef.current = setTimeout(() => {
+            if (socketRef.current && activeConversation) {
+                socketRef.current.emit('stop_typing', {
+                    conversationId: activeConversation._id,
+                    userId: user._id,
+                });
             }
-            return;
-        }
+        }, 1500);
+    };
 
-        // If userId param is present, start a conversation only once per userId
-        if (userId && startedWithUserRef.current !== userId) {
-            startedWithUserRef.current = userId;
-            startConversationWithUser(userId);
-        }
-    }, [searchParams, conversations, activeConversation]);
-
-    const scrollToBottom = () => bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-
+    // Send message handler
     const handleSend = async (e) => {
-        e.preventDefault();
-        if (!activeConversation || !text.trim()) return;
+        if (e) e.preventDefault();
+        if (!activeConversation || !text.trim() || sending) return;
+
+        const messageText = text.trim();
+        setText('');
         setSending(true);
+
+        if (socketRef.current) {
+            socketRef.current.emit('stop_typing', {
+                conversationId: activeConversation._id,
+                userId: user._id,
+            });
+        }
+
         try {
-            const res = await api.post(`/messages/conversations/${activeConversation._id}`, { text: text.trim() });
-            const msg = res.data.message;
-            setMessages((prev) => [...prev, msg]);
-            setConversations((prev) => prev.map((c) => (c._id === activeConversation._id ? { ...c, lastMessage: msg, lastMessageAt: new Date() } : c)));
-            setText('');
-            setTimeout(() => scrollToBottom(), 30);
+            const res = await api.post(`/messages/conversations/${activeConversation._id}`, {
+                text: messageText,
+            });
+            const newMsg = res.data.message;
+
+            setMessages((prev) => {
+                const exists = prev.some((m) => m._id === newMsg._id);
+                return exists ? prev : [...prev, newMsg];
+            });
+
+            setConversations((prev) =>
+                prev.map((c) =>
+                    c._id === activeConversation._id
+                        ? { ...c, lastMessage: newMsg, lastMessageAt: new Date() }
+                        : c
+                )
+            );
+
+            setTimeout(() => scrollToBottom(), 40);
         } catch (err) {
-            console.error('send', err);
+            console.error('Error sending message:', err);
+            setText(messageText); // Restore input text on error
         } finally {
             setSending(false);
         }
     };
 
+    // Handle Enter keypress in textarea (Shift+Enter for newline)
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    };
+
+    // Delete single message
+    const handleDeleteMessage = async (msgId) => {
+        try {
+            await api.delete(`/messages/${msgId}`);
+            setMessages((prev) => prev.filter((m) => m._id !== msgId));
+        } catch (err) {
+            console.error('Error deleting message:', err);
+        } finally {
+            setConfirmDeleteMsg(null);
+        }
+    };
+
+    // Delete entire conversation
+    const handleDeleteConversation = async (convId) => {
+        try {
+            await api.delete(`/messages/conversations/${convId}`);
+            setConversations((prev) => prev.filter((c) => c._id !== convId));
+            if (activeConversation?._id === convId) {
+                setActiveConversation(null);
+                setMessages([]);
+                setSearchParams({});
+                processedConversationIdRef.current = null;
+            }
+        } catch (err) {
+            console.error('Error deleting conversation:', err);
+        } finally {
+            setConfirmDeleteConv(null);
+        }
+    };
+
+    // Back button for mobile view
+    const handleBackToList = () => {
+        setActiveConversation(null);
+        setMessages([]);
+        setSearchParams({});
+        processedConversationIdRef.current = null;
+        processedUserIdRef.current = null;
+    };
+
+    // Get partner user object for active conversation
+    const partnerUser = activeConversation
+        ? (activeConversation.participants || []).find((p) => p._id !== user?._id) || {}
+        : {};
+
     return (
-        <div className="min-h-[calc(100dvh-4rem)] overflow-hidden px-4 sm:px-6 py-6 sm:py-8">
-            <div className="mx-auto grid h-[calc(100dvh-7.5rem)] max-w-7xl gap-6 lg:grid-cols-12 overflow-hidden">
-                <aside className="lg:col-span-4 xl:col-span-3 flex min-h-0 flex-col rounded-3xl border bg-white/80 dark:bg-[#0E1116]/80 overflow-hidden">
-                    <div className="px-5 py-4 border-b">
-                        <p className="text-xs uppercase text-[#D97B4F]">Direct Messages</p>
-                        <h2 className="mt-1 text-xl font-semibold">Chats</h2>
+        <div className="min-h-[calc(100dvh-4rem)] bg-[#FAF7F2] dark:bg-[#0B0D10] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 px-3 sm:px-6 py-4 sm:py-6">
+            <div className="mx-auto grid h-[calc(100dvh-6rem)] max-w-7xl gap-4 lg:gap-6 lg:grid-cols-12 overflow-hidden">
+
+                {/* ===== SIDEBAR: Conversation List & User Search ===== */}
+                <aside
+                    className={`${activeConversation ? 'hidden lg:flex' : 'flex'
+                        } lg:col-span-4 xl:col-span-3 flex-col rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/80 dark:bg-[#0E1116]/80 backdrop-blur-xl shadow-xs overflow-hidden h-full min-h-0`}
+                >
+                    {/* Header */}
+                    <div className="px-5 py-4 border-b border-gray-100 dark:border-[#1F232C] flex items-center justify-between shrink-0">
+                        <div>
+                            <p className="text-xs uppercase tracking-[0.2em] font-semibold text-[#D97B4F] dark:text-[#F5C36B]">
+                                Messages
+                            </p>
+                            <h2 className="font-['Fraunces'] italic text-xl font-bold text-gray-900 dark:text-[#EDEBE6]">
+                                Direct Chats
+                            </h2>
+                        </div>
                     </div>
 
-                    <div className="px-4 py-3 border-b">
-                        <input
-                            placeholder="Search conversations"
-                            className="w-full rounded-full border px-4 py-2"
-                            value={searchQueryText}
-                            onChange={(e) => setSearchQueryText(e.target.value)}
-                        />
+                    {/* Search Users Input */}
+                    <div className="p-4 border-b border-gray-100 dark:border-[#1F232C] relative shrink-0">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Search users or chats..."
+                                className="w-full rounded-2xl border border-gray-200 dark:border-[#1F232C] bg-gray-50 dark:bg-[#141821] pl-10 pr-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
+                                value={searchQueryText}
+                                onChange={(e) => setSearchQueryText(e.target.value)}
+                            />
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                                className="absolute left-3.5 top-3 h-4 w-4 text-gray-400 dark:text-gray-500"
+                            >
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+                            </svg>
+                            {searchQueryText && (
+                                <button
+                                    onClick={() => {
+                                        setSearchQueryText('');
+                                        setSearchResults([]);
+                                    }}
+                                    className="absolute right-3 top-3 text-xs text-gray-400 hover:text-gray-600 dark:hover:text-white"
+                                >
+                                    ✕
+                                </button>
+                            )}
+                        </div>
 
+                        {/* Search Results Dropdown */}
                         {searchQueryText.trim().length > 0 && (
-                            <div className="mt-2 bg-white dark:bg-[#0B0D10] rounded-lg shadow-md border overflow-hidden">
+                            <div className="absolute left-4 right-4 top-16 z-30 max-h-64 overflow-y-auto rounded-2xl border border-gray-200 dark:border-[#1F232C] bg-white dark:bg-[#11151D] shadow-xl p-2 space-y-1">
                                 {searching ? (
-                                    <div className="p-2 text-sm text-gray-500">Searching...</div>
+                                    <div className="p-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                                        Searching users...
+                                    </div>
                                 ) : searchResults.length === 0 ? (
-                                    <div className="p-2 text-sm text-gray-500">No users found.</div>
+                                    <div className="p-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                                        No users found.
+                                    </div>
                                 ) : (
                                     searchResults.map((u) => (
                                         <button
@@ -224,12 +499,27 @@ export default function Messages() {
                                                 setSearchResults([]);
                                                 startConversationWithUser(u._id);
                                             }}
-                                            className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#0F1317] flex items-center gap-3"
+                                            className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1A1E27] flex items-center gap-3 transition-colors cursor-pointer"
                                         >
-                                            <img src={u.profilePicture || ''} alt="" className="h-8 w-8 rounded-full object-cover" />
-                                            <div className="min-w-0">
-                                                <div className="truncate font-medium">{u.name}</div>
-                                                <div className="text-xs text-gray-500">@{u.username}</div>
+                                            <img
+                                                src={
+                                                    u.profilePicture ||
+                                                    `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || 'User')}&background=D97B4F&color=fff`
+                                                }
+                                                alt=""
+                                                referrerPolicy="no-referrer"
+                                                onError={(e) => {
+                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || 'User')}&background=D97B4F&color=fff`;
+                                                }}
+                                                className="h-9 w-9 rounded-full object-cover shrink-0 border border-gray-200 dark:border-[#1F232C]"
+                                            />
+                                            <div className="min-w-0 flex-1">
+                                                <div className="truncate font-semibold text-sm text-gray-900 dark:text-white">
+                                                    {u.name}
+                                                </div>
+                                                <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                    @{u.username}
+                                                </div>
                                             </div>
                                         </button>
                                     ))
@@ -238,66 +528,244 @@ export default function Messages() {
                         )}
                     </div>
 
-                    <div className="min-h-0 flex-1 overflow-y-auto">
-                        {loading ? (
-                            <div className="p-4 text-sm text-gray-500">Loading...</div>
+                    {/* Conversation List Scrollable */}
+                    <div className="flex-1 overflow-y-auto min-h-0 divide-y divide-gray-100/70 dark:divide-[#1F232C]/60">
+                        {conversationsLoading ? (
+                            <div className="p-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                                Loading conversations...
+                            </div>
                         ) : conversations.length === 0 ? (
-                            <div className="p-4 text-sm text-gray-500">No conversations yet.</div>
+                            <div className="p-8 text-center">
+                                <div className="text-3xl mb-2">💬</div>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                    No conversations yet.
+                                </p>
+                                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                    Search a user above to start chatting!
+                                </p>
+                            </div>
                         ) : (
                             conversations.map((c) => {
-                                const partner = (c.participants || []).find((p) => p._id !== user?._id) || {};
+                                const partner =
+                                    (c.participants || []).find((p) => p._id !== user?._id) || {};
+                                const isActive = activeConversation?._id === c._id;
+                                const unread = c.unreadCount > 0;
+
                                 return (
-                                    <button key={c._id} onClick={() => openConversation(c)} className={`w-full px-4 py-3 border-b text-left ${activeConversation?._id === c._id ? 'bg-gray-100' : 'hover:bg-gray-50'}`}>
-                                        <div className="flex items-center gap-3">
-                                            <img src={partner.profilePicture || ''} alt="" className="h-10 w-10 rounded-full object-cover" />
-                                            <div className="min-w-0">
-                                                <div className="flex items-center justify-between">
-                                                    <p className="truncate font-medium">{partner.name || 'Unknown'}</p>
-                                                    <span className="text-xs text-gray-500">{c.unreadCount > 0 ? c.unreadCount : ''}</span>
-                                                </div>
-                                                <p className="text-sm text-gray-500 truncate">{c.lastMessage?.text || 'No messages yet'}</p>
+                                    <div
+                                        key={c._id}
+                                        onClick={() => selectConversation(c)}
+                                        className={`group relative flex items-center gap-3.5 px-4 py-3.5 transition-all cursor-pointer ${isActive
+                                            ? 'bg-[#FFF8F4] dark:bg-white/5 border-l-4 border-[#D97B4F]'
+                                            : 'hover:bg-gray-50 dark:hover:bg-[#141821]'
+                                            }`}
+                                    >
+                                        <div className="relative shrink-0">
+                                            <img
+                                                src={
+                                                    partner.profilePicture ||
+                                                    `https://ui-avatars.com/api/?name=${encodeURIComponent(partner.name || 'User')}&background=D97B4F&color=fff`
+                                                }
+                                                alt={partner.name || 'User'}
+                                                referrerPolicy="no-referrer"
+                                                className="h-11 w-11 rounded-2xl object-cover border border-gray-200 dark:border-[#1F232C]"
+                                                onError={(e) => {
+                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partner.name || 'User')}&background=D97B4F&color=fff`;
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div className="min-w-0 flex-1">
+                                            <div className="flex items-center justify-between gap-1 mb-0.5">
+                                                <h4 className={`truncate text-sm ${unread ? 'font-bold text-gray-900 dark:text-white' : 'font-semibold text-gray-800 dark:text-[#E7E6E3]'}`}>
+                                                    {partner.name || 'Unknown User'}
+                                                </h4>
+                                                {c.lastMessageAt && (
+                                                    <span className="text-[10px] text-gray-400 dark:text-gray-500 shrink-0">
+                                                        {formatDistanceToNow(new Date(c.lastMessageAt), { addSuffix: false })}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="flex items-center justify-between gap-2">
+                                                <p className={`truncate text-xs ${unread ? 'font-semibold text-[#D97B4F] dark:text-[#F5C36B]' : 'text-gray-500 dark:text-gray-400'}`}>
+                                                    {c.lastMessage?.text || 'No messages yet'}
+                                                </p>
+                                                {unread && (
+                                                    <span className="grid min-h-5 min-w-5 place-items-center rounded-full bg-[#D97B4F] px-1.5 text-[10px] font-bold text-white shrink-0">
+                                                        {c.unreadCount}
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
-                                    </button>
+                                    </div>
                                 );
                             })
                         )}
                     </div>
                 </aside>
 
-                <section className="lg:col-span-8 xl:col-span-9 flex min-h-0 flex-col rounded-3xl border bg-white/80 dark:bg-[#0E1116]/80 overflow-hidden">
+                {/* ===== MAIN CHAT PANEL ===== */}
+                <section
+                    className={`${!activeConversation ? 'hidden lg:flex' : 'flex'
+                        } lg:col-span-8 xl:col-span-9 flex-col rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/80 dark:bg-[#0E1116]/80 backdrop-blur-xl shadow-xs overflow-hidden h-full min-h-0`}
+                >
                     {!activeConversation ? (
-                        <div className="flex-1 flex items-center justify-center">
-                            <div className="text-center">
-                                <div className="text-3xl">✉️</div>
-                                <p className="mt-4">Select a conversation to start chatting.</p>
+                        /* Empty Chat Selection Screen */
+                        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+                            <div className="h-20 w-20 rounded-3xl bg-linear-to-br from-[#FF8F6B]/20 to-[#F5C36B]/20 border border-[#FF8F6B]/30 grid place-items-center mb-5 text-4xl shadow-inner">
+                                📬
                             </div>
+                            <h3 className="font-['Fraunces'] italic text-2xl font-bold text-gray-900 dark:text-[#EDEBE6]">
+                                Your Inbox
+                            </h3>
+                            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-sm">
+                                Select an existing conversation from the left sidebar or search for a friend to start chatting in real time.
+                            </p>
                         </div>
                     ) : (
                         <>
-                            <div className="px-5 py-4 border-b flex items-center justify-between">
-                                <Link to={`/profile/${(activeConversation.participants || []).find((p) => p._id !== user._id)?._id}`} className="flex items-center gap-3">
-                                    <img src={(activeConversation.participants || []).find((p) => p._id !== user._id)?.profilePicture || ''} alt="" className="h-10 w-10 rounded-full object-cover" />
-                                    <div>
-                                        <p className="font-medium">{(activeConversation.participants || []).find((p) => p._id !== user._id)?.name}</p>
-                                        <p className="text-sm text-gray-500">@{(activeConversation.participants || []).find((p) => p._id !== user._id)?.username}</p>
-                                    </div>
-                                </Link>
+                            {/* Active Chat Header */}
+                            <div className="px-5 py-3.5 border-b border-gray-100 dark:border-[#1F232C] flex items-center justify-between shrink-0 bg-white/50 dark:bg-[#0E1116]/50 backdrop-blur-md">
+                                <div className="flex items-center gap-3 min-w-0">
+                                    {/* Mobile Back Button */}
+                                    <button
+                                        onClick={handleBackToList}
+                                        className="lg:hidden p-2 -ml-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#1A1E27] transition-colors"
+                                        aria-label="Back to conversations"
+                                    >
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                                            <path d="M19 12H5M12 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </button>
+
+                                    <Link
+                                        to={partnerUser._id ? `/profile/${partnerUser._id}` : '#'}
+                                        className="flex items-center gap-3 min-w-0 group"
+                                    >
+                                        <div className="relative shrink-0">
+                                            <img
+                                                src={
+                                                    partnerUser.profilePicture ||
+                                                    `https://ui-avatars.com/api/?name=${encodeURIComponent(partnerUser.name || 'User')}&background=D97B4F&color=fff`
+                                                }
+                                                alt=""
+                                                referrerPolicy="no-referrer"
+                                                className="h-10 w-10 rounded-2xl object-cover border border-gray-200 dark:border-[#1F232C] group-hover:scale-105 transition-transform"
+                                                onError={(e) => {
+                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partnerUser.name || 'User')}&background=D97B4F&color=fff`;
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <h3 className="font-semibold text-sm text-gray-900 dark:text-white truncate group-hover:text-[#D97B4F] dark:group-hover:text-[#F5C36B] transition-colors">
+                                                {partnerUser.name || 'User'}
+                                            </h3>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                {isPartnerTyping ? (
+                                                    <span className="text-[#D97B4F] dark:text-[#F5C36B] font-medium animate-pulse">typing...</span>
+                                                ) : (
+                                                    `@${partnerUser.username || ''}`
+                                                )}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                </div>
+
+                                {/* Options Menu (Delete Conversation) */}
+                                <div className="flex items-center gap-1">
+                                    <button
+                                        onClick={() => setConfirmDeleteConv(activeConversation._id)}
+                                        className="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                                        title="Delete conversation"
+                                    >
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+                                            <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
 
-                            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 space-y-4">
+                            {/* Message Feed Stream */}
+                            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-4 min-h-0">
                                 {messagesLoading ? (
-                                    <div className="text-center text-sm text-gray-500">Loading messages...</div>
+                                    <div className="flex items-center justify-center h-full text-sm text-gray-500 dark:text-gray-400">
+                                        Loading message history...
+                                    </div>
                                 ) : messages.length === 0 ? (
-                                    <div className="text-center text-sm text-gray-500">No messages yet — say hello.</div>
+                                    <div className="flex flex-col items-center justify-center h-full text-center">
+                                        <div className="text-4xl mb-3">👋</div>
+                                        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                            No messages yet
+                                        </p>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                            Send a message below to start the conversation!
+                                        </p>
+                                    </div>
                                 ) : (
                                     messages.map((m) => {
-                                        const isMine = m.sender?._id === user._id;
+                                        const isMine = m.sender?._id === user?._id || m.sender === user?._id;
+
                                         return (
-                                            <div key={m._id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
-                                                <div className={`max-w-[80%] px-4 py-3 rounded-2xl ${isMine ? 'bg-[#F5C36B]' : 'bg-white border'}`}>
-                                                    <p className="whitespace-pre-wrap text-sm">{m.text}</p>
-                                                    <p className="text-xs text-gray-500 mt-1">{formatDistanceToNow(new Date(m.createdAt), { addSuffix: true })}</p>
+                                            <div
+                                                key={m._id}
+                                                className={`group flex items-end gap-2 ${isMine ? 'justify-end' : 'justify-start'
+                                                    }`}
+                                            >
+                                                {/* Partner Avatar for incoming message */}
+                                                {!isMine && (
+                                                    <img
+                                                        src={
+                                                            m.sender?.profilePicture ||
+                                                            partnerUser.profilePicture ||
+                                                            `https://ui-avatars.com/api/?name=${encodeURIComponent(m.sender?.name || partnerUser.name || 'User')}&background=D97B4F&color=fff`
+                                                        }
+                                                        alt=""
+                                                        referrerPolicy="no-referrer"
+                                                        className="h-7 w-7 rounded-full object-cover shrink-0 mb-1 border border-gray-200 dark:border-[#1F232C]"
+                                                        onError={(e) => {
+                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(m.sender?.name || partnerUser.name || 'User')}&background=D97B4F&color=fff`;
+                                                        }}
+                                                    />
+                                                )}
+
+                                                <div className="relative max-w-[85%] sm:max-w-[70%]">
+                                                    {/* Message Bubble */}
+                                                    <div
+                                                        className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words shadow-xs ${isMine
+                                                            ? 'bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-medium rounded-br-xs'
+                                                            : 'bg-white dark:bg-[#141821] border border-gray-200/80 dark:border-[#1F232C] text-gray-900 dark:text-[#EDEBE6] rounded-bl-xs'
+                                                            }`}
+                                                    >
+                                                        <p>{m.text}</p>
+                                                        <div
+                                                            className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${isMine ? 'text-[#1A140D]/70' : 'text-gray-400 dark:text-gray-500'
+                                                                }`}
+                                                        >
+                                                            <span>
+                                                                {m.createdAt
+                                                                    ? formatDistanceToNow(new Date(m.createdAt), { addSuffix: true })
+                                                                    : 'Just now'}
+                                                            </span>
+                                                            {isMine && m.read && (
+                                                                <span className="font-semibold text-emerald-800 dark:text-emerald-400">
+                                                                    ✓✓ Read
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Delete single message option on hover */}
+                                                    <button
+                                                        onClick={() => setConfirmDeleteMsg(m._id)}
+                                                        className={`opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 ${isMine ? '-left-8' : '-right-8'
+                                                            } p-1 text-gray-400 hover:text-red-500`}
+                                                        title="Delete message"
+                                                    >
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+                                                            <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" strokeLinecap="round" strokeLinejoin="round" />
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             </div>
                                         );
@@ -306,16 +774,75 @@ export default function Messages() {
                                 <div ref={bottomRef} />
                             </div>
 
-                            <form onSubmit={handleSend} className="p-4 border-t">
-                                <div className="flex items-end gap-3">
-                                    <textarea value={text} onChange={(e) => setText(e.target.value)} rows={1} placeholder="Write a message" className="flex-1 resize-none rounded-lg border px-3 py-2" />
-                                    <button disabled={sending || !text.trim()} className="px-4 py-2 rounded bg-[#D97B4F] text-white">Send</button>
+                            {/* Typing Indicator Bar */}
+                            {isPartnerTyping && (
+                                <div className="px-6 py-1 text-xs text-[#D97B4F] dark:text-[#F5C36B] italic font-medium animate-pulse">
+                                    {partnerUser.name || 'User'} is typing...
+                                </div>
+                            )}
+
+                            {/* Message Input Form */}
+                            <form
+                                onSubmit={handleSend}
+                                className="p-3 sm:p-4 border-t border-gray-100 dark:border-[#1F232C] bg-white/50 dark:bg-[#0E1116]/50 backdrop-blur-md shrink-0"
+                            >
+                                <div className="flex items-end gap-2 sm:gap-3">
+                                    <textarea
+                                        value={text}
+                                        onChange={handleTextChange}
+                                        onKeyDown={handleKeyDown}
+                                        rows={1}
+                                        placeholder="Write a message... (Press Enter to send)"
+                                        className="flex-1 resize-none rounded-2xl border border-gray-200 dark:border-[#1F232C] bg-gray-50 dark:bg-[#141821] px-4 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all max-h-32"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={sending || !text.trim()}
+                                        className="px-5 py-3 rounded-2xl bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold text-sm hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shrink-0 flex items-center gap-1.5"
+                                    >
+                                        {sending ? (
+                                            '...'
+                                        ) : (
+                                            <>
+                                                <span>Send</span>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
                             </form>
                         </>
                     )}
                 </section>
             </div>
+
+            {/* Delete Conversation Confirmation Dialog */}
+            {confirmDeleteConv && (
+                <ConfirmDialog
+                    isOpen={Boolean(confirmDeleteConv)}
+                    title="Delete Conversation"
+                    message="Are you sure you want to delete this conversation? It will be removed from your chat inbox."
+                    confirmText="Delete"
+                    confirmVariant="danger"
+                    onConfirm={() => handleDeleteConversation(confirmDeleteConv)}
+                    onCancel={() => setConfirmDeleteConv(null)}
+                />
+            )}
+
+            {/* Delete Message Confirmation Dialog */}
+            {confirmDeleteMsg && (
+                <ConfirmDialog
+                    isOpen={Boolean(confirmDeleteMsg)}
+                    title="Delete Message"
+                    message="Are you sure you want to delete this message?"
+                    confirmText="Delete"
+                    confirmVariant="danger"
+                    onConfirm={() => handleDeleteMessage(confirmDeleteMsg)}
+                    onCancel={() => setConfirmDeleteMsg(null)}
+                />
+            )}
         </div>
     );
 }

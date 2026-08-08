@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: 'http://localhost:5173',
+        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
 });
@@ -29,9 +29,9 @@ app.use(morgan('dev'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
-    serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
+    serverSelectionTimeoutMS: 30000,
     socketTimeoutMS: 45000,
-})
+});
 
 // ===== ROUTES =====
 app.use('/api/auth', require('./routes/auth'));
@@ -58,28 +58,44 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('leave', (userId) => {
+        if (userId) {
+            socket.leave(`user_${userId}`);
+        }
+    });
+
     socket.on('join_conversation', (conversationId) => {
         if (conversationId) {
             socket.join(`conversation_${conversationId}`);
         }
     });
+
+    socket.on('leave_conversation', (conversationId) => {
+        if (conversationId) {
+            socket.leave(`conversation_${conversationId}`);
+        }
+    });
+
+    socket.on('typing', ({ conversationId, userId, username }) => {
+        if (conversationId) {
+            socket.to(`conversation_${conversationId}`).emit('typing', { conversationId, userId, username });
+        }
+    });
+
+    socket.on('stop_typing', ({ conversationId, userId }) => {
+        if (conversationId) {
+            socket.to(`conversation_${conversationId}`).emit('stop_typing', { conversationId, userId });
+        }
+    });
 });
 
 const START_PORT = parseInt(process.env.PORT, 10) || 5000;
-
-// Try to start the server, automatically retrying on the next port if the
-// current port is already in use. This helps avoid repeated EADDRINUSE crashes
-// during local development when ports are occupied.
 const MAX_PORT_ATTEMPTS = 10;
-
 const net = require('net');
 
 async function findFreePort(startPort, maxAttempts) {
     let port = startPort;
     for (let i = 0; i < maxAttempts; i += 1) {
-        // Try to bind a temporary server to check availability
-        // If it listens successfully, the port is free.
-        // Use a promise to wait for the result.
         const isFree = await new Promise((resolve) => {
             const tester = net.createServer()
                 .once('error', () => resolve(false))

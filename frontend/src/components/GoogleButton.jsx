@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, googleProvider, signInWithPopup } from '../firebase';
-import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
 
 const GoogleButton = ({ text = 'Continue with Google' }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { googleLogin } = useAuth();
     const navigate = useNavigate();
 
     const handleGoogleSignIn = async () => {
@@ -20,16 +21,14 @@ const GoogleButton = ({ text = 'Continue with Google' }) => {
             // Step 2: Get the ID token
             const idToken = await user.getIdToken();
 
-            // Step 3: Send token to backend
-            const response = await api.post('/auth/google', { idToken });
+            // Step 3: Authenticate with backend via AuthContext
+            const authResult = await googleLogin(idToken);
 
-            // Step 4: Save token and user to context
-            const { token, user: userData } = response.data;
-            localStorage.setItem('zephyra_token', token);
-
-            // Step 5: Navigate to feed and reload to update auth state
-            navigate('/feed');
-            window.location.reload();
+            if (authResult.success) {
+                navigate('/feed');
+            } else {
+                setError(authResult.message || 'Google sign-in failed.');
+            }
         } catch (err) {
             console.error('Google sign-in error:', err);
             setError(err.message || 'Google sign-in failed. Please try again.');
@@ -41,9 +40,10 @@ const GoogleButton = ({ text = 'Continue with Google' }) => {
     return (
         <div className="w-full">
             <button
+                type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
             >
                 <svg className="w-5 h-5" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -54,7 +54,7 @@ const GoogleButton = ({ text = 'Continue with Google' }) => {
                 {isLoading ? 'Signing in...' : text}
             </button>
             {error && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400 text-center">
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400 text-center font-[Manrope]">
                     {error}
                 </p>
             )}

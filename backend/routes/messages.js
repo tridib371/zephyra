@@ -6,17 +6,15 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-const buildConversationQuery = (userId, otherUserId) => ({
-    participants: { $all: [userId, otherUserId] },
-    $expr: { $eq: [{ $size: '$participants' }, 2] },
-});
-
 // @route   GET /api/messages/conversations
 // @desc    Get conversation list for current user
 // @access  Private
 router.get('/conversations', protect, async (req, res) => {
     try {
-        const conversations = await Conversation.find({ participants: req.user._id })
+        const conversations = await Conversation.find({
+            participants: req.user._id,
+            deletedBy: { $ne: req.user._id },
+        })
             .populate('participants', 'name username profilePicture')
             .populate({
                 path: 'lastMessage',
@@ -34,6 +32,7 @@ router.get('/conversations', protect, async (req, res) => {
                     conversation: { $in: conversationIds },
                     recipient: req.user._id,
                     read: false,
+                    deletedFor: { $ne: req.user._id },
                 },
             },
             {
@@ -61,7 +60,6 @@ router.get('/conversations', protect, async (req, res) => {
 // @route   POST /api/messages/conversations/user/:userId
 // @desc    Get or create a private conversation (by user id)
 // @access  Private
-// Note: separated path to avoid colliding with POST /conversations/:conversationId (send message)
 router.post('/conversations/user/:userId', protect, async (req, res) => {
     try {
         const { userId } = req.params;
@@ -75,7 +73,6 @@ router.post('/conversations/user/:userId', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        // Use a canonical threadKey to ensure exactly one conversation per unordered pair
         const ids = [req.user._id.toString(), userId.toString()].sort();
         const threadKey = `${ids[0]}_${ids[1]}`;
 
@@ -88,13 +85,27 @@ router.post('/conversations/user/:userId', protect, async (req, res) => {
                     threadKey,
                 });
             } catch (err) {
-                // If a race created the conversation concurrently, attempt to read it again
                 conversation = await Conversation.findOne({ threadKey });
             }
         }
 
+        // If user previously deleted this conversation, remove them from deletedBy
+        if (conversation.deletedBy && conversation.deletedBy.includes(req.user._id)) {
+            conversation.deletedBy = conversation.deletedBy.filter(
+                (id) => id.toString() !== req.user._id.toString()
+            );
+            await conversation.save();
+        }
+
         const populatedConversation = await Conversation.findById(conversation._id)
-            .populate('participants', 'name username profilePicture');
+            .populate('participants', 'name username profilePicture')
+            .populate({
+                path: 'lastMessage',
+                populate: [
+                    { path: 'sender', select: 'name username profilePicture' },
+                    { path: 'recipient', select: 'name username profilePicture' },
+                ],
+            });
 
         res.status(200).json({
             success: true,
@@ -121,7 +132,10 @@ router.get('/conversations/:conversationId', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Conversation not found' });
         }
 
-        const messages = await Message.find({ conversation: conversation._id })
+        const messages = await Message.find({
+            conversation: conversation._id,
+            deletedFor: { $ne: req.user._id },
+        })
             .populate('sender', 'name username profilePicture')
             .populate('recipient', 'name username profilePicture')
             .sort({ createdAt: 1 });
@@ -139,9 +153,6 @@ router.get('/conversations/:conversationId', protect, async (req, res) => {
 router.post('/conversations/:conversationId', protect, async (req, res) => {
     try {
         const { text } = req.body;
-        if (!text) {
-            console.warn('Send message received empty body for conversationId', req.params.conversationId, 'body:', req.body);
-        }
         if (!text || !text.trim()) {
             return res.status(400).json({ success: false, message: 'Message text is required' });
         }
@@ -155,7 +166,6 @@ router.post('/conversations/:conversationId', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Conversation not found' });
         }
 
-        // participants may be populated objects or ObjectId values
         const otherParticipant = conversation.participants.find((participant) => {
             const pid = participant && participant._id ? participant._id.toString() : participant.toString();
             return pid !== req.user._id.toString();
@@ -175,6 +185,8 @@ router.post('/conversations/:conversationId', protect, async (req, res) => {
             read: false,
         });
 
+        // Clear deletedBy if recipient had previously deleted conversation
+        conversation.deletedBy = [];
         conversation.lastMessage = message._id;
         conversation.lastMessageAt = new Date();
         await conversation.save();
@@ -185,8 +197,9 @@ router.post('/conversations/:conversationId', protect, async (req, res) => {
 
         const io = req.app.get('io');
         if (io) {
-            io.to(`user_${req.user._id}`).emit('message:new', { message: populatedMessage, conversationId: conversation._id });
-            io.to(`user_${recipientId}`).emit('message:new', { message: populatedMessage, conversationId: conversation._id });
+            const payload = { message: populatedMessage, conversationId: conversation._id };
+            io.to(`user_${recipientId}`).emit('message:new', payload);
+            io.to(`conversation_${conversation._id}`).emit('message:new', payload);
         }
 
         res.status(201).json({ success: true, message: populatedMessage });
@@ -221,9 +234,90 @@ router.put('/conversations/:conversationId/read', protect, async (req, res) => {
             }
         );
 
+        const io = req.app.get('io');
+        if (io) {
+            io.to(`conversation_${conversation._id}`).emit('message:read', {
+                conversationId: conversation._id,
+                readBy: req.user._id,
+            });
+        }
+
         res.status(200).json({ success: true, message: 'Messages marked as read' });
     } catch (error) {
         console.error('Mark messages read error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// @route   DELETE /api/messages/conversations/:conversationId
+// @desc    Delete/clear a conversation for current user
+// @access  Private
+router.delete('/conversations/:conversationId', protect, async (req, res) => {
+    try {
+        const conversation = await Conversation.findOne({
+            _id: req.params.conversationId,
+            participants: req.user._id,
+        });
+
+        if (!conversation) {
+            return res.status(404).json({ success: false, message: 'Conversation not found' });
+        }
+
+        // Add user to deletedBy array in conversation
+        if (!conversation.deletedBy.includes(req.user._id)) {
+            conversation.deletedBy.push(req.user._id);
+            await conversation.save();
+        }
+
+        // Add user to deletedFor in all messages of this conversation
+        await Message.updateMany(
+            { conversation: conversation._id },
+            { $addToSet: { deletedFor: req.user._id } }
+        );
+
+        res.status(200).json({ success: true, message: 'Conversation deleted successfully' });
+    } catch (error) {
+        console.error('Delete conversation error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// @route   DELETE /api/messages/:messageId
+// @desc    Delete a message for current user
+// @access  Private
+router.delete('/:messageId', protect, async (req, res) => {
+    try {
+        const message = await Message.findById(req.params.messageId);
+
+        if (!message) {
+            return res.status(404).json({ success: false, message: 'Message not found' });
+        }
+
+        const isParticipant =
+            message.sender.toString() === req.user._id.toString() ||
+            message.recipient.toString() === req.user._id.toString();
+
+        if (!isParticipant) {
+            return res.status(403).json({ success: false, message: 'Not authorized' });
+        }
+
+        if (!message.deletedFor.includes(req.user._id)) {
+            message.deletedFor.push(req.user._id);
+            await message.save();
+        }
+
+        const io = req.app.get('io');
+        if (io) {
+            io.to(`conversation_${message.conversation}`).emit('message:deleted', {
+                messageId: message._id,
+                conversationId: message.conversation,
+                deletedBy: req.user._id,
+            });
+        }
+
+        res.status(200).json({ success: true, message: 'Message deleted' });
+    } catch (error) {
+        console.error('Delete message error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });

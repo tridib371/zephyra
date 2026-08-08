@@ -9,6 +9,7 @@ export const NotificationProvider = ({ children }) => {
     const { user, loading: authLoading } = useAuth();
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
+    const [unreadMessageCount, setUnreadMessageCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -16,6 +17,7 @@ export const NotificationProvider = ({ children }) => {
         if (!user) {
             setNotifications([]);
             setUnreadCount(0);
+            setUnreadMessageCount(0);
             setLoading(false);
             return;
         }
@@ -34,15 +36,28 @@ export const NotificationProvider = ({ children }) => {
         }
     };
 
+    const fetchUnreadMessageCount = async () => {
+        if (!user) return;
+        try {
+            const res = await api.get('/messages/conversations');
+            const convs = res.data.conversations || [];
+            const totalUnread = convs.reduce((sum, c) => sum + (c.unreadCount || 0), 0);
+            setUnreadMessageCount(totalUnread);
+        } catch (err) {
+            console.error('❌ Error fetching unread message count:', err);
+        }
+    };
+
     useEffect(() => {
         if (authLoading) return;
         fetchNotifications();
+        fetchUnreadMessageCount();
     }, [authLoading, user?._id]);
 
     useEffect(() => {
         if (!user) return undefined;
 
-        const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5007';
+        const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         const socket = io(SOCKET_URL, {
             transports: ['websocket'],
         });
@@ -62,25 +77,10 @@ export const NotificationProvider = ({ children }) => {
             }
         });
 
-        // Also listen for incoming messages so logged-in users can be notified
-        socket.on('message:new', ({ message, conversationId }) => {
-            // Create a lightweight notification for the incoming message
-            const notif = {
-                _id: message._id + '_msg',
-                recipient: user._id,
-                sender: message.sender || {},
-                type: 'message',
-                read: false,
-                createdAt: message.createdAt,
-                text: message.text,
-                conversationId,
-            };
-
-            setNotifications(prev => {
-                const exists = prev.some(item => item._id === notif._id);
-                return exists ? prev : [notif, ...prev];
-            });
-            setUnreadCount(prev => prev + 1);
+        socket.on('message:new', ({ message }) => {
+            if (message.sender?._id !== user._id) {
+                setUnreadMessageCount(prev => prev + 1);
+            }
         });
 
         return () => socket.disconnect();
@@ -154,9 +154,12 @@ export const NotificationProvider = ({ children }) => {
     const value = {
         notifications,
         unreadCount,
+        unreadMessageCount,
+        setUnreadMessageCount,
         loading,
         error,
         fetchNotifications,
+        fetchUnreadMessageCount,
         markAsRead,
         markAllAsRead,
         deleteNotification,
