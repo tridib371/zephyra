@@ -263,17 +263,25 @@ export default function Messages() {
                     return [...prevMsgs, message];
                 });
 
-                // Automatically mark as read if active
-                if (message.sender?._id !== user._id) {
+                // Automatically mark as read ONLY IF I am the recipient (NOT the sender)
+                const myId = String(user?._id || user?.id || '');
+                const senderId = String(message.sender?._id || message.sender?.id || message.sender || '');
+                if (senderId && myId && senderId !== myId) {
                     api.put(`/messages/conversations/${conversationId}/read`).catch(() => { });
                 }
             }
         });
 
-        socket.on('message:read', ({ conversationId }) => {
+        socket.on('message:read', ({ conversationId, readBy }) => {
             if (activeConversationRef.current === conversationId) {
                 setMessages((prevMsgs) =>
-                    prevMsgs.map((m) => ({ ...m, read: true }))
+                    prevMsgs.map((m) => {
+                        const msgSenderId = String(m.sender?._id || m.sender?.id || m.sender || '');
+                        if (!readBy || String(readBy) !== msgSenderId) {
+                            return { ...m, read: true };
+                        }
+                        return m;
+                    })
                 );
             }
         });
@@ -776,10 +784,16 @@ export default function Messages() {
                                                                     ? formatDistanceToNow(new Date(m.createdAt), { addSuffix: true })
                                                                     : 'Just now'}
                                                             </span>
-                                                            {isMine && m.read && (
-                                                                <span className="font-semibold text-emerald-800 dark:text-emerald-400">
-                                                                    ✓✓ Read
-                                                                </span>
+                                                            {isMine && (
+                                                                m.read ? (
+                                                                    <span className="font-semibold text-emerald-800 dark:text-emerald-400 ml-1">
+                                                                        ✓✓ Seen
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-[#1A140D]/50 dark:text-white/50 ml-1 font-medium">
+                                                                        ✓ Sent
+                                                                    </span>
+                                                                )
                                                             )}
                                                         </div>
                                                     </div>
