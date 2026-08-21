@@ -51,10 +51,10 @@ const FOOTER_LINKS = {
         { label: 'Explore', to: '/explore' },
         { label: 'Create a post', to: '/create' },
     ],
-    Company: [
+    Platform: [
         { label: 'About', to: '/about' },
-        { label: 'Careers', to: '/careers' },
-        { label: 'Press', to: '/press' },
+        { label: 'Features', to: '/features' },
+        { label: 'Changelog', to: '/changelog' },
     ],
     Legal: [
         { label: 'Privacy', to: '/privacy' },

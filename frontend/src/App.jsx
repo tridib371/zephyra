@@ -16,8 +16,8 @@ import PostDetail from './pages/PostDetail';
 import Notifications from './pages/Notifications';
 import Admin from './pages/Admin';
 import About from './pages/About';
-import Careers from './pages/Careers';
-import Press from './pages/Press';
+import Features from './pages/Features';
+import Changelog from './pages/Changelog';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
@@ -46,8 +46,8 @@ function AppShell() {
 
             {/* Public Info & Legal Pages */}
             <Route path="/about" element={<About />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/press" element={<Press />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/changelog" element={<Changelog />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/cookies" element={<Cookies />} />
