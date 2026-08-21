@@ -116,15 +116,21 @@ export default function Admin() {
         showToast('Admin session locked successfully');
     };
 
+    const getAdminHeaders = () => {
+        const token = localStorage.getItem('zephyra_admin_token') || localStorage.getItem('zephyra_token');
+        return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+    };
+
     // 1. Fetch Stats
     const fetchStats = useCallback(async () => {
         if (!isAdminAuthenticated) return;
         try {
             setStatsLoading(true);
-            const res = await api.get('/admin/stats');
+            const res = await api.get('/admin/stats', getAdminHeaders());
             setStats(res.data.stats);
         } catch (err) {
             console.error('Error fetching admin stats:', err);
+            showToast('Failed to load stats');
         } finally {
             setStatsLoading(false);
         }
@@ -142,12 +148,13 @@ export default function Admin() {
                 ...(userRoleFilter && { role: userRoleFilter }),
                 ...(userStatusFilter && { status: userStatusFilter }),
             });
-            const res = await api.get(`/admin/users?${params.toString()}`);
+            const res = await api.get(`/admin/users?${params.toString()}`, getAdminHeaders());
             setUsers(res.data.users || []);
             setUsersTotalPages(res.data.pages || 1);
             setUsersTotal(res.data.total || 0);
         } catch (err) {
             console.error('Error fetching users:', err);
+            showToast('Failed to load users');
         } finally {
             setUsersLoading(false);
         }
@@ -163,12 +170,13 @@ export default function Admin() {
                 limit: 9,
                 ...(postSearch && { q: postSearch }),
             });
-            const res = await api.get(`/admin/posts?${params.toString()}`);
+            const res = await api.get(`/admin/posts?${params.toString()}`, getAdminHeaders());
             setPosts(res.data.posts || []);
             setPostsTotalPages(res.data.pages || 1);
             setPostsTotal(res.data.total || 0);
         } catch (err) {
             console.error('Error fetching posts:', err);
+            showToast('Failed to load posts');
         } finally {
             setPostsLoading(false);
         }
@@ -186,7 +194,7 @@ export default function Admin() {
     // Role update
     const handleRoleChange = async (targetUser, newRole) => {
         try {
-            const res = await api.put(`/admin/users/${targetUser._id}/role`, { role: newRole });
+            const res = await api.put(`/admin/users/${targetUser._id}/role`, { role: newRole }, getAdminHeaders());
             showToast(res.data.message || 'User role updated');
             setUsers((prev) =>
                 prev.map((u) => (u._id === targetUser._id ? { ...u, role: newRole } : u))
@@ -209,7 +217,7 @@ export default function Admin() {
             const res = await api.put(`/admin/users/${banModalUser._id}/ban`, {
                 isBanned: shouldBan,
                 reason: banReason.trim(),
-            });
+            }, getAdminHeaders());
             showToast(res.data.message || 'User ban status updated');
             setUsers((prev) =>
                 prev.map((u) =>
@@ -230,7 +238,7 @@ export default function Admin() {
     // Delete User
     const handleDeleteUser = async (userId) => {
         try {
-            const res = await api.delete(`/admin/users/${userId}`);
+            const res = await api.delete(`/admin/users/${userId}`, getAdminHeaders());
             showToast(res.data.message || 'User deleted successfully');
             setUsers((prev) => prev.filter((u) => u._id !== userId));
             setDeleteUserConfirm(null);
@@ -243,7 +251,7 @@ export default function Admin() {
     // Delete Post
     const handleDeletePost = async (postId) => {
         try {
-            const res = await api.delete(`/admin/posts/${postId}`);
+            const res = await api.delete(`/admin/posts/${postId}`, getAdminHeaders());
             showToast(res.data.message || 'Post deleted by administrator');
             setPosts((prev) => prev.filter((p) => p._id !== postId));
             setDeletePostConfirm(null);
@@ -265,7 +273,7 @@ export default function Admin() {
             const res = await api.post('/admin/announcements', {
                 title: announcementTitle.trim(),
                 message: announcementMessage.trim(),
-            });
+            }, getAdminHeaders());
             setAnnouncementSuccess(res.data.message || 'Announcement broadcasted successfully!');
             setAnnouncementTitle('');
             setAnnouncementMessage('');

