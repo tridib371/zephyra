@@ -7,7 +7,37 @@ import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import ConfirmDialog from '../components/ConfirmDialog';
 
-const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Robust helper to extract the conversation partner (the other person, never the current user)
+const getPartner = (conv, currentUser) => {
+    if (!conv) return {};
+    const myId = String(currentUser?._id || currentUser?.id || '');
+
+    // 1. Check participants array
+    if (Array.isArray(conv.participants) && conv.participants.length > 0) {
+        const other = conv.participants.find((p) => {
+            const pid = typeof p === 'object' && p !== null 
+                ? String(p._id || p.id || '') 
+                : String(p || '');
+            return pid && myId && pid !== myId;
+        });
+        if (other && typeof other === 'object') return other;
+    }
+
+    // 2. Check otherUser returned by backend
+    if (conv.otherUser && typeof conv.otherUser === 'object') {
+        return conv.otherUser;
+    }
+
+    // 3. Check lastMessage sender or recipient
+    if (conv.lastMessage && typeof conv.lastMessage === 'object') {
+        const s = conv.lastMessage.sender;
+        const r = conv.lastMessage.recipient;
+        if (s && typeof s === 'object' && String(s._id || s.id || '') !== myId) return s;
+        if (r && typeof r === 'object' && String(r._id || r.id || '') !== myId) return r;
+    }
+
+    return {};
+};
 
 export default function Messages() {
     const { user } = useAuth();
@@ -190,6 +220,9 @@ export default function Messages() {
         socket.emit('join', user._id);
 
         socket.on('message:new', ({ message, conversationId }) => {
+            const myId = String(user?._id || user?.id || '');
+            const isSender = String(message.sender?._id || message.sender?.id || message.sender) === myId;
+
             // Update conversations list (last message & unread badge)
             setConversations((prev) => {
                 const exists = prev.some((c) => c._id === conversationId);
@@ -197,7 +230,6 @@ export default function Messages() {
                     return prev.map((c) => {
                         if (c._id === conversationId) {
                             const isCurrentActive = activeConversationRef.current === conversationId;
-                            const isSender = message.sender?._id === user._id;
                             return {
                                 ...c,
                                 lastMessage: message,
@@ -215,7 +247,7 @@ export default function Messages() {
                             participants: [message.sender, message.recipient],
                             lastMessage: message,
                             lastMessageAt: new Date(),
-                            unreadCount: message.sender?._id === user._id ? 0 : 1,
+                            unreadCount: isSender ? 0 : 1,
                         },
                         ...prev,
                     ];
@@ -421,9 +453,7 @@ export default function Messages() {
     };
 
     // Get partner user object for active conversation
-    const partnerUser = activeConversation
-        ? (activeConversation.participants || []).find((p) => p._id !== user?._id) || {}
-        : {};
+    const partnerUser = getPartner(activeConversation, user);
 
     return (
         <div className="min-h-[calc(100dvh-4rem)] bg-[#FAF7F2] dark:bg-[#0B0D10] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 px-3 sm:px-6 py-4 sm:py-6">
@@ -546,10 +576,11 @@ export default function Messages() {
                             </div>
                         ) : (
                             conversations.map((c) => {
-                                const partner =
-                                    (c.participants || []).find((p) => p._id !== user?._id) || {};
+                                const partner = getPartner(c, user);
                                 const isActive = activeConversation?._id === c._id;
                                 const unread = c.unreadCount > 0;
+                                const partnerName = partner?.name || 'Chat Partner';
+                                const partnerAvatar = partner?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(partnerName)}&background=D97B4F&color=fff`;
 
                                 return (
                                     <div
@@ -562,15 +593,12 @@ export default function Messages() {
                                     >
                                         <div className="relative shrink-0">
                                             <img
-                                                src={
-                                                    partner.profilePicture ||
-                                                    `https://ui-avatars.com/api/?name=${encodeURIComponent(partner.name || 'User')}&background=D97B4F&color=fff`
-                                                }
-                                                alt={partner.name || 'User'}
+                                                src={partnerAvatar}
+                                                alt={partnerName}
                                                 referrerPolicy="no-referrer"
                                                 className="h-11 w-11 rounded-2xl object-cover border border-gray-200 dark:border-[#1F232C]"
                                                 onError={(e) => {
-                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partner.name || 'User')}&background=D97B4F&color=fff`;
+                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partnerName)}&background=D97B4F&color=fff`;
                                                 }}
                                             />
                                         </div>
@@ -578,7 +606,7 @@ export default function Messages() {
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-center justify-between gap-1 mb-0.5">
                                                 <h4 className={`truncate text-sm ${unread ? 'font-bold text-gray-900 dark:text-white' : 'font-semibold text-gray-800 dark:text-[#E7E6E3]'}`}>
-                                                    {partner.name || 'Unknown User'}
+                                                    {partnerName}
                                                 </h4>
                                                 {c.lastMessageAt && (
                                                     <span className="text-[10px] text-gray-400 dark:text-gray-500 shrink-0">
@@ -704,7 +732,8 @@ export default function Messages() {
                                     </div>
                                 ) : (
                                     messages.map((m) => {
-                                        const isMine = m.sender?._id === user?._id || m.sender === user?._id;
+                                        const myId = String(user?._id || user?.id || '');
+                                        const isMine = String(m.sender?._id || m.sender?.id || m.sender || '') === myId;
 
                                         return (
                                             <div

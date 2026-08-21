@@ -56,6 +56,7 @@ router.post('/register', async (req, res) => {
             success: true,
             token,
             user: {
+                _id: user._id,
                 id: user._id,
                 name: user.name,
                 username: user.username,
@@ -117,6 +118,7 @@ router.post('/login', async (req, res) => {
             success: true,
             token,
             user: {
+                _id: user._id,
                 id: user._id,
                 name: user.name,
                 username: user.username,
@@ -223,6 +225,7 @@ router.post('/google', async (req, res) => {
             success: true,
             token,
             user: {
+                _id: user._id,
                 id: user._id,
                 name: user.name,
                 username: user.username,

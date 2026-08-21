@@ -126,7 +126,15 @@ router.get('/conversations/:conversationId', protect, async (req, res) => {
         const conversation = await Conversation.findOne({
             _id: req.params.conversationId,
             participants: req.user._id,
-        });
+        })
+            .populate('participants', 'name username profilePicture')
+            .populate({
+                path: 'lastMessage',
+                populate: [
+                    { path: 'sender', select: 'name username profilePicture' },
+                    { path: 'recipient', select: 'name username profilePicture' },
+                ],
+            });
 
         if (!conversation) {
             return res.status(404).json({ success: false, message: 'Conversation not found' });
