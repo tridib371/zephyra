@@ -19,12 +19,12 @@ async function seed() {
         // First reset ALL users to regular 'user' role
         await User.updateMany({}, { $set: { role: 'user', isBanned: false } });
 
-        // Set ONLY the primary owner account to 'admin' and set fixed password
-        await User.updateMany(
-            { username: { $in: ['tridibsarkar813', 'tridibsarkar0', 'sarkartridib813'] } },
+        // Set ONLY the single primary admin account (tridibsarkar813 / sarkartridib813) to 'admin'
+        await User.updateOne(
+            { $or: [{ username: 'tridibsarkar813' }, { email: 'tridibsarkar813@gmail.com' }, { username: 'sarkartridib813' }] },
             { $set: { role: 'admin', password: hashedPassword } }
         );
-        console.log('✅ Updated admin password and set ONLY Tridib Sarkar to ADMIN!');
+        console.log('✅ Strictly set ONLY 1 single admin in database!');
 
         await mongoose.disconnect();
         console.log('Done.');
