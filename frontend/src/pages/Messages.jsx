@@ -799,7 +799,7 @@ export default function Messages() {
                                                     >
                                                         <p>{m.text}</p>
                                                         <div
-                                                            className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${isMine ? 'text-[#1A140D]/70' : 'text-gray-400 dark:text-gray-500'
+                                                            className={`mt-1 flex items-center justify-end gap-1.5 text-[10px] ${isMine ? 'text-[#3D1E0C]/85 font-medium' : 'text-gray-400 dark:text-gray-500'
                                                                 }`}
                                                         >
                                                             <span>
@@ -809,12 +809,12 @@ export default function Messages() {
                                                             </span>
                                                             {isMine && (
                                                                 m.read ? (
-                                                                    <span className="font-semibold text-emerald-800 dark:text-emerald-400 ml-1">
-                                                                        ✓✓ Seen
+                                                                    <span className="font-extrabold text-[#064E3B] tracking-wide inline-flex items-center gap-0.5">
+                                                                        <span className="text-[11px]">✓✓</span> Seen
                                                                     </span>
                                                                 ) : (
-                                                                    <span className="text-[#1A140D]/50 dark:text-white/50 ml-1 font-medium">
-                                                                        ✓ Sent
+                                                                    <span className="font-bold text-[#4A2008] tracking-wide inline-flex items-center gap-0.5">
+                                                                        <span className="text-[11px]">✓</span> Sent
                                                                     </span>
                                                                 )
                                                             )}
