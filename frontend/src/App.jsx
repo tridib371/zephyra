@@ -55,14 +55,14 @@ function AppShell() {
             <Route path="/help" element={<Support />} />
             <Route path="/guidelines" element={<Guidelines />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/explore" element={<Discover />} />
-            <Route path="/discover" element={<Discover />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/feed" element={<Feed />} />
               <Route path="/create" element={<CreatePost />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/discover" element={<Discover />} />
+              <Route path="/explore" element={<Discover />} />
               <Route path="/search" element={<Search />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/settings" element={<Settings />} />
