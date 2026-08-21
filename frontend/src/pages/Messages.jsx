@@ -476,14 +476,22 @@ export default function Messages() {
     // Get partner user object for active conversation
     const partnerUser = getPartner(activeConversation, user);
 
+    if (!user) {
+        return (
+            <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[#FAF7F2] dark:bg-[#0E1116]">
+                <div className="animate-spin rounded-full h-10 w-10 border-2 border-[#D97B4F] border-t-transparent"></div>
+            </div>
+        );
+    }
+
     return (
-        <div className="min-h-[calc(100dvh-4rem)] bg-[#FAF7F2] dark:bg-[#0B0D10] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 px-3 sm:px-6 py-4 sm:py-6">
-            <div className="mx-auto grid h-[calc(100dvh-6rem)] max-w-7xl gap-4 lg:gap-6 lg:grid-cols-12 overflow-hidden">
+        <div className="h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 px-2.5 sm:px-6 py-2 sm:py-4 flex flex-col">
+            <div className="mx-auto grid flex-1 min-h-0 w-full max-w-7xl gap-3 sm:gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-12 overflow-hidden">
 
                 {/* ===== SIDEBAR: Conversation List & User Search ===== */}
                 <aside
                     className={`${activeConversation ? 'hidden lg:flex' : 'flex'
-                        } lg:col-span-4 xl:col-span-3 flex-col rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/80 dark:bg-[#0E1116]/80 backdrop-blur-xl shadow-xs overflow-hidden h-full min-h-0`}
+                        } lg:col-span-4 xl:col-span-3 flex-col rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-md overflow-hidden h-full min-h-0`}
                 >
                     {/* Header */}
                     <div className="px-5 py-4 border-b border-gray-100 dark:border-[#1F232C] flex items-center justify-between shrink-0">
@@ -657,7 +665,7 @@ export default function Messages() {
                 {/* ===== MAIN CHAT PANEL ===== */}
                 <section
                     className={`${!activeConversation ? 'hidden lg:flex' : 'flex'
-                        } lg:col-span-8 xl:col-span-9 flex-col rounded-3xl border border-gray-200/70 dark:border-[#1F232C] bg-white/80 dark:bg-[#0E1116]/80 backdrop-blur-xl shadow-xs overflow-hidden h-full min-h-0`}
+                        } lg:col-span-8 xl:col-span-9 flex-col rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-md overflow-hidden h-full min-h-0`}
                 >
                     {!activeConversation ? (
                         /* Empty Chat Selection Screen */
