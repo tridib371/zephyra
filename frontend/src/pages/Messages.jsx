@@ -7,6 +7,18 @@ import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import ConfirmDialog from '../components/ConfirmDialog';
 
+// Robust helper to format dates without crashing on invalid/null dates
+const safeFormatDistance = (dateValue, options = {}) => {
+    try {
+        if (!dateValue) return '';
+        const d = new Date(dateValue);
+        if (isNaN(d.getTime())) return '';
+        return formatDistanceToNow(d, options);
+    } catch {
+        return '';
+    }
+};
+
 // Robust helper to extract the conversation partner (the other person, never the current user)
 const getPartner = (conv, currentUser) => {
     if (!conv) return {};
@@ -106,7 +118,8 @@ export default function Messages() {
 
     // 2. Open a conversation by object or ID cleanly
     const selectConversation = async (conv, { replaceUrl = false } = {}) => {
-        if (!conv) return;
+        if (!conv || !conv._id) return;
+        processedConversationIdRef.current = conv._id;
 
         const prevId = activeConversationRef.current;
         if (socketRef.current && prevId && prevId !== conv._id) {
@@ -144,11 +157,9 @@ export default function Messages() {
 
             if (fetchUnreadMessageCount) fetchUnreadMessageCount();
 
-            // Update URL without triggering infinite effect loops
-            if (replaceUrl) {
+            // Update URL only if changed to avoid effect cycles
+            if (searchParams.get('conversationId') !== conv._id) {
                 setSearchParams({ conversationId: conv._id }, { replace: true });
-            } else {
-                setSearchParams({ conversationId: conv._id });
             }
 
             setTimeout(() => scrollToBottom(), 50);
@@ -161,7 +172,7 @@ export default function Messages() {
 
     // 3. Start or retrieve conversation with a given userId
     const startConversationWithUser = async (targetUserId) => {
-        if (!targetUserId || targetUserId === user?._id) return;
+        if (!targetUserId || targetUserId === (user?._id || user?.id)) return;
         try {
             setMessagesLoading(true);
             const res = await api.post(`/messages/conversations/user/${targetUserId}`);
@@ -187,16 +198,14 @@ export default function Messages() {
         if (conversationIdParam) {
             if (processedConversationIdRef.current !== conversationIdParam) {
                 processedConversationIdRef.current = conversationIdParam;
-                // If conversations are loaded, select target
                 const target = conversations.find((c) => c._id === conversationIdParam);
                 if (target) {
-                    selectConversation(target);
+                    selectConversation(target, { replaceUrl: true });
                 } else if (!conversationsLoading) {
-                    // Fetch directly if not in list
                     api.get(`/messages/conversations/${conversationIdParam}`)
                         .then((res) => {
                             if (res.data.conversation) {
-                                selectConversation(res.data.conversation);
+                                selectConversation(res.data.conversation, { replaceUrl: true });
                             }
                         })
                         .catch(() => { });
@@ -212,12 +221,13 @@ export default function Messages() {
 
     // 5. Setup Socket.IO connection & listeners
     useEffect(() => {
-        if (!user) return;
+        const myId = user?._id || user?.id;
+        if (!myId) return;
 
         const socket = io(SOCKET_URL, { transports: ['websocket'] });
         socketRef.current = socket;
 
-        socket.emit('join', user._id);
+        socket.emit('join', myId);
 
         socket.on('message:new', ({ message, conversationId }) => {
             const myId = String(user?._id || user?.id || '');
@@ -451,13 +461,16 @@ export default function Messages() {
         }
     };
 
-    // Back button for mobile view
+    // Back button on mobile
     const handleBackToList = () => {
-        setActiveConversation(null);
-        setMessages([]);
-        setSearchParams({});
         processedConversationIdRef.current = null;
         processedUserIdRef.current = null;
+        if (socketRef.current && activeConversationRef.current) {
+            socketRef.current.emit('leave_conversation', activeConversationRef.current);
+        }
+        setActiveConversation(null);
+        setMessages([]);
+        setSearchParams({}, { replace: true });
     };
 
     // Get partner user object for active conversation
@@ -616,9 +629,9 @@ export default function Messages() {
                                                 <h4 className={`truncate text-sm ${unread ? 'font-bold text-gray-900 dark:text-white' : 'font-semibold text-gray-800 dark:text-[#E7E6E3]'}`}>
                                                     {partnerName}
                                                 </h4>
-                                                {c.lastMessageAt && (
+                                                {c.lastMessageAt && safeFormatDistance(c.lastMessageAt) && (
                                                     <span className="text-[10px] text-gray-400 dark:text-gray-500 shrink-0">
-                                                        {formatDistanceToNow(new Date(c.lastMessageAt), { addSuffix: false })}
+                                                        {safeFormatDistance(c.lastMessageAt, { addSuffix: false })}
                                                     </span>
                                                 )}
                                             </div>
@@ -780,8 +793,8 @@ export default function Messages() {
                                                                 }`}
                                                         >
                                                             <span>
-                                                                {m.createdAt
-                                                                    ? formatDistanceToNow(new Date(m.createdAt), { addSuffix: true })
+                                                                {m.createdAt && safeFormatDistance(m.createdAt)
+                                                                    ? safeFormatDistance(m.createdAt, { addSuffix: true })
                                                                     : 'Just now'}
                                                             </span>
                                                             {isMine && (
