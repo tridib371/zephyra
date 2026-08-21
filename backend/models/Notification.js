@@ -16,9 +16,19 @@ const NotificationSchema = new mongoose.Schema(
         },
         type: {
             type: String,
-            enum: ['like', 'comment', 'follow'],
+            enum: ['like', 'comment', 'follow', 'announcement'],
             required: true,
             index: true,
+        },
+        title: {
+            type: String,
+            default: '',
+            trim: true,
+        },
+        message: {
+            type: String,
+            default: '',
+            trim: true,
         },
         post: {
             type: mongoose.Schema.Types.ObjectId,

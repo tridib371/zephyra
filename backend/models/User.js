@@ -103,6 +103,22 @@ const UserSchema = new mongoose.Schema(
                 ref: 'Post',
             },
         ],
+        role: {
+            type: String,
+            enum: ['user', 'moderator', 'admin'],
+            default: 'user',
+        },
+        isBanned: {
+            type: Boolean,
+            default: false,
+        },
+        bannedReason: {
+            type: String,
+            default: '',
+        },
+        bannedAt: {
+            type: Date,
+        },
     },
     {
         timestamps: true,

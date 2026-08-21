@@ -14,7 +14,9 @@ import Messages from './pages/Messages';
 import Settings from './pages/Settings';
 import PostDetail from './pages/PostDetail';
 import Notifications from './pages/Notifications';
+import Admin from './pages/Admin';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import { NotificationProvider } from './context/NotificationContext';
 
 import ErrorBoundary from './components/ErrorBoundary';
@@ -44,6 +46,11 @@ function AppShell() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/notifications" element={<Notifications />} />
+            </Route>
+
+            {/* Admin / Moderator Protected Route */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<Admin />} />
             </Route>
           </Routes>
         </ErrorBoundary>

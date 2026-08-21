@@ -27,6 +27,17 @@ const protect = async (req, res, next) => {
                 });
             }
 
+            // Check if account is banned/suspended
+            if (req.user.isBanned) {
+                return res.status(403).json({
+                    success: false,
+                    isBanned: true,
+                    message: req.user.bannedReason
+                        ? `Your account has been suspended: ${req.user.bannedReason}`
+                        : 'Your account has been suspended by an administrator.',
+                });
+            }
+
             next(); // Proceed to the next middleware/route
         } catch (error) {
             console.error('Auth middleware error:', error);
@@ -45,4 +56,26 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+// Middleware to require Admin role
+const requireAdmin = (req, res, next) => {
+    if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Administrator privileges required.',
+        });
+    }
+    next();
+};
+
+// Middleware to require Moderator or Admin role
+const requireModeratorOrAdmin = (req, res, next) => {
+    if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'moderator')) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Moderator or Administrator privileges required.',
+        });
+    }
+    next();
+};
+
+module.exports = { protect, requireAdmin, requireModeratorOrAdmin };

@@ -18,6 +18,12 @@ export const getNotificationMeta = (notification) => {
                 icon: '💬',
                 accent: 'from-amber-500/10 to-orange-500/10 text-amber-700 dark:text-amber-300',
             };
+        case 'announcement':
+            return {
+                label: 'Announcement',
+                icon: '📢',
+                accent: 'from-[#FF8F6B]/20 to-[#F5C36B]/20 text-[#D97B4F] dark:text-[#F5C36B]',
+            };
         default:
             return {
                 label: 'Update',
@@ -31,6 +37,8 @@ export const getNotificationMessage = (notification) => {
     const senderName = notification.sender?.name || 'Someone';
 
     switch (notification.type) {
+        case 'announcement':
+            return notification.title || 'Official Platform Announcement';
         case 'follow':
             return `${senderName} started following you`;
         case 'like':
@@ -43,6 +51,10 @@ export const getNotificationMessage = (notification) => {
 };
 
 export const getNotificationDetail = (notification) => {
+    if (notification.type === 'announcement') {
+        return notification.message || '';
+    }
+
     if (notification.type === 'comment' && notification.commentText) {
         return notification.commentText;
     }

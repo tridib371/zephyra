@@ -212,6 +212,12 @@ const Navbar = () => {
                                     <SearchIcon />
                                 </Link>
 
+                                {(user?.role === 'admin' || user?.role === 'moderator') && (
+                                    <Link to="/admin" className={navLinkClasses('/admin')}>
+                                        ⚡ Admin
+                                    </Link>
+                                )}
+
                                 {/* New Post Pulsing CTA */}
                                 <Link
                                     to="/create"
@@ -389,6 +395,15 @@ const Navbar = () => {
                                                 >
                                                     <GearIcon /> Settings
                                                 </Link>
+                                                {(user?.role === 'admin' || user?.role === 'moderator') && (
+                                                    <Link
+                                                        to="/admin"
+                                                        onClick={() => setIsProfileMenuOpen(false)}
+                                                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#D97B4F] dark:text-[#F5C36B] hover:bg-[#FFF5EF] dark:hover:bg-[#1A1E27] transition-colors"
+                                                    >
+                                                        ⚡ Admin Panel
+                                                    </Link>
+                                                )}
                                             </div>
 
                                             <div className="border-t border-gray-100 dark:border-[#1F232C] pt-1 mt-1">
@@ -482,6 +497,11 @@ const Navbar = () => {
                                 <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
                                     <GearIcon /> Settings
                                 </Link>
+                                {(user?.role === 'admin' || user?.role === 'moderator') && (
+                                    <Link to="/admin" className={navLinkClasses('/admin')} onClick={() => setIsMobileMenuOpen(false)}>
+                                        ⚡ Admin Panel
+                                    </Link>
+                                )}
                                 <hr className="my-2 border-gray-200 dark:border-[#1F232C]" />
                                 <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
                                     <LogoutIcon /> Logout
