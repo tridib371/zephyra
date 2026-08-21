@@ -86,6 +86,7 @@ export default function Messages() {
     // Refs to prevent state update loops and duplicate socket setups
     const socketRef = useRef(null);
     const bottomRef = useRef(null);
+    const textareaRef = useRef(null);
     const activeConversationRef = useRef(null);
     const processedUserIdRef = useRef(null);
     const processedConversationIdRef = useRef(null);
@@ -359,14 +360,22 @@ export default function Messages() {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Handle typing events
+    // Handle typing events and dynamic textarea height
     const handleTextChange = (e) => {
-        setText(e.target.value);
+        const val = e.target.value;
+        setText(val);
+
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+        }
+
         if (!activeConversation || !socketRef.current) return;
 
+        const myId = user?._id || user?.id;
         socketRef.current.emit('typing', {
             conversationId: activeConversation._id,
-            userId: user._id,
+            userId: myId,
             username: user.username,
         });
 
@@ -375,7 +384,7 @@ export default function Messages() {
             if (socketRef.current && activeConversation) {
                 socketRef.current.emit('stop_typing', {
                     conversationId: activeConversation._id,
-                    userId: user._id,
+                    userId: myId,
                 });
             }
         }, 1500);
@@ -388,12 +397,16 @@ export default function Messages() {
 
         const messageText = text.trim();
         setText('');
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+        }
         setSending(true);
 
+        const myId = user?._id || user?.id;
         if (socketRef.current) {
             socketRef.current.emit('stop_typing', {
                 conversationId: activeConversation._id,
-                userId: user._id,
+                userId: myId,
             });
         }
 
@@ -850,28 +863,31 @@ export default function Messages() {
                             {/* Message Input Form */}
                             <form
                                 onSubmit={handleSend}
-                                className="p-3 sm:p-4 border-t border-gray-100 dark:border-[#1F232C] bg-white/50 dark:bg-[#0E1116]/50 backdrop-blur-md shrink-0"
+                                className="p-2.5 sm:p-4 border-t border-gray-100 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 backdrop-blur-md shrink-0"
                             >
-                                <div className="flex items-end gap-2 sm:gap-3">
+                                <div className="flex items-center gap-2 bg-gray-50 dark:bg-[#181C26] border border-gray-200/90 dark:border-[#252A36] rounded-3xl p-1.5 pl-3.5 sm:pl-4 focus-within:ring-2 focus-within:ring-[#FF8F6B]/50 transition-all shadow-inner">
                                     <textarea
+                                        ref={textareaRef}
                                         value={text}
                                         onChange={handleTextChange}
                                         onKeyDown={handleKeyDown}
                                         rows={1}
-                                        placeholder="Write a message... (Press Enter to send)"
-                                        className="flex-1 resize-none rounded-2xl border border-gray-200 dark:border-[#1F232C] bg-gray-50 dark:bg-[#141821] px-4 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all max-h-32"
+                                        placeholder="Type a message..."
+                                        className="flex-1 bg-transparent border-0 resize-none text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 leading-5 py-1.5 sm:py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-h-28 overflow-y-auto"
                                     />
                                     <button
                                         type="submit"
                                         disabled={sending || !text.trim()}
-                                        className="px-5 py-3 rounded-2xl bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold text-sm hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shrink-0 flex items-center gap-1.5"
+                                        className="h-9.5 w-9.5 sm:h-10 sm:w-auto sm:px-4.5 shrink-0 rounded-full sm:rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:scale-100 disabled:cursor-not-allowed shadow-sm transition-all duration-200"
+                                        title="Send message"
+                                        aria-label="Send message"
                                     >
                                         {sending ? (
-                                            '...'
+                                            <div className="h-4 w-4 rounded-full border-2 border-[#1A140D] border-t-transparent animate-spin" />
                                         ) : (
                                             <>
-                                                <span>Send</span>
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                                                <span className="hidden sm:inline">Send</span>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-4 w-4 sm:h-4.5 sm:w-4.5 translate-x-0.5">
                                                     <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </>
