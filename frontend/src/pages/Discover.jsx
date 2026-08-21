@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
 
 const Discover = () => {
     const { user: currentUser } = useAuth();
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [following, setFollowing] = useState(new Set());
@@ -38,6 +39,11 @@ const Discover = () => {
     }, [currentUser]);
 
     const handleFollowToggle = async (userId) => {
+        if (!currentUser) {
+            navigate('/register');
+            return;
+        }
+
         const isFollow = following.has(userId);
         setTogglingId(userId);
 
@@ -95,13 +101,50 @@ const Discover = () => {
             animate={{ opacity: 1 }}
             className="min-h-screen bg-white dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
         >
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl sm:text-4xl font-['Fraunces'] italic text-gray-900 dark:text-[#EDEBE6] mb-2">
-                    Discover People
-                </h1>
-                <p className="text-gray-500 dark:text-[#8A8F9C] mb-6">
-                    Connect with others on Zephyra.
-                </p>
+            <div className="max-w-4xl mx-auto space-y-6">
+                {/* Unauthenticated Guest Banner */}
+                {!currentUser && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#FF8F6B]/15 via-[#D97B4F]/10 to-[#F5C36B]/15 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm"
+                    >
+                        <div className="space-y-1 text-center sm:text-left">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B] text-xs font-bold uppercase tracking-wider">
+                                ✨ Explore Mode
+                            </span>
+                            <h2 className="font-['Fraunces'] font-bold text-xl sm:text-2xl text-gray-900 dark:text-white">
+                                Discover Creators on Zephyra
+                            </h2>
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4]">
+                                Sign in or create a free account to follow creators, send direct messages, and publish stories.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                            <Link
+                                to="/login"
+                                className="px-5 py-2.5 rounded-full border border-gray-300 dark:border-[#3A3F4B] text-xs sm:text-sm font-bold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
+                            >
+                                Sign In
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm"
+                            >
+                                Get Started →
+                            </Link>
+                        </div>
+                    </motion.div>
+                )}
+
+                <div>
+                    <h1 className="text-3xl sm:text-4xl font-['Fraunces'] italic text-gray-900 dark:text-[#EDEBE6] mb-2">
+                        Discover People
+                    </h1>
+                    <p className="text-gray-500 dark:text-[#8A8F9C]">
+                        Connect with others on Zephyra.
+                    </p>
+                </div>
 
                 {users.length === 0 ? (
                     <div className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-8 text-center border border-gray-200 dark:border-[#1F232C]">
