@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import ConfirmDialog from '../components/ConfirmDialog';
 
+const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 // Robust helper to format dates without crashing on invalid/null dates
 const safeFormatDistance = (dateValue, options = {}) => {
     try {
