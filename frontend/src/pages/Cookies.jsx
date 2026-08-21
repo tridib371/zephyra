@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HiOutlineCheck } from 'react-icons/hi2';
 
 export default function Cookies() {
     const [analytics, setAnalytics] = useState(true);
@@ -30,7 +31,7 @@ export default function Cookies() {
                 <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 p-8 sm:p-12 shadow-sm backdrop-blur-xl space-y-8">
 
                     <p className="text-sm sm:text-base text-gray-700 dark:text-[#C5C9D3] leading-relaxed">
-                        Zephyra uses local storage and cookies strictly to authenticate your login session, remember your theme preference (Light/Dark mode), and measure anonymous system performance.
+                        Zephyra uses local storage and cookies strictly to authenticate your login session, remember your theme preference (Light or Dark mode), and measure anonymous system performance.
                     </p>
 
                     {/* Preference Toggles */}
@@ -76,9 +77,16 @@ export default function Cookies() {
                     <div className="flex items-center gap-4 pt-4">
                         <button
                             onClick={handleSave}
-                            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:brightness-105 transition-all shadow-sm cursor-pointer"
+                            className="flex items-center gap-1.5 px-6 py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:brightness-105 transition-all shadow-sm cursor-pointer"
                         >
-                            {saved ? '✓ Preferences Saved!' : 'Save Preferences'}
+                            {saved ? (
+                                <>
+                                    <HiOutlineCheck className="text-base" />
+                                    <span>Preferences Saved!</span>
+                                </>
+                            ) : (
+                                <span>Save Preferences</span>
+                            )}
                         </button>
                     </div>
                 </div>

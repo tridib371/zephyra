@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HiOutlineEnvelope, HiOutlineBolt, HiOutlinePaperAirplane, HiOutlineCheckCircle } from 'react-icons/hi2';
 
 export default function Contact() {
     const [name, setName] = useState('');
@@ -40,7 +41,9 @@ export default function Contact() {
                     {/* Direct Details Side */}
                     <div className="space-y-6">
                         <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs space-y-3">
-                            <span className="text-2xl">✉️</span>
+                            <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
+                                <HiOutlineEnvelope />
+                            </div>
                             <h3 className="font-bold text-sm text-gray-900 dark:text-white">Email Us Directly</h3>
                             <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">For support, partnerships, or general feedback:</p>
                             <a href="mailto:support@zephyra.app" className="text-xs font-bold text-[#D97B4F] dark:text-[#F5C36B] hover:underline block">
@@ -49,7 +52,9 @@ export default function Contact() {
                         </div>
 
                         <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs space-y-3">
-                            <span className="text-2xl">⚡</span>
+                            <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
+                                <HiOutlineBolt />
+                            </div>
                             <h3 className="font-bold text-sm text-gray-900 dark:text-white">Response Time</h3>
                             <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">
                                 Our average support response time is under <span className="font-bold text-gray-800 dark:text-gray-200">2 hours</span> during active hours.
@@ -61,7 +66,9 @@ export default function Contact() {
                     <div className="md:col-span-2 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 p-6 sm:p-10 shadow-sm backdrop-blur-xl">
                         {submitted ? (
                             <div className="p-8 text-center space-y-3 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl border border-emerald-200 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-300">
-                                <span className="text-4xl block">📬</span>
+                                <div className="flex justify-center text-4xl">
+                                    <HiOutlineCheckCircle />
+                                </div>
                                 <h3 className="font-bold font-['Fraunces'] text-xl">Message Sent Successfully!</h3>
                                 <p className="text-xs sm:text-sm">Thank you for reaching out. We have received your inquiry and will reply to <span className="font-bold">{email || 'your email'}</span> shortly.</p>
                             </div>
@@ -121,9 +128,10 @@ export default function Contact() {
 
                                 <button
                                     type="submit"
-                                    className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 transition-all shadow-md cursor-pointer"
+                                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 transition-all shadow-md cursor-pointer"
                                 >
-                                    Send Message 🚀
+                                    <span>Send Message</span>
+                                    <HiOutlinePaperAirplane className="text-base" />
                                 </button>
                             </form>
                         )}

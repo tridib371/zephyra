@@ -1,6 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import {
+    HiOutlineBolt,
+    HiOutlineShieldCheck,
+    HiOutlineSparkles,
+    HiOutlineGlobeAlt,
+    HiOutlineChatBubbleLeftRight,
+    HiOutlineEyeSlash,
+    HiOutlineCheck,
+    HiOutlineXMark,
+    HiArrowRight,
+} from 'react-icons/hi2';
+import { FiFeather, FiWind } from 'react-icons/fi';
+import { RiLeafLine } from 'react-icons/ri';
+import { TbMessageCircleBolt } from 'react-icons/tb';
 
 // Animated Counter component
 const StatCounter = ({ target, suffix = '', prefix = '', decimals = 0, duration = 2.2 }) => {
@@ -85,7 +99,6 @@ const WindBreeze = () => (
 );
 
 export default function About() {
-    const [activeTab, setActiveTab] = useState('philosophy');
     const { scrollYProgress } = useScroll();
     const backgroundGlow = useTransform(scrollYProgress, [0, 1], [0.8, 1.2]);
 
@@ -95,7 +108,7 @@ export default function About() {
             title: 'The Outrage Fatigue',
             subtitle: 'Breaking free from algorithmic toxicity',
             desc: 'Modern social media became an optimization machine for outrage, manufactured debate, and infinite dopamine loops. We asked: What if a platform existed purely to foster calm, genuine self-expression without predatory feeds?',
-            icon: '🌱',
+            icon: RiLeafLine,
             accent: 'from-[#FF8F6B] to-[#D97B4F]'
         },
         {
@@ -103,7 +116,7 @@ export default function About() {
             title: 'Architecting the West Wind',
             subtitle: 'Sub-second real-time engine',
             desc: 'Engineered from scratch on high-throughput WebSocket micro-clusters. Direct messaging, live typing pulses, and instant reactions deliver zero-lag communication wrapped in an organic sunset aesthetic.',
-            icon: '⚡',
+            icon: HiOutlineBolt,
             accent: 'from-[#F5C36B] to-[#FF8F6B]'
         },
         {
@@ -111,7 +124,7 @@ export default function About() {
             title: 'Zero-Tracker Architecture',
             subtitle: 'Privacy as a sacred covenant',
             desc: 'No behavioral ad trackers. No selling user reading habits to data brokers. All user communications and private drafts remain confidential under strict authenticated boundaries.',
-            icon: '🛡️',
+            icon: HiOutlineShieldCheck,
             accent: 'from-[#D97B4F] to-[#C6822E]'
         },
         {
@@ -119,7 +132,7 @@ export default function About() {
             title: 'The Living Sanctuary',
             subtitle: 'Global community of mindful creators',
             desc: 'Today, Zephyra is a vibrant, blooming haven for digital artists, thinkers, developers, and writers who cherish beauty, minimalism, and meaningful dialogue.',
-            icon: '🪶',
+            icon: FiFeather,
             accent: 'from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]'
         }
     ];
@@ -128,18 +141,21 @@ export default function About() {
         {
             title: 'Real-Time Pulse Engine',
             badge: 'Sub-15ms WebSocket Protocol',
+            icon: TbMessageCircleBolt,
             desc: 'Instant two-way event bus orchestrating active conversations, seen receipts, typing indicators, and system broadcast banners instantaneously.',
             highlight: 'Engineered for zero-lag conversational intimacy.'
         },
         {
             title: 'Organic Chronological Feeds',
             badge: 'Zero Addictive Exploitation',
+            icon: HiOutlineSparkles,
             desc: 'You see what people you follow actually post in true chronological order. No algorithmic suppression, no forced promotional clutter.',
             highlight: 'Your timeline is yours, completely unmanipulated.'
         },
         {
             title: 'Atmospheric Glassmorphism Design',
             badge: 'Humanist Visual Language',
+            icon: FiWind,
             desc: 'Carefully tuned HSL color palettes featuring warm sunset ochre, terracotta hues, and deep obsidian dark modes designed to eliminate eye fatigue.',
             highlight: 'A digital space that feels like a quiet evening breeze.'
         }
@@ -192,7 +208,7 @@ export default function About() {
                         transition={{ duration: 0.8, delay: 0.3 }}
                         className="text-lg sm:text-2xl text-gray-700 dark:text-[#C5C9D3] font-medium leading-relaxed max-w-3xl mx-auto"
                     >
-                        We did not build Zephyra to capture your attention and sell it to the highest bidder. We built it so your thoughts can catch the wind — freely, beautifully, and on your own terms.
+                        We did not build Zephyra to capture your attention and sell it to the highest bidder. We built it so your thoughts can catch the wind - freely, beautifully, and on your own terms.
                     </motion.p>
                 </section>
 
@@ -237,31 +253,33 @@ export default function About() {
                                 Why We Reimagined Social Connection
                             </h2>
                         </div>
-                        <span className="text-3xl sm:text-4xl">🕊️</span>
+                        <div className="p-3.5 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl">
+                            <FiFeather />
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-6 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30 space-y-3">
                             <h3 className="font-bold text-base text-rose-700 dark:text-rose-400 flex items-center gap-2">
-                                <span>❌</span> Conventional Platforms
+                                <HiOutlineXMark className="text-lg" /> Conventional Platforms
                             </h3>
                             <ul className="text-xs sm:text-sm text-gray-600 dark:text-[#A0A5B2] space-y-2.5 leading-relaxed">
-                                <li>• Manipulative algorithms engineered to trigger anger and outrage</li>
-                                <li>• Cluttered timelines drowning in unskippable sponsored ads</li>
-                                <li>• Uncontrolled tracking of personal data, clicks, and messages</li>
-                                <li>• Vanity metric addiction that reduces humans to follower counts</li>
+                                <li>- Manipulative algorithms engineered to trigger anger and outrage</li>
+                                <li>- Cluttered timelines drowning in unskippable sponsored ads</li>
+                                <li>- Uncontrolled tracking of personal data, clicks, and messages</li>
+                                <li>- Vanity metric addiction that reduces humans to follower counts</li>
                             </ul>
                         </div>
 
                         <div className="p-6 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30 space-y-3">
                             <h3 className="font-bold text-base text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
-                                <span>✨</span> The Zephyra Experience
+                                <HiOutlineSparkles className="text-lg" /> The Zephyra Experience
                             </h3>
                             <ul className="text-xs sm:text-sm text-gray-600 dark:text-[#A0A5B2] space-y-2.5 leading-relaxed">
-                                <li>• Organic, chronological delivery of stories you actually care about</li>
-                                <li>• Breath-like, peaceful UI crafted to inspire mindfulness and creativity</li>
-                                <li>• Zero third-party trackers, zero data brokering, zero compromise</li>
-                                <li>• Direct, lightning-fast private messaging with real human intimacy</li>
+                                <li>- Organic, chronological delivery of stories you actually care about</li>
+                                <li>- Breath-like, peaceful UI crafted to inspire mindfulness and creativity</li>
+                                <li>- Zero third-party trackers, zero data brokering, zero compromise</li>
+                                <li>- Direct, lightning-fast private messaging with real human intimacy</li>
                             </ul>
                         </div>
                     </div>
@@ -278,25 +296,30 @@ export default function About() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {TIMELINE.map((item, idx) => (
-                            <motion.div
-                                key={item.title}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: idx * 0.15 }}
-                                className="group p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs hover:shadow-xl hover:scale-[1.02] transition-all duration-300 space-y-4 relative overflow-hidden"
-                            >
-                                <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.accent}`} />
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-extrabold uppercase tracking-wider text-[#D97B4F] dark:text-[#F5C36B] font-mono">{item.year}</span>
-                                    <span className="text-2xl p-2 rounded-2xl bg-gray-100 dark:bg-[#181C26]">{item.icon}</span>
-                                </div>
-                                <h3 className="font-['Fraunces'] text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                                <p className="text-xs font-semibold text-gray-400">{item.subtitle}</p>
-                                <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{item.desc}</p>
-                            </motion.div>
-                        ))}
+                        {TIMELINE.map((item, idx) => {
+                            const IconComponent = item.icon;
+                            return (
+                                <motion.div
+                                    key={item.title}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: idx * 0.15 }}
+                                    className="group p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs hover:shadow-xl hover:scale-[1.02] transition-all duration-300 space-y-4 relative overflow-hidden"
+                                >
+                                    <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.accent}`} />
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-extrabold uppercase tracking-wider text-[#D97B4F] dark:text-[#F5C36B] font-mono">{item.year}</span>
+                                        <span className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xl">
+                                            <IconComponent />
+                                        </span>
+                                    </div>
+                                    <h3 className="font-['Fraunces'] text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
+                                    <p className="text-xs font-semibold text-gray-400">{item.subtitle}</p>
+                                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{item.desc}</p>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </section>
 
@@ -308,23 +331,31 @@ export default function About() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {ARCHITECTURE.map((arch) => (
-                            <div
-                                key={arch.title}
-                                className="p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs space-y-4 flex flex-col justify-between"
-                            >
-                                <div className="space-y-3">
-                                    <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B]">
-                                        {arch.badge}
-                                    </span>
-                                    <h3 className="font-['Fraunces'] text-xl font-bold text-gray-900 dark:text-white">{arch.title}</h3>
-                                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{arch.desc}</p>
+                        {ARCHITECTURE.map((arch) => {
+                            const ArchIcon = arch.icon;
+                            return (
+                                <div
+                                    key={arch.title}
+                                    className="p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs space-y-4 flex flex-col justify-between"
+                                >
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between">
+                                            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B]">
+                                                {arch.badge}
+                                            </span>
+                                            <span className="p-2.5 rounded-xl bg-gray-100 dark:bg-[#181C26] text-[#D97B4F] dark:text-[#F5C36B] text-lg">
+                                                <ArchIcon />
+                                            </span>
+                                        </div>
+                                        <h3 className="font-['Fraunces'] text-xl font-bold text-gray-900 dark:text-white">{arch.title}</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{arch.desc}</p>
+                                    </div>
+                                    <div className="pt-4 border-t border-gray-100 dark:border-[#1F232C] text-xs font-semibold text-[#D97B4F] dark:text-[#F5C36B] flex items-center gap-1.5">
+                                        <HiOutlineCheck className="text-sm" /> {arch.highlight}
+                                    </div>
                                 </div>
-                                <div className="pt-4 border-t border-gray-100 dark:border-[#1F232C] text-xs font-semibold text-[#D97B4F] dark:text-[#F5C36B]">
-                                    ✓ {arch.highlight}
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </section>
 
@@ -336,9 +367,11 @@ export default function About() {
                     transition={{ duration: 0.7 }}
                     className="relative rounded-3xl border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-gradient-to-br from-[#FFF5EF] via-white to-[#FAF0E6] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-14 shadow-lg text-center space-y-6 overflow-hidden"
                 >
-                    <div className="text-4xl">🪶</div>
+                    <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-2xl shadow-md">
+                        <FiFeather />
+                    </div>
                     <blockquote className="font-['Fraunces'] italic text-2xl sm:text-4xl text-[#1A140D] dark:text-white max-w-3xl mx-auto leading-snug">
-                        “When thoughts are no longer held captive by algorithms, they become wind. And wind reaches everywhere.”
+                        "When thoughts are no longer held captive by algorithms, they become wind. And wind reaches everywhere."
                     </blockquote>
                     <div className="space-y-1">
                         <p className="text-sm font-extrabold uppercase tracking-widest text-[#D97B4F] dark:text-[#F5C36B]">Tridib Sarkar</p>
@@ -355,9 +388,10 @@ export default function About() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Link
                             to="/register"
-                            className="px-8 py-4 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full hover:scale-105 hover:shadow-xl transition-all shadow-md font-[Manrope] min-w-48"
+                            className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full hover:scale-105 hover:shadow-xl transition-all shadow-md font-[Manrope] min-w-48"
                         >
-                            Start Your Journey →
+                            <span>Start Your Journey</span>
+                            <HiArrowRight className="text-base" />
                         </Link>
                         <Link
                             to="/feed"

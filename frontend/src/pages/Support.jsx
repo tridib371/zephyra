@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { HiOutlineMagnifyingGlass, HiOutlineChevronDown, HiOutlineChevronUp, HiArrowRight } from 'react-icons/hi2';
 
 const FAQS = [
     {
@@ -16,7 +17,7 @@ const FAQS = [
     },
     {
         q: 'How do I report spam, abuse, or guideline violations?',
-        a: 'Click the three dots (•••) on any post to report it, or visit our Contact Support page to flag a user directly to our moderation team.',
+        a: 'Click the three dots (...) on any post to report it, or visit our Contact Support page to flag a user directly to our moderation team.',
     },
     {
         q: 'Can I switch between Light and Dark mode?',
@@ -61,7 +62,9 @@ export default function Support() {
                             placeholder="Search questions, settings, messaging..."
                             className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-white dark:bg-[#181C26] px-4 py-3 pl-11 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 shadow-xs"
                         />
-                        <span className="absolute left-4 top-7 text-gray-400 text-sm">🔍</span>
+                        <span className="absolute left-4 top-7 text-gray-400 text-lg">
+                            <HiOutlineMagnifyingGlass />
+                        </span>
                     </div>
                 </div>
 
@@ -81,7 +84,9 @@ export default function Support() {
                                         className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 font-bold text-sm text-gray-900 dark:text-white cursor-pointer hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
                                     >
                                         <span>{faq.q}</span>
-                                        <span className="text-xs text-gray-400 transition-transform">{isOpen ? '▲' : '▼'}</span>
+                                        <span className="text-sm text-gray-400 transition-transform">
+                                            {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+                                        </span>
                                     </button>
                                     {isOpen && (
                                         <div className="px-5 pb-4 text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed border-t border-gray-100 dark:border-[#1F232C] pt-3">
@@ -104,9 +109,10 @@ export default function Support() {
                     </div>
                     <Link
                         to="/contact"
-                        className="px-6 py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm shrink-0"
+                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm shrink-0"
                     >
-                        Contact Support Team →
+                        <span>Contact Support Team</span>
+                        <HiArrowRight className="text-sm" />
                     </Link>
                 </div>
             </div>

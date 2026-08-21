@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HiOutlineGlobeAlt, HiOutlineSparkles, HiOutlineRocketLaunch, HiOutlineBriefcase, HiOutlineCheckCircle, HiOutlineXMark, HiArrowRight } from 'react-icons/hi2';
 
 const OPEN_POSITIONS = [
     {
@@ -72,17 +73,23 @@ export default function Careers() {
                 {/* Perks Section */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs space-y-2">
-                        <span className="text-2xl">🌍</span>
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
+                            <HiOutlineGlobeAlt />
+                        </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg">Work From Anywhere</h3>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C]">100% remote-first culture with flexible hours across all global timezones.</p>
                     </div>
                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs space-y-2">
-                        <span className="text-2xl">🌿</span>
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
+                            <HiOutlineSparkles />
+                        </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg">Wellness & Retreats</h3>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C]">Generous annual leave, health stipends, and annual team retreats in scenic locations.</p>
                     </div>
                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs space-y-2">
-                        <span className="text-2xl">🚀</span>
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
+                            <HiOutlineRocketLaunch />
+                        </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg">Growth & Autonomy</h3>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C]">High ownership, continuous learning allowances, and cutting-edge tech stack.</p>
                     </div>
@@ -106,9 +113,10 @@ export default function Careers() {
 
                                 <button
                                     onClick={() => setAppliedPosition(job.title)}
-                                    className="px-6 py-3 rounded-full bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shrink-0 cursor-pointer"
+                                    className="flex items-center justify-center gap-1.5 px-6 py-3 rounded-full bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shrink-0 cursor-pointer"
                                 >
-                                    Apply Now →
+                                    <span>Apply Now</span>
+                                    <HiArrowRight className="text-sm" />
                                 </button>
                             </div>
                         ))}
@@ -124,12 +132,16 @@ export default function Careers() {
                                     <span className="text-[11px] uppercase font-bold tracking-wider text-[#D97B4F]">Application</span>
                                     <h3 className="font-['Fraunces'] text-lg sm:text-xl font-bold">{appliedPosition}</h3>
                                 </div>
-                                <button onClick={() => setAppliedPosition(null)} className="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-lg">✕</button>
+                                <button onClick={() => setAppliedPosition(null)} className="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-lg cursor-pointer">
+                                    <HiOutlineXMark />
+                                </button>
                             </div>
 
                             {submitted ? (
                                 <div className="p-6 text-center space-y-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl border border-emerald-200 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-300">
-                                    <span className="text-3xl block">🎉</span>
+                                    <div className="flex justify-center text-3xl">
+                                        <HiOutlineCheckCircle />
+                                    </div>
                                     <h4 className="font-bold">Application Received!</h4>
                                     <p className="text-xs">Thank you for your interest in joining Zephyra. Our talent team will review your application and reach out shortly.</p>
                                 </div>
@@ -182,7 +194,7 @@ export default function Careers() {
                                         type="submit"
                                         className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 transition-all shadow-md cursor-pointer"
                                     >
-                                        Submit Application 🚀
+                                        Submit Application
                                     </button>
                                 </form>
                             )}

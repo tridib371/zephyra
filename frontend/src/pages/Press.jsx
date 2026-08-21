@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { FiFeather } from 'react-icons/fi';
+import { HiOutlineEnvelope, HiOutlineCheck } from 'react-icons/hi2';
 
 export default function Press() {
     const [copiedColor, setCopiedColor] = useState(null);
@@ -37,14 +39,14 @@ export default function Press() {
                 <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 p-8 sm:p-10 shadow-sm backdrop-blur-xl space-y-6">
                     <h2 className="font-['Fraunces'] text-2xl font-bold">Brand Identity & Logo</h2>
                     <p className="text-gray-600 dark:text-[#9DA3B4] text-sm leading-relaxed">
-                        Zephyra’s visual brand uses warm dusk-to-dawn gradients that represent transition, inspiration, and free expression.
+                        Zephyra's visual brand uses warm dusk-to-dawn gradients that represent transition, inspiration, and free expression.
                     </p>
 
                     {/* Logo Preview Card */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="p-8 rounded-2xl bg-white border border-gray-200 flex flex-col items-center justify-center text-center space-y-3">
                             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-2xl font-bold shadow-md">
-                                🪶
+                                <FiFeather />
                             </span>
                             <span className="font-['Fraunces'] font-extrabold text-2xl tracking-tight bg-gradient-to-r from-[#B85323] to-[#C6822E] bg-clip-text text-transparent">
                                 Zephyra
@@ -54,7 +56,7 @@ export default function Press() {
 
                         <div className="p-8 rounded-2xl bg-[#0B0D12] border border-[#1F232C] flex flex-col items-center justify-center text-center space-y-3">
                             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-2xl font-bold shadow-md">
-                                🪶
+                                <FiFeather />
                             </span>
                             <span className="font-['Fraunces'] font-extrabold text-2xl tracking-tight bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] bg-clip-text text-transparent">
                                 Zephyra
@@ -76,7 +78,13 @@ export default function Press() {
                             >
                                 <div className="h-16 rounded-xl mb-3 shadow-inner" style={{ backgroundColor: c.hex }} />
                                 <h4 className="text-xs font-bold text-gray-900 dark:text-white">{c.name}</h4>
-                                <p className="text-xs font-mono text-gray-400 group-hover:text-[#D97B4F] transition-colors">{copiedColor === c.hex ? '✓ Copied!' : c.hex}</p>
+                                <p className="text-xs font-mono text-gray-400 group-hover:text-[#D97B4F] transition-colors flex items-center gap-1">
+                                    {copiedColor === c.hex ? (
+                                        <span className="text-emerald-500 flex items-center gap-1"><HiOutlineCheck /> Copied!</span>
+                                    ) : (
+                                        c.hex
+                                    )}
+                                </p>
                             </div>
                         ))}
                     </div>
@@ -92,9 +100,10 @@ export default function Press() {
                     </div>
                     <a
                         href="mailto:press@zephyra.app"
-                        className="px-6 py-3 rounded-full bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shrink-0"
+                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shrink-0"
                     >
-                        Contact Press Team ✉️
+                        <HiOutlineEnvelope className="text-base" />
+                        <span>Contact Press Team</span>
                     </a>
                 </div>
             </div>

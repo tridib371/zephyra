@@ -1,27 +1,35 @@
+import {
+    HiOutlineHandRaised,
+    HiOutlineSparkles,
+    HiOutlineNoSymbol,
+    HiOutlineShieldCheck,
+    HiOutlineLockClosed,
+} from 'react-icons/hi2';
+
 export default function Guidelines() {
     const GUIDELINES = [
         {
-            icon: '🤝',
+            icon: HiOutlineHandRaised,
             title: '1. Respect and Human Dignity',
             description: 'Treat fellow creators and thinkers with empathy and respect. Constructive debate is celebrated; harassment, personal attacks, hate speech, and discrimination will never be tolerated.',
         },
         {
-            icon: '✨',
+            icon: HiOutlineSparkles,
             title: '2. Authenticity & Originality',
             description: 'Share your genuine perspectives, art, stories, and ideas. Do not impersonate other creators, public figures, or brand entities, and do not distribute deceitful or deceptive misinformation.',
         },
         {
-            icon: '🚫',
+            icon: HiOutlineNoSymbol,
             title: '3. Zero Tolerance for Spam & Bots',
             description: 'Automated spam bots, coordinated manipulation, repetitive bulk messaging, and deceptive affiliate links are strictly prohibited and will result in immediate permanent suspension.',
         },
         {
-            icon: '🛡️',
+            icon: HiOutlineShieldCheck,
             title: '4. Safety & Age-Appropriate Content',
             description: 'Do not post explicit adult content, violence, self-harm encouragement, or illegal material. Zephyra is dedicated to maintaining a safe harbor for creators of all backgrounds.',
         },
         {
-            icon: '🔒',
+            icon: HiOutlineLockClosed,
             title: '5. Respect Privacy & Confidentiality',
             description: 'Never publish another person’s private contact information, personal documents, or private direct messages without their explicit prior consent (doxxing).',
         },
@@ -46,15 +54,20 @@ export default function Guidelines() {
 
                 {/* Guidelines Cards */}
                 <div className="space-y-4">
-                    {GUIDELINES.map((item) => (
-                        <div key={item.title} className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 p-6 sm:p-8 shadow-xs backdrop-blur-xl flex items-start gap-5">
-                            <span className="text-3xl sm:text-4xl p-3 rounded-2xl bg-[#FF8F6B]/10 dark:bg-white/5 shrink-0">{item.icon}</span>
-                            <div className="space-y-1.5">
-                                <h3 className="font-['Fraunces'] text-lg sm:text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                                <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{item.description}</p>
+                    {GUIDELINES.map((item) => {
+                        const IconComponent = item.icon;
+                        return (
+                            <div key={item.title} className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 p-6 sm:p-8 shadow-xs backdrop-blur-xl flex items-start gap-5">
+                                <div className="p-3.5 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl shrink-0">
+                                    <IconComponent />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <h3 className="font-['Fraunces'] text-lg sm:text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
+                                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{item.description}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {/* Enforcement Notice */}

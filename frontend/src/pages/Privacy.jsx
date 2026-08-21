@@ -22,7 +22,7 @@ export default function Privacy() {
                     <section className="space-y-3">
                         <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">1. Our Commitment to Your Privacy</h2>
                         <p>
-                            At Zephyra, privacy is not an afterthought — it is the cornerstone of our platform. We believe you should always know what data we collect, how it is used, and how you retain total control over your digital footprint.
+                            At Zephyra, privacy is not an afterthought - it is the cornerstone of our platform. We believe you should always know what data we collect, how it is used, and how you retain total control over your digital footprint.
                         </p>
                     </section>
 
