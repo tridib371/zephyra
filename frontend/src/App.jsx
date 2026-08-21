@@ -15,6 +15,15 @@ import Settings from './pages/Settings';
 import PostDetail from './pages/PostDetail';
 import Notifications from './pages/Notifications';
 import Admin from './pages/Admin';
+import About from './pages/About';
+import Careers from './pages/Careers';
+import Press from './pages/Press';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Cookies from './pages/Cookies';
+import Support from './pages/Support';
+import Guidelines from './pages/Guidelines';
+import Contact from './pages/Contact';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import { NotificationProvider } from './context/NotificationContext';
@@ -34,6 +43,19 @@ function AppShell() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
+            {/* Public Info & Legal Pages */}
+            <Route path="/about" element={<About />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/press" element={<Press />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/cookies" element={<Cookies />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/help" element={<Support />} />
+            <Route path="/guidelines" element={<Guidelines />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/explore" element={<Discover />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/feed" element={<Feed />} />
