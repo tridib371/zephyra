@@ -318,7 +318,7 @@ export default function Admin() {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        placeholder="sarkartridib813"
+                                        placeholder="Enter admin email or username..."
                                         value={adminInputId}
                                         onChange={(e) => setAdminInputId(e.target.value)}
                                         className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-3 pl-10 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
@@ -336,7 +336,7 @@ export default function Admin() {
                                 <div className="relative">
                                     <input
                                         type={showPassword ? 'text' : 'password'}
-                                        placeholder="Enter Master Password..."
+                                        placeholder="••••••••••••"
                                         value={adminInputPassword}
                                         onChange={(e) => setAdminInputPassword(e.target.value)}
                                         className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-3 pl-10 pr-11 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
