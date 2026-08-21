@@ -11,6 +11,7 @@ import {
     HiOutlineDocumentText,
     HiOutlineInformationCircle,
 } from 'react-icons/hi2';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Cookies() {
     const [themePref, setThemePref] = useState(true);
@@ -18,6 +19,7 @@ export default function Cookies() {
     const [socketCachePref, setSocketCachePref] = useState(true);
     const [savedNotice, setSavedNotice] = useState(false);
     const [clearedNotice, setClearedNotice] = useState(false);
+    const [showClearModal, setShowClearModal] = useState(false);
 
     useEffect(() => {
         const savedConsent = localStorage.getItem('zephyra_cookie_consent');
@@ -56,15 +58,14 @@ export default function Cookies() {
         setTimeout(() => setSavedNotice(false), 3000);
     };
 
-    const handleClearLocalStorage = () => {
-        if (window.confirm('Are you sure you want to clear your local session cache? You will need to sign in again.')) {
-            localStorage.clear();
-            sessionStorage.clear();
-            setClearedNotice(true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
-        }
+    const handleConfirmClear = () => {
+        setShowClearModal(false);
+        localStorage.clear();
+        sessionStorage.clear();
+        setClearedNotice(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
     };
 
     const COOKIE_MATRIX = [
@@ -257,7 +258,8 @@ export default function Cookies() {
                         </button>
 
                         <button
-                            onClick={handleClearLocalStorage}
+                            type="button"
+                            onClick={() => setShowClearModal(true)}
                             className="flex items-center gap-1.5 px-5 py-3 rounded-full border border-rose-200 dark:border-rose-900/40 text-xs sm:text-sm font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all cursor-pointer ml-auto"
                         >
                             <HiOutlineTrash />
@@ -315,19 +317,17 @@ export default function Cookies() {
                     </p>
                 </div>
 
-                {/* Footer Navigation */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 dark:text-[#8A8F9C] pt-4">
-                    <p>Have questions about your client-side data?</p>
-                    <div className="flex items-center gap-4">
-                        <Link to="/privacy" className="hover:text-[#D97B4F] dark:hover:text-[#F5C36B] font-bold transition-colors">
-                            Privacy Policy →
-                        </Link>
-                        <Link to="/contact" className="hover:text-[#D97B4F] dark:hover:text-[#F5C36B] font-bold transition-colors">
-                            Contact Support →
-                        </Link>
-                    </div>
-                </div>
-
+                {/* Custom Elegant Confirmation Modal */}
+                <ConfirmDialog
+                    isOpen={showClearModal}
+                    onClose={() => setShowClearModal(false)}
+                    onConfirm={handleConfirmClear}
+                    title="Clear Local Session Cache?"
+                    message="Are you sure you want to clear your browser session data and local cache? You will be signed out and need to log in again."
+                    confirmText="Yes, Clear Session"
+                    cancelText="Cancel"
+                    iconType="trash"
+                />
             </div>
         </div>
     );

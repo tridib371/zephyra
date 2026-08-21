@@ -58,6 +58,7 @@ const PostDetail = () => {
     const [commentText, setCommentText] = useState('');
     const [submittingComment, setSubmittingComment] = useState(false);
     const [deleteModal, setDeleteModal] = useState({ isOpen: false, commentId: null });
+    const [deletePostModalOpen, setDeletePostModalOpen] = useState(false);
     const [highlightedCommentId, setHighlightedCommentId] = useState(null);
     const commentRefs = useRef({});
 
@@ -163,15 +164,19 @@ const PostDetail = () => {
         }
     };
 
-    const handleDeletePost = async () => {
-        if (!window.confirm('Are you sure you want to delete this post?')) return;
+    const confirmDeletePost = async () => {
+        setDeletePostModalOpen(false);
         try {
             await api.delete(`/posts/${post._id}`);
             navigate('/feed');
         } catch (err) {
             console.error('Delete post error:', err);
-            alert('Failed to delete post.');
+            setError('Failed to delete post.');
         }
+    };
+
+    const handleDeletePost = () => {
+        setDeletePostModalOpen(true);
     };
 
     if (loading) {
@@ -412,6 +417,17 @@ const PostDetail = () => {
                 title="Delete Comment?"
                 message="This action cannot be undone. Are you sure you want to delete this comment?"
                 confirmText="Delete"
+                cancelText="Cancel"
+            />
+
+            {/* Confirm Dialog for Post Deletion */}
+            <ConfirmDialog
+                isOpen={deletePostModalOpen}
+                onClose={() => setDeletePostModalOpen(false)}
+                onConfirm={confirmDeletePost}
+                title="Delete Post?"
+                message="Are you sure you want to delete this post? It will be permanently removed from all feeds."
+                confirmText="Delete Post"
                 cancelText="Cancel"
             />
         </>
