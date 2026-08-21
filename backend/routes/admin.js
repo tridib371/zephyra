@@ -1,5 +1,5 @@
 const express = require('express');
-const { protect, requireAdmin, requireModeratorOrAdmin } = require('../middleware/auth');
+const { protect, requireAdmin } = require('../middleware/auth');
 const User = require('../models/User');
 const Post = require('../models/Post');
 const Notification = require('../models/Notification');
@@ -10,8 +10,8 @@ const router = express.Router();
 // ==========================================
 // @route   GET /api/admin/stats
 // @desc    Get system-wide analytics & stats
-// @access  Private (Admin / Moderator)
-router.get('/stats', protect, requireModeratorOrAdmin, async (req, res) => {
+// @access  Private (Admin Only)
+router.get('/stats', protect, requireAdmin, async (req, res) => {
     try {
         const [
             totalUsers,
@@ -113,8 +113,8 @@ router.get('/stats', protect, requireModeratorOrAdmin, async (req, res) => {
 // ==========================================
 // @route   GET /api/admin/users
 // @desc    Get paginated users with search & filters
-// @access  Private (Admin / Moderator)
-router.get('/users', protect, requireModeratorOrAdmin, async (req, res) => {
+// @access  Private (Admin Only)
+router.get('/users', protect, requireAdmin, async (req, res) => {
     try {
         const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
         const limit = Math.max(parseInt(req.query.limit, 10) || 15, 1);
@@ -217,8 +217,8 @@ router.put('/users/:id/role', protect, requireAdmin, async (req, res) => {
 
 // @route   PUT /api/admin/users/:id/ban
 // @desc    Ban or Unban a user
-// @access  Private (Admin / Moderator)
-router.put('/users/:id/ban', protect, requireModeratorOrAdmin, async (req, res) => {
+// @access  Private (Admin Only)
+router.put('/users/:id/ban', protect, requireAdmin, async (req, res) => {
     try {
         const { isBanned, reason } = req.body;
         const targetUser = await User.findById(req.params.id);
@@ -285,8 +285,8 @@ router.delete('/users/:id', protect, requireAdmin, async (req, res) => {
 // ==========================================
 // @route   GET /api/admin/posts
 // @desc    Get paginated posts for moderation
-// @access  Private (Admin / Moderator)
-router.get('/posts', protect, requireModeratorOrAdmin, async (req, res) => {
+// @access  Private (Admin Only)
+router.get('/posts', protect, requireAdmin, async (req, res) => {
     try {
         const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
         const limit = Math.max(parseInt(req.query.limit, 10) || 15, 1);
@@ -318,9 +318,9 @@ router.get('/posts', protect, requireModeratorOrAdmin, async (req, res) => {
 });
 
 // @route   DELETE /api/admin/posts/:id
-// @desc    Delete any post (Admin / Moderator moderation)
-// @access  Private (Admin / Moderator)
-router.delete('/posts/:id', protect, requireModeratorOrAdmin, async (req, res) => {
+// @desc    Delete any post (Admin moderation)
+// @access  Private (Admin Only)
+router.delete('/posts/:id', protect, requireAdmin, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (!post) {
@@ -350,8 +350,8 @@ router.delete('/posts/:id', protect, requireModeratorOrAdmin, async (req, res) =
 // ==========================================
 // @route   POST /api/admin/announcements
 // @desc    Broadcast platform announcement to all users
-// @access  Private (Admin / Moderator)
-router.post('/announcements', protect, requireModeratorOrAdmin, async (req, res) => {
+// @access  Private (Admin Only)
+router.post('/announcements', protect, requireAdmin, async (req, res) => {
     try {
         const { title, message } = req.body;
         if (!title || !title.trim() || !message || !message.trim()) {
@@ -404,42 +404,6 @@ router.post('/announcements', protect, requireModeratorOrAdmin, async (req, res)
     } catch (error) {
         console.error('Announcement broadcast error:', error);
         res.status(500).json({ success: false, message: 'Server error broadcasting announcement' });
-    }
-});
-
-// ==========================================
-// 5. BOOTSTRAP / MAKE ME ADMIN ROUTE
-// ==========================================
-// @route   POST /api/admin/make-me-admin
-// @desc    Grant admin role to current logged-in user (development/setup helper)
-// @access  Private
-router.post('/make-me-admin', protect, async (req, res) => {
-    try {
-        const user = await User.findById(req.user._id);
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        user.role = 'admin';
-        await user.save();
-
-        res.status(200).json({
-            success: true,
-            message: '🎉 You have been granted the Administrator role!',
-            user: {
-                _id: user._id,
-                id: user._id,
-                name: user.name,
-                username: user.username,
-                email: user.email,
-                role: user.role,
-                isBanned: user.isBanned,
-                profilePicture: user.profilePicture,
-            },
-        });
-    } catch (error) {
-        console.error('Make admin error:', error);
-        res.status(500).json({ success: false, message: 'Server error granting admin role' });
     }
 });
 

@@ -16,9 +16,9 @@ const AdminRoute = () => {
         return <Navigate to="/login" replace />;
     }
 
-    const isAdminOrMod = user.role === 'admin' || user.role === 'moderator';
+    const isAdmin = user.role === 'admin';
 
-    return isAdminOrMod ? <Outlet /> : <Navigate to="/feed" replace />;
+    return isAdmin ? <Outlet /> : <Navigate to="/feed" replace />;
 };
 
 export default AdminRoute;

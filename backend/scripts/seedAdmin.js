@@ -12,15 +12,15 @@ async function seed() {
         console.log('Current users count:', users.length);
         console.log(users);
 
-        // Ensure all users have default role and isBanned if missing
-        await User.updateMany({ role: { $exists: false } }, { $set: { role: 'user', isBanned: false } });
+        // First reset ALL users to regular 'user' role
+        await User.updateMany({}, { $set: { role: 'user', isBanned: false } });
 
-        // Promote tridib and test accounts to admin
+        // Set ONLY the primary owner account (tridibsarkar813 and tridibsarkar0) to 'admin'
         await User.updateMany(
-            { username: { $in: ['tridibsarkar0', 'tridibsarkar813', 'testuser'] } },
+            { username: { $in: ['tridibsarkar813', 'tridibsarkar0'] } },
             { $set: { role: 'admin' } }
         );
-        console.log('✅ Promoted tridibsarkar0, tridibsarkar813, and testuser to ADMIN role!');
+        console.log('✅ Set all users to regular role, and set ONLY Tridib Sarkar to ADMIN!');
 
         await mongoose.disconnect();
         console.log('Done.');

@@ -212,7 +212,7 @@ const Navbar = () => {
                                     <SearchIcon />
                                 </Link>
 
-                                {(user?.role === 'admin' || user?.role === 'moderator') && (
+                                {user?.role === 'admin' && (
                                     <Link to="/admin" className={navLinkClasses('/admin')}>
                                         ⚡ Admin
                                     </Link>
@@ -395,7 +395,7 @@ const Navbar = () => {
                                                 >
                                                     <GearIcon /> Settings
                                                 </Link>
-                                                {(user?.role === 'admin' || user?.role === 'moderator') && (
+                                                {user?.role === 'admin' && (
                                                     <Link
                                                         to="/admin"
                                                         onClick={() => setIsProfileMenuOpen(false)}
@@ -497,7 +497,7 @@ const Navbar = () => {
                                 <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
                                     <GearIcon /> Settings
                                 </Link>
-                                {(user?.role === 'admin' || user?.role === 'moderator') && (
+                                {user?.role === 'admin' && (
                                     <Link to="/admin" className={navLinkClasses('/admin')} onClick={() => setIsMobileMenuOpen(false)}>
                                         ⚡ Admin Panel
                                     </Link>
