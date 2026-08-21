@@ -212,12 +212,6 @@ const Navbar = () => {
                                     <SearchIcon />
                                 </Link>
 
-                                {user?.role === 'admin' && (
-                                    <Link to="/admin" className={navLinkClasses('/admin')}>
-                                        ⚡ Admin
-                                    </Link>
-                                )}
-
                                 {/* New Post Pulsing CTA */}
                                 <Link
                                     to="/create"
@@ -395,15 +389,6 @@ const Navbar = () => {
                                                 >
                                                     <GearIcon /> Settings
                                                 </Link>
-                                                {user?.role === 'admin' && (
-                                                    <Link
-                                                        to="/admin"
-                                                        onClick={() => setIsProfileMenuOpen(false)}
-                                                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#D97B4F] dark:text-[#F5C36B] hover:bg-[#FFF5EF] dark:hover:bg-[#1A1E27] transition-colors"
-                                                    >
-                                                        ⚡ Admin Panel
-                                                    </Link>
-                                                )}
                                             </div>
 
                                             <div className="border-t border-gray-100 dark:border-[#1F232C] pt-1 mt-1">
@@ -420,6 +405,13 @@ const Navbar = () => {
                             </div>
                         ) : (
                             <div className="flex items-center gap-2 ml-2">
+                                <Link
+                                    to="/admin"
+                                    className="px-3 py-1.5 text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
+                                    title="Administrator Portal"
+                                >
+                                    ⚡ Admin
+                                </Link>
                                 <Link
                                     to="/login"
                                     className="px-4 py-2 text-xs sm:text-sm font-bold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
@@ -497,11 +489,6 @@ const Navbar = () => {
                                 <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
                                     <GearIcon /> Settings
                                 </Link>
-                                {user?.role === 'admin' && (
-                                    <Link to="/admin" className={navLinkClasses('/admin')} onClick={() => setIsMobileMenuOpen(false)}>
-                                        ⚡ Admin Panel
-                                    </Link>
-                                )}
                                 <hr className="my-2 border-gray-200 dark:border-[#1F232C]" />
                                 <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
                                     <LogoutIcon /> Logout
@@ -514,6 +501,9 @@ const Navbar = () => {
                                 </Link>
                                 <Link to="/register" className="px-4 py-2.5 text-center text-xs font-extrabold bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] rounded-full shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
                                     Get Started
+                                </Link>
+                                <Link to="/admin" className="px-4 py-2 text-center text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-[#D97B4F]" onClick={() => setIsMobileMenuOpen(false)}>
+                                    ⚡ Admin Portal
                                 </Link>
                             </div>
                         )}

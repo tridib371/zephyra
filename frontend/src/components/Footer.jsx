@@ -144,7 +144,13 @@ const Footer = () => {
                 </div>
 
                 <div className="mt-10 pt-6 border-t border-gray-200 dark:border-[#1F232C] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-gray-500 dark:text-[#6E7280]">
-                    <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
+                    <div className="flex items-center gap-3 text-xs sm:text-sm">
+                        <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
+                        <span>•</span>
+                        <Link to="/admin" className="hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors">
+                            Admin Portal
+                        </Link>
+                    </div>
                     <p className="flex items-center gap-1.5">
                         Made for people who create, wonder, and drift between ideas
                         <span className="grid h-5.5 w-5.5 place-items-center rounded-md bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-xs ring-1 ring-[#FF8F6B]/30 shrink-0">
