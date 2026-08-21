@@ -11,10 +11,7 @@ import {
     HiOutlineUserCircle,
     HiOutlineSparkles,
     HiOutlineExclamationTriangle,
-    HiOutlineCheckCircle,
-    HiOutlineEnvelope,
     HiOutlineSignal,
-    HiOutlineDocumentText,
 } from 'react-icons/hi2';
 
 const CATEGORIES = [
@@ -32,56 +29,39 @@ const HELP_CARDS = [
         title: 'Account & Profile Setup',
         desc: 'Customize your avatar, bio, handle, and display theme.',
         icon: HiOutlineUserCircle,
-        articleCount: '4 Guides',
     },
     {
         category: 'messaging',
         title: 'Direct Messaging & Sockets',
         desc: 'Real-time chats, delivery badges, and instant typing pulses.',
         icon: HiOutlineChatBubbleLeftRight,
-        articleCount: '5 Guides',
+    },
+    {
+        category: 'content',
+        title: 'Stories & Chronological Feeds',
+        desc: 'Publish visual stories, crop images, and explore posts.',
+        icon: HiOutlineSparkles,
     },
     {
         category: 'privacy',
         title: 'Privacy & Data Controls',
         desc: 'Export your account data, manage local storage, or delete data.',
         icon: HiOutlineShieldCheck,
-        articleCount: '6 Guides',
     },
     {
         category: 'safety',
         title: 'Trust & Community Safety',
         desc: 'Report guideline infractions, block users, and stay safe.',
         icon: HiOutlineExclamationTriangle,
-        articleCount: '3 Guides',
     },
 ];
 
 const FAQS = [
-    {
-        category: 'messaging',
-        q: 'How does real-time messaging work on Zephyra?',
-        a: 'Zephyra uses high-throughput WebSocket connections (WSS) to deliver messages with sub-15ms latency. As soon as you hit send, messages are pushed directly to the recipient without requiring page refreshes. Real-time indicators automatically show when a message is Sent (single check) and Seen (double check).',
-    },
+    // Account & Profile Setup
     {
         category: 'account',
         q: 'How do I change my profile photo, banner, and biography?',
         a: 'Click on your avatar in the top navigation bar and select "Profile", then click the "Edit Profile" button. You can upload custom images for your avatar and header banner with interactive crop tools, and update your bio and display name in real-time.',
-    },
-    {
-        category: 'content',
-        q: 'Why is my feed strictly chronological?',
-        a: 'Zephyra does not use algorithmic sorting or outrage-amplifying machine learning models. You see posts in the exact chronological order they were published by people you follow, ensuring a serene, honest, and unmanipulated browsing experience.',
-    },
-    {
-        category: 'privacy',
-        q: 'Does Zephyra track my browsing activity across other websites?',
-        a: 'No. We have a strict Zero-Tracker Pledge. Zephyra has zero third-party advertising tracking pixels, zero data broker integrations, and zero behavioral telemetry. Browser local storage is used solely for session authentication tokens and your chosen theme preference.',
-    },
-    {
-        category: 'safety',
-        q: 'How do I report abuse, harassment, or spam?',
-        a: 'Click the three dots (...) menu on any post or comment to submit an instant report to our moderation team. You can also visit our Contact Support page to submit a direct safety ticket. Reports are reviewed promptly by human administrators.',
     },
     {
         category: 'account',
@@ -89,24 +69,102 @@ const FAQS = [
         a: 'On the Sign In page, click "Forgot Password" to receive a secure, time-limited password reset link delivered to your registered email address.',
     },
     {
+        category: 'account',
+        q: 'How do I customize my unique @username handle?',
+        a: 'Navigate to Settings > Profile where you can choose a unique username handle (alphanumeric and underscores). Your username is your unique identifier across the platform and direct message searches.',
+    },
+    {
+        category: 'account',
+        q: 'How do I toggle between Obsidian Dark Mode and Warm Terracotta Light Mode?',
+        a: 'Click the Sun / Moon theme toggle in the top navigation bar at any time. Your preference is automatically stored in your browser local storage so your theme remains consistent every time you visit.',
+    },
+
+    // Direct Messaging & Sockets
+    {
+        category: 'messaging',
+        q: 'How does real-time messaging work on Zephyra?',
+        a: 'Zephyra uses high-throughput WebSocket connections (WSS) to deliver messages with sub-15ms latency. As soon as you hit send, messages are pushed directly to the recipient without requiring page refreshes.',
+    },
+    {
+        category: 'messaging',
+        q: 'How do the Sent and Seen checkmarks work in chat?',
+        a: 'When you dispatch a message, a bold cocoa single checkmark (✓ Sent) appears once it reaches our server. When the recipient views the conversation thread, it instantly updates to a double checkmark (✓✓ Seen) in real-time.',
+    },
+    {
+        category: 'messaging',
+        q: 'Can I start a direct chat from someone’s profile page?',
+        a: 'Yes! Simply visit any creator’s profile and click the "Message" button to immediately open a private conversation thread. You can also search for handles directly within the Messages inbox.',
+    },
+    {
+        category: 'messaging',
+        q: 'Can I delete messages or clear an entire conversation thread?',
+        a: 'Yes. You can delete individual messages or clear your conversation history. When cleared, messages are removed from active display for that thread.',
+    },
+
+    // Stories & Feeds
+    {
+        category: 'content',
+        q: 'Why is my feed strictly chronological without algorithms?',
+        a: 'Zephyra does not use algorithmic sorting or outrage-amplifying machine learning models. You see posts in the exact chronological order they were published by people you follow, ensuring a serene, honest, and unmanipulated browsing experience.',
+    },
+    {
         category: 'content',
         q: 'What image formats and file size limits are supported for stories?',
         a: 'Zephyra supports PNG, JPG, JPEG, WEBP, and GIF image formats up to 10MB per upload. Uploaded media is optimized on secure CDN edge clusters for instantaneous loading.',
     },
     {
+        category: 'content',
+        q: 'How do interactive comment threads and story likes work?',
+        a: 'Clicking the heart reaction on any post increments the like counter in real-time. Comments allow you to join the discussion underneath stories with live timestamps and author badges.',
+    },
+    {
+        category: 'content',
+        q: 'Can I edit or delete my published posts after sharing them?',
+        a: 'Yes! Open your post detail page and click the options menu to permanently delete your post. Deleting a post immediately removes it and all associated comments from global feeds.',
+    },
+
+    // Privacy & Security
+    {
         category: 'privacy',
-        q: 'How do I permanently delete my account and data?',
+        q: 'Does Zephyra track my browsing activity across other websites?',
+        a: 'No. We have a strict Zero-Tracker Pledge. Zephyra has zero third-party advertising tracking pixels, zero data broker integrations, and zero behavioral telemetry. Browser local storage is used solely for session authentication tokens and your chosen theme preference.',
+    },
+    {
+        category: 'privacy',
+        q: 'How do I manage local storage keys and browser cookies?',
+        a: 'Visit our Cookie & Storage Preferences page at /cookies where you can view our complete storage key matrix, toggle functional cache preferences, or clear your session data with one click.',
+    },
+    {
+        category: 'privacy',
+        q: 'How do I permanently delete my account and purge all data?',
         a: 'Go to Settings > Account and navigate to the Danger Zone section. Confirming account deletion permanently wipes your profile, published stories, comments, and direct message records from our primary database.',
     },
     {
-        category: 'messaging',
-        q: 'Can I delete messages after sending them?',
-        a: 'Yes, you can delete messages from your active conversation thread. When a conversation is closed or cleared, message records are purged from the primary channel.',
+        category: 'privacy',
+        q: 'How are passwords and authentication tokens secured?',
+        a: 'Passwords are cryptographically hashed using bcrypt with 10 salt rounds before being written to the database. Authenticated requests use signed JSON Web Tokens (JWT) transmitted over secure TLS 1.3 channels.',
+    },
+
+    // Trust & Moderation
+    {
+        category: 'safety',
+        q: 'How do I report abuse, harassment, or spam?',
+        a: 'Click the three dots (...) menu on any post or comment to submit an instant report to our moderation team. You can also visit our Contact Support page to submit a direct safety ticket. Reports are reviewed promptly by human administrators.',
+    },
+    {
+        category: 'safety',
+        q: 'How do I block or unfollow members who violate guidelines?',
+        a: 'On any user’s profile, you can click "Unfollow" to remove their posts from your feed. You can also report malicious handles directly to our moderation team for immediate review.',
     },
     {
         category: 'safety',
         q: 'What happens when an account is suspended or banned?',
         a: 'Accounts that violate Community Guidelines receive a transparent notification specifying the suspension reason. Suspended users cannot post, comment, or send messages until their appeal is resolved.',
+    },
+    {
+        category: 'safety',
+        q: 'How do I appeal a moderation decision or account warning?',
+        a: 'If you believe your post or account was moderated in error, submit an appeal through our Contact Us page (Category: Account & Login Help) with your username and reference details.',
     },
 ];
 
@@ -114,6 +172,12 @@ export default function Support() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [openIndex, setOpenIndex] = useState(null);
+
+    // Calculate dynamic guide count for each category
+    const getCategoryCount = (catId) => {
+        if (catId === 'all') return FAQS.length;
+        return FAQS.filter((f) => f.category === catId).length;
+    };
 
     const filteredFaqs = useMemo(() => {
         return FAQS.filter((faq) => {
@@ -160,7 +224,7 @@ export default function Support() {
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="absolute right-4 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white"
+                                    className="absolute right-4 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white cursor-pointer"
                                 >
                                     Clear
                                 </button>
@@ -179,26 +243,27 @@ export default function Support() {
                     </div>
                 </div>
 
-                {/* Top Category Glass Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {/* Top Category Glass Cards with Exact Dynamic Counts */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                     {HELP_CARDS.map((card) => {
                         const Icon = card.icon;
                         const isSelected = selectedCategory === card.category;
+                        const count = getCategoryCount(card.category);
                         return (
                             <div
                                 key={card.title}
                                 onClick={() => setSelectedCategory(card.category)}
-                                className={`p-6 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
+                                className={`p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
                                     isSelected
                                         ? 'bg-white dark:bg-[#181C26] border-[#D97B4F] dark:border-[#FF8F6B] shadow-md scale-[1.02]'
                                         : 'bg-white/80 dark:bg-[#12151C]/80 border-gray-200/80 dark:border-[#1F232C] hover:border-[#D97B4F]/40 hover:shadow-xs'
                                 }`}
                             >
-                                <div className="space-y-3">
-                                    <span className={`p-3 rounded-2xl text-xl inline-block ${isSelected ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D]' : 'bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B]'}`}>
+                                <div className="space-y-2.5">
+                                    <span className={`p-2.5 rounded-2xl text-xl inline-block ${isSelected ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D]' : 'bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B]'}`}>
                                         <Icon />
                                     </span>
-                                    <h3 className="font-['Fraunces'] font-bold text-base text-gray-900 dark:text-white">
+                                    <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-gray-900 dark:text-white">
                                         {card.title}
                                     </h3>
                                     <p className="text-xs text-gray-500 dark:text-[#8A8F9C] leading-relaxed">
@@ -206,7 +271,7 @@ export default function Support() {
                                     </p>
                                 </div>
                                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#D97B4F] dark:text-[#F5C36B]">
-                                    {card.articleCount} →
+                                    {count} {count === 1 ? 'Guide' : 'Guides'} →
                                 </span>
                             </div>
                         );
@@ -221,25 +286,31 @@ export default function Support() {
                                 Frequently Asked Questions
                             </h2>
                             <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C] mt-1">
-                                Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'guide' : 'guides'}
+                                Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'question' : 'questions'}
                             </p>
                         </div>
 
                         {/* Category Filter Pills */}
                         <div className="flex flex-wrap items-center gap-1.5">
-                            {CATEGORIES.map((cat) => (
-                                <button
-                                    key={cat.id}
-                                    onClick={() => setSelectedCategory(cat.id)}
-                                    className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                                        selectedCategory === cat.id
-                                            ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
-                                            : 'bg-white dark:bg-[#181C26] border border-gray-200 dark:border-[#252A36] text-gray-600 dark:text-[#A0A5B2] hover:border-gray-300'
-                                    }`}
-                                >
-                                    {cat.label}
-                                </button>
-                            ))}
+                            {CATEGORIES.map((cat) => {
+                                const catCount = getCategoryCount(cat.id);
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        onClick={() => setSelectedCategory(cat.id)}
+                                        className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                                            selectedCategory === cat.id
+                                                ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
+                                                : 'bg-white dark:bg-[#181C26] border border-gray-200 dark:border-[#252A36] text-gray-600 dark:text-[#A0A5B2] hover:border-gray-300'
+                                        }`}
+                                    >
+                                        <span>{cat.label}</span>
+                                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D]' : 'bg-gray-100 dark:bg-[#202532] text-gray-500'}`}>
+                                            {catCount}
+                                        </span>
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -248,7 +319,7 @@ export default function Support() {
                         {filteredFaqs.length === 0 ? (
                             <div className="p-12 text-center rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] space-y-3">
                                 <p className="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                    No guides found matching "{searchQuery}"
+                                    No questions found matching "{searchQuery}"
                                 </p>
                                 <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">
                                     Try searching for different keywords or select another category above.
