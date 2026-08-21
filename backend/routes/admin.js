@@ -38,23 +38,16 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        // Find or promote the admin user in DB
+        // Find or promote the exact admin user in DB
         let adminUser = await User.findOne({
             $or: [
-                { username: 'tridibsarkar813' },
                 { username: 'sarkartridib813' },
-                { email: 'tridibsarkar813@gmail.com' },
                 { email: 'sarkartridib813@gmail.com' },
             ],
         });
 
         if (!adminUser) {
             adminUser = await User.findOne({ role: 'admin' });
-        }
-
-        if (adminUser) {
-            adminUser.role = 'admin';
-            await adminUser.save();
         }
 
         const token = jwt.sign(

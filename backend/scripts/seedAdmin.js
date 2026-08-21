@@ -16,15 +16,33 @@ async function seed() {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash('SarkarTridib813$', salt);
 
-        // First reset ALL users to regular 'user' role
+        // 1. Reset ALL existing users to regular 'user' role
         await User.updateMany({}, { $set: { role: 'user', isBanned: false } });
 
-        // Set ONLY the single primary admin account (tridibsarkar813 / sarkartridib813) to 'admin'
-        await User.updateOne(
-            { $or: [{ username: 'tridibsarkar813' }, { email: 'tridibsarkar813@gmail.com' }, { username: 'sarkartridib813' }] },
-            { $set: { role: 'admin', password: hashedPassword } }
-        );
-        console.log('✅ Strictly set ONLY 1 single admin in database!');
+        // 2. Find or create the exact admin user: sarkartridib813 / sarkartridib813@gmail.com
+        let adminDoc = await User.findOne({
+            $or: [{ username: 'sarkartridib813' }, { email: 'sarkartridib813@gmail.com' }],
+        });
+
+        if (adminDoc) {
+            adminDoc.name = 'Tridib Sarkar';
+            adminDoc.username = 'sarkartridib813';
+            adminDoc.email = 'sarkartridib813@gmail.com';
+            adminDoc.role = 'admin';
+            adminDoc.password = hashedPassword;
+            await adminDoc.save();
+        } else {
+            adminDoc = await User.create({
+                name: 'Tridib Sarkar',
+                username: 'sarkartridib813',
+                email: 'sarkartridib813@gmail.com',
+                password: hashedPassword,
+                role: 'admin',
+                profilePicture: 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
+            });
+        }
+
+        console.log(`✅ EXACT Admin set: ${adminDoc.name} (@${adminDoc.username} • ${adminDoc.email})`);
 
         await mongoose.disconnect();
         console.log('Done.');
