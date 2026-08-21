@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -57,111 +57,161 @@ const HELP_CARDS = [
 ];
 
 const FAQS = [
-    // Account & Profile Setup
+    // 1. Account & Profile Setup (5 Guides)
     {
+        id: 'acc-1',
         category: 'account',
         q: 'How do I change my profile photo, banner, and biography?',
         a: 'Click on your avatar in the top navigation bar and select "Profile", then click the "Edit Profile" button. You can upload custom images for your avatar and header banner with interactive crop tools, and update your bio and display name in real-time.',
     },
     {
+        id: 'acc-2',
         category: 'account',
-        q: 'What should I do if I forget my password?',
+        q: 'What should I do if I forget my password or get locked out?',
         a: 'On the Sign In page, click "Forgot Password" to receive a secure, time-limited password reset link delivered to your registered email address.',
     },
     {
+        id: 'acc-3',
         category: 'account',
         q: 'How do I customize my unique @username handle?',
         a: 'Navigate to Settings > Profile where you can choose a unique username handle (alphanumeric and underscores). Your username is your unique identifier across the platform and direct message searches.',
     },
     {
+        id: 'acc-4',
         category: 'account',
         q: 'How do I toggle between Obsidian Dark Mode and Warm Terracotta Light Mode?',
         a: 'Click the Sun / Moon theme toggle in the top navigation bar at any time. Your preference is automatically stored in your browser local storage so your theme remains consistent every time you visit.',
     },
-
-    // Direct Messaging & Sockets
     {
+        id: 'acc-5',
+        category: 'account',
+        q: 'Can I link my social links or portfolio on my Zephyra profile?',
+        a: 'Yes, in your profile edit view you can link personal websites, GitHub, or portfolio URLs to display directly below your bio.',
+    },
+
+    // 2. Direct Messaging & Sockets (6 Guides)
+    {
+        id: 'msg-1',
         category: 'messaging',
         q: 'How does real-time messaging work on Zephyra?',
         a: 'Zephyra uses high-throughput WebSocket connections (WSS) to deliver messages with sub-15ms latency. As soon as you hit send, messages are pushed directly to the recipient without requiring page refreshes.',
     },
     {
+        id: 'msg-2',
         category: 'messaging',
         q: 'How do the Sent and Seen checkmarks work in chat?',
         a: 'When you dispatch a message, a bold cocoa single checkmark (✓ Sent) appears once it reaches our server. When the recipient views the conversation thread, it instantly updates to a double checkmark (✓✓ Seen) in real-time.',
     },
     {
+        id: 'msg-3',
         category: 'messaging',
         q: 'Can I start a direct chat from someone’s profile page?',
         a: 'Yes! Simply visit any creator’s profile and click the "Message" button to immediately open a private conversation thread. You can also search for handles directly within the Messages inbox.',
     },
     {
+        id: 'msg-4',
         category: 'messaging',
         q: 'Can I delete messages or clear an entire conversation thread?',
         a: 'Yes. You can delete individual messages or clear your conversation history. When cleared, messages are removed from active display for that thread.',
     },
-
-    // Stories & Feeds
     {
+        id: 'msg-5',
+        category: 'messaging',
+        q: 'Is there a character limit on direct messages?',
+        a: 'Direct messages support up to 4,000 characters per message, allowing for thoughtful long-form discussions without arbitrary truncation.',
+    },
+    {
+        id: 'msg-6',
+        category: 'messaging',
+        q: 'Do I get notifications when receiving a message while in another tab?',
+        a: 'Yes! If you have the browser tab open in the background, incoming messages trigger an ambient audio ping and update your unread message badge count in the navigation bar in real-time.',
+    },
+
+    // 3. Stories & Feeds (4 Guides)
+    {
+        id: 'feed-1',
         category: 'content',
         q: 'Why is my feed strictly chronological without algorithms?',
         a: 'Zephyra does not use algorithmic sorting or outrage-amplifying machine learning models. You see posts in the exact chronological order they were published by people you follow, ensuring a serene, honest, and unmanipulated browsing experience.',
     },
     {
+        id: 'feed-2',
         category: 'content',
         q: 'What image formats and file size limits are supported for stories?',
         a: 'Zephyra supports PNG, JPG, JPEG, WEBP, and GIF image formats up to 10MB per upload. Uploaded media is optimized on secure CDN edge clusters for instantaneous loading.',
     },
     {
+        id: 'feed-3',
         category: 'content',
         q: 'How do interactive comment threads and story likes work?',
         a: 'Clicking the heart reaction on any post increments the like counter in real-time. Comments allow you to join the discussion underneath stories with live timestamps and author badges.',
     },
     {
+        id: 'feed-4',
         category: 'content',
         q: 'Can I edit or delete my published posts after sharing them?',
         a: 'Yes! Open your post detail page and click the options menu to permanently delete your post. Deleting a post immediately removes it and all associated comments from global feeds.',
     },
 
-    // Privacy & Security
+    // 4. Privacy & Security (7 Guides)
     {
+        id: 'priv-1',
         category: 'privacy',
         q: 'Does Zephyra track my browsing activity across other websites?',
         a: 'No. We have a strict Zero-Tracker Pledge. Zephyra has zero third-party advertising tracking pixels, zero data broker integrations, and zero behavioral telemetry. Browser local storage is used solely for session authentication tokens and your chosen theme preference.',
     },
     {
+        id: 'priv-2',
         category: 'privacy',
         q: 'How do I manage local storage keys and browser cookies?',
         a: 'Visit our Cookie & Storage Preferences page at /cookies where you can view our complete storage key matrix, toggle functional cache preferences, or clear your session data with one click.',
     },
     {
+        id: 'priv-3',
         category: 'privacy',
         q: 'How do I permanently delete my account and purge all data?',
         a: 'Go to Settings > Account and navigate to the Danger Zone section. Confirming account deletion permanently wipes your profile, published stories, comments, and direct message records from our primary database.',
     },
     {
+        id: 'priv-4',
         category: 'privacy',
         q: 'How are passwords and authentication tokens secured?',
         a: 'Passwords are cryptographically hashed using bcrypt with 10 salt rounds before being written to the database. Authenticated requests use signed JSON Web Tokens (JWT) transmitted over secure TLS 1.3 channels.',
     },
-
-    // Trust & Moderation
     {
+        id: 'priv-5',
+        category: 'privacy',
+        q: 'Can administrators read my private direct messages?',
+        a: 'No. Our database access policies isolate conversation queries strictly to authorized participants. Private conversations are never surfaced in the public admin control panel.',
+    },
+    {
+        id: 'priv-6',
+        category: 'privacy',
+        q: 'How do I request an export of all my personal data?',
+        a: 'You can submit a data export request through Settings or by emailing privacy@zephyra.app. We deliver a complete JSON archive of your account records within 48 business hours.',
+    },
+    {
+        id: 'priv-7',
+        category: 'privacy',
+        q: 'Where is my media hosted and is it encrypted at rest?',
+        a: 'Images and media assets are hosted on encrypted Cloudinary CDN buckets with HTTPS TLS delivery, while database records are stored on dedicated MongoDB Atlas clusters with AES-256 encryption at rest.',
+    },
+
+    // 5. Trust & Moderation (3 Guides)
+    {
+        id: 'safe-1',
         category: 'safety',
         q: 'How do I report abuse, harassment, or spam?',
         a: 'Click the three dots (...) menu on any post or comment to submit an instant report to our moderation team. You can also visit our Contact Support page to submit a direct safety ticket. Reports are reviewed promptly by human administrators.',
     },
     {
-        category: 'safety',
-        q: 'How do I block or unfollow members who violate guidelines?',
-        a: 'On any user’s profile, you can click "Unfollow" to remove their posts from your feed. You can also report malicious handles directly to our moderation team for immediate review.',
-    },
-    {
+        id: 'safe-2',
         category: 'safety',
         q: 'What happens when an account is suspended or banned?',
         a: 'Accounts that violate Community Guidelines receive a transparent notification specifying the suspension reason. Suspended users cannot post, comment, or send messages until their appeal is resolved.',
     },
     {
+        id: 'safe-3',
         category: 'safety',
         q: 'How do I appeal a moderation decision or account warning?',
         a: 'If you believe your post or account was moderated in error, submit an appeal through our Contact Us page (Category: Account & Login Help) with your username and reference details.',
@@ -179,16 +229,36 @@ export default function Support() {
         return FAQS.filter((f) => f.category === catId).length;
     };
 
+    // When the user starts typing in search, reset category to 'all' so search is never constrained
+    const handleSearchChange = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        if (query.trim().length > 0 && selectedCategory !== 'all') {
+            setSelectedCategory('all');
+        }
+    };
+
     const filteredFaqs = useMemo(() => {
+        const query = searchQuery.trim().toLowerCase();
         return FAQS.filter((faq) => {
             const matchesCategory = selectedCategory === 'all' || faq.category === selectedCategory;
-            const matchesSearch =
-                !searchQuery.trim() ||
-                faq.q.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                faq.a.toLowerCase().includes(searchQuery.toLowerCase());
-            return matchesCategory && matchesSearch;
+            if (!query) return matchesCategory;
+
+            // Search matches question, answer, or category
+            const matchesQ = faq.q.toLowerCase().includes(query);
+            const matchesA = faq.a.toLowerCase().includes(query);
+            const matchesCat = faq.category.toLowerCase().includes(query);
+
+            return matchesCategory && (matchesQ || matchesA || matchesCat);
         });
     }, [searchQuery, selectedCategory]);
+
+    // Automatically expand the first item when a search is entered
+    useEffect(() => {
+        if (searchQuery.trim().length > 0 && filteredFaqs.length > 0) {
+            setOpenIndex(0);
+        }
+    }, [searchQuery, filteredFaqs.length]);
 
     const toggleFaq = (idx) => {
         setOpenIndex(openIndex === idx ? null : idx);
@@ -217,19 +287,24 @@ export default function Support() {
                             <input
                                 type="text"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Search questions, settings, real-time messaging..."
-                                className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-white dark:bg-[#181C26] px-5 py-4 pl-12 pr-10 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 shadow-md transition-all"
+                                onChange={handleSearchChange}
+                                placeholder="Search questions, password, messaging, privacy, delete..."
+                                className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-white dark:bg-[#181C26] px-5 py-4 pl-12 pr-16 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 shadow-md transition-all"
                             />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="absolute right-4 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white cursor-pointer"
+                                    className="absolute right-4 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white cursor-pointer px-2 py-1 bg-gray-100 dark:bg-[#202532] rounded-lg"
                                 >
                                     Clear
                                 </button>
                             )}
                         </div>
+                        {searchQuery && (
+                            <p className="text-xs text-left text-gray-500 dark:text-gray-400 mt-2 px-1">
+                                Found {filteredFaqs.length} {filteredFaqs.length === 1 ? 'result' : 'results'} for "{searchQuery}"
+                            </p>
+                        )}
                     </div>
 
                     {/* System Live Status Pill */}
@@ -243,7 +318,7 @@ export default function Support() {
                     </div>
                 </div>
 
-                {/* Top Category Glass Cards with Exact Dynamic Counts */}
+                {/* Top Category Glass Cards with Exact Natural Dynamic Counts */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                     {HELP_CARDS.map((card) => {
                         const Icon = card.icon;
@@ -252,7 +327,10 @@ export default function Support() {
                         return (
                             <div
                                 key={card.title}
-                                onClick={() => setSelectedCategory(card.category)}
+                                onClick={() => {
+                                    setSelectedCategory(card.category);
+                                    setSearchQuery('');
+                                }}
                                 className={`p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
                                     isSelected
                                         ? 'bg-white dark:bg-[#181C26] border-[#D97B4F] dark:border-[#FF8F6B] shadow-md scale-[1.02]'
@@ -297,7 +375,10 @@ export default function Support() {
                                 return (
                                     <button
                                         key={cat.id}
-                                        onClick={() => setSelectedCategory(cat.id)}
+                                        onClick={() => {
+                                            setSelectedCategory(cat.id);
+                                            setSearchQuery('');
+                                        }}
                                         className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                                             selectedCategory === cat.id
                                                 ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
@@ -322,15 +403,24 @@ export default function Support() {
                                     No questions found matching "{searchQuery}"
                                 </p>
                                 <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">
-                                    Try searching for different keywords or select another category above.
+                                    Try searching for different keywords or click "All Topics" above.
                                 </p>
+                                <button
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setSelectedCategory('all');
+                                    }}
+                                    className="px-4 py-2 rounded-full bg-[#D97B4F] text-white text-xs font-bold hover:brightness-105 transition-all cursor-pointer"
+                                >
+                                    Reset Filters
+                                </button>
                             </div>
                         ) : (
                             filteredFaqs.map((faq, idx) => {
                                 const isOpen = openIndex === idx;
                                 return (
                                     <div
-                                        key={faq.q}
+                                        key={faq.id || faq.q}
                                         className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 overflow-hidden transition-all shadow-xs"
                                     >
                                         <button
