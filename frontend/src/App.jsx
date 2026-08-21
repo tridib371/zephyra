@@ -48,10 +48,8 @@ function AppShell() {
               <Route path="/notifications" element={<Notifications />} />
             </Route>
 
-            {/* Admin / Moderator Protected Route */}
-            <Route element={<AdminRoute />}>
-              <Route path="/admin" element={<Admin />} />
-            </Route>
+            {/* Admin Portal (Protected by dedicated Admin Login Gate) */}
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </ErrorBoundary>
       </main>

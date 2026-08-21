@@ -18,11 +18,26 @@ const safeFormatDate = (d, options = {}) => {
 
 export default function Admin() {
     const { user, updateUser } = useAuth();
+
+    // ==========================================
+    // ADMIN GATE AUTHENTICATION STATE
+    // ==========================================
+    const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+        return Boolean(localStorage.getItem('zephyra_admin_token') || sessionStorage.getItem('zephyra_admin_auth'));
+    });
+
+    const [adminInputId, setAdminInputId] = useState('');
+    const [adminInputPassword, setAdminInputPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [authLoading, setAuthLoading] = useState(false);
+    const [authError, setAuthError] = useState('');
+
+    // Dashboard State
     const [activeTab, setActiveTab] = useState('overview');
 
     // Overview Stats
     const [stats, setStats] = useState(null);
-    const [statsLoading, setStatsLoading] = useState(true);
+    const [statsLoading, setStatsLoading] = useState(false);
 
     // Users Management
     const [users, setUsers] = useState([]);
@@ -56,15 +71,54 @@ export default function Admin() {
     const [deletePostConfirm, setDeletePostConfirm] = useState(null);
     const [toastMessage, setToastMessage] = useState('');
 
-    const isAdmin = user?.role === 'admin';
-
     const showToast = (msg) => {
         setToastMessage(msg);
         setTimeout(() => setToastMessage(''), 4000);
     };
 
+    // ==========================================
+    // HANDLE ADMIN GATE LOGIN
+    // ==========================================
+    const handleAdminLogin = async (e) => {
+        e.preventDefault();
+        setAuthError('');
+        setAuthLoading(true);
+
+        try {
+            const res = await api.post('/admin/login', {
+                identifier: adminInputId.trim(),
+                password: adminInputPassword,
+            });
+
+            if (res.data.success) {
+                localStorage.setItem('zephyra_admin_token', res.data.token);
+                sessionStorage.setItem('zephyra_admin_auth', 'true');
+                setIsAdminAuthenticated(true);
+                setAuthError('');
+                showToast('Welcome, Administrator!');
+            }
+        } catch (err) {
+            setAuthError(
+                err.response?.data?.message ||
+                'Invalid Administrator Credentials. Access Denied.'
+            );
+        } finally {
+            setAuthLoading(false);
+        }
+    };
+
+    // Handle Admin Session Lock / Logout
+    const handleLockAdminSession = () => {
+        localStorage.removeItem('zephyra_admin_token');
+        sessionStorage.removeItem('zephyra_admin_auth');
+        setIsAdminAuthenticated(false);
+        setAdminInputPassword('');
+        showToast('Admin session locked successfully');
+    };
+
     // 1. Fetch Stats
     const fetchStats = useCallback(async () => {
+        if (!isAdminAuthenticated) return;
         try {
             setStatsLoading(true);
             const res = await api.get('/admin/stats');
@@ -74,10 +128,11 @@ export default function Admin() {
         } finally {
             setStatsLoading(false);
         }
-    }, []);
+    }, [isAdminAuthenticated]);
 
     // 2. Fetch Users
     const fetchUsers = useCallback(async () => {
+        if (!isAdminAuthenticated) return;
         try {
             setUsersLoading(true);
             const params = new URLSearchParams({
@@ -96,10 +151,11 @@ export default function Admin() {
         } finally {
             setUsersLoading(false);
         }
-    }, [usersPage, userSearch, userRoleFilter, userStatusFilter]);
+    }, [isAdminAuthenticated, usersPage, userSearch, userRoleFilter, userStatusFilter]);
 
     // 3. Fetch Posts
     const fetchPosts = useCallback(async () => {
+        if (!isAdminAuthenticated) return;
         try {
             setPostsLoading(true);
             const params = new URLSearchParams({
@@ -116,28 +172,26 @@ export default function Admin() {
         } finally {
             setPostsLoading(false);
         }
-    }, [postsPage, postSearch]);
+    }, [isAdminAuthenticated, postsPage, postSearch]);
 
-    // Initial and tab-dependent loads
+    // Tab loads
     useEffect(() => {
-        if (activeTab === 'overview') fetchStats();
-        if (activeTab === 'users') fetchUsers();
-        if (activeTab === 'posts') fetchPosts();
-    }, [activeTab, fetchStats, fetchUsers, fetchPosts]);
+        if (isAdminAuthenticated) {
+            if (activeTab === 'overview') fetchStats();
+            if (activeTab === 'users') fetchUsers();
+            if (activeTab === 'posts') fetchPosts();
+        }
+    }, [isAdminAuthenticated, activeTab, fetchStats, fetchUsers, fetchPosts]);
 
     // Role update
     const handleRoleChange = async (targetUser, newRole) => {
-        if (!isAdmin) {
-            showToast('Only Administrators can modify user roles.');
-            return;
-        }
         try {
             const res = await api.put(`/admin/users/${targetUser._id}/role`, { role: newRole });
             showToast(res.data.message || 'User role updated');
             setUsers((prev) =>
                 prev.map((u) => (u._id === targetUser._id ? { ...u, role: newRole } : u))
             );
-            if (targetUser._id === user._id) {
+            if (targetUser._id === user?._id) {
                 updateUser({ ...user, role: newRole });
             }
         } catch (err) {
@@ -190,7 +244,7 @@ export default function Admin() {
     const handleDeletePost = async (postId) => {
         try {
             const res = await api.delete(`/admin/posts/${postId}`);
-            showToast(res.data.message || 'Post deleted by moderator');
+            showToast(res.data.message || 'Post deleted by administrator');
             setPosts((prev) => prev.filter((p) => p._id !== postId));
             setDeletePostConfirm(null);
             fetchStats();
@@ -223,6 +277,117 @@ export default function Admin() {
         }
     };
 
+    // =========================================================
+    // 🔒 SCREEN 1: ADMIN LOGIN GATE (WHEN NOT AUTHENTICATED)
+    // =========================================================
+    if (!isAdminAuthenticated) {
+        return (
+            <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_rgba(255,143,107,0.18),_transparent_55%),linear-gradient(180deg,_#FAF7F2_0%,_#F2EBE0_100%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(245,195,107,0.14),_transparent_50%),linear-gradient(180deg,_#0B0E13_0%,_#080A0E_100%)] px-4 py-12 transition-colors duration-300">
+                <div className="w-full max-w-md">
+
+                    {/* Outer Glow Card */}
+                    <div className="rounded-[2.5rem] border border-white/60 dark:border-white/10 bg-white/90 dark:bg-[#12151D]/90 p-8 sm:p-10 backdrop-blur-2xl shadow-[0_30px_90px_-25px_rgba(217,123,79,0.25)] dark:shadow-[0_30px_90px_-25px_rgba(0,0,0,0.8)] space-y-7">
+
+                        {/* Top Security Badge */}
+                        <div className="text-center space-y-3">
+                            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-3xl font-black shadow-[0_10px_30px_-5px_rgba(217,123,79,0.6)] ring-4 ring-[#FF8F6B]/30 animate-pulse">
+                                🛡️
+                            </div>
+                            <h1 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                                Admin Access Gate
+                            </h1>
+                            <p className="text-xs sm:text-sm text-gray-500 dark:text-[#9DA3B4] max-w-xs mx-auto">
+                                Restricted portal. Enter authorized administrator credentials to unlock platform controls.
+                            </p>
+                        </div>
+
+                        {/* Error Alert */}
+                        {authError && (
+                            <div className="p-3.5 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 text-red-700 dark:text-red-300 text-xs font-semibold flex items-center gap-2.5 animate-shake">
+                                <span className="text-base">🚫</span>
+                                <span>{authError}</span>
+                            </div>
+                        )}
+
+                        {/* Login Form */}
+                        <form onSubmit={handleAdminLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1.5 font-[Manrope]">
+                                    Admin Email / Username
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="sarkartridib813"
+                                        value={adminInputId}
+                                        onChange={(e) => setAdminInputId(e.target.value)}
+                                        className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-3 pl-10 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
+                                        required
+                                        autoFocus
+                                    />
+                                    <span className="absolute left-3.5 top-3.5 text-gray-400 text-sm">👤</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1.5 font-[Manrope]">
+                                    Master Password
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        placeholder="Enter Master Password..."
+                                        value={adminInputPassword}
+                                        onChange={(e) => setAdminInputPassword(e.target.value)}
+                                        className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-3 pl-10 pr-11 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
+                                        required
+                                    />
+                                    <span className="absolute left-3.5 top-3.5 text-gray-400 text-sm">🔑</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3.5 top-3 text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-bold p-0.5"
+                                        tabIndex={-1}
+                                    >
+                                        {showPassword ? 'Hide' : 'Show'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={authLoading || !adminInputId.trim() || !adminInputPassword}
+                                className="w-full mt-2 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_25px_-5px_rgba(217,123,79,0.5)] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                {authLoading ? (
+                                    <div className="h-5 w-5 border-2 border-[#1A140D] border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                    <>
+                                        <span>Unlock Control Center</span>
+                                        <span>⚡</span>
+                                    </>
+                                )}
+                            </button>
+                        </form>
+
+                        <div className="pt-2 text-center border-t border-gray-100 dark:border-[#1F232C]">
+                            <Link
+                                to="/feed"
+                                className="text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-[#D97B4F] transition-colors inline-flex items-center gap-1"
+                            >
+                                ← Return to Community Feed
+                            </Link>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        );
+    }
+
+    // =========================================================
+    // ⚡ SCREEN 2: UNLOCKED ADMIN CONTROL CENTER
+    // =========================================================
     return (
         <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto space-y-6">
@@ -246,8 +411,8 @@ export default function Admin() {
                                 <h1 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold tracking-tight">
                                     Control Center
                                 </h1>
-                                <span className={`text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${user?.role === 'admin' ? 'bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300'}`}>
-                                    {user?.role || 'Admin'}
+                                <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]">
+                                    Super Admin
                                 </span>
                             </div>
                             <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
@@ -256,12 +421,18 @@ export default function Admin() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2.5">
+                        <button
+                            onClick={handleLockAdminSession}
+                            className="px-4 py-2 text-xs sm:text-sm font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 rounded-full border border-red-200 dark:border-red-900/50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                        >
+                            <span>🔒</span> Lock Session
+                        </button>
                         <Link
                             to="/feed"
                             className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border border-gray-200 dark:border-[#1F232C] hover:bg-gray-50 dark:hover:bg-[#181C26] transition-colors"
                         >
-                            ← Back to Feed
+                            Feed →
                         </Link>
                     </div>
                 </div>
@@ -307,7 +478,7 @@ export default function Admin() {
                                             <span className="h-8 w-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 grid place-items-center text-sm">👥</span>
                                         </div>
                                         <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{stats.totalUsers.toLocaleString()}</div>
-                                        <div className="mt-1 text-[11px] text-gray-400">{stats.adminCount} Admins • {stats.moderatorCount} Mods</div>
+                                        <div className="mt-1 text-[11px] text-gray-400">Total registered members</div>
                                     </div>
 
                                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
@@ -453,7 +624,6 @@ export default function Admin() {
                                 >
                                     <option value="">All Roles</option>
                                     <option value="admin">Admins</option>
-                                    <option value="moderator">Moderators</option>
                                     <option value="user">Regular Users</option>
                                 </select>
 
@@ -510,8 +680,8 @@ export default function Admin() {
                                                             <div className="min-w-0">
                                                                 <div className="font-bold text-sm truncate flex items-center gap-1.5">
                                                                     <span>{u.name}</span>
-                                                                    {u._id === user?._id && (
-                                                                        <span className="text-[9px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 font-extrabold px-1.5 py-0.2 rounded-full">YOU</span>
+                                                                    {u.role === 'admin' && (
+                                                                        <span className="text-[9px] bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B] font-extrabold px-1.5 py-0.2 rounded-full">ADMIN</span>
                                                                     )}
                                                                 </div>
                                                                 <div className="text-xs text-gray-400 truncate">@{u.username} • {u.email}</div>
@@ -520,21 +690,9 @@ export default function Admin() {
                                                     </td>
 
                                                     <td className="px-5 py-4">
-                                                        {isAdmin && u._id !== user?._id ? (
-                                                            <select
-                                                                value={u.role || 'user'}
-                                                                onChange={(e) => handleRoleChange(u, e.target.value)}
-                                                                className="rounded-xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-2.5 py-1 text-xs font-bold focus:outline-none"
-                                                            >
-                                                                <option value="user">User</option>
-                                                                <option value="moderator">Moderator</option>
-                                                                <option value="admin">Admin</option>
-                                                            </select>
-                                                        ) : (
-                                                            <span className={`text-[11px] font-black uppercase px-2.5 py-1 rounded-full ${u.role === 'admin' ? 'bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]' : u.role === 'moderator' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`}>
-                                                                {u.role || 'user'}
-                                                            </span>
-                                                        )}
+                                                        <span className={`text-[11px] font-black uppercase px-2.5 py-1 rounded-full ${u.role === 'admin' ? 'bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`}>
+                                                            {u.role || 'user'}
+                                                        </span>
                                                     </td>
 
                                                     <td className="px-5 py-4">
@@ -559,22 +717,22 @@ export default function Admin() {
 
                                                     <td className="px-5 py-4 text-right">
                                                         <div className="flex items-center justify-end gap-1.5">
-                                                            {u._id !== user?._id && u.role !== 'admin' && (
+                                                            {u.role !== 'admin' && (
                                                                 <button
                                                                     onClick={() => {
                                                                         setBanModalUser(u);
                                                                         setBanReason(u.bannedReason || '');
                                                                     }}
-                                                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${u.isBanned ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/20 dark:hover:bg-emerald-900/30' : 'bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30'}`}
+                                                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${u.isBanned ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/20 dark:hover:bg-emerald-900/30' : 'bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30'}`}
                                                                 >
                                                                     {u.isBanned ? 'Lift Ban' : 'Suspend'}
                                                                 </button>
                                                             )}
 
-                                                            {isAdmin && u._id !== user?._id && (
+                                                            {u.role !== 'admin' && (
                                                                 <button
                                                                     onClick={() => setDeleteUserConfirm(u._id)}
-                                                                    className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                                                    className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
                                                                     title="Permanently Delete User"
                                                                 >
                                                                     🗑️
@@ -689,7 +847,7 @@ export default function Admin() {
 
                                             <button
                                                 onClick={() => setDeletePostConfirm(p._id)}
-                                                className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold transition-colors flex items-center gap-1"
+                                                className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
                                             >
                                                 <span>🗑️ Delete Story</span>
                                             </button>
@@ -778,7 +936,7 @@ export default function Admin() {
                                 <button
                                     type="submit"
                                     disabled={announcementSending || !announcementTitle.trim() || !announcementMessage.trim()}
-                                    className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all flex items-center justify-center gap-2"
+                                    className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                                 >
                                     {announcementSending ? (
                                         <div className="h-5 w-5 border-2 border-[#1A140D] border-t-transparent rounded-full animate-spin" />
@@ -864,14 +1022,14 @@ export default function Admin() {
                         <div className="flex items-center justify-end gap-2 pt-2">
                             <button
                                 onClick={() => setBanModalUser(null)}
-                                className="px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 dark:border-[#252A36] hover:bg-gray-50 dark:hover:bg-[#181C26]"
+                                className="px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 dark:border-[#252A36] hover:bg-gray-50 dark:hover:bg-[#181C26] cursor-pointer"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleBanSubmit}
                                 disabled={banActionLoading}
-                                className={`px-5 py-2 rounded-xl text-xs font-bold text-white transition-colors ${banModalUser.isBanned ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-red-600 hover:bg-red-700'}`}
+                                className={`px-5 py-2 rounded-xl text-xs font-bold text-white transition-colors cursor-pointer ${banModalUser.isBanned ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-red-600 hover:bg-red-700'}`}
                             >
                                 {banActionLoading ? 'Saving...' : banModalUser.isBanned ? 'Lift Suspension' : 'Confirm Suspension'}
                             </button>

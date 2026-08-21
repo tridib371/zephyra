@@ -1,9 +1,88 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const { protect, requireAdmin } = require('../middleware/auth');
 const User = require('../models/User');
 const Post = require('../models/Post');
 const Notification = require('../models/Notification');
 const router = express.Router();
+
+// ==========================================
+// 0. ADMIN PORTAL GATE LOGIN
+// ==========================================
+// @route   POST /api/admin/login
+// @desc    Authenticate Administrator with fixed credentials
+// @access  Public
+router.post('/login', async (req, res) => {
+    try {
+        const { identifier, password } = req.body;
+        if (!identifier || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide administrator Email/Username and Password',
+            });
+        }
+
+        const cleanId = String(identifier).trim().toLowerCase();
+        const isUserMatch =
+            cleanId === 'sarkartridib813' ||
+            cleanId === 'sarkartridib813@gmail.com' ||
+            cleanId === 'tridibsarkar813' ||
+            cleanId === 'tridibsarkar813@gmail.com';
+
+        const isPasswordMatch = password === 'SarkarTridib813$';
+
+        if (!isUserMatch || !isPasswordMatch) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid Administrator Credentials. Access Denied.',
+            });
+        }
+
+        // Find or promote the admin user in DB
+        let adminUser = await User.findOne({
+            $or: [
+                { username: 'tridibsarkar813' },
+                { username: 'sarkartridib813' },
+                { email: 'tridibsarkar813@gmail.com' },
+                { email: 'sarkartridib813@gmail.com' },
+            ],
+        });
+
+        if (!adminUser) {
+            adminUser = await User.findOne({ role: 'admin' });
+        }
+
+        if (adminUser) {
+            adminUser.role = 'admin';
+            await adminUser.save();
+        }
+
+        const token = jwt.sign(
+            {
+                id: adminUser ? adminUser._id : 'admin_super_user',
+                username: 'sarkartridib813',
+                role: 'admin',
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: 'Administrator Authenticated Successfully',
+            token,
+            admin: {
+                username: 'sarkartridib813',
+                name: adminUser?.name || 'Tridib Sarkar',
+                email: adminUser?.email || 'sarkartridib813@gmail.com',
+                role: 'admin',
+            },
+        });
+    } catch (err) {
+        console.error('Admin login error:', err);
+        res.status(500).json({ success: false, message: 'Server error during admin authentication' });
+    }
+});
 
 // ==========================================
 // 1. STATS & ANALYTICS OVERVIEW

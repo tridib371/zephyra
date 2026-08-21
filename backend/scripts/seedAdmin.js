@@ -12,15 +12,19 @@ async function seed() {
         console.log('Current users count:', users.length);
         console.log(users);
 
+        const bcrypt = require('bcryptjs');
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash('SarkarTridib813$', salt);
+
         // First reset ALL users to regular 'user' role
         await User.updateMany({}, { $set: { role: 'user', isBanned: false } });
 
-        // Set ONLY the primary owner account (tridibsarkar813 and tridibsarkar0) to 'admin'
+        // Set ONLY the primary owner account to 'admin' and set fixed password
         await User.updateMany(
-            { username: { $in: ['tridibsarkar813', 'tridibsarkar0'] } },
-            { $set: { role: 'admin' } }
+            { username: { $in: ['tridibsarkar813', 'tridibsarkar0', 'sarkartridib813'] } },
+            { $set: { role: 'admin', password: hashedPassword } }
         );
-        console.log('✅ Set all users to regular role, and set ONLY Tridib Sarkar to ADMIN!');
+        console.log('✅ Updated admin password and set ONLY Tridib Sarkar to ADMIN!');
 
         await mongoose.disconnect();
         console.log('Done.');
