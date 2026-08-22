@@ -42,7 +42,7 @@ const BellIcon = ({ hasUnread = false }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
         <path d="M6 8a6 6 0 0 1 12 0c0 4.2 1.2 6 2 7H4c.8-1 2-2.8 2-7Z" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M9.5 18a2.5 2.5 0 0 0 5 0" strokeLinecap="round" />
-        {hasUnread && <circle cx="18.5" cy="5.5" r="3.5" fill="#EF4444" className="animate-ping" />}
+        {hasUnread && <circle cx="18.5" cy="5.5" r="3" fill="#D97B4F" />}
     </svg>
 );
 

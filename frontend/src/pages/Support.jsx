@@ -351,7 +351,7 @@ export default function Support() {
 
                     {/* System Live Status Pill */}
                     <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-900/40 bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
-                        <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-400/40 shrink-0" />
                         <span className="flex items-center gap-1.5">
                             <HiOutlineSignal />
                             <span>All Systems Operational</span>

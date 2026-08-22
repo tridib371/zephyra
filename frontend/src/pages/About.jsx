@@ -184,7 +184,7 @@ export default function About() {
                         transition={{ duration: 0.7 }}
                         className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-white/80 dark:bg-[#151922]/80 backdrop-blur-xl shadow-xs"
                     >
-                        <span className="h-2.5 w-2.5 rounded-full bg-[#FF8F6B] animate-ping" />
+                        <HiOutlineSparkles className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
                         <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                             The Zephyra Manifesto
                         </span>

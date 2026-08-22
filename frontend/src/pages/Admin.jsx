@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
+import { HiOutlineShieldCheck, HiOutlineExclamationCircle } from 'react-icons/hi2';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -298,8 +299,8 @@ export default function Admin() {
 
                         {/* Top Security Badge */}
                         <div className="text-center space-y-3">
-                            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-3xl font-black shadow-[0_10px_30px_-5px_rgba(217,123,79,0.6)] ring-4 ring-[#FF8F6B]/30 animate-pulse">
-                                🛡️
+                            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-[0_10px_30px_-5px_rgba(217,123,79,0.4)] ring-4 ring-[#FF8F6B]/30">
+                                <HiOutlineShieldCheck className="h-8 w-8 text-[#1A140D]" />
                             </div>
                             <h1 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                                 Admin Access Gate
@@ -311,8 +312,8 @@ export default function Admin() {
 
                         {/* Error Alert */}
                         {authError && (
-                            <div className="p-3.5 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 text-red-700 dark:text-red-300 text-xs font-semibold flex items-center gap-2.5 animate-shake">
-                                <span className="text-base">🚫</span>
+                            <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-2.5">
+                                <HiOutlineExclamationCircle className="text-base shrink-0" />
                                 <span>{authError}</span>
                             </div>
                         )}

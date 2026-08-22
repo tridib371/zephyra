@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
+import { HiOutlineFire } from 'react-icons/hi2';
 import api from '../api/axios';
 
 const SearchIcon = () => (
@@ -190,9 +191,12 @@ export default function Search() {
 
                 {/* ===== LOADING SKELETON STATE ===== */}
                 {loading && (
-                    <div className="rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/90 dark:bg-[#11151D]/90 p-12 text-center shadow-xs">
-                        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#FFF0E6] dark:bg-white/5 text-[#B85323] dark:text-[#F5C36B] font-extrabold text-sm animate-pulse">
-                            <span className="h-2.5 w-2.5 rounded-full bg-[#D97B4F] dark:bg-[#F5C36B] animate-ping" />
+                    <div className="rounded-3xl border border-[#EAE2D5] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/90 p-12 text-center shadow-xs">
+                        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#FFF0E6] dark:bg-white/5 text-[#B85323] dark:text-[#F5C36B] font-extrabold text-sm">
+                            <svg className="animate-spin h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
                             Searching Zephyra Database...
                         </div>
                     </div>
@@ -203,13 +207,14 @@ export default function Search() {
                     <motion.div
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/90 dark:bg-[#11151D]/90 p-8 sm:p-10 shadow-xs space-y-6"
+                        className="rounded-3xl border border-[#EAE2D5] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/90 p-8 sm:p-10 shadow-xs space-y-6"
                     >
                         <div>
-                            <h3 className="text-sm font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B]">
-                                🔥 Trending Topics
+                            <h3 className="inline-flex items-center gap-1.5 text-sm font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B]">
+                                <HiOutlineFire className="text-base text-[#D97B4F]" />
+                                <span>Trending Topics</span>
                             </h3>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">
+                            <p className="text-xs text-stone-500 dark:text-gray-400 mt-1 font-medium">
                                 Click any topic to instantly start exploring global posts
                             </p>
                             <div className="flex flex-wrap gap-2.5 mt-4">
