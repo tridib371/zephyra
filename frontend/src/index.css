@@ -92,3 +92,26 @@
         opacity: 0.7;
     }
 }
+
+/* ============================================
+   INFINITE MARQUEE TRACK ANIMATION
+   ============================================ */
+@keyframes marqueeTrack {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marqueeTrack 35s linear infinite;
+}
+
+.animate-marquee-track:hover {
+    animation-play-state: paused !important;
+}

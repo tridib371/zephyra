@@ -595,17 +595,8 @@ export default function Home() {
                     <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
                     <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
 
-                    <div className="flex w-max gap-6 group">
-                        <motion.div
-                            animate={{ x: ['0%', '-50%'] }}
-                            transition={{
-                                duration: reduce ? 0 : 32,
-                                ease: 'linear',
-                                repeat: Infinity,
-                            }}
-                            className="flex gap-6 shrink-0 group-hover:[animation-play-state:paused]"
-                        >
-                            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, idx) => (
+                    <div className="animate-marquee-track gap-6 shrink-0">
+                        {[...TESTIMONIALS, ...TESTIMONIALS].map((t, idx) => (
                                 <div
                                     key={`${t.author}-${idx}`}
                                     className={`w-80 sm:w-96 rounded-3xl p-6.5 ${t.gradient} ${t.border} shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between shrink-0 cursor-pointer`}
@@ -639,7 +630,6 @@ export default function Home() {
                                     </div>
                                 </div>
                             ))}
-                        </motion.div>
                     </div>
                 </div>
             </section>
