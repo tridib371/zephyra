@@ -483,16 +483,16 @@ export default function Home() {
 
                     <div className="relative rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-xs dark:shadow-2xl">
                         {/* Mockup Header Bar */}
-                        <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#EAECF0] dark:border-[#1F232C]">
-                            <div className="flex items-center gap-2">
-                                <span className="h-3 w-3 rounded-full bg-rose-500" />
-                                <span className="h-3 w-3 rounded-full bg-amber-500" />
-                                <span className="h-3 w-3 rounded-full bg-emerald-500" />
-                                <span className="ml-3 text-xs font-bold text-[#667085] dark:text-gray-400 font-[Manrope]">
+                        <div className="flex items-center justify-between gap-2 pb-4 mb-6 border-b border-[#EAECF0] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                                <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-rose-500 shrink-0" />
+                                <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-amber-500 shrink-0" />
+                                <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-emerald-500 shrink-0" />
+                                <span className="ml-1 sm:ml-3 text-[11px] sm:text-xs font-bold text-[#667085] dark:text-gray-400 font-[Manrope] truncate">
                                     Zephyra Interactive Feed Preview
                                 </span>
                             </div>
-                            <span className="px-3 py-1 rounded-full bg-[#FFE8D6] dark:bg-[#FF8F6B]/15 text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-wider border border-[#FF8F6B]/30">
+                            <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#FFE8D6] dark:bg-[#FF8F6B]/15 text-[#B85323] dark:text-[#F5C36B] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider border border-[#FF8F6B]/30 whitespace-nowrap shrink-0">
                                 Live Interactive Demo
                             </span>
                         </div>
@@ -672,60 +672,60 @@ export default function Home() {
             </section>
 
             {/* ===== TESTIMONIALS SECTION WITH INFINITE MARQUEE ===== */}
-            <section className="relative z-10 py-24 px-4 sm:px-6 bg-[#F3F4F8] dark:bg-[#10141D] border-y border-[#E2E8F0] dark:border-[#283244] overflow-hidden">
-                <div className="max-w-6xl mx-auto mb-12 text-center">
-                    <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
+            <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-[#F3F4F8] dark:bg-[#10141D] border-y border-[#E2E8F0] dark:border-[#283244] overflow-hidden">
+                <div className="max-w-6xl mx-auto mb-8 sm:mb-12 text-center">
+                    <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                         Community Feedback
                     </span>
-                    <h2 className="font-['Fraunces'] italic text-3xl sm:text-5xl font-bold text-[#101828] dark:text-white mt-2">
+                    <h2 className="font-['Fraunces'] italic text-2xl sm:text-4xl md:text-5xl font-bold text-[#101828] dark:text-white mt-1.5 sm:mt-2">
                         Loved by creators everywhere
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#64748B] dark:text-[#94A3B8] mt-2.5 font-medium">
-                        Hover over any card to pause scrolling
+                    <p className="text-[11px] sm:text-xs text-[#64748B] dark:text-[#94A3B8] mt-2 font-semibold">
+                        Tap or hover any card to pause scrolling
                     </p>
                 </div>
 
                 {/* Infinite Scrolling Marquee Track */}
-                <div className="relative w-full overflow-hidden py-4">
+                <div className="relative w-full overflow-hidden py-2 sm:py-4">
                     {/* Left & Right Smooth Fade Gradients */}
-                    <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
-                    <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
+                    <div className="absolute top-0 bottom-0 left-0 w-10 sm:w-28 bg-gradient-to-r from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
+                    <div className="absolute top-0 bottom-0 right-0 w-10 sm:w-28 bg-gradient-to-l from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
 
-                    <div className="animate-marquee-track gap-6 shrink-0">
+                    <div className="animate-marquee-track gap-4 sm:gap-6 shrink-0">
                         {[...TESTIMONIALS, ...TESTIMONIALS].map((t, idx) => (
-                                <div
-                                    key={`${t.author}-${idx}`}
-                                    className={`w-80 sm:w-96 rounded-3xl p-6.5 ${t.gradient} ${t.border} shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between shrink-0 cursor-pointer`}
-                                >
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-1">
-                                                {Array.from({ length: 5 }).map((_, i) => (
-                                                    <HiStar key={i} className="h-4 w-4 text-amber-400 drop-shadow-xs" />
-                                                ))}
-                                            </div>
-                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-black/40 border border-current/20 shadow-xs ${t.accent}`}>
-                                                {t.badge}
-                                            </span>
+                            <div
+                                key={`${t.author}-${idx}`}
+                                className={`w-72 sm:w-88 md:w-96 rounded-2xl sm:rounded-3xl p-4 sm:p-6 ${t.gradient} ${t.border} shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between shrink-0 cursor-pointer`}
+                            >
+                                <div className="space-y-2.5 sm:space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-0.5 sm:gap-1">
+                                            {Array.from({ length: 5 }).map((_, i) => (
+                                                <HiStar key={i} className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-400 drop-shadow-xs" />
+                                            ))}
                                         </div>
-                                        <p className="text-xs sm:text-sm text-[#1E293B] dark:text-[#E2E8F0] italic leading-relaxed font-medium">
-                                            "{t.quote}"
-                                        </p>
+                                        <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/80 dark:bg-black/40 border border-current/20 shadow-xs ${t.accent}`}>
+                                            {t.badge}
+                                        </span>
                                     </div>
+                                    <p className="text-xs sm:text-sm text-[#1E293B] dark:text-[#E2E8F0] italic leading-relaxed font-medium">
+                                        "{t.quote}"
+                                    </p>
+                                </div>
 
-                                    <div className="flex items-center gap-3.5 mt-6 pt-4 border-t border-current/15">
-                                        <img
-                                            src={t.avatar}
-                                            alt={t.author}
-                                            className="h-11 w-11 rounded-full object-cover ring-2 ring-white/60 dark:ring-black/40 shadow-sm"
-                                        />
-                                        <div>
-                                            <h4 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white">{t.author}</h4>
-                                            <p className={`text-[11px] font-extrabold ${t.accent}`}>{t.role}</p>
-                                        </div>
+                                <div className="flex items-center gap-3 mt-4 pt-3 sm:mt-6 sm:pt-4 border-t border-current/15">
+                                    <img
+                                        src={t.avatar}
+                                        alt={t.author}
+                                        className="h-9 w-9 sm:h-11 sm:w-11 rounded-full object-cover ring-2 ring-white/60 dark:ring-black/40 shadow-sm shrink-0"
+                                    />
+                                    <div>
+                                        <h4 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white">{t.author}</h4>
+                                        <p className={`text-[10px] sm:text-[11px] font-extrabold ${t.accent}`}>{t.role}</p>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
