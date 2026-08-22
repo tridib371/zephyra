@@ -494,14 +494,26 @@ const Navbar = () => {
                                 </button>
                             </>
                         ) : (
-                            <div className="flex flex-col gap-2 p-2">
-                                <Link to="/login" className="px-4 py-2.5 text-center text-xs font-bold border border-[#252E42] dark:border-[#2D3748] rounded-full text-[#E2E8F0] bg-[#1B2130] dark:bg-[#1E2638]" onClick={() => setIsMobileMenuOpen(false)}>
-                                    Sign In
-                                </Link>
-                                <Link to="/register" className="px-4 py-2.5 text-center text-xs font-extrabold bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] rounded-full shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
+                            <div className="flex flex-col items-center justify-center gap-2.5 p-3 w-full">
+                                <Link
+                                    to="/register"
+                                    className="w-full max-w-[220px] px-5 py-2.5 text-center text-xs font-black bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] rounded-full shadow-md hover:brightness-110 transition-all font-[Manrope]"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
                                     Get Started
                                 </Link>
-                                <Link to="/admin" className="flex items-center justify-center gap-1.5 px-4 py-2 text-center text-xs font-bold text-[#94A3B8] hover:text-[#FF8F6B]" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link
+                                    to="/login"
+                                    className="w-full max-w-[220px] px-5 py-2.5 text-center text-xs font-bold border border-[#3A475C] rounded-full text-[#E2E8F0] bg-[#1E2638] hover:bg-[#252D3D] transition-all font-[Manrope]"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Sign In
+                                </Link>
+                                <Link
+                                    to="/admin"
+                                    className="flex items-center justify-center gap-1.5 pt-1 px-4 py-1.5 text-center text-xs font-bold text-[#94A3B8] hover:text-[#FF8F6B] transition-colors"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
                                     <ShieldKeyIcon />
                                     <span>Admin Portal</span>
                                 </Link>
