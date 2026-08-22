@@ -851,48 +851,48 @@ export default function Home() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                            className="relative w-full max-w-2xl rounded-3xl bg-white dark:bg-[#141824] border border-[#EAECF0] dark:border-[#283244] p-6 sm:p-8 shadow-2xl z-10 text-[#101828] dark:text-[#E2E8F0] overflow-hidden"
+                            className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white dark:bg-[#141824] border border-[#EAECF0] dark:border-[#283244] p-4 sm:p-7 shadow-2xl z-10 text-[#101828] dark:text-[#E2E8F0]"
                         >
                             {/* Top Accent Gradient Line */}
-                            <div className={`h-2 w-full absolute top-0 left-0 bg-gradient-to-r ${selectedFeature.gradient}`} />
+                            <div className={`h-1.5 sm:h-2 w-full absolute top-0 left-0 bg-gradient-to-r ${selectedFeature.gradient}`} />
 
                             {/* Close Button */}
                             <button
                                 onClick={() => setSelectedFeature(null)}
-                                className="absolute top-5 right-5 p-2 rounded-full bg-[#F1F5F9] dark:bg-[#1E2638] text-[#64748B] dark:text-[#94A3B8] hover:text-[#101828] dark:hover:text-white transition-colors cursor-pointer"
+                                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-1.5 sm:p-2 rounded-full bg-[#F1F5F9] dark:bg-[#1E2638] text-[#64748B] dark:text-[#94A3B8] hover:text-[#101828] dark:hover:text-white transition-colors cursor-pointer z-20"
                                 aria-label="Close modal"
                             >
-                                <HiXMark className="h-5 w-5" />
+                                <HiXMark className="h-4 w-4 sm:h-5 sm:w-5" />
                             </button>
 
                             {/* Header */}
-                            <div className="flex items-center gap-4 mb-6 pr-10">
-                                <div className={`h-13 w-13 rounded-2xl bg-gradient-to-br ${selectedFeature.gradient} flex items-center justify-center text-white shadow-lg shrink-0`}>
-                                    <selectedFeature.icon className="h-6 w-6" />
+                            <div className="flex items-center gap-3 sm:gap-4 mb-3.5 sm:mb-6 pr-8 sm:pr-10 pt-1">
+                                <div className={`h-10 w-10 sm:h-13 sm:w-13 rounded-xl sm:rounded-2xl bg-gradient-to-br ${selectedFeature.gradient} flex items-center justify-center text-white shadow-md shrink-0`}>
+                                    <selectedFeature.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </div>
                                 <div>
-                                    <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${selectedFeature.badgeBg}`}>
+                                    <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${selectedFeature.badgeBg}`}>
                                         {selectedFeature.badge}
                                     </span>
-                                    <h3 className="font-['Fraunces'] italic text-2xl sm:text-3xl font-extrabold text-[#101828] dark:text-white mt-1">
+                                    <h3 className="font-['Fraunces'] italic text-lg sm:text-3xl font-extrabold text-[#101828] dark:text-white mt-0.5 sm:mt-1 leading-tight">
                                         {selectedFeature.title}
                                     </h3>
-                                    <p className="text-xs sm:text-sm font-semibold text-[#64748B] dark:text-[#94A3B8]">
+                                    <p className="text-[11px] sm:text-sm font-semibold text-[#64748B] dark:text-[#94A3B8]">
                                         {selectedFeature.modalSubtitle}
                                     </p>
                                 </div>
                             </div>
 
                             {/* Detailed Informative Bullet Points */}
-                            <div className="space-y-3.5 mb-6">
+                            <div className="space-y-2 sm:space-y-3.5 mb-3.5 sm:mb-6">
                                 {selectedFeature.details.map((detail, idx) => (
-                                    <div key={idx} className="p-4 rounded-2xl bg-[#F8F9FA] dark:bg-[#1B2130] border border-[#EAECF0] dark:border-[#252E42] flex items-start gap-3">
-                                        <HiCheckCircle className={`h-5 w-5 shrink-0 mt-0.5 ${selectedFeature.accentText}`} />
+                                    <div key={idx} className="p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F8F9FA] dark:bg-[#1B2130] border border-[#EAECF0] dark:border-[#252E42] flex items-start gap-2.5 sm:gap-3">
+                                        <HiCheckCircle className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 mt-0.5 ${selectedFeature.accentText}`} />
                                         <div>
-                                            <h4 className="text-sm font-extrabold text-[#101828] dark:text-white">
+                                            <h4 className="text-xs sm:text-sm font-extrabold text-[#101828] dark:text-white leading-tight">
                                                 {detail.title}
                                             </h4>
-                                            <p className="text-xs text-[#475467] dark:text-[#CBD5E1] mt-1 leading-relaxed font-medium">
+                                            <p className="text-[11px] sm:text-xs text-[#475467] dark:text-[#CBD5E1] mt-0.5 sm:mt-1 leading-snug sm:leading-relaxed font-medium">
                                                 {detail.desc}
                                             </p>
                                         </div>
@@ -901,27 +901,27 @@ export default function Home() {
                             </div>
 
                             {/* Metrics Banner */}
-                            <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-[#FFF5EE] dark:bg-[#1C2333] border border-[#F5D0C0] dark:border-[#2D384D] text-center mb-6">
+                            <div className="grid grid-cols-3 gap-2 sm:gap-3 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFF5EE] dark:bg-[#1C2333] border border-[#F5D0C0] dark:border-[#2D384D] text-center mb-3.5 sm:mb-6">
                                 {selectedFeature.metrics.map((metric, idx) => (
                                     <div key={idx}>
-                                        <p className="text-sm sm:text-base font-black text-[#101828] dark:text-white">{metric.value}</p>
-                                        <p className="text-[10px] sm:text-xs font-bold text-[#64748B] dark:text-[#94A3B8] uppercase">{metric.label}</p>
+                                        <p className="text-xs sm:text-base font-black text-[#101828] dark:text-white leading-tight">{metric.value}</p>
+                                        <p className="text-[9px] sm:text-xs font-bold text-[#64748B] dark:text-[#94A3B8] uppercase">{metric.label}</p>
                                     </div>
                                 ))}
                             </div>
 
                             {/* Action CTA */}
-                            <div className="flex justify-end gap-3 pt-2">
+                            <div className="flex justify-end gap-2.5 sm:gap-3 pt-1">
                                 <button
                                     onClick={() => setSelectedFeature(null)}
-                                    className="px-5 py-2.5 rounded-full border border-[#CBD5E1] dark:border-[#3A475C] text-xs font-bold text-[#475467] dark:text-[#94A3B8] hover:bg-[#F1F5F9] dark:hover:bg-[#1E2638] transition-colors cursor-pointer"
+                                    className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-full border border-[#CBD5E1] dark:border-[#3A475C] text-xs font-bold text-[#475467] dark:text-[#94A3B8] hover:bg-[#F1F5F9] dark:hover:bg-[#1E2638] transition-colors cursor-pointer"
                                 >
-                                    Close Preview
+                                    Close
                                 </button>
                                 <Link
                                     to={selectedFeature.ctaLink}
                                     onClick={() => setSelectedFeature(null)}
-                                    className={`px-6 py-2.5 rounded-full bg-gradient-to-r ${selectedFeature.gradient} text-white text-xs font-extrabold shadow-md hover:brightness-110 hover:scale-105 transition-all`}
+                                    className={`px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r ${selectedFeature.gradient} text-white text-xs font-extrabold shadow-md hover:brightness-110 hover:scale-105 transition-all`}
                                 >
                                     {selectedFeature.ctaText} →
                                 </Link>
