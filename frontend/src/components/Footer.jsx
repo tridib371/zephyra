@@ -76,7 +76,7 @@ const SOCIALS = [
 
 const Footer = () => {
     return (
-        <footer className="relative mt-auto bg-[#0F131C] dark:bg-[#05070B] border-t border-[#1E2638] dark:border-[#151C2B] shadow-[0_-8px_32px_rgba(0,0,0,0.3)] font-[Manrope] transition-colors duration-300 overflow-hidden text-[#E2E8F0]">
+        <footer className="relative mt-auto bg-[#0F131C] dark:bg-[#121620] border-t border-[#1E2638] dark:border-[#283244] shadow-[0_-8px_32px_rgba(0,0,0,0.3)] font-[Manrope] transition-colors duration-300 overflow-hidden text-[#E2E8F0]">
             {/* Signature Radiant Sunset Ember Top Accent Line */}
             <div className="h-[2.5px] w-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]" />
 
@@ -114,7 +114,7 @@ const Footer = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={social.label}
-                                        className="p-2.5 rounded-2xl text-[#E2E8F0] hover:text-[#F5C36B] bg-[#1E2638] dark:bg-[#121824] hover:bg-[#28334A] dark:hover:bg-[#1A2233] border border-[#2E3B52] dark:border-[#1E273A] shadow-xs transition-all duration-200"
+                                        className="p-2.5 rounded-2xl text-[#E2E8F0] hover:text-[#F5C36B] bg-[#1E2638] dark:bg-[#1E2636] hover:bg-[#28334A] dark:hover:bg-[#28334A] border border-[#2E3B52] dark:border-[#2D3B52] shadow-xs transition-all duration-200"
                                     >
                                         <SocialIcon />
                                     </a>
@@ -149,7 +149,7 @@ const Footer = () => {
                     })}
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-[#1E2638] dark:border-[#151C2B] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#94A3B8] dark:text-[#94A3B8]">
+                <div className="mt-10 pt-6 border-t border-[#1E2638] dark:border-[#283244] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#94A3B8] dark:text-[#94A3B8]">
                     <div className="flex items-center gap-3 text-xs sm:text-sm font-medium">
                         <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
                         <span>•</span>
