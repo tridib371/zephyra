@@ -220,21 +220,21 @@ export default function About() {
                     transition={{ duration: 0.8 }}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
                 >
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
                         <StatCounter target={15} prefix="< " suffix=" ms" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#8A8F9C]">Socket Latency</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Socket Latency</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
                         <StatCounter target={100} suffix="%" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#8A8F9C]">Chronological Feed</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Chronological Feed</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
                         <StatCounter target={0} suffix=" Ads" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#8A8F9C]">Zero Ad Trackers</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Zero Ad Trackers</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
                         <StatCounter target={99.9} decimals={1} suffix="%" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#8A8F9C]">Real-Time Uptime</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Real-Time Uptime</p>
                     </div>
                 </motion.section>
 
@@ -244,9 +244,9 @@ export default function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="rounded-3xl border border-[#EAECF0] dark:border-[#FF8F6B]/20 bg-white dark:from-[#11151E]/95 dark:to-[#0B0D12]/90 backdrop-blur-2xl p-8 sm:p-14 shadow-xs space-y-8"
+                    className="rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#11151F] backdrop-blur-2xl p-6 sm:p-12 shadow-md space-y-8"
                 >
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#EAECF0] dark:border-[#1F232C] pb-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#EAECF0] dark:border-[#1F2636] pb-6">
                         <div>
                             <span className="text-xs uppercase font-extrabold tracking-widest text-[#B85323] dark:text-[#F5C36B]">The Zephyra Contrast</span>
                             <h2 className="font-['Fraunces'] text-2xl sm:text-4xl font-extrabold text-[#101828] dark:text-white mt-1">
@@ -258,28 +258,28 @@ export default function About() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="p-6 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30 space-y-3">
-                            <h3 className="font-bold text-base text-rose-700 dark:text-rose-400 flex items-center gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        <div className="p-5 sm:p-6 rounded-2xl bg-rose-50/70 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 space-y-3">
+                            <h3 className="font-extrabold text-base text-rose-700 dark:text-rose-300 flex items-center gap-2">
                                 <HiOutlineXMark className="text-lg" /> Conventional Platforms
                             </h3>
-                            <ul className="text-xs sm:text-sm text-[#475467] dark:text-[#A0A5B2] space-y-2.5 leading-relaxed">
-                                <li>- Manipulative algorithms engineered to trigger anger and outrage</li>
-                                <li>- Cluttered timelines drowning in unskippable sponsored ads</li>
-                                <li>- Uncontrolled tracking of personal data, clicks, and messages</li>
-                                <li>- Vanity metric addiction that reduces humans to follower counts</li>
+                            <ul className="text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] space-y-2.5 leading-relaxed font-medium">
+                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Manipulative algorithms engineered to trigger anger and outrage</li>
+                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Cluttered timelines drowning in unskippable sponsored ads</li>
+                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Uncontrolled tracking of personal data, clicks, and messages</li>
+                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Vanity metric addiction that reduces humans to follower counts</li>
                             </ul>
                         </div>
 
-                        <div className="p-6 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30 space-y-3">
-                            <h3 className="font-bold text-base text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                        <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 space-y-3">
+                            <h3 className="font-extrabold text-base text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
                                 <HiOutlineCheckCircle className="text-lg" /> The Zephyra Experience
                             </h3>
-                            <ul className="text-xs sm:text-sm text-[#475467] dark:text-[#A0A5B2] space-y-2.5 leading-relaxed">
-                                <li>- Organic, chronological delivery of stories you actually care about</li>
-                                <li>- Breath-like, peaceful UI crafted to inspire mindfulness and creativity</li>
-                                <li>- Zero third-party trackers, zero data brokering, zero compromise</li>
-                                <li>- Direct, lightning-fast private messaging with real human intimacy</li>
+                            <ul className="text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] space-y-2.5 leading-relaxed font-medium">
+                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Organic, chronological delivery of stories you actually care about</li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Breath-like, peaceful UI crafted to inspire mindfulness and creativity</li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Zero third-party trackers, zero data brokering, zero compromise</li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Direct, lightning-fast private messaging with real human intimacy</li>
                             </ul>
                         </div>
                     </div>
@@ -290,7 +290,7 @@ export default function About() {
                     <div className="text-center space-y-3">
                         <span className="text-xs font-bold uppercase tracking-widest text-[#D97B4F] dark:text-[#F5C36B]">Our Journey</span>
                         <h2 className="font-['Fraunces'] text-3xl sm:text-5xl font-extrabold text-[#101828] dark:text-white">The Evolution of Zephyra</h2>
-                        <p className="text-xs sm:text-sm text-[#667085] dark:text-[#8A8F9C] max-w-lg mx-auto">
+                        <p className="text-xs sm:text-sm text-[#667085] dark:text-[#CBD5E1] max-w-lg mx-auto font-medium">
                             From a quiet rebellious prototype to a vibrant global sanctuary.
                         </p>
                     </div>
@@ -305,18 +305,18 @@ export default function About() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: idx * 0.15 }}
-                                    className="group p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs hover:shadow-md hover:scale-[1.02] transition-all duration-300 space-y-4 relative overflow-hidden"
+                                    className="group p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs hover:shadow-md hover:scale-[1.02] transition-all duration-300 space-y-4 relative overflow-hidden"
                                 >
                                     <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.accent}`} />
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B] font-mono">{item.year}</span>
-                                        <span className="p-3 rounded-2xl bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xl">
+                                        <span className="p-3 rounded-2xl bg-[#FFE8D6] dark:bg-[#FF8F6B]/20 text-[#B85323] dark:text-[#F5C36B] text-xl">
                                             <IconComponent />
                                         </span>
                                     </div>
                                     <h3 className="font-['Fraunces'] text-xl font-bold text-[#101828] dark:text-white">{item.title}</h3>
-                                    <p className="text-xs font-semibold text-[#667085] dark:text-gray-400">{item.subtitle}</p>
-                                    <p className="text-xs sm:text-sm text-[#475467] dark:text-[#9DA3B4] leading-relaxed font-medium">{item.desc}</p>
+                                    <p className="text-xs font-semibold text-[#667085] dark:text-[#CBD5E1]">{item.subtitle}</p>
+                                    <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] leading-relaxed font-medium">{item.desc}</p>
                                 </motion.div>
                             );
                         })}
@@ -336,11 +336,11 @@ export default function About() {
                             return (
                                 <div
                                     key={arch.title}
-                                    className="p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs space-y-4 flex flex-col justify-between"
+                                    className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs space-y-4 flex flex-col justify-between"
                                 >
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
-                                            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B]">
+                                            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#FFE8D6] dark:bg-[#FF8F6B]/20 text-[#B85323] dark:text-[#F5C36B]">
                                                 {arch.badge}
                                             </span>
                                             <span className="p-2.5 rounded-xl bg-[#F8F9FA] dark:bg-[#181C26] text-[#B85323] dark:text-[#F5C36B] text-lg">
@@ -348,9 +348,9 @@ export default function About() {
                                             </span>
                                         </div>
                                         <h3 className="font-['Fraunces'] text-xl font-bold text-[#101828] dark:text-white">{arch.title}</h3>
-                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#9DA3B4] leading-relaxed font-medium">{arch.desc}</p>
+                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] leading-relaxed font-medium">{arch.desc}</p>
                                     </div>
-                                    <div className="pt-4 border-t border-[#EAECF0] dark:border-[#1F232C] text-xs font-bold text-[#B85323] dark:text-[#F5C36B] flex items-center gap-1.5">
+                                    <div className="pt-4 border-t border-[#EAECF0] dark:border-[#1F2636] text-xs font-bold text-[#B85323] dark:text-[#F5C36B] flex items-center gap-1.5">
                                         <HiOutlineCheck className="text-sm" /> {arch.highlight}
                                     </div>
                                 </div>
@@ -365,7 +365,7 @@ export default function About() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7 }}
-                    className="relative rounded-3xl border border-[#EAECF0] dark:border-[#FF8F6B]/30 bg-gradient-to-br from-[#F8F9FA] via-white to-[#F2F4F7] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-14 shadow-xs text-center space-y-6 overflow-hidden"
+                    className="relative rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-gradient-to-br from-[#F8F9FA] via-white to-[#F2F4F7] dark:from-[#151924] dark:via-[#121622] dark:to-[#151924] p-8 sm:p-14 shadow-xs text-center space-y-6 overflow-hidden"
                 >
                     <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-2xl shadow-md">
                         <FiFeather />
@@ -375,27 +375,27 @@ export default function About() {
                     </blockquote>
                     <div className="space-y-1">
                         <p className="text-sm font-extrabold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B]">Tridib Sarkar</p>
-                        <p className="text-xs text-[#667085] dark:text-[#8A8F9C] font-medium">Creator & Lead Architect, Zephyra</p>
+                        <p className="text-xs text-[#667085] dark:text-[#CBD5E1] font-medium">Creator & Lead Architect, Zephyra</p>
                     </div>
                 </motion.section>
 
                 {/* ===== FINAL CALL TO ACTION ===== */}
                 <section className="text-center pt-8 space-y-6">
                     <h2 className="font-['Fraunces'] text-3xl sm:text-5xl font-extrabold text-[#101828] dark:text-white">Ready to Catch the Wind?</h2>
-                    <p className="text-sm sm:text-base text-[#475467] dark:text-[#9DA3B4] max-w-xl mx-auto">
+                    <p className="text-sm sm:text-base text-[#475467] dark:text-[#CBD5E1] max-w-xl mx-auto font-medium">
                         Experience the difference of a serene, distraction-free social platform today.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-center items-center w-full">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full">
                         <Link
                             to="/register"
-                            className="flex items-center justify-center gap-2 w-full max-w-[210px] sm:w-auto px-5 sm:px-8 py-2.5 sm:py-4 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-xs sm:text-sm rounded-full hover:scale-105 hover:shadow-xl transition-all shadow-md font-[Manrope] sm:min-w-48"
+                            className="flex items-center justify-center gap-2 w-full max-w-[240px] sm:w-auto sm:max-w-none px-6 sm:px-8 py-2.5 sm:py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-xs sm:text-sm rounded-full hover:scale-105 hover:shadow-xl transition-all shadow-md font-[Manrope] whitespace-nowrap"
                         >
                             <span>Start Your Journey</span>
                             <HiArrowRight className="text-sm sm:text-base" />
                         </Link>
                         <Link
                             to="/feed"
-                            className="w-full max-w-[210px] sm:w-auto px-5 sm:px-8 py-2.5 sm:py-4 border border-[#EAECF0] dark:border-[#3A3F4B] bg-white dark:bg-white/5 backdrop-blur-md text-[#101828] dark:text-[#EDEBE6] font-bold text-xs sm:text-sm rounded-full hover:scale-105 transition-all shadow-xs text-center"
+                            className="w-full max-w-[240px] sm:w-auto sm:max-w-none px-6 sm:px-8 py-2.5 sm:py-3.5 border border-[#EAECF0] dark:border-[#3A3F4B] bg-white dark:bg-white/5 backdrop-blur-md text-[#101828] dark:text-[#EDEBE6] font-bold text-xs sm:text-sm rounded-full hover:scale-105 transition-all shadow-xs text-center whitespace-nowrap inline-flex items-center justify-center"
                         >
                             Explore Live Stories
                         </Link>
