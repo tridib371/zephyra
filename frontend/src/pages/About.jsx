@@ -170,12 +170,12 @@ export default function About() {
 
             {/* Wallpaper Background - Light Mode */}
             <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 transition-opacity duration-500 pointer-events-none z-0"
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-45 transition-opacity duration-500 pointer-events-none z-0"
                 style={{ backgroundImage: `url(${aboutBgLight})` }}
             />
             {/* Wallpaper Background - Dark Mode */}
             <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-65 transition-opacity duration-500 pointer-events-none z-0"
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-60 transition-opacity duration-500 pointer-events-none z-0"
                 style={{ backgroundImage: `url(${aboutBgDark})` }}
             />
 
@@ -189,17 +189,17 @@ export default function About() {
 
             <WindBreeze />
 
-            <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-28 space-y-24">
+            <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-28 space-y-20 sm:space-y-24">
 
                 {/* ===== HERO SECTION ===== */}
-                <section className="text-center space-y-8 max-w-4xl mx-auto">
+                <section className="text-center space-y-6 max-w-4xl mx-auto p-6 sm:p-12 rounded-3xl bg-white/80 dark:bg-[#11151F]/85 backdrop-blur-xl border border-white/90 dark:border-[#1F2636] shadow-xl">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#D0D5DD] dark:border-[#FF8F6B]/30 bg-white/90 dark:bg-[#151922]/80 backdrop-blur-xl shadow-sm"
+                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#B85323]/25 dark:border-[#FF8F6B]/30 bg-white/95 dark:bg-[#151922]/90 backdrop-blur-xl shadow-xs"
                     >
-                        <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
+                        <span className="text-xs font-black uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                             The Zephyra Manifesto
                         </span>
                     </motion.div>
@@ -208,10 +208,10 @@ export default function About() {
                         initial={{ opacity: 0, y: 25 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.15 }}
-                        className="font-['Fraunces'] italic font-extrabold text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[1.05] text-[#0F172A] dark:text-white"
+                        className="font-['Fraunces'] italic font-extrabold text-4xl sm:text-6xl md:text-7xl tracking-tight leading-[1.08] text-[#0F172A] dark:text-white"
                     >
                         A Sanctuary for <br />
-                        <span className="bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-[#9A3412] via-[#C2410C] to-[#9A3412] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent drop-shadow-xs">
                             Authentic Human Stories
                         </span>
                     </motion.h1>
@@ -220,7 +220,7 @@ export default function About() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="text-lg sm:text-2xl text-[#1E293B] dark:text-[#C5C9D3] font-semibold leading-relaxed max-w-3xl mx-auto"
+                        className="text-base sm:text-xl text-[#0F172A] dark:text-[#E2E8F0] font-extrabold leading-relaxed max-w-2xl mx-auto"
                     >
                         We did not build Zephyra to capture your attention and sell it to the highest bidder. We built it so your thoughts can catch the wind - freely, beautifully, and on your own terms.
                     </motion.p>
