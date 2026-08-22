@@ -2,7 +2,13 @@ import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState, useRef } from 'react';
-import { HiStar } from 'react-icons/hi2';
+import {
+    HiStar,
+    HiOutlinePencilSquare,
+    HiOutlineBolt,
+    HiOutlineShieldCheck,
+    HiOutlineGlobeAlt,
+} from 'react-icons/hi2';
 
 const GUST_PATHS = [
     'M -100 140 C 150 60, 350 220, 620 110 S 1000 40, 1300 130',
@@ -137,35 +143,6 @@ const Particles = ({ reduce }) => {
 };
 
 // Icons
-const FeatherIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
-        <path d="M20.24 3.76 9.5 14.5a4.95 4.95 0 0 0 0 7 4.95 4.95 0 0 0 7 0L20.24 10a4.95 4.95 0 0 0 0-7 4.95 4.95 0 0 0-7 0Z" />
-        <path d="M9 15 4 20" strokeLinecap="round" />
-        <path d="M13.5 10.5 11 13" strokeLinecap="round" />
-    </svg>
-);
-
-const PulseIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
-        <path d="M3 12h4l2-7 4 14 2-7h6" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
-);
-
-const CloudLockIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
-        <path d="M7 16.5a4 4 0 0 1 .3-7.98A5.5 5.5 0 0 1 17.9 10.1 3.5 3.5 0 0 1 17 17H15" strokeLinecap="round" strokeLinejoin="round" />
-        <rect x="8" y="14" width="7" height="6" rx="1.2" />
-        <path d="M10 14v-1.5a1.5 1.5 0 0 1 3 0V14" />
-    </svg>
-);
-
-const CompassIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
-        <circle cx="12" cy="12" r="9" />
-        <path d="m14.5 9.5-2 5-3 1.5 2-5 3-1.5Z" strokeLinejoin="round" />
-    </svg>
-);
-
 const MessageIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
         <path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4.5 4V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z" strokeLinejoin="round" />
@@ -180,7 +157,7 @@ const HeartIcon = () => (
 
 const FEATURES = [
     {
-        icon: FeatherIcon,
+        icon: HiOutlinePencilSquare,
         title: 'Set your thoughts adrift',
         description: 'Post updates, media, and spontaneous thoughts - Zephyra carries them to standard feeds instantly.',
         badge: 'Express Freely',
@@ -192,7 +169,7 @@ const FEATURES = [
         accentText: 'text-[#D9381E] dark:text-[#FF8E53]',
     },
     {
-        icon: PulseIcon,
+        icon: HiOutlineBolt,
         title: 'Real-time Currents',
         description: 'Instant socket-powered messaging, live interactions, and instant notifications that never sleep.',
         badge: 'Zero Latency',
@@ -204,7 +181,7 @@ const FEATURES = [
         accentText: 'text-[#4F46E5] dark:text-[#A5B4FC]',
     },
     {
-        icon: CloudLockIcon,
+        icon: HiOutlineShieldCheck,
         title: 'Complete Privacy Controls',
         description: 'Every post gives you full control. Public gusts, follower-only updates, or direct messages.',
         badge: 'Private & Secure',
@@ -216,7 +193,7 @@ const FEATURES = [
         accentText: 'text-[#047857] dark:text-[#6EE7B7]',
     },
     {
-        icon: CompassIcon,
+        icon: HiOutlineGlobeAlt,
         title: 'Boundaryless Discovery',
         description: 'Discover trending stories, global topics, and active creators across every realm seamlessly.',
         badge: 'Explore Worlds',
