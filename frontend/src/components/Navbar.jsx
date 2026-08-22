@@ -217,10 +217,6 @@ const Navbar = () => {
                                     )}
                                 </Link>
 
-                                <Link to="/search" className={iconBtnClasses} title="Search Users & Posts">
-                                    <SearchIcon />
-                                </Link>
-
                                 {/* New Post Pulsing CTA */}
                                 <Link
                                     to="/create"
@@ -332,11 +328,7 @@ const Navbar = () => {
                                     </AnimatePresence>
                                 </div>
                             </>
-                        ) : (
-                            <Link to="/search" className={iconBtnClasses} title="Search Users & Posts">
-                                <SearchIcon />
-                            </Link>
-                        )}
+                        ) : null}
 
                         {/* Theme Toggle Pill */}
                         <button
@@ -486,9 +478,6 @@ const Navbar = () => {
                                             {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
                                         </span>
                                     )}
-                                </Link>
-                                <Link to="/search" className={navLinkClasses('/search')} onClick={() => setIsMobileMenuOpen(false)}>
-                                    <SearchIcon /> Search
                                 </Link>
                                 <Link to="/create" className="flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold text-[#1A140D] bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] rounded-full text-center shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
                                     <PlusGustIcon /> New Post
