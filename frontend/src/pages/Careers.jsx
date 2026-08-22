@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HiOutlineGlobeAlt, HiOutlineSparkles, HiOutlineRocketLaunch, HiOutlineBriefcase, HiOutlineCheckCircle, HiOutlineXMark, HiArrowRight } from 'react-icons/hi2';
+import { HiOutlineGlobeAlt, HiOutlineHeart, HiOutlineRocketLaunch, HiOutlineBriefcase, HiOutlineCheckCircle, HiOutlineXMark, HiArrowRight } from 'react-icons/hi2';
 
 const OPEN_POSITIONS = [
     {
@@ -81,7 +81,7 @@ export default function Careers() {
                     </div>
                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs space-y-2">
                         <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
-                            <HiOutlineSparkles />
+                            <HiOutlineHeart />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg">Wellness & Retreats</h3>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C]">Generous annual leave, health stipends, and annual team retreats in scenic locations.</p>

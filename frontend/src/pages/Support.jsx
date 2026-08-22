@@ -9,7 +9,7 @@ import {
     HiOutlineChatBubbleLeftRight,
     HiOutlineShieldCheck,
     HiOutlineUserCircle,
-    HiOutlineSparkles,
+    HiOutlineNewspaper,
     HiOutlineExclamationTriangle,
     HiOutlineSignal,
 } from 'react-icons/hi2';
@@ -40,7 +40,7 @@ const HELP_CARDS = [
         category: 'content',
         title: 'Stories & Chronological Feeds',
         desc: 'Publish visual stories, crop images, and explore posts.',
-        icon: HiOutlineSparkles,
+        icon: HiOutlineNewspaper,
     },
     {
         category: 'privacy',

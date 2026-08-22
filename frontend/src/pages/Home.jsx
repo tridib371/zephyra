@@ -2,7 +2,7 @@ import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState, useRef } from 'react';
-import { HiOutlineSparkles, HiStar } from 'react-icons/hi2';
+import { HiStar } from 'react-icons/hi2';
 
 const GUST_PATHS = [
     'M -100 140 C 150 60, 350 220, 620 110 S 1000 40, 1300 130',
@@ -281,9 +281,8 @@ export default function Home() {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="mb-6 inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-white/90 dark:bg-white/5 backdrop-blur-xl shadow-xs"
+                    className="mb-6 inline-flex items-center px-5 py-1.5 rounded-full border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-white/90 dark:bg-white/5 backdrop-blur-xl shadow-xs"
                 >
-                    <HiOutlineSparkles className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
                     <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#B85323] dark:text-[#F5C36B] font-[Manrope]">
                         Welcome to Zephyra
                     </span>

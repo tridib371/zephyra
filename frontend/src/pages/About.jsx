@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import {
     HiOutlineBolt,
     HiOutlineShieldCheck,
-    HiOutlineSparkles,
+    HiOutlineClock,
     HiOutlineGlobeAlt,
     HiOutlineChatBubbleLeftRight,
     HiOutlineEyeSlash,
     HiOutlineCheck,
+    HiOutlineCheckCircle,
     HiOutlineXMark,
     HiArrowRight,
 } from 'react-icons/hi2';
@@ -148,7 +149,7 @@ export default function About() {
         {
             title: 'Organic Chronological Feeds',
             badge: 'Zero Addictive Exploitation',
-            icon: HiOutlineSparkles,
+            icon: HiOutlineClock,
             desc: 'You see what people you follow actually post in true chronological order. No algorithmic suppression, no forced promotional clutter.',
             highlight: 'Your timeline is yours, completely unmanipulated.'
         },
@@ -182,9 +183,8 @@ export default function About() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-white/80 dark:bg-[#151922]/80 backdrop-blur-xl shadow-xs"
+                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-white/80 dark:bg-[#151922]/80 backdrop-blur-xl shadow-xs"
                     >
-                        <HiOutlineSparkles className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
                         <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                             The Zephyra Manifesto
                         </span>
@@ -273,7 +273,7 @@ export default function About() {
 
                         <div className="p-6 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30 space-y-3">
                             <h3 className="font-bold text-base text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
-                                <HiOutlineSparkles className="text-lg" /> The Zephyra Experience
+                                <HiOutlineCheckCircle className="text-lg" /> The Zephyra Experience
                             </h3>
                             <ul className="text-xs sm:text-sm text-gray-600 dark:text-[#A0A5B2] space-y-2.5 leading-relaxed">
                                 <li>- Organic, chronological delivery of stories you actually care about</li>

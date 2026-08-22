@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     HiOutlineHandRaised,
-    HiOutlineSparkles,
+    HiOutlineLightBulb,
     HiOutlineNoSymbol,
     HiOutlineShieldCheck,
     HiOutlineLockClosed,
@@ -47,7 +47,7 @@ const GUIDELINES = [
     {
         id: 'conduct-2',
         category: 'conduct',
-        icon: HiOutlineSparkles,
+        icon: HiOutlineLightBulb,
         number: '02',
         title: 'Authenticity & Original Voice',
         tagline: 'Share your genuine creations, thoughts, and artistic vision.',

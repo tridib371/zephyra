@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
     HiOutlineBolt,
     HiOutlineShieldCheck,
-    HiOutlineSparkles,
+    HiOutlineClock,
     HiOutlineChatBubbleLeftRight,
     HiOutlinePhoto,
     HiOutlineSun,
@@ -33,7 +33,7 @@ const CORE_FEATURES = [
         id: 'chronological',
         title: 'Unmanipulated Chronological Feed',
         category: 'Serene Content Flow',
-        icon: HiOutlineSparkles,
+        icon: HiOutlineClock,
         desc: 'A pure, distraction-free feed that honors your time. Posts appear in the order they were shared, without rage-bait algorithms or paid boosts.',
         details: [
             '100% chronological post ordering',

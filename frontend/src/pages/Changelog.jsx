@@ -1,5 +1,5 @@
 import {
-    HiOutlineSparkles,
+    HiOutlineSun,
     HiOutlineBolt,
     HiOutlineShieldCheck,
     HiOutlineCheck,
@@ -55,7 +55,7 @@ const RELEASES = [
         date: 'June 2026',
         tag: 'Design System',
         title: 'Atmospheric Glassmorphism & Sunset Theme',
-        icon: HiOutlineSparkles,
+        icon: HiOutlineSun,
         accent: 'from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]',
         changes: [
             'Full dual-mode design (Terracotta Warm Light and Obsidian Dark).',
