@@ -565,12 +565,12 @@ export default function Home() {
             </section>
 
             {/* ===== STATS BANNER WITH COUNT-UP ANIMATIONS ===== */}
-            <section className="relative z-10 py-14 border-y border-[#FF8F6B]/30 dark:border-[#283244] bg-gradient-to-r from-[#FF8F6B] via-[#E2774C] to-[#F5C36B] dark:bg-gradient-to-r dark:from-[#131722] dark:via-[#19202E] dark:to-[#131722] shadow-2xl overflow-hidden">
+            <section className="relative z-10 py-10 sm:py-14 border-y border-[#FF8F6B]/30 dark:border-[#283244] bg-gradient-to-r from-[#FF8F6B] via-[#E2774C] to-[#F5C36B] dark:bg-gradient-to-r dark:from-[#131722] dark:via-[#19202E] dark:to-[#131722] shadow-2xl overflow-hidden">
                 {/* Radiant Ambient Glow Aura */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.25),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,143,107,0.15),transparent_70%)] pointer-events-none" />
 
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div className="max-w-6xl mx-auto px-3.5 sm:px-6 relative z-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
                         {STATS.map((stat, i) => (
                             <motion.div
                                 key={stat.label}
@@ -578,10 +578,10 @@ export default function Home() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                                whileHover={{ scale: 1.05, y: -4 }}
-                                className="p-6 rounded-3xl bg-white/95 dark:bg-[#1C2333]/90 backdrop-blur-md border border-white/60 dark:border-[#2D384D] shadow-xl dark:shadow-2xl hover:shadow-2xl dark:hover:border-[#FF8F6B]/70 dark:hover:shadow-[0_0_25px_rgba(255,143,107,0.2)] transition-all duration-300 flex flex-col justify-center items-center"
+                                whileHover={{ scale: 1.04, y: -4 }}
+                                className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/95 dark:bg-[#1C2333]/90 backdrop-blur-md border border-white/60 dark:border-[#2D384D] shadow-xl dark:shadow-2xl hover:shadow-2xl dark:hover:border-[#FF8F6B]/70 dark:hover:shadow-[0_0_25px_rgba(255,143,107,0.2)] transition-all duration-300 flex flex-col justify-center items-center overflow-hidden"
                             >
-                                <div className="font-['Fraunces'] italic text-4xl sm:text-5xl font-black bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent drop-shadow-xs dark:drop-shadow-[0_0_15px_rgba(255,143,107,0.4)]">
+                                <div className="font-['Fraunces'] italic text-2xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent drop-shadow-xs dark:drop-shadow-[0_0_15px_rgba(255,143,107,0.4)] whitespace-nowrap">
                                     <Counter
                                         target={stat.target}
                                         prefix={stat.prefix}
@@ -589,7 +589,7 @@ export default function Home() {
                                         decimals={stat.decimals}
                                     />
                                 </div>
-                                <div className="text-[11px] sm:text-xs font-black text-[#1A140D] dark:text-[#E2E8F0] mt-2.5 uppercase tracking-[0.2em] font-[Manrope]">
+                                <div className="text-[10px] sm:text-xs font-black text-[#1A140D] dark:text-[#E2E8F0] mt-1.5 sm:mt-2.5 uppercase tracking-wider sm:tracking-[0.2em] font-[Manrope] leading-tight">
                                     {stat.label}
                                 </div>
                             </motion.div>
