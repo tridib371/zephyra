@@ -219,18 +219,60 @@ const TESTIMONIALS = [
         author: "Aria Thorne",
         role: "Digital Artist",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        badge: "Verified Creator",
+        gradient: "bg-gradient-to-br from-[#FFF3EB] to-[#FFE5D4] dark:from-[#1E1A28] dark:to-[#2A1E24]",
+        border: "border-2 border-[#FFB899] dark:border-[#542F3E]",
+        accent: "text-[#D9381E] dark:text-[#FF8F6B]",
     },
     {
         quote: "The direct messaging and real-time feed feel so smooth. It's hands down the best social UI I've used.",
         author: "Marcus Vance",
         role: "Software Engineer",
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        badge: "Early Adopter",
+        gradient: "bg-gradient-to-br from-[#F0EEFF] to-[#E2DEFF] dark:from-[#191832] dark:to-[#221A38]",
+        border: "border-2 border-[#B5A8FF] dark:border-[#3D3366]",
+        accent: "text-[#4F46E5] dark:text-[#A5B4FC]",
     },
     {
         quote: "Minimal, responsive, and blazing fast. Zephyra is the fresh breeze social platforms desperately needed.",
         author: "Elena Rostova",
         role: "Content Strategist",
         avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+        badge: "Community Lead",
+        gradient: "bg-gradient-to-br from-[#E6F9F0] to-[#CCF2DF] dark:from-[#13241F] dark:to-[#122E22]",
+        border: "border-2 border-[#8CE6B8] dark:border-[#204E3C]",
+        accent: "text-[#047857] dark:text-[#6EE7B7]",
+    },
+    {
+        quote: "The privacy features and sleek night mode make sharing my raw creative process completely anxiety-free.",
+        author: "Devon Chen",
+        role: "UX Architect",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+        badge: "Pro Creator",
+        gradient: "bg-gradient-to-br from-[#E6FBFC] to-[#C0ECFF] dark:from-[#132435] dark:to-[#162C44]",
+        border: "border-2 border-[#85E0FA] dark:border-[#22476B]",
+        accent: "text-[#0E7490] dark:text-[#67E8F9]",
+    },
+    {
+        quote: "I moved my entire photography blog to Zephyra. The instant interaction latency is unbeatable.",
+        author: "Sophia Sterling",
+        role: "Visual Storyteller",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+        badge: "Top Photographer",
+        gradient: "bg-gradient-to-br from-[#FFF5F5] to-[#FFE3E3] dark:from-[#281822] dark:to-[#381B28]",
+        border: "border-2 border-[#FFB3B3] dark:border-[#5E2B3E]",
+        accent: "text-[#E11D48] dark:text-[#FB7185]",
+    },
+    {
+        quote: "Clean, elegant, and distraction-free. It gives your content the spotlight it truly deserves.",
+        author: "Liam Montgomery",
+        role: "Indie Publisher",
+        avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
+        badge: "Founding Member",
+        gradient: "bg-gradient-to-br from-[#FFFBEB] to-[#FEF3C7] dark:from-[#242016] dark:to-[#332A18]",
+        border: "border-2 border-[#FDE047] dark:border-[#52441D]",
+        accent: "text-[#D97706] dark:text-[#FBBF24]",
     },
 ];
 
@@ -533,52 +575,71 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ===== TESTIMONIALS SECTION ===== */}
-            <section className="relative z-10 py-20 px-4 sm:px-6 bg-[#F8F9FA] dark:bg-[#121620]/60 border-y border-[#EAECF0] dark:border-[#283244]">
-                <div className="max-w-6xl mx-auto">
-                    <div className="text-center max-w-xl mx-auto mb-14">
-                        <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
-                            Community Feedback
-                        </span>
-                        <h2 className="font-['Fraunces'] italic text-3xl sm:text-4xl font-bold text-[#101828] dark:text-white mt-2">
-                            Loved by creators everywhere
-                        </h2>
-                    </div>
+            {/* ===== TESTIMONIALS SECTION WITH INFINITE MARQUEE ===== */}
+            <section className="relative z-10 py-24 px-4 sm:px-6 bg-[#F3F4F8] dark:bg-[#10141D] border-y border-[#E2E8F0] dark:border-[#283244] overflow-hidden">
+                <div className="max-w-6xl mx-auto mb-12 text-center">
+                    <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
+                        Community Feedback
+                    </span>
+                    <h2 className="font-['Fraunces'] italic text-3xl sm:text-5xl font-bold text-[#101828] dark:text-white mt-2">
+                        Loved by creators everywhere
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#64748B] dark:text-[#94A3B8] mt-2.5 font-medium">
+                        Hover over any card to pause scrolling
+                    </p>
+                </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {TESTIMONIALS.map((t, idx) => (
-                            <motion.div
-                                key={t.author}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="rounded-3xl border border-[#EAECF0] dark:border-[#283244] bg-white dark:bg-[#161B26] p-6 shadow-sm dark:shadow-xl flex flex-col justify-between"
-                            >
-                                <div className="space-y-3">
-                                    <div className="flex items-center gap-1 text-amber-500">
-                                        {Array.from({ length: 5 }).map((_, i) => (
-                                            <HiStar key={i} className="h-4 w-4 text-amber-400" />
-                                        ))}
-                                    </div>
-                                    <p className="text-xs sm:text-sm text-[#344054] dark:text-[#E2E8F0] italic leading-relaxed font-medium">
-                                        "{t.quote}"
-                                    </p>
-                                </div>
+                {/* Infinite Scrolling Marquee Track */}
+                <div className="relative w-full overflow-hidden py-4">
+                    {/* Left & Right Smooth Fade Gradients */}
+                    <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
+                    <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-[#F3F4F8] dark:from-[#10141D] to-transparent z-20 pointer-events-none" />
 
-                                <div className="flex items-center gap-3 mt-6 pt-4 border-t border-[#EAECF0] dark:border-[#283244]">
-                                    <img
-                                        src={t.avatar}
-                                        alt={t.author}
-                                        className="h-10 w-10 rounded-full object-cover border border-[#EAECF0] dark:border-[#283244] ring-2 ring-[#FF8F6B]/30"
-                                    />
-                                    <div>
-                                        <h4 className="text-xs font-bold text-[#101828] dark:text-white">{t.author}</h4>
-                                        <p className="text-[11px] font-semibold text-[#667085] dark:text-[#94A3B8]">{t.role}</p>
+                    <div className="flex w-max gap-6 group">
+                        <motion.div
+                            animate={{ x: ['0%', '-50%'] }}
+                            transition={{
+                                duration: reduce ? 0 : 32,
+                                ease: 'linear',
+                                repeat: Infinity,
+                            }}
+                            className="flex gap-6 shrink-0 group-hover:[animation-play-state:paused]"
+                        >
+                            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, idx) => (
+                                <div
+                                    key={`${t.author}-${idx}`}
+                                    className={`w-80 sm:w-96 rounded-3xl p-6.5 ${t.gradient} ${t.border} shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between shrink-0 cursor-pointer`}
+                                >
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-1">
+                                                {Array.from({ length: 5 }).map((_, i) => (
+                                                    <HiStar key={i} className="h-4 w-4 text-amber-400 drop-shadow-xs" />
+                                                ))}
+                                            </div>
+                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-black/40 border border-current/20 shadow-xs ${t.accent}`}>
+                                                {t.badge}
+                                            </span>
+                                        </div>
+                                        <p className="text-xs sm:text-sm text-[#1E293B] dark:text-[#E2E8F0] italic leading-relaxed font-medium">
+                                            "{t.quote}"
+                                        </p>
+                                    </div>
+
+                                    <div className="flex items-center gap-3.5 mt-6 pt-4 border-t border-current/15">
+                                        <img
+                                            src={t.avatar}
+                                            alt={t.author}
+                                            className="h-11 w-11 rounded-full object-cover ring-2 ring-white/60 dark:ring-black/40 shadow-sm"
+                                        />
+                                        <div>
+                                            <h4 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white">{t.author}</h4>
+                                            <p className={`text-[11px] font-extrabold ${t.accent}`}>{t.role}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </motion.div>
-                        ))}
+                            ))}
+                        </motion.div>
                     </div>
                 </div>
             </section>
