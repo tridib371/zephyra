@@ -31,7 +31,7 @@ const MastodonIcon = () => (
 
 const GustDivider = () => (
     <svg
-        className="w-full h-6 text-[#F5C36B]/15"
+        className="w-full h-6 text-[#D97B4F]/25 dark:text-[#FF8F6B]/30"
         viewBox="0 0 1160 24"
         preserveAspectRatio="none"
         aria-hidden="true"
@@ -40,7 +40,7 @@ const GustDivider = () => (
             d="M -20 12 C 200 -6, 380 30, 600 12 S 980 -6, 1180 12"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1"
+            strokeWidth="1.5"
         />
     </svg>
 );
@@ -76,14 +76,17 @@ const SOCIALS = [
 
 const Footer = () => {
     return (
-        <footer className="relative mt-auto bg-[#EFE6D9] dark:bg-[#0B0D12] border-t border-[#DECDBB] dark:border-[#1F232C] font-[Manrope] transition-colors duration-300">
+        <footer className="relative mt-auto bg-[#EFE6D9] dark:bg-gradient-to-b dark:from-[#14100D] dark:to-[#0C0A09] border-t border-[#DECDBB] dark:border-[#2E221A] font-[Manrope] transition-colors duration-300 overflow-hidden">
+            {/* Subtle Ambient Night Ember Halo */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-28 bg-gradient-to-r from-transparent via-[#FF8F6B]/10 dark:via-[#FF8F6B]/10 to-transparent blur-3xl pointer-events-none" />
+
             <div className="hidden sm:block absolute -top-3 left-0 right-0 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <GustDivider />
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 relative z-10">
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-6">
                     <div className="col-span-2 sm:col-span-3 lg:col-span-2 pr-4">
                         <Link to="/" className="flex items-center gap-2.5 group w-fit">
@@ -94,7 +97,7 @@ const Footer = () => {
                                 Zephyra
                             </span>
                         </Link>
-                        <p className="mt-3 text-sm text-gray-500 dark:text-[#8A8F9C] max-w-xs leading-relaxed">
+                        <p className="mt-3 text-sm text-[#5C4A3C] dark:text-[#A89F95] max-w-xs leading-relaxed font-medium">
                             Carry your story on the wind - to every corner, to every soul.
                         </p>
 
@@ -108,7 +111,7 @@ const Footer = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={social.label}
-                                        className="p-2 rounded-full text-gray-500 dark:text-[#8A8F9C] hover:text-[#B5652F] dark:hover:text-[#F5C36B] hover:bg-gray-100 dark:hover:bg-[#12151C] border border-transparent hover:border-gray-200 dark:hover:border-[#1F232C] transition-colors duration-200"
+                                        className="p-2.5 rounded-2xl text-[#5C4A3C] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] bg-[#FAF2E8] dark:bg-[#1E1713] hover:bg-[#EFE3D4] dark:hover:bg-[#281F1A] border border-[#DECDBB] dark:border-[#38281E] shadow-xs transition-all duration-200"
                                     >
                                         <SocialIcon />
                                     </a>
@@ -121,16 +124,16 @@ const Footer = () => {
                         const links = FOOTER_LINKS[heading];
                         return (
                             <div key={heading}>
-                                <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-[#6E7280] mb-3">
+                                <h3 className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#877568] dark:text-[#D8A782] mb-3.5">
                                     {heading}
                                 </h3>
-                                <ul className="space-y-2">
+                                <ul className="space-y-2.5">
                                     {links.map(function renderLink(link) {
                                         return (
                                             <li key={link.label}>
                                                 <Link
                                                     to={link.to}
-                                                    className="text-sm text-gray-600 dark:text-[#B9BEC9] hover:text-[#B5652F] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="text-sm text-[#36271A] dark:text-[#DDD6CE] hover:text-[#B85323] dark:hover:text-[#FF8F6B] font-medium transition-colors"
                                                 >
                                                     {link.label}
                                                 </Link>
@@ -143,15 +146,15 @@ const Footer = () => {
                     })}
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-gray-200 dark:border-[#1F232C] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-gray-500 dark:text-[#6E7280]">
-                    <div className="flex items-center gap-3 text-xs sm:text-sm">
+                <div className="mt-10 pt-6 border-t border-[#DECDBB] dark:border-[#2E221A] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#5C4A3C] dark:text-[#8E8478]">
+                    <div className="flex items-center gap-3 text-xs sm:text-sm font-medium">
                         <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
                         <span>•</span>
-                        <Link to="/admin" className="hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors">
+                        <Link to="/admin" className="hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors font-bold">
                             Admin Portal
                         </Link>
                     </div>
-                    <p className="flex items-center gap-1.5">
+                    <p className="flex items-center gap-1.5 font-medium">
                         Made for people who create, wonder, and drift between ideas
                         <span className="grid h-5.5 w-5.5 place-items-center rounded-md bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-xs ring-1 ring-[#FF8F6B]/30 shrink-0">
                             <FeatherMark />
