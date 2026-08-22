@@ -170,12 +170,12 @@ export default function About() {
 
             {/* Wallpaper Background - Light Mode */}
             <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-95 transition-opacity duration-500 pointer-events-none z-0"
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
                 style={{ backgroundImage: `url(${aboutBgLight})` }}
             />
             {/* Wallpaper Background - Dark Mode */}
             <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 transition-opacity duration-500 pointer-events-none z-0"
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
                 style={{ backgroundImage: `url(${aboutBgDark})` }}
             />
 
