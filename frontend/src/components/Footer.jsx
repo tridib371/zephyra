@@ -76,8 +76,8 @@ const SOCIALS = [
 
 const Footer = () => {
     return (
-        <footer className="relative mt-auto bg-[#EFE6D9] dark:bg-gradient-to-b dark:from-[#14100D] dark:to-[#0C0A09] border-t border-[#DECDBB] dark:border-[#2E221A] font-[Manrope] transition-colors duration-300 overflow-hidden">
-            {/* Subtle Ambient Night Ember Halo */}
+        <footer className="relative mt-auto bg-white/55 dark:bg-gradient-to-b dark:from-[#14100D] dark:to-[#0C0A09] backdrop-blur-2xl border-t border-white/80 dark:border-[#2E221A] shadow-[0_-8px_32px_0_rgba(217,123,79,0.04)] font-[Manrope] transition-colors duration-300 overflow-hidden">
+            {/* Subtle Ambient Night / Day Ember Halo */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-28 bg-gradient-to-r from-transparent via-[#FF8F6B]/10 dark:via-[#FF8F6B]/10 to-transparent blur-3xl pointer-events-none" />
 
             <div className="hidden sm:block absolute -top-3 left-0 right-0 px-4 sm:px-6 lg:px-8">
@@ -111,7 +111,7 @@ const Footer = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={social.label}
-                                        className="p-2.5 rounded-2xl text-[#5C4A3C] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] bg-[#FAF2E8] dark:bg-[#1E1713] hover:bg-[#EFE3D4] dark:hover:bg-[#281F1A] border border-[#DECDBB] dark:border-[#38281E] shadow-xs transition-all duration-200"
+                                        className="p-2.5 rounded-2xl text-[#5C4A3C] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] bg-white/70 dark:bg-[#1E1713] hover:bg-white dark:hover:bg-[#281F1A] border border-white/90 dark:border-[#38281E] shadow-xs backdrop-blur-md transition-all duration-200"
                                     >
                                         <SocialIcon />
                                     </a>
@@ -146,7 +146,7 @@ const Footer = () => {
                     })}
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-[#DECDBB] dark:border-[#2E221A] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#5C4A3C] dark:text-[#8E8478]">
+                <div className="mt-10 pt-6 border-t border-white/80 dark:border-[#2E221A] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#5C4A3C] dark:text-[#8E8478]">
                     <div className="flex items-center gap-3 text-xs sm:text-sm font-medium">
                         <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
                         <span>•</span>
