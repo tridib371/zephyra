@@ -431,19 +431,23 @@ export default function Home() {
             </section>
 
             {/* ===== STATS BANNER WITH COUNT-UP ANIMATIONS ===== */}
-            <section className="relative z-10 py-12 border-y border-[#EAECF0] dark:border-[#1F232C] bg-white/80 dark:bg-[#0E1116]/50 backdrop-blur-xl shadow-xs">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <section className="relative z-10 py-14 border-y border-[#EAECF0] dark:border-[#283244] bg-gradient-to-r from-[#FFF5EE] via-[#FFFDF9] to-[#FFF5EE] dark:bg-gradient-to-r dark:from-[#131722] dark:via-[#19202E] dark:to-[#131722] backdrop-blur-2xl shadow-lg overflow-hidden">
+                {/* Radiant Ambient Sunset Glow Aura */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,143,107,0.15),transparent_70%)] pointer-events-none" />
+
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                         {STATS.map((stat, i) => (
                             <motion.div
                                 key={stat.label}
-                                initial={{ opacity: 0, y: 15 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                                className="p-4 rounded-2xl bg-[#F8F9FA] dark:bg-transparent border border-[#EAECF0] dark:border-transparent shadow-xs dark:shadow-none"
+                                whileHover={{ scale: 1.05, y: -4 }}
+                                className="p-6 rounded-3xl bg-white/95 dark:bg-[#1C2333]/90 backdrop-blur-md border border-[#F5D0C0] dark:border-[#2D384D] shadow-md dark:shadow-2xl hover:border-[#FF8F6B]/60 dark:hover:border-[#FF8F6B]/70 hover:shadow-xl dark:hover:shadow-[0_0_25px_rgba(255,143,107,0.2)] transition-all duration-300 flex flex-col justify-center items-center"
                             >
-                                <div className="font-['Fraunces'] italic text-3xl sm:text-5xl font-extrabold bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:to-[#F5C36B] bg-clip-text text-transparent">
+                                <div className="font-['Fraunces'] italic text-4xl sm:text-5xl font-black bg-gradient-to-r from-[#E05326] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent drop-shadow-xs dark:drop-shadow-[0_0_15px_rgba(255,143,107,0.4)]">
                                     <Counter
                                         target={stat.target}
                                         prefix={stat.prefix}
@@ -451,7 +455,7 @@ export default function Home() {
                                         decimals={stat.decimals}
                                     />
                                 </div>
-                                <div className="text-xs sm:text-sm font-extrabold text-[#344054] dark:text-gray-400 mt-1 uppercase tracking-wider font-[Manrope]">
+                                <div className="text-[11px] sm:text-xs font-black text-[#344054] dark:text-[#E2E8F0] mt-2.5 uppercase tracking-[0.2em] font-[Manrope]">
                                     {stat.label}
                                 </div>
                             </motion.div>
@@ -497,27 +501,27 @@ export default function Home() {
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: index * 0.1 }}
                                     whileHover={{ y: -8, scale: 1.02 }}
-                                    className="group relative bg-white dark:bg-[#12151C] rounded-3xl p-6 border border-[#EAECF0] dark:border-[#1F232C] shadow-xs hover:shadow-md hover:border-[#FF8F6B]/60 dark:hover:border-[#F5C36B]/50 transition-all duration-300 flex flex-col justify-between"
+                                    className="group relative bg-white dark:bg-[#161B26] rounded-3xl p-6 border border-[#EAECF0] dark:border-[#283244] shadow-sm dark:shadow-xl hover:shadow-xl hover:border-[#FF8F6B]/60 dark:hover:border-[#FF8F6B]/60 transition-all duration-300 flex flex-col justify-between"
                                 >
                                     <div>
                                         <div className="flex items-center justify-between mb-5">
                                             <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-[#1A140D] shadow-xs group-hover:scale-110 transition-transform duration-300`}>
                                                 <Icon />
                                             </div>
-                                            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#FFE8D6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B]">
+                                            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#FFE8D6] dark:bg-[#FF8F6B]/20 text-[#B85323] dark:text-[#F5C36B]">
                                                 {feature.badge}
                                             </span>
                                         </div>
 
-                                        <h3 className="text-lg font-bold text-[#101828] dark:text-[#EDEBE6] font-[Manrope]">
+                                        <h3 className="text-lg font-bold text-[#101828] dark:text-white font-[Manrope]">
                                             {feature.title}
                                         </h3>
-                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] mt-2.5 leading-relaxed font-medium font-[Manrope]">
+                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] mt-2.5 leading-relaxed font-medium font-[Manrope]">
                                             {feature.description}
                                         </p>
                                     </div>
 
-                                    <div className="mt-6 pt-4 border-t border-[#EAECF0] dark:border-[#1F232C]/60 flex items-center text-xs font-extrabold text-[#B85323] dark:text-[#F5C36B]">
+                                    <div className="mt-6 pt-4 border-t border-[#EAECF0] dark:border-[#283244] flex items-center text-xs font-extrabold text-[#B85323] dark:text-[#F5C36B]">
                                         <span>Explore feature</span>
                                         <span className="ml-1 transition-transform group-hover:translate-x-1.5">→</span>
                                     </div>
@@ -529,13 +533,13 @@ export default function Home() {
             </section>
 
             {/* ===== TESTIMONIALS SECTION ===== */}
-            <section className="relative z-10 py-20 px-4 sm:px-6 bg-[#F2F4F7]/60 dark:from-[#0B0D12] dark:via-[#11151D] dark:to-[#0B0D12]">
+            <section className="relative z-10 py-20 px-4 sm:px-6 bg-[#F8F9FA] dark:bg-[#121620]/60 border-y border-[#EAECF0] dark:border-[#283244]">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center max-w-xl mx-auto mb-14">
                         <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                             Community Feedback
                         </span>
-                        <h2 className="font-['Fraunces'] italic text-3xl sm:text-4xl font-bold text-[#101828] dark:text-[#EDEBE6] mt-2">
+                        <h2 className="font-['Fraunces'] italic text-3xl sm:text-4xl font-bold text-[#101828] dark:text-white mt-2">
                             Loved by creators everywhere
                         </h2>
                     </div>
@@ -548,7 +552,7 @@ export default function Home() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs flex flex-col justify-between"
+                                className="rounded-3xl border border-[#EAECF0] dark:border-[#283244] bg-white dark:bg-[#161B26] p-6 shadow-sm dark:shadow-xl flex flex-col justify-between"
                             >
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-1 text-amber-500">
@@ -556,20 +560,20 @@ export default function Home() {
                                             <HiStar key={i} className="h-4 w-4 text-amber-400" />
                                         ))}
                                     </div>
-                                    <p className="text-xs sm:text-sm text-[#344054] dark:text-[#EDEBE6] italic leading-relaxed font-medium">
+                                    <p className="text-xs sm:text-sm text-[#344054] dark:text-[#E2E8F0] italic leading-relaxed font-medium">
                                         "{t.quote}"
                                     </p>
                                 </div>
 
-                                <div className="flex items-center gap-3 mt-6 pt-4 border-t border-[#EAECF0] dark:border-[#1F232C]">
+                                <div className="flex items-center gap-3 mt-6 pt-4 border-t border-[#EAECF0] dark:border-[#283244]">
                                     <img
                                         src={t.avatar}
                                         alt={t.author}
-                                        className="h-10 w-10 rounded-full object-cover border border-[#EAECF0] dark:border-[#1F232C] ring-2 ring-[#FF8F6B]/20"
+                                        className="h-10 w-10 rounded-full object-cover border border-[#EAECF0] dark:border-[#283244] ring-2 ring-[#FF8F6B]/30"
                                     />
                                     <div>
                                         <h4 className="text-xs font-bold text-[#101828] dark:text-white">{t.author}</h4>
-                                        <p className="text-[11px] font-semibold text-[#667085] dark:text-gray-400">{t.role}</p>
+                                        <p className="text-[11px] font-semibold text-[#667085] dark:text-[#94A3B8]">{t.role}</p>
                                     </div>
                                 </div>
                             </motion.div>
