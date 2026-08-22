@@ -2,7 +2,18 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { HiOutlineCheck, HiOutlineXMark } from 'react-icons/hi2';
+import {
+    HiOutlineCheck,
+    HiOutlineXMark,
+    HiOutlineSparkles,
+    HiOutlineBolt,
+    HiOutlineShieldCheck,
+    HiOutlineUser,
+    HiOutlineAtSymbol,
+    HiOutlineEnvelope,
+    HiOutlineLockClosed,
+    HiStar,
+} from 'react-icons/hi2';
 import GoogleButton from '../components/GoogleButton';
 
 const Register = () => {
@@ -63,180 +74,321 @@ const Register = () => {
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 bg-[#F8F9FA] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
+            transition={{ duration: 0.8 }}
+            className="min-h-screen relative flex items-center justify-center px-4 sm:px-6 py-12 sm:py-16 font-[Manrope] overflow-hidden"
         >
+            {/* ============================================
+               INTERESTING ANIMATED BACKGROUND PHOTO & OVERLAYS
+               ============================================ */}
+            {/* Base Wallpaper Image with subtle slow zoom animation */}
             <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-full max-w-md sm:max-w-lg bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-5 sm:p-8 md:p-10 border border-[#EAECF0] dark:border-[#1F232C] transition-colors duration-300"
-            >
-                {/* Header */}
-                <div className="text-center mb-4 sm:mb-6">
-                    <h2
-                        className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1 font-bold"
-                        style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
-                    >
-                        Join Zephyra
-                    </h2>
-                    <p className="text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] mt-1 font-[Manrope] font-medium">
-                        Create your account and start sharing
-                    </p>
-                </div>
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url('/images/register-bg.jpg')` }}
+            />
 
-                {/* Error Message */}
-                {error && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mb-3 p-2.5 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 rounded-2xl text-xs text-center font-[Manrope]"
-                    >
-                        {error}
-                    </motion.div>
-                )}
+            {/* Mode-Adaptive Glass & Gradient Overlays */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF5F0]/85 via-[#F8F9FA]/75 to-[#FFF0E6]/85 dark:from-[#090C12]/92 dark:via-[#0E1116]/88 dark:to-[#121620]/94 backdrop-blur-md transition-colors duration-500" />
 
-                {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
-                    <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
-                            Full Name
-                        </label>
-                        <input
-                            type="text"
-                            name="name"
-                            required
-                            value={formData.name}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
-                            placeholder="John Doe"
-                        />
+            {/* Floating Ambient Glowing Beams */}
+            <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/30 to-[#F5C36B]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-br from-[#6366F1]/20 to-[#06B6D4]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+
+            {/* Animated Floating Particles / Wind Currents Scenario */}
+            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <motion.div
+                    animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.3, 0.7, 0.3] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute top-16 left-1/4 w-3 h-3 rounded-full bg-[#FF8F6B] blur-xs"
+                />
+                <motion.div
+                    animate={{ y: [0, 45, 0], x: [0, -25, 0], opacity: [0.2, 0.6, 0.2] }}
+                    transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                    className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full bg-[#F5C36B] blur-xs"
+                />
+                <motion.div
+                    animate={{ y: [0, -50, 0], x: [0, 30, 0], opacity: [0.4, 0.8, 0.4] }}
+                    transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+                    className="absolute bottom-20 left-1/3 w-3.5 h-3.5 rounded-full bg-[#6366F1] blur-xs"
+                />
+            </div>
+
+            {/* ============================================
+               MAIN CONTAINER (Desktop Split / Mobile Centered)
+               ============================================ */}
+            <div className="relative z-10 w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+                {/* ===== LEFT DESKTOP SHOWCASE HERO (ANIMATED SCENARIO) ===== */}
+                <motion.div
+                    initial={{ x: -40, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.7, delay: 0.1 }}
+                    className="hidden lg:flex lg:col-span-5 flex-col justify-between space-y-8 pr-4"
+                >
+                    <div className="space-y-4">
+                        {/* Live Community Badge */}
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-black/40 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-xs text-xs font-black text-[#B85323] dark:text-[#F5C36B]">
+                            <HiOutlineSparkles className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B] animate-spin" style={{ animationDuration: '6s' }} />
+                            <span>Join 50,000+ Active Creators</span>
+                        </div>
+
+                        {/* Main Title */}
+                        <h1 className="font-['Fraunces'] italic text-4xl xl:text-5xl font-black text-[#101828] dark:text-white leading-tight tracking-tight drop-shadow-xs">
+                            Where your voice carries on the wind.
+                        </h1>
+
+                        <p className="text-sm text-[#475467] dark:text-[#CBD5E1] font-semibold leading-relaxed">
+                            Experience a distraction-free social realm built for instant expression, realtime messaging, and complete privacy control.
+                        </p>
                     </div>
 
-                    <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
-                            Username
-                        </label>
-                        <input
-                            type="text"
-                            name="username"
-                            required
-                            value={formData.username}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
-                            placeholder="johndoe"
-                        />
+                    {/* Feature Highlight Glass Chips */}
+                    <div className="space-y-3.5">
+                        <motion.div
+                            whileHover={{ x: 6 }}
+                            className="p-3.5 rounded-2xl bg-white/60 dark:bg-[#12151C]/70 backdrop-blur-xl border border-white/80 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                        >
+                            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[#1A140D] font-bold shadow-xs shrink-0">
+                                <HiOutlineBolt className="h-5 w-5" />
+                            </div>
+                            <div>
+                                <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">Sub-15ms Realtime Sync</h4>
+                                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium">Socket messaging & live unread updates</p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            whileHover={{ x: 6 }}
+                            className="p-3.5 rounded-2xl bg-white/60 dark:bg-[#12151C]/70 backdrop-blur-xl border border-white/80 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                        >
+                            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center text-white font-bold shadow-xs shrink-0">
+                                <HiOutlineShieldCheck className="h-5 w-5" />
+                            </div>
+                            <div>
+                                <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">100% Privacy Sovereignty</h4>
+                                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium">Granular visibility & zero ad tracking</p>
+                            </div>
+                        </motion.div>
                     </div>
 
-                    <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
-                            Email Address
-                        </label>
-                        <input
-                            type="email"
-                            name="email"
-                            required
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
-                            placeholder="you@example.com"
-                        />
+                    {/* Floating Testimonial Snippet */}
+                    <div className="p-4 rounded-2xl bg-gradient-to-r from-white/70 to-white/40 dark:from-[#1A202C]/80 dark:to-[#121620]/60 backdrop-blur-xl border border-white/80 dark:border-[#2A3447] shadow-md space-y-2">
+                        <div className="flex items-center gap-1 text-amber-400">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <HiStar key={i} className="h-3.5 w-3.5" />
+                            ))}
+                        </div>
+                        <p className="text-xs italic text-[#334155] dark:text-[#CBD5E1] font-medium leading-relaxed">
+                            "Zephyra is the fresh breeze social media needed. Sleek, fast, and completely distraction-free."
+                        </p>
+                        <div className="flex items-center gap-2 pt-0.5">
+                            <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[10px] font-black text-[#1A140D]">
+                                A
+                            </div>
+                            <span className="text-[11px] font-bold text-[#101828] dark:text-white">Aria Vance</span>
+                            <span className="text-[10px] text-[#64748B] dark:text-[#8A8F9C]">• Verified Creator</span>
+                        </div>
                     </div>
+                </motion.div>
 
-                    <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            required
-                            value={formData.password}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium ${formData.password.length > 0 && !isPasswordValid
-                                ? 'border-red-500 dark:border-red-500'
-                                : formData.password.length > 0 && isPasswordValid
-                                    ? 'border-emerald-500 dark:border-emerald-500'
-                                    : 'border-[#EAECF0] dark:border-[#3A3F4B]'
-                                }`}
-                            placeholder="Enter a strong password"
-                        />
+                {/* ===== RIGHT COLUMN: REGISTRATION FORM GLASS CARD ===== */}
+                <motion.div
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="col-span-1 lg:col-span-7 w-full max-w-md sm:max-w-lg mx-auto"
+                >
+                    <div className="relative rounded-3xl bg-white/85 dark:bg-[#12151C]/90 backdrop-blur-2xl p-6 sm:p-9 border border-white/90 dark:border-[#252B38] shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300">
 
-                        {/* Password Strength Checklist */}
-                        {formData.password.length > 0 && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                className="mt-2 text-xs space-y-1 font-[Manrope] bg-[#F8F9FA] dark:bg-[#181C26]/80 p-3 rounded-2xl border border-[#EAECF0] dark:border-[#252A36]"
+                        {/* Top Gradient Beam Line */}
+                        <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]" />
+
+                        {/* Header */}
+                        <div className="text-center mb-6 sm:mb-7">
+                            <h2
+                                className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1 font-bold"
+                                style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
                             >
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
-                                    {passwordChecks.length ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
-                                    <span>At least 8 characters</span>
-                                </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
-                                    {passwordChecks.uppercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
-                                    <span>At least 1 uppercase letter</span>
-                                </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
-                                    {passwordChecks.lowercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
-                                    <span>At least 1 lowercase letter</span>
-                                </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
-                                    {passwordChecks.number ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
-                                    <span>At least 1 number</span>
-                                </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
-                                    {passwordChecks.special ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
-                                    <span>At least 1 special character (@$!%*?&)</span>
-                                </p>
+                                Join Zephyra
+                            </h2>
+                            <p className="text-xs sm:text-sm text-[#475467] dark:text-[#94A3B8] mt-1 font-[Manrope] font-semibold">
+                                Create your free account and start sharing ideas
+                            </p>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-4 p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-700 dark:text-rose-300 rounded-2xl text-xs text-center font-bold font-[Manrope] shadow-xs"
+                            >
+                                {error}
                             </motion.div>
                         )}
+
+                        {/* Registration Form */}
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* Full Name */}
+                            <div>
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                    Full Name
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineUser className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        required
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Username */}
+                            <div>
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                    Username
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineAtSymbol className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        required
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        placeholder="johndoe"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Email */}
+                            <div>
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                    Email Address
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        placeholder="you@example.com"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Password */}
+                            <div>
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        required
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className={`w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs ${formData.password.length > 0 && !isPasswordValid
+                                            ? 'border-rose-500 dark:border-rose-500'
+                                            : formData.password.length > 0 && isPasswordValid
+                                                ? 'border-emerald-500 dark:border-emerald-500'
+                                                : 'border-[#E2E8F0] dark:border-[#2D3546]'
+                                            }`}
+                                        placeholder="Enter a strong password"
+                                    />
+                                </div>
+
+                                {/* Password Strength Checklist */}
+                                {formData.password.length > 0 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        className="mt-2.5 text-xs space-y-1.5 font-[Manrope] bg-[#F8F9FA] dark:bg-[#181C26]/90 p-3.5 rounded-2xl border border-[#E2E8F0] dark:border-[#252A36]"
+                                    >
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                            {passwordChecks.length ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                            <span>At least 8 characters</span>
+                                        </p>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                            {passwordChecks.uppercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                            <span>At least 1 uppercase letter</span>
+                                        </p>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                            {passwordChecks.lowercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                            <span>At least 1 lowercase letter</span>
+                                        </p>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                            {passwordChecks.number ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                            <span>At least 1 number</span>
+                                        </p>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                            {passwordChecks.special ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                            <span>At least 1 special character (@$!%*?&)</span>
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={isLoading || !isPasswordValid}
+                                className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer mt-3"
+                            >
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg className="animate-spin h-5 w-5 text-[#1A140D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Creating account...
+                                    </span>
+                                ) : (
+                                    'Create Free Account →'
+                                )}
+                            </button>
+                        </form>
+
+                        {/* Divider */}
+                        <div className="relative my-5">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-[#E2E8F0] dark:border-[#252B38]"></div>
+                            </div>
+                            <div className="relative flex justify-center text-xs">
+                                <span className="px-3 bg-white/90 dark:bg-[#12151C]/90 text-[#64748B] dark:text-[#94A3B8] font-[Manrope] font-bold uppercase tracking-wider">
+                                    or continue with
+                                </span>
+                            </div>
+                        </div>
+
+                        <GoogleButton />
+
+                        {/* Footer Link */}
+                        <p className="text-center text-xs sm:text-sm text-[#475467] dark:text-[#94A3B8] mt-5 font-[Manrope] font-medium">
+                            Already have an account?{' '}
+                            <Link
+                                to="/login"
+                                className="text-[#D97B4F] dark:text-[#F5C36B] font-extrabold hover:underline transition-colors"
+                            >
+                                Sign in
+                            </Link>
+                        </p>
                     </div>
+                </motion.div>
 
-                    <button
-                        type="submit"
-                        disabled={isLoading || !isPasswordValid}
-                        className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-[1.02] transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer mt-2"
-                    >
-                        {isLoading ? (
-                            <span className="flex items-center justify-center gap-2">
-                                <svg className="animate-spin h-5 w-5 text-[#1A140D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Creating account...
-                            </span>
-                        ) : (
-                            'Create Account'
-                        )}
-                    </button>
-                </form>
-
-                {/* Divider */}
-                <div className="relative my-4">
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-[#EAECF0] dark:border-[#1F232C]"></div>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                        <span className="px-3 bg-white dark:bg-[#12151C] text-[#667085] dark:text-[#6E7280] font-[Manrope] font-medium">
-                            or continue with
-                        </span>
-                    </div>
-                </div>
-
-                <GoogleButton />
-
-                {/* Footer */}
-                <p className="text-center text-sm text-[#475467] dark:text-[#8A8F9C] mt-4 font-[Manrope]">
-                    Already have an account?{' '}
-                    <Link
-                        to="/login"
-                        className="text-[#D97B4F] dark:text-[#F5C36B] font-bold hover:underline transition-colors"
-                    >
-                        Sign in
-                    </Link>
-                </p>
-            </motion.div>
+            </div>
         </motion.div>
     );
 };
