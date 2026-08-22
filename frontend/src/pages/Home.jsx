@@ -449,22 +449,22 @@ export default function Home() {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="flex flex-col sm:flex-row gap-4 mt-9 justify-center items-center"
+                        className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 mt-7 sm:mt-9 justify-center items-center w-full"
                     >
                         <Link
                             to="/register"
-                            className="group relative px-8 py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-base rounded-full hover:brightness-105 shadow-md hover:scale-105 transition-all duration-300 text-center font-[Manrope] min-w-48 overflow-hidden"
+                            className="group relative w-full max-w-[210px] sm:w-auto px-5 sm:px-8 py-2.5 sm:py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black text-xs sm:text-base rounded-full hover:brightness-105 shadow-md hover:scale-105 transition-all duration-300 text-center font-[Manrope] sm:min-w-48 overflow-hidden"
                         >
-                            <span className="relative z-10 flex items-center justify-center gap-2">
+                            <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
                                 Start Your Journey
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-4.5 w-4.5 transition-transform group-hover:translate-x-1">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-3.5 w-3.5 sm:h-4.5 sm:w-4.5 transition-transform group-hover:translate-x-1">
                                     <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </span>
                         </Link>
                         <Link
                             to="/login"
-                            className="px-8 py-3.5 border border-[#EAECF0] dark:border-[#3A3F4B] bg-white dark:bg-white/5 backdrop-blur-md text-[#101828] dark:text-[#E7E6E3] font-bold text-base rounded-full hover:border-[#D0D5DD] dark:hover:border-[#F5C36B]/60 hover:text-[#D97B4F] dark:hover:text-[#F5C36B] hover:scale-105 shadow-xs transition-all duration-300 text-center font-[Manrope] min-w-44"
+                            className="w-full max-w-[210px] sm:w-auto px-5 sm:px-8 py-2.5 sm:py-3.5 border border-[#EAECF0] dark:border-[#3A3F4B] bg-white dark:bg-white/5 backdrop-blur-md text-[#101828] dark:text-[#E7E6E3] font-bold text-xs sm:text-base rounded-full hover:border-[#D0D5DD] dark:hover:border-[#F5C36B]/60 hover:text-[#D97B4F] dark:hover:text-[#F5C36B] hover:scale-105 shadow-xs transition-all duration-300 text-center font-[Manrope] sm:min-w-44"
                         >
                             Sign In
                         </Link>
@@ -803,16 +803,16 @@ export default function Home() {
                         </div>
 
                         {/* CTA Buttons */}
-                        <div className="pt-2 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-center items-center w-full">
                             <Link
                                 to="/register"
-                                className="w-full sm:w-auto px-9 py-4 bg-[#1A140D] text-white font-black text-sm sm:text-base rounded-full hover:scale-105 transition-all shadow-2xl font-[Manrope] min-w-52 text-center"
+                                className="w-full max-w-[210px] sm:w-auto px-5 sm:px-9 py-2.5 sm:py-4 bg-[#1A140D] text-white font-black text-xs sm:text-base rounded-full hover:scale-105 transition-all shadow-2xl font-[Manrope] sm:min-w-52 text-center"
                             >
                                 Create Free Account →
                             </Link>
                             <Link
                                 to="/login"
-                                className="w-full sm:w-auto px-9 py-4 border-2 border-[#1A140D]/40 bg-white/40 backdrop-blur-md text-[#1A140D] font-extrabold text-sm sm:text-base rounded-full hover:bg-white/60 transition-all font-[Manrope] min-w-48 text-center"
+                                className="w-full max-w-[210px] sm:w-auto px-5 sm:px-9 py-2.5 sm:py-4 border-2 border-[#1A140D]/40 bg-white/40 backdrop-blur-md text-[#1A140D] font-extrabold text-xs sm:text-base rounded-full hover:bg-white/60 transition-all font-[Manrope] sm:min-w-48 text-center"
                             >
                                 Existing User Sign In
                             </Link>

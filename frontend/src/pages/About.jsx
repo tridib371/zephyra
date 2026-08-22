@@ -385,17 +385,17 @@ export default function About() {
                     <p className="text-sm sm:text-base text-[#475467] dark:text-[#9DA3B4] max-w-xl mx-auto">
                         Experience the difference of a serene, distraction-free social platform today.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-center items-center w-full">
                         <Link
                             to="/register"
-                            className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full hover:scale-105 hover:shadow-xl transition-all shadow-md font-[Manrope] min-w-48"
+                            className="flex items-center justify-center gap-2 w-full max-w-[210px] sm:w-auto px-5 sm:px-8 py-2.5 sm:py-4 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-xs sm:text-sm rounded-full hover:scale-105 hover:shadow-xl transition-all shadow-md font-[Manrope] sm:min-w-48"
                         >
                             <span>Start Your Journey</span>
-                            <HiArrowRight className="text-base" />
+                            <HiArrowRight className="text-sm sm:text-base" />
                         </Link>
                         <Link
                             to="/feed"
-                            className="px-8 py-4 border border-[#EAECF0] dark:border-[#3A3F4B] bg-white dark:bg-white/5 backdrop-blur-md text-[#101828] dark:text-[#EDEBE6] font-bold text-sm rounded-full hover:scale-105 transition-all shadow-xs"
+                            className="w-full max-w-[210px] sm:w-auto px-5 sm:px-8 py-2.5 sm:py-4 border border-[#EAECF0] dark:border-[#3A3F4B] bg-white dark:bg-white/5 backdrop-blur-md text-[#101828] dark:text-[#EDEBE6] font-bold text-xs sm:text-sm rounded-full hover:scale-105 transition-all shadow-xs text-center"
                         >
                             Explore Live Stories
                         </Link>
