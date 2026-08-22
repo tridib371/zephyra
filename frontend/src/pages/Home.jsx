@@ -805,16 +805,16 @@ export default function Home() {
                         </div>
 
                         {/* CTA Buttons */}
-                        <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-center items-center w-full">
+                        <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full">
                             <Link
                                 to="/register"
-                                className="w-full max-w-[210px] sm:w-auto px-5 sm:px-9 py-2.5 sm:py-4 bg-[#1A140D] text-white font-black text-xs sm:text-base rounded-full hover:scale-105 transition-all shadow-2xl font-[Manrope] sm:min-w-52 text-center"
+                                className="w-full max-w-[240px] sm:w-auto sm:max-w-none px-6 sm:px-8 py-2.5 sm:py-3.5 bg-[#1A140D] text-white font-black text-xs sm:text-base rounded-full hover:scale-105 transition-all shadow-2xl font-[Manrope] text-center whitespace-nowrap inline-flex items-center justify-center"
                             >
                                 Create Free Account →
                             </Link>
                             <Link
                                 to="/login"
-                                className="w-full max-w-[210px] sm:w-auto px-5 sm:px-9 py-2.5 sm:py-4 border-2 border-[#1A140D]/40 bg-white/40 backdrop-blur-md text-[#1A140D] font-extrabold text-xs sm:text-base rounded-full hover:bg-white/60 transition-all font-[Manrope] sm:min-w-48 text-center"
+                                className="w-full max-w-[240px] sm:w-auto sm:max-w-none px-6 sm:px-8 py-2.5 sm:py-3.5 border-2 border-[#1A140D]/40 bg-white/40 backdrop-blur-md text-[#1A140D] font-black text-xs sm:text-base rounded-full hover:bg-white/60 transition-all font-[Manrope] text-center whitespace-nowrap inline-flex items-center justify-center"
                             >
                                 Existing User Sign In
                             </Link>
