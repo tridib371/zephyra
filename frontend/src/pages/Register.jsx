@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import registerBg from '../assets/register-bg.jpg';
+import registerBgLight from '../assets/register-bg-light.jpg';
+import registerBgDark from '../assets/register-bg-dark.jpg';
 import {
     HiOutlineCheck,
     HiOutlineXMark,
@@ -79,44 +80,47 @@ const Register = () => {
             className="min-h-screen relative flex items-center justify-center px-4 sm:px-6 py-12 sm:py-16 font-[Manrope] overflow-hidden"
         >
             {/* ============================================
-               INTERESTING ANIMATED BACKGROUND PHOTO & OVERLAYS
+               DEDICATED DAY & NIGHT MODE BACKGROUND WALLPAPERS
                ============================================ */}
-            {/* Base Wallpaper Image with subtle slow zoom animation */}
+            {/* Day Mode Wallpaper (Bright, Luminous Golden & Sky-Blue) */}
             <motion.div
-                animate={{ scale: [1, 1.05, 1] }}
+                animate={{ scale: [1, 1.04, 1] }}
                 transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-80"
-                style={{ backgroundImage: `url(${registerBg})` }}
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-95 dark:hidden"
+                style={{ backgroundImage: `url(${registerBgLight})` }}
             />
 
-            {/* Mode-Adaptive Translucent Glass & Gradient Overlay */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF8F5]/40 via-[#F8F9FA]/25 to-[#FFF0E6]/40 dark:from-[#090C12]/65 dark:via-[#0E1116]/55 dark:to-[#121620]/65 backdrop-blur-xs transition-colors duration-500" />
+            {/* Night Mode Wallpaper (Cosmic Ethereal Waves) */}
+            <motion.div
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-85 hidden dark:block"
+                style={{ backgroundImage: `url(${registerBgDark})` }}
+            />
+
+            {/* Mode-Adaptive Translucent Glass Overlay */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF9F5]/45 via-white/20 to-[#FFF0E6]/45 dark:from-[#090C12]/75 dark:via-[#0E1116]/65 dark:to-[#121620]/75 backdrop-blur-xs transition-colors duration-500" />
 
             {/* Floating Ambient Glowing Beams */}
-            <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/30 to-[#F5C36B]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
-            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-br from-[#6366F1]/20 to-[#06B6D4]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/25 to-[#F5C36B]/20 dark:from-[#6366F1]/20 dark:to-[#06B6D4]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-br from-[#06B6D4]/20 to-[#3B82F6]/20 dark:from-[#FF8F6B]/30 dark:to-[#F5C36B]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
-            {/* Animated Floating Particles / Wind Currents Scenario */}
+            {/* Animated Floating Particles Scenario */}
             <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
                 <motion.div
-                    animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.3, 0.7, 0.3] }}
+                    animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.4, 0.8, 0.4] }}
                     transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute top-16 left-1/4 w-3 h-3 rounded-full bg-[#FF8F6B] blur-xs"
+                    className="absolute top-16 left-1/4 w-3 h-3 rounded-full bg-[#E2774C] dark:bg-[#FF8F6B] blur-xs"
                 />
                 <motion.div
-                    animate={{ y: [0, 45, 0], x: [0, -25, 0], opacity: [0.2, 0.6, 0.2] }}
+                    animate={{ y: [0, 45, 0], x: [0, -25, 0], opacity: [0.3, 0.7, 0.3] }}
                     transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                    className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full bg-[#F5C36B] blur-xs"
-                />
-                <motion.div
-                    animate={{ y: [0, -50, 0], x: [0, 30, 0], opacity: [0.4, 0.8, 0.4] }}
-                    transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-                    className="absolute bottom-20 left-1/3 w-3.5 h-3.5 rounded-full bg-[#6366F1] blur-xs"
+                    className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full bg-[#3B82F6] dark:bg-[#F5C36B] blur-xs"
                 />
             </div>
 
             {/* ============================================
-               MAIN CONTAINER (Desktop Split / Mobile Centered)
+               MAIN CONTAINER (Desktop Split / Mobile Stack)
                ============================================ */}
             <div className="relative z-10 w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
@@ -129,17 +133,17 @@ const Register = () => {
                 >
                     <div className="space-y-3.5 sm:space-y-4 flex flex-col items-center lg:items-start">
                         {/* Live Community Badge */}
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-xs text-xs font-black text-[#B85323] dark:text-[#F5C36B]">
-                            <HiOutlineUserGroup className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-black/60 border border-[#D97B4F]/40 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-sm text-xs font-black text-[#C2410C] dark:text-[#F5C36B]">
+                            <HiOutlineUserGroup className="h-4 w-4 text-[#C2410C] dark:text-[#F5C36B]" />
                             <span>Join 50,000+ Active Creators</span>
                         </div>
 
                         {/* Main Title */}
-                        <h1 className="font-['Fraunces'] italic text-3xl sm:text-4xl xl:text-5xl font-black text-[#101828] dark:text-white leading-tight tracking-tight drop-shadow-xs">
+                        <h1 className="font-['Fraunces'] italic text-3xl sm:text-4xl xl:text-5xl font-black text-[#0F172A] dark:text-white leading-tight tracking-tight drop-shadow-sm">
                             Where your voice carries on the wind.
                         </h1>
 
-                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] font-semibold leading-relaxed max-w-lg">
+                        <p className="text-xs sm:text-sm text-[#334155] dark:text-[#CBD5E1] font-bold leading-relaxed max-w-lg">
                             Experience a distraction-free social realm built for instant expression, realtime messaging, and complete privacy control.
                         </p>
                     </div>
@@ -148,47 +152,47 @@ const Register = () => {
                     <div className="w-full space-y-3 text-left">
                         <motion.div
                             whileHover={{ x: 4 }}
-                            className="p-3.5 rounded-2xl bg-white/70 dark:bg-[#12151C]/75 backdrop-blur-xl border border-white/90 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                            className="p-3.5 rounded-2xl bg-white/90 dark:bg-[#12151C]/80 backdrop-blur-xl border border-white dark:border-[#252B38] shadow-md flex items-center gap-3.5"
                         >
-                            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[#1A140D] font-bold shadow-xs shrink-0">
+                            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#FF8F6B] via-[#E2774C] to-[#F5C36B] flex items-center justify-center text-[#1A140D] font-bold shadow-xs shrink-0">
                                 <HiOutlineBolt className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
                             </div>
                             <div>
-                                <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">Sub-15ms Realtime Sync</h4>
-                                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium">Socket messaging & live unread updates</p>
+                                <h4 className="text-xs font-black text-[#0F172A] dark:text-white">Sub-15ms Realtime Sync</h4>
+                                <p className="text-[11px] text-[#334155] dark:text-[#94A3B8] font-bold">Socket messaging & live unread updates</p>
                             </div>
                         </motion.div>
 
                         <motion.div
                             whileHover={{ x: 4 }}
-                            className="p-3.5 rounded-2xl bg-white/70 dark:bg-[#12151C]/75 backdrop-blur-xl border border-white/90 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                            className="p-3.5 rounded-2xl bg-white/90 dark:bg-[#12151C]/80 backdrop-blur-xl border border-white dark:border-[#252B38] shadow-md flex items-center gap-3.5"
                         >
                             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center text-white font-bold shadow-xs shrink-0">
                                 <HiOutlineShieldCheck className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
                             </div>
                             <div>
-                                <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">100% Privacy Sovereignty</h4>
-                                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium">Granular visibility & zero ad tracking</p>
+                                <h4 className="text-xs font-black text-[#0F172A] dark:text-white">100% Privacy Sovereignty</h4>
+                                <p className="text-[11px] text-[#334155] dark:text-[#94A3B8] font-bold">Granular visibility & zero ad tracking</p>
                             </div>
                         </motion.div>
                     </div>
 
                     {/* Floating Testimonial Snippet */}
-                    <div className="w-full text-left p-4 rounded-2xl bg-gradient-to-r from-white/80 to-white/50 dark:from-[#1A202C]/85 dark:to-[#121620]/70 backdrop-blur-xl border border-white/90 dark:border-[#2A3447] shadow-md space-y-2">
-                        <div className="flex items-center gap-1 text-amber-400">
+                    <div className="w-full text-left p-4 rounded-2xl bg-white/90 dark:bg-gradient-to-r dark:from-[#1A202C]/85 dark:to-[#121620]/70 backdrop-blur-xl border border-white dark:border-[#2A3447] shadow-md space-y-2">
+                        <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400">
                             {Array.from({ length: 5 }).map((_, i) => (
                                 <HiStar key={i} className="h-3.5 w-3.5" />
                             ))}
                         </div>
-                        <p className="text-xs italic text-[#334155] dark:text-[#CBD5E1] font-medium leading-relaxed">
+                        <p className="text-xs italic text-[#1E293B] dark:text-[#CBD5E1] font-semibold leading-relaxed">
                             "Zephyra is the fresh breeze social media needed. Sleek, fast, and completely distraction-free."
                         </p>
                         <div className="flex items-center gap-2 pt-0.5">
                             <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[10px] font-black text-[#1A140D]">
                                 A
                             </div>
-                            <span className="text-[11px] font-bold text-[#101828] dark:text-white">Aria Vance</span>
-                            <span className="text-[10px] text-[#64748B] dark:text-[#8A8F9C]">• Verified Creator</span>
+                            <span className="text-[11px] font-black text-[#0F172A] dark:text-white">Aria Vance</span>
+                            <span className="text-[10px] font-bold text-[#475467] dark:text-[#8A8F9C]">• Verified Creator</span>
                         </div>
                     </div>
                 </motion.div>
