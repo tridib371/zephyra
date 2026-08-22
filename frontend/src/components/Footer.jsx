@@ -149,20 +149,20 @@ const Footer = () => {
                     })}
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-[#1E2638] dark:border-[#283244] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#94A3B8] dark:text-[#94A3B8]">
-                    <div className="flex items-center gap-3 text-xs sm:text-sm font-medium">
+                <div className="mt-10 pt-6 border-t border-[#1E2638] dark:border-[#283244] flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left text-xs sm:text-sm text-[#94A3B8] dark:text-[#94A3B8] px-2 sm:px-0">
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm font-medium">
                         <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
-                        <span>•</span>
+                        <span className="hidden sm:inline">•</span>
                         <Link to="/admin" className="hover:text-[#FF8F6B] dark:hover:text-[#F5C36B] transition-colors font-bold">
                             Admin Portal
                         </Link>
                     </div>
-                    <p className="flex items-center gap-1.5 font-medium">
-                        Made for people who create, wonder, and drift between ideas
-                        <span className="grid h-5.5 w-5.5 place-items-center rounded-md bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-xs ring-1 ring-[#FF8F6B]/30 shrink-0">
+                    <div className="flex items-center justify-center sm:justify-end gap-2 font-medium text-xs sm:text-sm text-center sm:text-right max-w-full">
+                        <span>Made for people who create, wonder, and drift between ideas</span>
+                        <span className="grid h-5 w-5 sm:h-5.5 sm:w-5.5 place-items-center rounded-md bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-xs ring-1 ring-[#FF8F6B]/30 shrink-0">
                             <FeatherMark />
                         </span>
-                    </p>
+                    </div>
                 </div>
             </div>
         </footer>
