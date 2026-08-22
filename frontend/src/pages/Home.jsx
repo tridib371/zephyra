@@ -636,33 +636,79 @@ export default function Home() {
 
             {/* ===== CTA FOOTER BANNER ===== */}
             <section className="relative z-10 py-24 px-4 sm:px-6 overflow-hidden">
-                <div className="max-w-5xl mx-auto relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] p-8 sm:p-14 shadow-xl text-center">
+                <div className="max-w-5xl mx-auto relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] p-8 sm:p-14 shadow-2xl text-center">
                     {/* Background SVG Gust Patterns */}
                     <div className="absolute inset-0 opacity-25 pointer-events-none">
                         <WindLines reduce={reduce} />
                     </div>
 
-                    <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-                        <h2 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-bold text-[#1A140D] tracking-tight leading-tight drop-shadow-xs">
+                    <div className="relative z-10 max-w-3xl mx-auto space-y-8">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A140D]/15 text-[#1A140D] text-xs font-black uppercase tracking-widest backdrop-blur-md border border-[#1A140D]/20">
+                            <span className="h-2 w-2 rounded-full bg-[#1A140D] animate-ping" />
+                            <span>The Next Era of Social Connection</span>
+                        </div>
+
+                        <h2 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-black text-[#1A140D] tracking-tight leading-tight drop-shadow-xs">
                             Ready to experience Zephyra?
                         </h2>
-                        <p className="text-base sm:text-lg text-[#1A140D] font-semibold">
-                            Join thousands of users sharing ideas, messaging friends, and enjoying a distraction-free social realm today.
+
+                        <p className="text-base sm:text-lg text-[#1A140D] font-bold leading-relaxed max-w-2xl mx-auto">
+                            Join thousands of creators sharing ideas, messaging friends in real time, and enjoying a distraction-free social realm where your voice carries freely on the wind.
                         </p>
 
-                        <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
+                        {/* Informative Platform Pillars Grid */}
+                        <div className="grid sm:grid-cols-3 gap-4 pt-2 text-left">
+                            <div className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs">
+                                <div className="text-xs font-black uppercase tracking-wider text-[#1A140D]">
+                                    Sub-15ms Realtime Sync
+                                </div>
+                                <p className="text-xs text-[#1A140D]/85 font-semibold leading-relaxed">
+                                    Socket-powered instant messaging and live notification delivery without latency.
+                                </p>
+                            </div>
+
+                            <div className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs">
+                                <div className="text-xs font-black uppercase tracking-wider text-[#1A140D]">
+                                    Complete Privacy Control
+                                </div>
+                                <p className="text-xs text-[#1A140D]/85 font-semibold leading-relaxed">
+                                    Full authority over post visibility - public gusts, follower-only updates, or direct messages.
+                                </p>
+                            </div>
+
+                            <div className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs">
+                                <div className="text-xs font-black uppercase tracking-wider text-[#1A140D]">
+                                    Organic Discovery
+                                </div>
+                                <p className="text-xs text-[#1A140D]/85 font-semibold leading-relaxed">
+                                    Pure chronological feeds and active creator exploration free from black-box algorithm bias.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="pt-2 flex flex-col sm:flex-row gap-4 justify-center items-center">
                             <Link
                                 to="/register"
-                                className="px-8 py-4 bg-[#1A140D] text-white font-extrabold text-sm rounded-full hover:scale-105 transition-all shadow-xl font-[Manrope] min-w-48"
+                                className="w-full sm:w-auto px-9 py-4 bg-[#1A140D] text-white font-black text-sm sm:text-base rounded-full hover:scale-105 transition-all shadow-2xl font-[Manrope] min-w-52 text-center"
                             >
                                 Create Free Account →
                             </Link>
                             <Link
                                 to="/login"
-                                className="px-8 py-4 border border-[#1A140D]/40 bg-white/30 backdrop-blur-md text-[#1A140D] font-extrabold text-sm rounded-full hover:bg-white/40 transition-all font-[Manrope]"
+                                className="w-full sm:w-auto px-9 py-4 border-2 border-[#1A140D]/40 bg-white/40 backdrop-blur-md text-[#1A140D] font-extrabold text-sm sm:text-base rounded-full hover:bg-white/60 transition-all font-[Manrope] min-w-48 text-center"
                             >
                                 Existing User Sign In
                             </Link>
+                        </div>
+
+                        {/* Trust Badges */}
+                        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-black text-[#1A140D]/80 pt-1">
+                            <span>✓ Free Forever</span>
+                            <span>•</span>
+                            <span>✓ 30-Second Signup</span>
+                            <span>•</span>
+                            <span>✓ Zero Ad Distractions</span>
                         </div>
                     </div>
                 </div>
