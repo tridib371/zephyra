@@ -35,7 +35,7 @@ function AppShell() {
   const hideFooter = location.pathname === '/messages';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] dark:bg-[#0E1116] text-[#241C15] dark:text-[#EDEBE6] transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-[#F6EFE6] dark:bg-[#0E1116] text-[#1F1710] dark:text-[#EDEBE6] transition-colors duration-300">
       <Navbar />
       <main className="grow">
         <ErrorBoundary>

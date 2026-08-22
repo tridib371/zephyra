@@ -213,20 +213,20 @@ const PostDetail = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+                className="min-h-screen bg-[#F6EFE6] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
             >
                 <div className="max-w-3xl mx-auto">
                     {/* Back Button */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-sm font-bold cursor-pointer"
+                        className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-sm font-bold cursor-pointer"
                     >
                         <ArrowLeftIcon />
                         <span>Back to feed</span>
                     </button>
 
                     {/* Post Card */}
-                    <div className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 sm:p-8 border border-[#EAE2D5] dark:border-[#1F232C]">
+                    <div className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 sm:p-8 border border-[#E2D4C3] dark:border-[#1F232C]">
                         {/* Author Info */}
                         <div className="flex items-start justify-between">
                             <Link to={`/profile/${post.author?._id}`} className="flex items-center gap-3">
@@ -282,7 +282,7 @@ const PostDetail = () => {
                         </p>
 
                         {/* Stats */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4 text-xs font-bold text-stone-600 dark:text-[#8A8F9C]">
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4 text-xs font-bold text-[#5C4A3C] dark:text-[#8A8F9C]">
                             <span className="flex items-center gap-1.5">
                                 <HeartIcon filled={isLiked} />
                                 {post.likes?.length || 0} likes
@@ -294,30 +294,30 @@ const PostDetail = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4">
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4">
                             <button
                                 onClick={handleLike}
-                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
+                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
                             >
                                 <HeartIcon filled={isLiked} />
                                 <span>Like</span>
                             </button>
-                            <button className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
                                 <CommentIcon />
                                 <span>Comment</span>
                             </button>
-                            <button className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
                                 <BookmarkIcon />
                                 <span>Save</span>
                             </button>
-                            <button className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer">
                                 <ShareIcon />
                                 <span>Share</span>
                             </button>
                         </div>
 
                         {/* Comment Input */}
-                        <div className="mt-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4">
+                        <div className="mt-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4">
                             <div className="flex items-center gap-3">
                                 <img
                                     src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
@@ -335,7 +335,7 @@ const PostDetail = () => {
                                         if (e.key === 'Enter') handleCommentSubmit();
                                     }}
                                     placeholder="Write a comment..."
-                                    className="flex-1 px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-full text-sm text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                    className="flex-1 px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-full text-sm text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                 />
                                 <button
                                     onClick={handleCommentSubmit}

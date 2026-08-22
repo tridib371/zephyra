@@ -86,7 +86,7 @@ const CreatePost = () => {
             transition={{ duration: 0.5 }}
             className="max-w-2xl mx-auto p-4 sm:p-6 min-h-[70vh]"
         >
-            <div className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 sm:p-8 border border-[#EAE2D5] dark:border-[#1F232C]">
+            <div className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 sm:p-8 border border-[#E2D4C3] dark:border-[#1F232C]">
                 <div className="flex items-center space-x-3 mb-6">
                     <img
                         src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
@@ -97,10 +97,10 @@ const CreatePost = () => {
                         }}
                     />
                     <div>
-                        <h2 className="text-xl font-bold text-stone-900 dark:text-[#EDEBE6] font-['Fraunces'] italic">
+                        <h2 className="text-xl font-bold text-[#1F1710] dark:text-[#EDEBE6] font-['Fraunces'] italic">
                             Create Story
                         </h2>
-                        <p className="text-xs text-stone-500 dark:text-[#8A8F9C] font-[Manrope]">
+                        <p className="text-xs text-[#665548] dark:text-[#8A8F9C] font-[Manrope]">
                             Share your thoughts or artwork with the community
                         </p>
                     </div>
@@ -118,21 +118,21 @@ const CreatePost = () => {
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="What is on your mind today?"
                         rows={4}
-                        className="w-full px-4 py-3 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none resize-none font-[Manrope] text-sm"
+                        className="w-full px-4 py-3 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none resize-none font-[Manrope] text-sm"
                     />
 
                     {/* Image Preview */}
                     {imagePreview && (
-                        <div className="relative mt-3 rounded-xl overflow-hidden border border-gray-200 dark:border-[#1F232C]">
+                        <div className="relative mt-3 rounded-2xl overflow-hidden border border-[#DECDBB] dark:border-[#1F232C]">
                             <img
                                 src={imagePreview}
                                 alt="Post preview"
-                                className="w-full max-h-80 object-contain bg-gray-50 dark:bg-[#0E1116]"
+                                className="w-full max-h-80 object-contain bg-[#F4ECE1] dark:bg-[#0E1116]"
                             />
                             <button
                                 type="button"
                                 onClick={handleRemoveImage}
-                                className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-colors"
+                                className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-colors cursor-pointer"
                             >
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
                                     <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
@@ -142,11 +142,11 @@ const CreatePost = () => {
                     )}
 
                     <div className="flex flex-wrap justify-between items-center mt-4 gap-2">
-                        <div className="flex gap-1 text-stone-500 dark:text-[#6E7280]">
+                        <div className="flex gap-1 text-[#665548] dark:text-[#6E7280]">
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-[#FAF7F2] dark:hover:bg-[#1A1E27] rounded-xl transition-colors text-xs font-bold font-[Manrope] cursor-pointer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-[#EFE3D4] dark:hover:bg-[#1A1E27] rounded-xl transition-colors text-xs font-bold font-[Manrope] cursor-pointer"
                             >
                                 <HiOutlinePhoto className="text-base text-[#D97B4F]" />
                                 <span>Photo</span>

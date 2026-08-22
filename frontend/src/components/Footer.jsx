@@ -76,7 +76,7 @@ const SOCIALS = [
 
 const Footer = () => {
     return (
-        <footer className="relative mt-auto bg-[#F5F0E6] dark:bg-[#0B0D12] border-t border-[#EAE2D5] dark:border-[#1F232C] font-[Manrope] transition-colors duration-300">
+        <footer className="relative mt-auto bg-[#EFE6D9] dark:bg-[#0B0D12] border-t border-[#DECDBB] dark:border-[#1F232C] font-[Manrope] transition-colors duration-300">
             <div className="hidden sm:block absolute -top-3 left-0 right-0 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <GustDivider />

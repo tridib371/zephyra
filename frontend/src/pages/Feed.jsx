@@ -234,12 +234,12 @@ const Feed = () => {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 border border-[#EAE2D5] dark:border-[#1F232C]"
+                className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 border border-[#E2D4C3] dark:border-[#1F232C]"
             >
-                <h1 className="text-2xl font-bold text-stone-900 dark:text-[#EDEBE6] font-['Fraunces'] italic">
+                <h1 className="text-2xl font-bold text-[#1F1710] dark:text-[#EDEBE6] font-['Fraunces'] italic">
                     Welcome back, {user?.name}
                 </h1>
-                <p className="text-stone-600 dark:text-[#8A8F9C] mt-1 text-sm">
+                <p className="text-[#5C4A3C] dark:text-[#8A8F9C] mt-1 text-sm font-medium">
                     Here is the latest from your chronological feed.
                 </p>
             </motion.div>
@@ -249,12 +249,12 @@ const Feed = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-8 text-center border border-[#EAE2D5] dark:border-[#1F232C]"
+                    className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-8 text-center border border-[#E2D4C3] dark:border-[#1F232C]"
                 >
                     <div className="flex justify-center text-[#D97B4F] dark:text-[#F5C36B] mb-4">
                         <FeatherMark />
                     </div>
-                    <p className="text-stone-500 dark:text-[#8A8F9C] text-base font-[Manrope]">
+                    <p className="text-[#5C4A3C] dark:text-[#8A8F9C] text-base font-[Manrope]">
                         No posts yet. Be the first to share your story on the wind.
                     </p>
                     <Link
@@ -276,7 +276,7 @@ const Feed = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.08 }}
-                            className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 border border-[#EAE2D5] dark:border-[#1F232C] hover:border-[#D97B4F]/40 dark:hover:border-[#F5C36B]/30 transition-all duration-300 cursor-pointer"
+                            className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 border border-[#E2D4C3] dark:border-[#1F232C] hover:border-[#D97B4F]/50 dark:hover:border-[#F5C36B]/30 transition-all duration-300 cursor-pointer"
                             onClick={() => goToPost(post._id)}
                         >
                             {/* Author Info - Clicking this navigates to the author's profile */}
@@ -297,14 +297,14 @@ const Feed = () => {
                                 />
                                 <div className="flex-1">
                                     <div className="flex items-center flex-wrap gap-2">
-                                        <span className="font-semibold text-gray-900 dark:text-[#EDEBE6] font-[Manrope] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors">
+                                        <span className="font-semibold text-[#1F1710] dark:text-[#EDEBE6] font-[Manrope] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors">
                                             {post.author?.name}
                                         </span>
-                                        <span className="text-sm text-gray-500 dark:text-[#6E7280] font-[Manrope]">
+                                        <span className="text-sm text-[#665548] dark:text-[#6E7280] font-[Manrope]">
                                             @{post.author?.username}
                                         </span>
                                     </div>
-                                    <p className="text-xs text-gray-400 dark:text-[#6E7280] mt-0.5 font-[Manrope]">
+                                    <p className="text-xs text-[#877568] dark:text-[#6E7280] mt-0.5 font-[Manrope]">
                                         {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                                     </p>
                                 </div>
@@ -312,15 +312,15 @@ const Feed = () => {
 
                             {/* Post Content - Clicking this navigates to post detail */}
                             <div className="mt-3" onClick={(e) => e.stopPropagation()}>
-                                <p className="text-gray-800 dark:text-[#E7E6E3] whitespace-pre-wrap break-words font-[Manrope] leading-relaxed">
+                                <p className="text-[#36271A] dark:text-[#E7E6E3] whitespace-pre-wrap break-words font-[Manrope] leading-relaxed font-medium">
                                     {post.content}
                                 </p>
                                 {post.image && (
-                                    <div className="mt-3 rounded-xl overflow-hidden border border-gray-200 dark:border-[#1F232C]">
+                                    <div className="mt-3 rounded-2xl overflow-hidden border border-[#E2D4C3] dark:border-[#1F232C]">
                                         <img
                                             src={post.image}
                                             alt="Post image"
-                                            className="w-full max-h-96 object-contain bg-gray-50 dark:bg-[#0E1116]"
+                                            className="w-full max-h-96 object-contain bg-[#F4ECE1] dark:bg-[#0E1116]"
                                             onError={(e) => {
                                                 e.target.style.display = 'none';
                                             }}
@@ -408,7 +408,7 @@ const Feed = () => {
                                                     if (e.key === 'Enter') handleCommentSubmit(post._id, e);
                                                 }}
                                                 placeholder="Write a comment..."
-                                                className="flex-1 px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-full text-sm text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                                className="flex-1 px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-full text-sm text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                             />
                                             <button
                                                 onClick={(e) => handleCommentSubmit(post._id, e)}

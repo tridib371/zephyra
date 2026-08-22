@@ -163,15 +163,15 @@ export default function About() {
     ];
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-[#FAF7F2] dark:bg-[#090B0F] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 font-[Manrope]">
+        <div className="relative min-h-screen overflow-hidden bg-[#F6EFE6] dark:bg-[#090B0F] text-[#1F1710] dark:text-[#EDEBE6] transition-colors duration-300 font-[Manrope]">
 
             {/* Glowing Atmospheric Orbs */}
             <motion.div
                 style={{ scale: backgroundGlow }}
-                className="absolute -top-32 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl pointer-events-none"
+                className="absolute -top-32 -left-40 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/20 to-transparent blur-3xl pointer-events-none"
             />
-            <div className="absolute top-1/3 -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#F5C36B]/20 via-[#FF8F6B]/15 to-transparent blur-3xl pointer-events-none" />
-            <div className="absolute bottom-10 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#D97B4F]/15 to-transparent blur-3xl pointer-events-none" />
+            <div className="absolute top-1/3 -right-40 w-[750px] h-[750px] rounded-full bg-gradient-to-tl from-[#F5C36B]/30 via-[#FF8F6B]/20 to-transparent blur-3xl pointer-events-none" />
+            <div className="absolute bottom-10 left-1/4 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-[#D97B4F]/20 to-transparent blur-3xl pointer-events-none" />
 
             <WindBreeze />
 
@@ -183,7 +183,7 @@ export default function About() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-white/80 dark:bg-[#151922]/80 backdrop-blur-xl shadow-xs"
+                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#DECDBB] dark:border-[#FF8F6B]/30 bg-[#FAF2E8] dark:bg-[#151922]/80 backdrop-blur-xl shadow-xs"
                     >
                         <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                             The Zephyra Manifesto
@@ -220,21 +220,21 @@ export default function About() {
                     transition={{ duration: 0.8 }}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
                 >
-                    <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/80 dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/80 backdrop-blur-xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] text-center space-y-2">
                         <StatCounter target={15} prefix="< " suffix=" ms" />
-                        <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-[#8A8F9C]">Socket Latency</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#8A8F9C]">Socket Latency</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/80 dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/80 backdrop-blur-xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] text-center space-y-2">
                         <StatCounter target={100} suffix="%" />
-                        <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-[#8A8F9C]">Chronological Feed</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#8A8F9C]">Chronological Feed</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/80 dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/80 backdrop-blur-xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] text-center space-y-2">
                         <StatCounter target={0} suffix=" Ads" />
-                        <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-[#8A8F9C]">Zero Ad Trackers</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#8A8F9C]">Zero Ad Trackers</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/80 dark:bg-[#12151C]/80 backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/80 backdrop-blur-xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] text-center space-y-2">
                         <StatCounter target={99.9} decimals={1} suffix="%" />
-                        <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-[#8A8F9C]">Real-Time Uptime</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#8A8F9C]">Real-Time Uptime</p>
                     </div>
                 </motion.section>
 
@@ -244,12 +244,12 @@ export default function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="rounded-3xl border border-[#D97B4F]/20 dark:border-[#FF8F6B]/20 bg-gradient-to-b from-white/95 to-gray-50/90 dark:from-[#11151E]/95 dark:to-[#0B0D12]/90 backdrop-blur-2xl p-8 sm:p-14 shadow-xl space-y-8"
+                    className="rounded-3xl border border-[#E2D4C3] dark:border-[#FF8F6B]/20 bg-[#FFFDF9] dark:from-[#11151E]/95 dark:to-[#0B0D12]/90 backdrop-blur-2xl p-8 sm:p-14 shadow-[0_10px_35px_-10px_rgba(217,123,79,0.15)] space-y-8"
                 >
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-200 dark:border-[#1F232C] pb-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#EFE5D8] dark:border-[#1F232C] pb-6">
                         <div>
-                            <span className="text-xs uppercase font-extrabold tracking-widest text-[#D97B4F] dark:text-[#F5C36B]">The Zephyra Contrast</span>
-                            <h2 className="font-['Fraunces'] text-2xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1">
+                            <span className="text-xs uppercase font-extrabold tracking-widest text-[#B85323] dark:text-[#F5C36B]">The Zephyra Contrast</span>
+                            <h2 className="font-['Fraunces'] text-2xl sm:text-4xl font-extrabold text-[#1F1710] dark:text-white mt-1">
                                 Why We Reimagined Social Connection
                             </h2>
                         </div>
@@ -305,18 +305,18 @@ export default function About() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: idx * 0.15 }}
-                                    className="group p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs hover:shadow-xl hover:scale-[1.02] transition-all duration-300 space-y-4 relative overflow-hidden"
+                                    className="group p-8 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/90 backdrop-blur-xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] hover:shadow-xl hover:scale-[1.02] transition-all duration-300 space-y-4 relative overflow-hidden"
                                 >
                                     <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.accent}`} />
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs font-extrabold uppercase tracking-wider text-[#D97B4F] dark:text-[#F5C36B] font-mono">{item.year}</span>
-                                        <span className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xl">
+                                        <span className="text-xs font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B] font-mono">{item.year}</span>
+                                        <span className="p-3 rounded-2xl bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xl">
                                             <IconComponent />
                                         </span>
                                     </div>
-                                    <h3 className="font-['Fraunces'] text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                                    <p className="text-xs font-semibold text-gray-400">{item.subtitle}</p>
-                                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{item.desc}</p>
+                                    <h3 className="font-['Fraunces'] text-xl font-bold text-[#1F1710] dark:text-white">{item.title}</h3>
+                                    <p className="text-xs font-semibold text-[#665548] dark:text-gray-400">{item.subtitle}</p>
+                                    <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#9DA3B4] leading-relaxed font-medium">{item.desc}</p>
                                 </motion.div>
                             );
                         })}
@@ -326,8 +326,8 @@ export default function About() {
                 {/* ===== ARCHITECTURAL PILLARS ===== */}
                 <section className="space-y-8">
                     <div className="text-center space-y-3">
-                        <span className="text-xs font-bold uppercase tracking-widest text-[#D97B4F] dark:text-[#F5C36B]">Engineering Rigor</span>
-                        <h2 className="font-['Fraunces'] text-3xl sm:text-5xl font-extrabold">Crafted with Obsessive Detail</h2>
+                        <span className="text-xs font-bold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B]">Engineering Rigor</span>
+                        <h2 className="font-['Fraunces'] text-3xl sm:text-5xl font-extrabold text-[#1F1710] dark:text-white">Crafted with Obsessive Detail</h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -336,21 +336,21 @@ export default function About() {
                             return (
                                 <div
                                     key={arch.title}
-                                    className="p-8 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl shadow-xs space-y-4 flex flex-col justify-between"
+                                    className="p-8 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/90 backdrop-blur-xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] space-y-4 flex flex-col justify-between"
                                 >
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
-                                            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B]">
+                                            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B]">
                                                 {arch.badge}
                                             </span>
-                                            <span className="p-2.5 rounded-xl bg-gray-100 dark:bg-[#181C26] text-[#D97B4F] dark:text-[#F5C36B] text-lg">
+                                            <span className="p-2.5 rounded-xl bg-[#FAF2E8] dark:bg-[#181C26] text-[#B85323] dark:text-[#F5C36B] text-lg">
                                                 <ArchIcon />
                                             </span>
                                         </div>
-                                        <h3 className="font-['Fraunces'] text-xl font-bold text-gray-900 dark:text-white">{arch.title}</h3>
-                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">{arch.desc}</p>
+                                        <h3 className="font-['Fraunces'] text-xl font-bold text-[#1F1710] dark:text-white">{arch.title}</h3>
+                                        <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#9DA3B4] leading-relaxed font-medium">{arch.desc}</p>
                                     </div>
-                                    <div className="pt-4 border-t border-gray-100 dark:border-[#1F232C] text-xs font-semibold text-[#D97B4F] dark:text-[#F5C36B] flex items-center gap-1.5">
+                                    <div className="pt-4 border-t border-[#EFE5D8] dark:border-[#1F232C] text-xs font-bold text-[#B85323] dark:text-[#F5C36B] flex items-center gap-1.5">
                                         <HiOutlineCheck className="text-sm" /> {arch.highlight}
                                     </div>
                                 </div>
@@ -365,17 +365,17 @@ export default function About() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7 }}
-                    className="relative rounded-3xl border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-gradient-to-br from-[#FFF5EF] via-white to-[#FAF0E6] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-14 shadow-lg text-center space-y-6 overflow-hidden"
+                    className="relative rounded-3xl border border-[#E2D4C3] dark:border-[#FF8F6B]/30 bg-gradient-to-br from-[#FAF2E8] via-[#FFFDF9] to-[#F4ECE1] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-14 shadow-[0_10px_35px_-10px_rgba(217,123,79,0.15)] text-center space-y-6 overflow-hidden"
                 >
                     <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-2xl shadow-md">
                         <FiFeather />
                     </div>
-                    <blockquote className="font-['Fraunces'] italic text-2xl sm:text-4xl text-[#1A140D] dark:text-white max-w-3xl mx-auto leading-snug">
+                    <blockquote className="font-['Fraunces'] italic text-2xl sm:text-4xl text-[#1F1710] dark:text-white max-w-3xl mx-auto leading-snug">
                         "When thoughts are no longer held captive by algorithms, they become wind. And wind reaches everywhere."
                     </blockquote>
                     <div className="space-y-1">
-                        <p className="text-sm font-extrabold uppercase tracking-widest text-[#D97B4F] dark:text-[#F5C36B]">Tridib Sarkar</p>
-                        <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">Creator & Lead Architect, Zephyra</p>
+                        <p className="text-sm font-extrabold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B]">Tridib Sarkar</p>
+                        <p className="text-xs text-[#665548] dark:text-[#8A8F9C] font-medium">Creator & Lead Architect, Zephyra</p>
                     </div>
                 </motion.section>
 

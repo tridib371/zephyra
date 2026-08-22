@@ -64,13 +64,13 @@ const Register = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 bg-[#FAF7F2] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
+            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 bg-[#F6EFE6] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
         >
             <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-full max-w-md sm:max-w-lg bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-5 sm:p-8 md:p-10 border border-[#EAE2D5] dark:border-[#1F232C] transition-colors duration-300"
+                className="w-full max-w-md sm:max-w-lg bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-5 sm:p-8 md:p-10 border border-[#E2D4C3] dark:border-[#1F232C] transition-colors duration-300"
             >
                 {/* Header */}
                 <div className="text-center mb-4 sm:mb-6">
@@ -80,7 +80,7 @@ const Register = () => {
                     >
                         Join Zephyra
                     </h2>
-                    <p className="text-xs sm:text-sm text-stone-500 dark:text-[#8A8F9C] mt-1 font-[Manrope]">
+                    <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#8A8F9C] mt-1 font-[Manrope] font-medium">
                         Create your account and start sharing
                     </p>
                 </div>
@@ -99,7 +99,7 @@ const Register = () => {
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Full Name
                         </label>
                         <input
@@ -108,13 +108,13 @@ const Register = () => {
                             required
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
+                            className="w-full px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
                             placeholder="John Doe"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Username
                         </label>
                         <input
@@ -123,13 +123,13 @@ const Register = () => {
                             required
                             value={formData.username}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
+                            className="w-full px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
                             placeholder="johndoe"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Email Address
                         </label>
                         <input
@@ -138,13 +138,13 @@ const Register = () => {
                             required
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
+                            className="w-full px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
                             placeholder="you@example.com"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Password
                         </label>
                         <input
@@ -153,11 +153,11 @@ const Register = () => {
                             required
                             value={formData.password}
                             onChange={handleChange}
-                            className={`w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm ${formData.password.length > 0 && !isPasswordValid
+                            className={`w-full px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium ${formData.password.length > 0 && !isPasswordValid
                                 ? 'border-red-500 dark:border-red-500'
                                 : formData.password.length > 0 && isPasswordValid
                                     ? 'border-emerald-500 dark:border-emerald-500'
-                                    : 'border-[#EAE2D5] dark:border-[#3A3F4B]'
+                                    : 'border-[#DECDBB] dark:border-[#3A3F4B]'
                                 }`}
                             placeholder="Enter a strong password"
                         />
@@ -167,25 +167,25 @@ const Register = () => {
                             <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
-                                className="mt-2 text-xs space-y-1 font-[Manrope] bg-stone-50/80 dark:bg-[#181C26]/80 p-3 rounded-2xl border border-stone-200/60 dark:border-[#252A36]"
+                                className="mt-2 text-xs space-y-1 font-[Manrope] bg-[#FAF2E8] dark:bg-[#181C26]/80 p-3 rounded-2xl border border-[#DECDBB] dark:border-[#252A36]"
                             >
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
                                     {passwordChecks.length ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                     <span>At least 8 characters</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
                                     {passwordChecks.uppercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                     <span>At least 1 uppercase letter</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
                                     {passwordChecks.lowercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                     <span>At least 1 lowercase letter</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
                                     {passwordChecks.number ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                     <span>At least 1 number</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
                                     {passwordChecks.special ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                     <span>At least 1 special character (@$!%*?&)</span>
                                 </p>
@@ -215,10 +215,10 @@ const Register = () => {
                 {/* Divider */}
                 <div className="relative my-4">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-200 dark:border-[#1F232C]"></div>
+                        <div className="w-full border-t border-[#DECDBB] dark:border-[#1F232C]"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-3 bg-white dark:bg-[#12151C] text-gray-500 dark:text-[#6E7280] font-[Manrope]">
+                        <span className="px-3 bg-[#FFFDF9] dark:bg-[#12151C] text-[#877568] dark:text-[#6E7280] font-[Manrope] font-medium">
                             or continue with
                         </span>
                     </div>
@@ -227,11 +227,11 @@ const Register = () => {
                 <GoogleButton />
 
                 {/* Footer */}
-                <p className="text-center text-sm text-gray-600 dark:text-[#8A8F9C] mt-4 font-[Manrope]">
+                <p className="text-center text-sm text-[#5C4A3C] dark:text-[#8A8F9C] mt-4 font-[Manrope]">
                     Already have an account?{' '}
                     <Link
                         to="/login"
-                        className="text-[#D97B4F] dark:text-[#F5C36B] font-semibold hover:underline transition-colors"
+                        className="text-[#D97B4F] dark:text-[#F5C36B] font-bold hover:underline transition-colors"
                     >
                         Sign in
                     </Link>

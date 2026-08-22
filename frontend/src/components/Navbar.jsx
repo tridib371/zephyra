@@ -159,19 +159,19 @@ const Navbar = () => {
     const navLinkClasses = (path) => `
         flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all duration-200 cursor-pointer font-[Manrope]
         ${isActive(path)
-            ? 'bg-[#FFF0E6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] shadow-xs'
-            : 'text-[#2D241C] dark:text-[#EDEBE6] hover:bg-[#FAF0E6] dark:hover:bg-white/5 hover:text-[#B85323] dark:hover:text-[#F5C36B]'
+            ? 'bg-[#FFE8D6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] shadow-xs'
+            : 'text-[#36271A] dark:text-[#EDEBE6] hover:bg-[#EFE3D4] dark:hover:bg-white/5 hover:text-[#B85323] dark:hover:text-[#F5C36B]'
         }
     `;
 
     const iconBtnClasses = `
-        p-2 rounded-full text-[#2D241C] dark:text-[#EDEBE6] hover:bg-[#FAF0E6] dark:hover:bg-white/10 
+        p-2 rounded-full text-[#36271A] dark:text-[#EDEBE6] hover:bg-[#EFE3D4] dark:hover:bg-white/10 
         hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-all duration-200 cursor-pointer relative
         border border-transparent hover:border-[#FF8F6B]/30 dark:hover:border-white/10
     `;
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-[#E8E1D5]/80 dark:border-[#1F232C]/80 bg-[#FAF7F2]/90 dark:bg-[#0B0D10]/85 backdrop-blur-2xl shadow-[0_4px_30px_-10px_rgba(217,123,79,0.08)] dark:shadow-[0_4px_30px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300">
+        <nav className="sticky top-0 z-40 w-full border-b border-[#E2D4C3]/90 dark:border-[#1F232C]/80 bg-[#F6EFE6]/92 dark:bg-[#0B0D10]/85 backdrop-blur-2xl shadow-[0_4px_30px_-10px_rgba(217,123,79,0.12)] dark:shadow-[0_4px_30px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
 
@@ -244,12 +244,12 @@ const Navbar = () => {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 8, scale: 0.95 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-50"
+                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D]/95 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-50"
                                             >
-                                                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-[#1F232C] bg-[#FFFDF9]/60 dark:bg-transparent">
+                                                <div className="flex items-center justify-between px-5 py-4 border-b border-[#EFE5D8] dark:border-[#1F232C] bg-[#F7EFE4] dark:bg-transparent">
                                                     <div>
                                                         <p className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#B85323] dark:text-[#F5C36B]">Realtime Inbox</p>
-                                                        <h4 className="font-['Fraunces'] italic text-lg font-bold text-[#1A140D] dark:text-[#EDEBE6]">Notifications</h4>
+                                                        <h4 className="font-['Fraunces'] italic text-lg font-bold text-[#1F1710] dark:text-[#EDEBE6]">Notifications</h4>
                                                     </div>
                                                     {unreadCount > 0 && (
                                                         <button onClick={markAllAsRead} className="text-xs font-bold text-[#B85323] dark:text-[#F5C36B] hover:underline cursor-pointer">
@@ -258,10 +258,10 @@ const Navbar = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="max-h-96 overflow-y-auto divide-y divide-gray-100 dark:divide-[#1F232C]/60">
+                                                <div className="max-h-96 overflow-y-auto divide-y divide-[#EFE5D8] dark:divide-[#1F232C]/60">
                                                     {notifications.length === 0 ? (
-                                                        <div className="px-5 py-10 text-center text-sm font-medium text-gray-500 dark:text-[#8A8F9C]">
-                                                            🔔 No notifications yet.
+                                                        <div className="px-5 py-10 text-center text-xs font-semibold text-stone-500 dark:text-[#8A8F9C]">
+                                                            No notifications yet.
                                                         </div>
                                                     ) : (
                                                         notifications.map((notification) => {

@@ -299,37 +299,37 @@ export default function Support() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
+        <div className="min-h-screen bg-[#F6EFE6] dark:bg-[#0E1116] text-[#1F1710] dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
             <div className="max-w-5xl mx-auto space-y-16">
 
                 {/* Hero Search Section */}
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xs font-bold uppercase tracking-widest">
+                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-widest">
                         Help Center & Knowledge Hub
                     </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight">
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1F1710] dark:text-white">
                         How can we assist you?
                     </h1>
-                    <p className="text-base sm:text-xl text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                    <p className="text-base sm:text-xl text-[#5C4A3C] dark:text-[#9DA3B4] leading-relaxed font-medium">
                         Search our knowledge base for guides on real-time messaging, privacy controls, and account management.
                     </p>
 
                     {/* Interactive Search Bar Form with Search Button */}
                     <form onSubmit={handleSearchSubmit} className="relative max-w-2xl mx-auto pt-2">
-                        <div className="relative flex items-center bg-white dark:bg-[#181C26] rounded-2xl border border-gray-200 dark:border-[#252A36] shadow-md p-1.5 focus-within:ring-2 focus-within:ring-[#FF8F6B]/50 transition-all">
-                            <HiOutlineMagnifyingGlass className="ml-3 text-gray-400 text-xl pointer-events-none shrink-0" />
+                        <div className="relative flex items-center bg-[#FFFDF9] dark:bg-[#181C26] rounded-2xl border border-[#DECDBB] dark:border-[#252A36] shadow-md p-1.5 focus-within:ring-2 focus-within:ring-[#FF8F6B]/50 transition-all">
+                            <HiOutlineMagnifyingGlass className="ml-3 text-[#B85323] text-xl pointer-events-none shrink-0" />
                             <input
                                 type="text"
                                 value={inputText}
                                 onChange={(e) => setInputText(e.target.value)}
                                 placeholder="Search questions, password, messaging, privacy, delete..."
-                                className="w-full bg-transparent px-3 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none"
+                                className="w-full bg-transparent px-3 py-3 text-sm text-[#1F1710] dark:text-white placeholder-[#877568] dark:placeholder-gray-400 focus:outline-none font-medium"
                             />
                             {inputText && (
                                 <button
                                     type="button"
                                     onClick={handleClearSearch}
-                                    className="px-2.5 py-1.5 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white cursor-pointer mr-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#202532] transition-colors shrink-0"
+                                    className="px-2.5 py-1.5 text-xs font-bold text-[#877568] hover:text-[#1F1710] dark:hover:text-white cursor-pointer mr-1.5 rounded-lg hover:bg-[#EFE3D4] dark:hover:bg-[#202532] transition-colors shrink-0"
                                 >
                                     Clear
                                 </button>
@@ -372,22 +372,22 @@ export default function Support() {
                                 onClick={() => handleCategorySelect(card.category)}
                                 className={`p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
                                     isSelected
-                                        ? 'bg-white dark:bg-[#181C26] border-[#D97B4F] dark:border-[#FF8F6B] shadow-md scale-[1.02]'
-                                        : 'bg-white/80 dark:bg-[#12151C]/80 border-gray-200/80 dark:border-[#1F232C] hover:border-[#D97B4F]/40 hover:shadow-xs'
+                                        ? 'bg-[#FAF2E8] dark:bg-[#181C26] border-[#D97B4F] dark:border-[#FF8F6B] shadow-md scale-[1.02]'
+                                        : 'bg-[#FFFDF9] dark:bg-[#12151C]/80 border-[#E2D4C3] dark:border-[#1F232C] hover:border-[#D97B4F]/50 shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)]'
                                 }`}
                             >
                                 <div className="space-y-2.5">
-                                    <span className={`p-2.5 rounded-2xl text-xl inline-block ${isSelected ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D]' : 'bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B]'}`}>
+                                    <span className={`p-2.5 rounded-2xl text-xl inline-block ${isSelected ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D]' : 'bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B]'}`}>
                                         <Icon />
                                     </span>
-                                    <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-gray-900 dark:text-white">
+                                    <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-[#1F1710] dark:text-white">
                                         {card.title}
                                     </h3>
-                                    <p className="text-xs text-gray-500 dark:text-[#8A8F9C] leading-relaxed">
+                                    <p className="text-xs text-[#5C4A3C] dark:text-[#8A8F9C] leading-relaxed font-medium">
                                         {card.desc}
                                     </p>
                                 </div>
-                                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#D97B4F] dark:text-[#F5C36B]">
+                                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B]">
                                     {count} {count === 1 ? 'Guide' : 'Guides'} →
                                 </span>
                             </div>
@@ -399,10 +399,10 @@ export default function Support() {
                 <div ref={faqSectionRef} id="faq-results" className="space-y-6 pt-4">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
-                            <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                            <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1F1710] dark:text-white">
                                 {searchQuery ? `Search Results for "${searchQuery}"` : 'Frequently Asked Questions'}
                             </h2>
-                            <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C] mt-1">
+                            <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#8A8F9C] mt-1 font-medium">
                                 Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'question' : 'questions'}
                             </p>
                         </div>
@@ -415,14 +415,14 @@ export default function Support() {
                                     <button
                                         key={cat.id}
                                         onClick={() => handleCategorySelect(cat.id)}
-                                        className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                                        className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center gap-1.5 ${
                                             selectedCategory === cat.id
-                                                ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
-                                                : 'bg-white dark:bg-[#181C26] border border-gray-200 dark:border-[#252A36] text-gray-600 dark:text-[#A0A5B2] hover:border-gray-300'
+                                                ? 'bg-[#1F1710] text-[#FFFDF9] dark:bg-white dark:text-[#1A140D] shadow-xs'
+                                                : 'bg-[#FAF2E8] dark:bg-[#181C26] border border-[#DECDBB] dark:border-[#252A36] text-[#5C4A3C] dark:text-[#A0A5B2] hover:bg-[#EFE3D4]'
                                         }`}
                                     >
                                         <span>{cat.label}</span>
-                                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D]' : 'bg-gray-100 dark:bg-[#202532] text-gray-500'}`}>
+                                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D]' : 'bg-[#EFE3D4] dark:bg-[#202532] text-[#5C4A3C]'}`}>
                                             {catCount}
                                         </span>
                                     </button>
@@ -434,16 +434,16 @@ export default function Support() {
                     {/* Accordion FAQ List */}
                     <div className="space-y-3.5">
                         {filteredFaqs.length === 0 ? (
-                            <div className="p-12 text-center rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] space-y-3">
-                                <p className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                            <div className="p-12 text-center rounded-3xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] space-y-3">
+                                <p className="text-sm font-bold text-[#1F1710] dark:text-gray-300">
                                     No questions found matching "{searchQuery}"
                                 </p>
-                                <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">
+                                <p className="text-xs text-[#665548] dark:text-[#8A8F9C]">
                                     Try searching for different keywords or click "All Topics" above.
                                 </p>
                                 <button
                                     onClick={handleClearSearch}
-                                    className="px-4 py-2 rounded-full bg-[#D97B4F] text-white text-xs font-bold hover:brightness-105 transition-all cursor-pointer"
+                                    className="px-4 py-2 rounded-full bg-[#D97B4F] text-[#1A140D] font-extrabold text-xs hover:brightness-105 transition-all cursor-pointer"
                                 >
                                     Reset Filters
                                 </button>
@@ -454,15 +454,15 @@ export default function Support() {
                                 return (
                                     <div
                                         key={faq.id || faq.q}
-                                        className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 overflow-hidden transition-all shadow-xs"
+                                        className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/95 overflow-hidden transition-all shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)]"
                                     >
                                         <button
                                             type="button"
                                             onClick={() => toggleFaq(idx)}
-                                            className="w-full text-left p-6 sm:p-7 flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-gray-900 dark:text-white cursor-pointer hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
+                                            className="w-full text-left p-6 sm:p-7 flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-[#1F1710] dark:text-white cursor-pointer hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
                                         >
                                             <span className="font-['Fraunces'] text-base sm:text-lg">{faq.q}</span>
-                                            <span className="p-2 rounded-xl bg-gray-100 dark:bg-[#181C26] text-gray-500 dark:text-gray-400 text-sm shrink-0 transition-transform">
+                                            <span className="p-2 rounded-xl bg-[#FAF2E8] dark:bg-[#181C26] text-[#877568] dark:text-gray-400 text-sm shrink-0 transition-transform">
                                                 {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
                                             </span>
                                         </button>
@@ -476,7 +476,7 @@ export default function Support() {
                                                     transition={{ duration: 0.25 }}
                                                     className="overflow-hidden"
                                                 >
-                                                    <div className="px-6 sm:px-7 pb-6 text-xs sm:text-sm text-gray-600 dark:text-[#B5B9C5] leading-relaxed border-t border-gray-100 dark:border-[#1F232C] pt-4">
+                                                    <div className="px-6 sm:px-7 pb-6 text-xs sm:text-sm text-[#5C4A3C] dark:text-[#B5B9C5] leading-relaxed border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4 font-medium">
                                                         {faq.a}
                                                     </div>
                                                 </motion.div>
@@ -490,12 +490,12 @@ export default function Support() {
                 </div>
 
                 {/* Direct Help Banner */}
-                <div className="rounded-3xl border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#FFF5EF] via-white to-[#FAF0E6] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="rounded-3xl border border-[#E2D4C3] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#FAF2E8] via-[#FFFDF9] to-[#F4ECE1] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-[0_10px_35px_-10px_rgba(217,123,79,0.15)] flex flex-col sm:flex-row items-center justify-between gap-6">
                     <div className="space-y-2 text-center sm:text-left">
-                        <h3 className="font-['Fraunces'] text-2xl font-bold text-gray-900 dark:text-white">
+                        <h3 className="font-['Fraunces'] text-2xl font-bold text-[#1F1710] dark:text-white">
                             Cannot find what you are looking for?
                         </h3>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] max-w-md">
+                        <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#9DA3B4] max-w-md font-medium">
                             Our support and safety team is available to assist you with any questions or account inquiries.
                         </p>
                     </div>
