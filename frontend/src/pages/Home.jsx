@@ -484,12 +484,13 @@ export default function Home() {
                     <div className="relative rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-xs dark:shadow-2xl">
                         {/* Mockup Header Bar */}
                         <div className="flex items-center justify-between gap-2 pb-4 mb-6 border-b border-[#EAECF0] dark:border-[#1F232C]">
-                            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                            <div className="flex items-center gap-1.5 sm:gap-2">
                                 <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-rose-500 shrink-0" />
                                 <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-amber-500 shrink-0" />
                                 <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-emerald-500 shrink-0" />
-                                <span className="ml-1 sm:ml-3 text-[11px] sm:text-xs font-bold text-[#667085] dark:text-gray-400 font-[Manrope] truncate">
-                                    Zephyra Interactive Feed Preview
+                                <span className="ml-1.5 sm:ml-3 text-[11px] sm:text-xs font-bold text-[#667085] dark:text-gray-400 font-[Manrope] whitespace-nowrap">
+                                    <span className="inline sm:hidden">Zephyra Feed</span>
+                                    <span className="hidden sm:inline">Zephyra Interactive Feed Preview</span>
                                 </span>
                             </div>
                             <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#FFE8D6] dark:bg-[#FF8F6B]/15 text-[#B85323] dark:text-[#F5C36B] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider border border-[#FF8F6B]/30 whitespace-nowrap shrink-0">
