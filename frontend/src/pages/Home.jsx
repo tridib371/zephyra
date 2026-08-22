@@ -162,10 +162,10 @@ const FEATURES = [
         description: 'Post updates, media, and spontaneous thoughts - Zephyra carries them to standard feeds instantly.',
         badge: 'Express Freely',
         gradient: 'from-[#FF6B6B] via-[#FF8E53] to-[#F5C36B]',
-        cardBg: 'bg-gradient-to-br from-[#FFF5F2] via-white to-[#FFEBE5] dark:from-[#1E1926] dark:via-[#161B26] dark:to-[#261B25]',
-        borderColor: 'border-[#FFC4B3] dark:border-[#4A2B3B]',
-        badgeBg: 'bg-[#FFE2D9] dark:bg-[#FF6B6B]/20 text-[#D9381E] dark:text-[#FF8E53]',
-        glowColor: 'hover:shadow-[0_12px_35px_rgba(255,107,107,0.25)] dark:hover:shadow-[0_12px_35px_rgba(255,107,107,0.3)]',
+        cardBg: 'bg-white dark:bg-gradient-to-br dark:from-[#1E1926] dark:via-[#161B26] dark:to-[#261B25]',
+        borderColor: 'border-2 border-[#FF6B6B]/40 hover:border-[#FF6B6B] dark:border-[#4A2B3B]',
+        badgeBg: 'bg-[#FFF0EB] dark:bg-[#FF6B6B]/20 text-[#D9381E] dark:text-[#FF8E53]',
+        glowColor: 'shadow-[0_12px_32px_rgba(255,107,107,0.15)] hover:shadow-[0_20px_45px_rgba(255,107,107,0.3)]',
         accentText: 'text-[#D9381E] dark:text-[#FF8E53]',
     },
     {
@@ -174,10 +174,10 @@ const FEATURES = [
         description: 'Instant socket-powered messaging, live interactions, and instant notifications that never sleep.',
         badge: 'Zero Latency',
         gradient: 'from-[#6366F1] via-[#8B5CF6] to-[#EC4899]',
-        cardBg: 'bg-gradient-to-br from-[#F5F3FF] via-white to-[#F0EEFF] dark:from-[#191832] dark:via-[#161B26] dark:to-[#241A38]',
-        borderColor: 'border-[#D8D2FF] dark:border-[#3D3366]',
-        badgeBg: 'bg-[#EAE4FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#A5B4FC]',
-        glowColor: 'hover:shadow-[0_12px_35px_rgba(99,102,241,0.25)] dark:hover:shadow-[0_12px_35px_rgba(99,102,241,0.3)]',
+        cardBg: 'bg-white dark:bg-gradient-to-br dark:from-[#191832] dark:via-[#161B26] dark:to-[#241A38]',
+        borderColor: 'border-2 border-[#6366F1]/40 hover:border-[#6366F1] dark:border-[#3D3366]',
+        badgeBg: 'bg-[#EEECFF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#A5B4FC]',
+        glowColor: 'shadow-[0_12px_32px_rgba(99,102,241,0.15)] hover:shadow-[0_20px_45px_rgba(99,102,241,0.3)]',
         accentText: 'text-[#4F46E5] dark:text-[#A5B4FC]',
     },
     {
@@ -186,10 +186,10 @@ const FEATURES = [
         description: 'Every post gives you full control. Public gusts, follower-only updates, or direct messages.',
         badge: 'Private & Secure',
         gradient: 'from-[#10B981] via-[#059669] to-[#F59E0B]',
-        cardBg: 'bg-gradient-to-br from-[#ECFDF5] via-white to-[#E6F4EA] dark:from-[#13241F] dark:via-[#161B26] dark:to-[#12271E]',
-        borderColor: 'border-[#B7E4C7] dark:border-[#204E3C]',
-        badgeBg: 'bg-[#D1FAE5] dark:bg-[#10B981]/20 text-[#047857] dark:text-[#6EE7B7]',
-        glowColor: 'hover:shadow-[0_12px_35px_rgba(16,185,129,0.25)] dark:hover:shadow-[0_12px_35px_rgba(16,185,129,0.3)]',
+        cardBg: 'bg-white dark:bg-gradient-to-br dark:from-[#13241F] dark:via-[#161B26] dark:to-[#12271E]',
+        borderColor: 'border-2 border-[#10B981]/40 hover:border-[#10B981] dark:border-[#204E3C]',
+        badgeBg: 'bg-[#E6F9F0] dark:bg-[#10B981]/20 text-[#047857] dark:text-[#6EE7B7]',
+        glowColor: 'shadow-[0_12px_32px_rgba(16,185,129,0.15)] hover:shadow-[0_20px_45px_rgba(16,185,129,0.3)]',
         accentText: 'text-[#047857] dark:text-[#6EE7B7]',
     },
     {
@@ -198,10 +198,10 @@ const FEATURES = [
         description: 'Discover trending stories, global topics, and active creators across every realm seamlessly.',
         badge: 'Explore Worlds',
         gradient: 'from-[#06B6D4] via-[#3B82F6] to-[#6366F1]',
-        cardBg: 'bg-gradient-to-br from-[#ECFEFF] via-white to-[#E0F2FE] dark:from-[#132435] dark:via-[#161B26] dark:to-[#162A42]',
-        borderColor: 'border-[#BEE3F8] dark:border-[#22476B]',
-        badgeBg: 'bg-[#CFFAFE] dark:bg-[#06B6D4]/20 text-[#0E7490] dark:text-[#67E8F9]',
-        glowColor: 'hover:shadow-[0_12px_35px_rgba(6,182,212,0.25)] dark:hover:shadow-[0_12px_35px_rgba(6,182,212,0.3)]',
+        cardBg: 'bg-white dark:bg-gradient-to-br dark:from-[#132435] dark:via-[#161B26] dark:to-[#162A42]',
+        borderColor: 'border-2 border-[#06B6D4]/40 hover:border-[#06B6D4] dark:border-[#22476B]',
+        badgeBg: 'bg-[#E6FBFC] dark:bg-[#06B6D4]/20 text-[#0E7490] dark:text-[#67E8F9]',
+        glowColor: 'shadow-[0_12px_32px_rgba(6,182,212,0.15)] hover:shadow-[0_20px_45px_rgba(6,182,212,0.3)]',
         accentText: 'text-[#0E7490] dark:text-[#67E8F9]',
     },
 ];
@@ -462,7 +462,7 @@ export default function Home() {
             </section>
 
             {/* ===== FEATURES GRID ===== */}
-            <section className="relative z-10 py-24 px-4 sm:px-6">
+            <section className="relative z-10 py-24 px-4 sm:px-6 bg-[#F3F4F8] dark:bg-transparent border-y border-[#E2E8F0] dark:border-transparent transition-colors duration-300">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center max-w-2xl mx-auto mb-16">
                         <motion.span
