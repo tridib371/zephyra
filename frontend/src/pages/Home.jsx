@@ -643,8 +643,7 @@ export default function Home() {
                     </div>
 
                     <div className="relative z-10 max-w-3xl mx-auto space-y-8">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A140D]/15 text-[#1A140D] text-xs font-black uppercase tracking-widest backdrop-blur-md border border-[#1A140D]/20">
-                            <span className="h-2 w-2 rounded-full bg-[#1A140D] animate-ping" />
+                        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#1A140D]/15 text-[#1A140D] text-xs font-black uppercase tracking-widest backdrop-blur-md border border-[#1A140D]/20">
                             <span>The Next Era of Social Connection</span>
                         </div>
 
@@ -656,34 +655,55 @@ export default function Home() {
                             Join thousands of creators sharing ideas, messaging friends in real time, and enjoying a distraction-free social realm where your voice carries freely on the wind.
                         </p>
 
-                        {/* Informative Platform Pillars Grid */}
+                        {/* Animated Informative Platform Pillars Grid */}
                         <div className="grid sm:grid-cols-3 gap-4 pt-2 text-left">
-                            <div className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.1 }}
+                                whileHover={{ y: -6, scale: 1.03 }}
+                                className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs hover:bg-white/60 hover:border-[#1A140D]/35 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                            >
                                 <div className="text-xs font-black uppercase tracking-wider text-[#1A140D]">
                                     Sub-15ms Realtime Sync
                                 </div>
                                 <p className="text-xs text-[#1A140D]/85 font-semibold leading-relaxed">
                                     Socket-powered instant messaging and live notification delivery without latency.
                                 </p>
-                            </div>
+                            </motion.div>
 
-                            <div className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                whileHover={{ y: -6, scale: 1.03 }}
+                                className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs hover:bg-white/60 hover:border-[#1A140D]/35 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                            >
                                 <div className="text-xs font-black uppercase tracking-wider text-[#1A140D]">
                                     Complete Privacy Control
                                 </div>
                                 <p className="text-xs text-[#1A140D]/85 font-semibold leading-relaxed">
                                     Full authority over post visibility - public gusts, follower-only updates, or direct messages.
                                 </p>
-                            </div>
+                            </motion.div>
 
-                            <div className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                whileHover={{ y: -6, scale: 1.03 }}
+                                className="p-4.5 rounded-2xl bg-white/40 backdrop-blur-md border border-[#1A140D]/15 space-y-1.5 shadow-xs hover:bg-white/60 hover:border-[#1A140D]/35 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                            >
                                 <div className="text-xs font-black uppercase tracking-wider text-[#1A140D]">
                                     Organic Discovery
                                 </div>
                                 <p className="text-xs text-[#1A140D]/85 font-semibold leading-relaxed">
                                     Pure chronological feeds and active creator exploration free from black-box algorithm bias.
                                 </p>
-                            </div>
+                            </motion.div>
                         </div>
 
                         {/* CTA Buttons */}
