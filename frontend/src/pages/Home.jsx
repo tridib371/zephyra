@@ -2,7 +2,7 @@ import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState, useRef } from 'react';
-import { HiOutlineSparkles } from 'react-icons/hi2';
+import { HiOutlineSparkles, HiStar } from 'react-icons/hi2';
 
 const GUST_PATHS = [
     'M -100 140 C 150 60, 350 220, 620 110 S 1000 40, 1300 130',
@@ -380,7 +380,7 @@ export default function Home() {
                                 </div>
 
                                 <p className="text-sm sm:text-base text-[#2D241C] dark:text-[#EDEBE6] leading-relaxed font-medium">
-                                    Just released a fresh digital art series inspired by sunset winds! 🌅 Switched to Zephyra for real-time engagement and it feels amazing.
+                                    Just released a fresh digital art series inspired by sunset winds! Switched to Zephyra for real-time engagement and it feels amazing.
                                 </p>
 
                                 <div className="flex items-center gap-4 pt-2">
@@ -404,8 +404,9 @@ export default function Home() {
 
                             {/* Simulated Chat Bubble Floating Mockup */}
                             <div className="md:col-span-5 rounded-2xl bg-[#FAF7F2] dark:bg-[#090B0E] p-4 border border-[#EFE8DC] dark:border-[#1F232C] space-y-3 shadow-inner">
-                                <div className="text-xs font-extrabold text-[#B85323] dark:text-gray-400 uppercase tracking-wider mb-2">
-                                    💬 Instant Direct Chat
+                                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#B85323] dark:text-gray-400 uppercase tracking-wider mb-2">
+                                    <MessageIcon />
+                                    <span>Instant Direct Chat</span>
                                 </div>
                                 <div className="flex items-start gap-2.5">
                                     <img
@@ -421,7 +422,7 @@ export default function Home() {
 
                                 <div className="flex items-end justify-end gap-2.5">
                                     <div className="rounded-2xl bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] p-3 text-xs text-[#1A140D] font-bold shadow-md">
-                                        Got it! Reply coming right up 🚀
+                                        Got it! Reply coming right up.
                                     </div>
                                 </div>
                             </div>
@@ -553,7 +554,7 @@ export default function Home() {
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-1 text-amber-500">
                                         {Array.from({ length: 5 }).map((_, i) => (
-                                            <span key={i}>★</span>
+                                            <HiStar key={i} className="h-4 w-4 text-amber-400" />
                                         ))}
                                     </div>
                                     <p className="text-xs sm:text-sm text-[#2D241C] dark:text-[#EDEBE6] italic leading-relaxed font-medium">

@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
+import {
+    HiOutlineChatBubbleLeftRight,
+    HiOutlineInbox,
+    HiOutlineChatBubbleBottomCenterText,
+    HiOutlineXMark,
+    HiCheck,
+} from 'react-icons/hi2';
 import io from 'socket.io-client';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
@@ -546,9 +553,9 @@ export default function Messages() {
                                         setSearchQueryText('');
                                         setSearchResults([]);
                                     }}
-                                    className="absolute right-3 top-3 text-xs text-gray-400 hover:text-gray-600 dark:hover:text-white"
+                                    className="absolute right-3 top-3 text-xs text-stone-400 hover:text-stone-600 dark:hover:text-white cursor-pointer"
                                 >
-                                    ✕
+                                    <HiOutlineXMark className="h-4 w-4" />
                                 </button>
                             )}
                         </div>
@@ -610,11 +617,13 @@ export default function Messages() {
                             </div>
                         ) : conversations.length === 0 ? (
                             <div className="p-8 text-center">
-                                <div className="text-3xl mb-2">💬</div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <div className="flex justify-center text-3xl mb-2 text-[#D97B4F]">
+                                    <HiOutlineChatBubbleLeftRight className="text-3xl" />
+                                </div>
+                                <p className="text-sm font-medium text-stone-600 dark:text-gray-300">
                                     No conversations yet.
                                 </p>
-                                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                <p className="text-xs text-stone-400 dark:text-gray-500 mt-1">
                                     Search a user above to start chatting!
                                 </p>
                             </div>
@@ -685,13 +694,13 @@ export default function Messages() {
                     {!activeConversation ? (
                         /* Empty Chat Selection Screen */
                         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-                            <div className="h-20 w-20 rounded-3xl bg-linear-to-br from-[#FF8F6B]/20 to-[#F5C36B]/20 border border-[#FF8F6B]/30 grid place-items-center mb-5 text-4xl shadow-inner">
-                                📬
+                            <div className="h-20 w-20 rounded-3xl bg-gradient-to-br from-[#FF8F6B]/20 to-[#F5C36B]/20 border border-[#FF8F6B]/30 grid place-items-center mb-5 text-4xl shadow-inner text-[#D97B4F]">
+                                <HiOutlineInbox className="text-4xl" />
                             </div>
-                            <h3 className="font-['Fraunces'] italic text-2xl font-bold text-gray-900 dark:text-[#EDEBE6]">
+                            <h3 className="font-['Fraunces'] italic text-2xl font-bold text-stone-900 dark:text-[#EDEBE6]">
                                 Your Inbox
                             </h3>
-                            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-sm">
+                            <p className="mt-2 text-sm text-stone-500 dark:text-gray-400 max-w-sm">
                                 Select an existing conversation from the left sidebar or search for a friend to start chatting in real time.
                             </p>
                         </div>
@@ -766,11 +775,13 @@ export default function Messages() {
                                     </div>
                                 ) : messages.length === 0 ? (
                                     <div className="flex flex-col items-center justify-center h-full text-center">
-                                        <div className="text-4xl mb-3">👋</div>
-                                        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                        <div className="flex justify-center text-4xl mb-3 text-[#D97B4F]">
+                                            <HiOutlineChatBubbleBottomCenterText className="text-4xl" />
+                                        </div>
+                                        <p className="text-sm font-semibold text-stone-700 dark:text-gray-200">
                                             No messages yet
                                         </p>
-                                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                        <p className="text-xs text-stone-400 dark:text-gray-500 mt-1">
                                             Send a message below to start the conversation!
                                         </p>
                                     </div>
@@ -823,11 +834,16 @@ export default function Messages() {
                                                             {isMine && (
                                                                 m.read ? (
                                                                     <span className="font-extrabold text-[#064E3B] tracking-wide inline-flex items-center gap-0.5">
-                                                                        <span className="text-[11px]">✓✓</span> Seen
+                                                                        <span className="inline-flex -space-x-1">
+                                                                            <HiCheck className="text-xs" />
+                                                                            <HiCheck className="text-xs" />
+                                                                        </span>
+                                                                        <span>Seen</span>
                                                                     </span>
                                                                 ) : (
                                                                     <span className="font-bold text-[#4A2008] tracking-wide inline-flex items-center gap-0.5">
-                                                                        <span className="text-[11px]">✓</span> Sent
+                                                                        <HiCheck className="text-xs" />
+                                                                        <span>Sent</span>
                                                                     </span>
                                                                 )
                                                             )}

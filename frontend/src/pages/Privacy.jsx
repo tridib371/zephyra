@@ -226,10 +226,10 @@ export default function Privacy() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 space-y-1">
                                     <h4 className="font-bold text-emerald-800 dark:text-emerald-300 text-xs uppercase tracking-wider">What We Guarantee</h4>
-                                    <p className="text-xs text-gray-600 dark:text-[#A0A5B2]">
-                                        ✓ 0 third-party advertising SDKs<br />
-                                        ✓ 0 data broker syndication<br />
-                                        ✓ 0 behavioral profiling algorithms
+                                    <p className="text-xs text-stone-600 dark:text-[#A0A5B2]">
+                                        - 0 third-party advertising SDKs<br />
+                                        - 0 data broker syndication<br />
+                                        - 0 behavioral profiling algorithms
                                     </p>
                                 </div>
                                 <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/40 space-y-1">

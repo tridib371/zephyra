@@ -340,8 +340,16 @@ export default function Search() {
                                         </p>
 
                                         <div className="mt-4 pt-3 border-t border-gray-100 dark:border-[#1F232C] flex items-center gap-4 text-xs font-bold text-gray-500 dark:text-[#8A8F9C]">
-                                            <span className="flex items-center gap-1">❤️ {post.likes?.length || 0}</span>
-                                            <span className="flex items-center gap-1">💬 {post.comments?.length || 0}</span>
+                                            <span className="flex items-center gap-1.5">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5 text-rose-500">
+                                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                                </svg>
+                                                {post.likes?.length || 0} likes
+                                            </span>
+                                            <span className="flex items-center gap-1.5">
+                                                <MessageIcon />
+                                                {post.comments?.length || 0} comments
+                                            </span>
                                         </div>
                                     </motion.article>
                                 ))}

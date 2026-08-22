@@ -350,8 +350,8 @@ const PostDetail = () => {
                         {/* Comments List */}
                         <div className="mt-6 space-y-4 max-h-96 overflow-y-auto pr-1">
                             {post.comments?.length === 0 ? (
-                                <p className="text-sm text-gray-400 dark:text-[#6E7280] text-center py-4 font-[Manrope]">
-                                    No comments yet. Be the first! 💬
+                                <p className="text-xs text-stone-400 dark:text-[#6E7280] text-center py-4 font-[Manrope]">
+                                    No comments yet. Be the first to share your thoughts.
                                 </p>
                             ) : (
                                 post.comments.map((comment) => {

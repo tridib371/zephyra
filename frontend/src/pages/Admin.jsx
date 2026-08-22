@@ -1,7 +1,25 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
-import { HiOutlineShieldCheck, HiOutlineExclamationCircle } from 'react-icons/hi2';
+import {
+    HiOutlineShieldCheck,
+    HiOutlineExclamationCircle,
+    HiOutlineUser,
+    HiOutlineKey,
+    HiOutlineLockClosed,
+    HiOutlineChartBar,
+    HiOutlineUsers,
+    HiOutlineMegaphone,
+    HiOutlineDocumentText,
+    HiOutlineHeart,
+    HiOutlineNoSymbol,
+    HiOutlineCheck,
+    HiOutlineTrash,
+    HiOutlineMagnifyingGlass,
+    HiOutlineChatBubbleLeftRight,
+    HiOutlineCheckCircle,
+    HiOutlinePaperAirplane,
+} from 'react-icons/hi2';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -334,7 +352,9 @@ export default function Admin() {
                                         required
                                         autoFocus
                                     />
-                                    <span className="absolute left-3.5 top-3.5 text-gray-400 text-sm">👤</span>
+                                    <span className="absolute left-3.5 top-3.5 text-stone-400 text-sm">
+                                        <HiOutlineUser className="h-4 w-4" />
+                                    </span>
                                 </div>
                             </div>
 
@@ -351,7 +371,9 @@ export default function Admin() {
                                         className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-3 pl-10 pr-11 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
                                         required
                                     />
-                                    <span className="absolute left-3.5 top-3.5 text-gray-400 text-sm">🔑</span>
+                                    <span className="absolute left-3.5 top-3.5 text-stone-400 text-sm">
+                                        <HiOutlineKey className="h-4 w-4" />
+                                    </span>
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
@@ -373,7 +395,7 @@ export default function Admin() {
                                 ) : (
                                     <>
                                         <span>Unlock Control Center</span>
-                                        <span>⚡</span>
+                                        <HiOutlineShieldCheck className="h-4 w-4" />
                                     </>
                                 )}
                             </button>
@@ -435,7 +457,7 @@ export default function Admin() {
                             onClick={handleLockAdminSession}
                             className="px-4 py-2 text-xs sm:text-sm font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 rounded-full border border-red-200 dark:border-red-900/50 transition-colors flex items-center gap-1.5 cursor-pointer"
                         >
-                            <span>🔒</span> Lock Session
+                            <HiOutlineLockClosed className="h-4 w-4" /> Lock Session
                         </button>
                         <Link
                             to="/feed"
@@ -449,22 +471,26 @@ export default function Admin() {
                 {/* Navigation Tabs */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     {[
-                        { id: 'overview', label: '📊 Analytics', icon: '📊' },
-                        { id: 'users', label: '👥 User Management', icon: '👥' },
-                        { id: 'posts', label: '🛡️ Moderation', icon: '🛡️' },
-                        { id: 'announcements', label: '📢 Announcements', icon: '📢' },
-                    ].map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${activeTab === tab.id
-                                ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-md scale-102'
-                                : 'bg-white dark:bg-[#12151C] border border-gray-200/80 dark:border-[#1F232C] text-gray-600 dark:text-gray-300 hover:border-[#D97B4F]'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
+                        { id: 'overview', label: 'Analytics', icon: HiOutlineChartBar },
+                        { id: 'users', label: 'User Management', icon: HiOutlineUsers },
+                        { id: 'posts', label: 'Moderation', icon: HiOutlineShieldCheck },
+                        { id: 'announcements', label: 'Announcements', icon: HiOutlineMegaphone },
+                    ].map((tab) => {
+                        const TabIcon = tab.icon;
+                        return (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${activeTab === tab.id
+                                    ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-md scale-102'
+                                    : 'bg-white dark:bg-[#12151C] border border-gray-200/80 dark:border-[#1F232C] text-gray-600 dark:text-gray-300 hover:border-[#D97B4F]'
+                                    }`}
+                            >
+                                <TabIcon className="h-4 w-4" />
+                                <span>{tab.label}</span>
+                            </button>
+                        );
+                    })}
                 </div>
 
                 {/* ========================================== */}
@@ -484,7 +510,9 @@ export default function Admin() {
                                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Users</span>
-                                            <span className="h-8 w-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 grid place-items-center text-sm">👥</span>
+                                            <span className="h-8 w-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 grid place-items-center text-sm">
+                                                <HiOutlineUsers className="h-4 w-4" />
+                                            </span>
                                         </div>
                                         <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{stats.totalUsers.toLocaleString()}</div>
                                         <div className="mt-1 text-[11px] text-gray-400">Total registered members</div>
@@ -493,7 +521,9 @@ export default function Admin() {
                                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Published Posts</span>
-                                            <span className="h-8 w-8 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 grid place-items-center text-sm">✍️</span>
+                                            <span className="h-8 w-8 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 grid place-items-center text-sm">
+                                                <HiOutlineDocumentText className="h-4 w-4" />
+                                            </span>
                                         </div>
                                         <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{stats.totalPosts.toLocaleString()}</div>
                                         <div className="mt-1 text-[11px] text-gray-400">Total community stories</div>
@@ -502,7 +532,9 @@ export default function Admin() {
                                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Interactions</span>
-                                            <span className="h-8 w-8 rounded-xl bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 grid place-items-center text-sm">❤️</span>
+                                            <span className="h-8 w-8 rounded-xl bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 grid place-items-center text-sm">
+                                                <HiOutlineHeart className="h-4 w-4" />
+                                            </span>
                                         </div>
                                         <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{(stats.totalLikes + stats.totalComments).toLocaleString()}</div>
                                         <div className="mt-1 text-[11px] text-gray-400">{stats.totalLikes} Likes • {stats.totalComments} Comments</div>
@@ -511,7 +543,9 @@ export default function Admin() {
                                     <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Suspended</span>
-                                            <span className="h-8 w-8 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 grid place-items-center text-sm">🚫</span>
+                                            <span className="h-8 w-8 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 grid place-items-center text-sm">
+                                                <HiOutlineNoSymbol className="h-4 w-4" />
+                                            </span>
                                         </div>
                                         <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-red-600 dark:text-red-400">{stats.bannedUsers}</div>
                                         <div className="mt-1 text-[11px] text-gray-400">Banned user accounts</div>
@@ -707,11 +741,11 @@ export default function Admin() {
                                                     <td className="px-5 py-4">
                                                         {u.isBanned ? (
                                                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30 px-2.5 py-0.5 rounded-full">
-                                                                <span>🚫</span> Suspended
+                                                                <HiOutlineNoSymbol className="h-3 w-3" /> Suspended
                                                             </span>
                                                         ) : (
                                                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-0.5 rounded-full">
-                                                                <span>✓</span> Active
+                                                                <HiOutlineCheck className="h-3 w-3" /> Active
                                                             </span>
                                                         )}
                                                     </td>
@@ -741,10 +775,10 @@ export default function Admin() {
                                                             {u.role !== 'admin' && (
                                                                 <button
                                                                     onClick={() => setDeleteUserConfirm(u._id)}
-                                                                    className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
+                                                                    className="p-1.5 text-stone-400 hover:text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
                                                                     title="Permanently Delete User"
                                                                 >
-                                                                    🗑️
+                                                                    <HiOutlineTrash className="h-4 w-4" />
                                                                 </button>
                                                             )}
                                                         </div>
@@ -800,7 +834,9 @@ export default function Admin() {
                                     }}
                                     className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-2.5 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50"
                                 />
-                                <span className="absolute left-3.5 top-3 text-gray-400 text-sm">🔍</span>
+                                <span className="absolute left-3.5 top-3 text-stone-400 text-sm">
+                                    <HiOutlineMagnifyingGlass className="h-4 w-4" />
+                                </span>
                             </div>
                         </div>
 
@@ -849,16 +885,23 @@ export default function Admin() {
                                         </div>
 
                                         <div className="mt-4 pt-3 border-t border-gray-100 dark:border-[#1F232C] flex items-center justify-between">
-                                            <div className="flex items-center gap-3 text-xs text-gray-400">
-                                                <span>❤️ {p.likes?.length || 0}</span>
-                                                <span>💬 {p.comments?.length || 0}</span>
+                                            <div className="flex items-center gap-3 text-xs text-gray-400 font-bold">
+                                                <span className="flex items-center gap-1">
+                                                    <HiOutlineHeart className="h-3.5 w-3.5 text-rose-500" />
+                                                    {p.likes?.length || 0}
+                                                </span>
+                                                <span className="flex items-center gap-1">
+                                                    <HiOutlineChatBubbleLeftRight className="h-3.5 w-3.5 text-amber-500" />
+                                                    {p.comments?.length || 0}
+                                                </span>
                                             </div>
 
                                             <button
                                                 onClick={() => setDeletePostConfirm(p._id)}
-                                                className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                                                className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
                                             >
-                                                <span>🗑️ Delete Story</span>
+                                                <HiOutlineTrash className="h-3.5 w-3.5" />
+                                                <span>Delete Story</span>
                                             </button>
                                         </div>
                                     </div>
@@ -899,7 +942,9 @@ export default function Admin() {
                         {/* Compose Form */}
                         <div className="lg:col-span-7 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs">
                             <div className="flex items-center gap-3 mb-5">
-                                <span className="h-10 w-10 rounded-2xl bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B] grid place-items-center text-xl font-bold">📢</span>
+                                <span className="h-10 w-10 rounded-2xl bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B] grid place-items-center text-xl font-bold">
+                                    <HiOutlineMegaphone className="h-5 w-5" />
+                                </span>
                                 <div>
                                     <h3 className="font-['Fraunces'] text-xl font-bold">Broadcast Announcement</h3>
                                     <p className="text-xs text-gray-400">Send an instant notification alert to all active platform users</p>
@@ -908,7 +953,7 @@ export default function Admin() {
 
                             {announcementSuccess && (
                                 <div className="mb-5 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-semibold flex items-center gap-2">
-                                    <span>✅</span>
+                                    <HiOutlineCheckCircle className="h-5 w-5 text-emerald-600" />
                                     <span>{announcementSuccess}</span>
                                 </div>
                             )}
@@ -920,7 +965,7 @@ export default function Admin() {
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="e.g., 🎉 Welcome to Zephyra 2.0! or ⚡ Scheduled Maintenance"
+                                        placeholder="e.g., Welcome to Zephyra 2.0 or Scheduled Maintenance"
                                         value={announcementTitle}
                                         onChange={(e) => setAnnouncementTitle(e.target.value)}
                                         className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-gray-50 dark:bg-[#181C26] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50"
@@ -952,7 +997,7 @@ export default function Admin() {
                                     ) : (
                                         <>
                                             <span>Broadcast to All Users</span>
-                                            <span>🚀</span>
+                                            <HiOutlinePaperAirplane className="h-4 w-4" />
                                         </>
                                     )}
                                 </button>
@@ -968,7 +1013,7 @@ export default function Admin() {
 
                                 <div className="rounded-2xl border border-[#D97B4F]/30 bg-[#FFF8F4] dark:bg-[#181C26] p-4 shadow-sm space-y-2">
                                     <div className="flex items-center gap-2 text-xs font-bold text-[#D97B4F] dark:text-[#F5C36B]">
-                                        <span>📢</span>
+                                        <HiOutlineMegaphone className="h-3.5 w-3.5" />
                                         <span>OFFICIAL ANNOUNCEMENT</span>
                                     </div>
                                     <h4 className="font-['Fraunces'] font-bold text-base text-gray-900 dark:text-white">
@@ -984,7 +1029,7 @@ export default function Admin() {
                             </div>
 
                             <div className="mt-6 p-4 rounded-2xl bg-gray-50 dark:bg-[#181C26] border border-gray-100 dark:border-[#252A36] text-xs text-gray-500 space-y-1">
-                                <p className="font-bold text-gray-700 dark:text-gray-300">💡 Broadcast Note</p>
+                                <p className="font-bold text-gray-700 dark:text-gray-300">Broadcast Note</p>
                                 <p>Announcements trigger a high-priority notification in the notification badge and drawer for every member of Zephyra.</p>
                             </div>
                         </div>
@@ -998,7 +1043,9 @@ export default function Admin() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                     <div className="w-full max-w-md rounded-3xl border border-gray-200 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-2xl space-y-4">
                         <div className="flex items-center gap-3">
-                            <span className="h-10 w-10 rounded-2xl bg-red-100 dark:bg-red-900/30 text-red-600 grid place-items-center text-xl">🚫</span>
+                            <span className="h-10 w-10 rounded-2xl bg-red-100 dark:bg-red-900/30 text-red-600 grid place-items-center text-xl">
+                                <HiOutlineNoSymbol className="h-5 w-5" />
+                            </span>
                             <div>
                                 <h3 className="font-['Fraunces'] text-lg font-bold">
                                     {banModalUser.isBanned ? 'Lift Account Suspension' : 'Suspend User Account'}

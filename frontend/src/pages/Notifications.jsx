@@ -2,6 +2,14 @@ import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
+import {
+    HiOutlineHeart,
+    HiOutlineChatBubbleLeftRight,
+    HiOutlineUserPlus,
+    HiOutlineMegaphone,
+    HiOutlineBell,
+    HiOutlineXMark,
+} from 'react-icons/hi2';
 import { useNotifications } from '../context/NotificationContext';
 import { useAuth } from '../context/AuthContext';
 import { getNotificationDetail, getNotificationMeta, getNotificationMessage, getNotificationTarget } from '../utils/notificationTools';
@@ -98,15 +106,15 @@ const Notifications = () => {
                             Loading notifications...
                         </div>
                     ) : activeNotifications.length === 0 ? (
-                        <div className="rounded-[1.75rem] border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-[#11151D]/80 p-10 text-center">
-                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-r from-[#FF8F6B]/15 to-[#F5C36B]/15 text-2xl">
-                                🔔
+                        <div className="rounded-[1.75rem] border border-[#EAE2D5] dark:border-white/10 bg-white/90 dark:bg-[#11151D]/80 p-10 text-center">
+                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-[#FF8F6B]/15 to-[#F5C36B]/15 text-2xl text-[#D97B4F]">
+                                <HiOutlineBell className="text-3xl" />
                             </div>
-                            <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">No notifications yet</h2>
-                            <p className="mt-2 text-sm text-gray-500 dark:text-[#A0A6B6]">When people like, comment, or follow you, they will appear here.</p>
+                            <h2 className="mt-4 text-xl font-semibold text-stone-900 dark:text-white">No notifications yet</h2>
+                            <p className="mt-2 text-sm text-stone-500 dark:text-[#A0A6B6]">When people like, comment, or follow you, they will appear here.</p>
                             <Link
                                 to={user ? '/feed' : '/login'}
-                                className="mt-5 inline-flex rounded-full bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] px-5 py-2.5 text-sm font-semibold text-[#1A140D]"
+                                className="mt-5 inline-flex rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] px-5 py-2.5 text-xs font-extrabold text-[#1A140D]"
                             >
                                 Go to feed
                             </Link>
@@ -126,7 +134,7 @@ const Notifications = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, scale: 0.98 }}
                                         transition={{ duration: 0.18, delay: Math.min(index * 0.02, 0.12) }}
-                                        className={`group rounded-[1.75rem] border p-4 sm:p-5 shadow-[0_16px_40px_-28px_rgba(0,0,0,0.35)] cursor-pointer ${unread ? 'border-[#FF8F6B]/25 bg-[#FFF8F4] dark:bg-white/6' : 'border-gray-200 dark:border-white/10 bg-white/80 dark:bg-[#11151D]/80'}`}
+                                        className={`group rounded-[1.75rem] border p-4 sm:p-5 shadow-xs cursor-pointer ${unread ? 'border-[#FF8F6B]/30 bg-[#FFF8F4] dark:bg-white/6' : 'border-[#EAE2D5] dark:border-white/10 bg-white/90 dark:bg-[#11151D]/80'}`}
                                         onClick={() => handleOpenNotification(notification)}
                                     >
                                         <div className="flex items-start gap-4">
@@ -137,36 +145,45 @@ const Notifications = () => {
                                                     className="h-12 w-12 rounded-2xl object-cover ring-2 ring-white dark:ring-[#0E1116]"
                                                     onError={(e) => { e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'; }}
                                                 />
-                                                <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full border border-white dark:border-[#0E1116] bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[11px]">
-                                                    {meta.icon}
+                                                <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full border border-white dark:border-[#0E1116] bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[10px] text-[#1A140D]">
+                                                    {notification.type === 'like' && <HiOutlineHeart className="text-xs" />}
+                                                    {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight className="text-xs" />}
+                                                    {notification.type === 'follow' && <HiOutlineUserPlus className="text-xs" />}
+                                                    {notification.type === 'announcement' && <HiOutlineMegaphone className="text-xs" />}
+                                                    {!['like', 'comment', 'follow', 'announcement'].includes(notification.type) && <HiOutlineBell className="text-xs" />}
                                                 </span>
                                             </div>
 
                                             <div className="min-w-0 flex-1">
                                                 <div className="flex flex-wrap items-start justify-between gap-3">
                                                     <div className="min-w-0">
-                                                        <p className={`text-sm sm:text-base ${unread ? 'font-semibold text-gray-900 dark:text-white' : 'text-gray-600 dark:text-[#C4CAD7]'}`}>
+                                                        <p className={`text-sm sm:text-base ${unread ? 'font-semibold text-stone-900 dark:text-white' : 'text-stone-600 dark:text-[#C4CAD7]'}`}>
                                                             {getNotificationMessage(notification)}
                                                         </p>
                                                         {detail && (
-                                                            <p className="mt-1 text-sm text-gray-600 dark:text-[#A0A6B6] line-clamp-2">
+                                                            <p className="mt-1 text-xs sm:text-sm text-stone-600 dark:text-[#A0A6B6] line-clamp-2">
                                                                 {detail}
                                                             </p>
                                                         )}
                                                     </div>
 
-                                                    <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-gradient-to-r ${meta.accent} bg-white/80 dark:bg-white/5`}>
-                                                        {meta.icon} {meta.label}
+                                                    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-gradient-to-r ${meta.accent} bg-white/80 dark:bg-white/5`}>
+                                                        {notification.type === 'like' && <HiOutlineHeart />}
+                                                        {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight />}
+                                                        {notification.type === 'follow' && <HiOutlineUserPlus />}
+                                                        {notification.type === 'announcement' && <HiOutlineMegaphone />}
+                                                        {!['like', 'comment', 'follow', 'announcement'].includes(notification.type) && <HiOutlineBell />}
+                                                        <span>{meta.label}</span>
                                                     </span>
                                                 </div>
 
-                                                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-[#8A8F9C]">
+                                                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-stone-500 dark:text-[#8A8F9C]">
                                                     <span>{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}</span>
                                                     {notification.post?.content && (
-                                                        <span className="rounded-full bg-gray-100 dark:bg-white/5 px-2.5 py-1">Linked post</span>
+                                                        <span className="rounded-full bg-stone-100 dark:bg-white/5 px-2.5 py-0.5">Linked post</span>
                                                     )}
                                                     {unread && (
-                                                        <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-emerald-600 dark:text-emerald-300">Unread</span>
+                                                        <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-emerald-600 dark:text-emerald-300 font-bold">Unread</span>
                                                     )}
                                                 </div>
                                             </div>
@@ -177,10 +194,10 @@ const Notifications = () => {
                                                         e.stopPropagation();
                                                         deleteNotification(notification._id);
                                                     }}
-                                                    className="rounded-full p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10"
+                                                    className="rounded-full p-2 text-stone-400 transition hover:bg-rose-50 hover:text-rose-500 dark:hover:bg-rose-500/10 cursor-pointer"
                                                     aria-label="Delete notification"
                                                 >
-                                                    ✕
+                                                    <HiOutlineXMark className="h-4 w-4" />
                                                 </button>
                                                 {notification.post?.image && (
                                                     <img

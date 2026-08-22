@@ -3,31 +3,31 @@ export const getNotificationMeta = (notification) => {
         case 'follow':
             return {
                 label: 'Follow',
-                icon: '👤',
+                type: 'follow',
                 accent: 'from-sky-500/10 to-cyan-500/10 text-sky-600 dark:text-sky-300',
             };
         case 'like':
             return {
                 label: 'Like',
-                icon: '❤️',
+                type: 'like',
                 accent: 'from-rose-500/10 to-pink-500/10 text-rose-600 dark:text-rose-300',
             };
         case 'comment':
             return {
                 label: 'Comment',
-                icon: '💬',
+                type: 'comment',
                 accent: 'from-amber-500/10 to-orange-500/10 text-amber-700 dark:text-amber-300',
             };
         case 'announcement':
             return {
                 label: 'Announcement',
-                icon: '📢',
+                type: 'announcement',
                 accent: 'from-[#FF8F6B]/20 to-[#F5C36B]/20 text-[#D97B4F] dark:text-[#F5C36B]',
             };
         default:
             return {
                 label: 'Update',
-                icon: '🔔',
+                type: 'system',
                 accent: 'from-gray-500/10 to-slate-500/10 text-gray-700 dark:text-gray-300',
             };
     }
