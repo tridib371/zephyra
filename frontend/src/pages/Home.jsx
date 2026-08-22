@@ -1,4 +1,4 @@
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState, useRef } from 'react';
@@ -8,6 +8,8 @@ import {
     HiOutlineBolt,
     HiOutlineShieldCheck,
     HiOutlineGlobeAlt,
+    HiXMark,
+    HiCheckCircle,
 } from 'react-icons/hi2';
 
 const GUST_PATHS = [
@@ -157,6 +159,7 @@ const HeartIcon = () => (
 
 const FEATURES = [
     {
+        id: 'express',
         icon: HiOutlinePencilSquare,
         title: 'Set your thoughts adrift',
         description: 'Post updates, media, and spontaneous thoughts - Zephyra carries them to standard feeds instantly.',
@@ -167,8 +170,31 @@ const FEATURES = [
         badgeBg: 'bg-[#FF5733] text-white font-extrabold dark:bg-[#FF6B6B]/20 dark:text-[#FF8E53]',
         glowColor: 'shadow-[0_12px_35px_rgba(255,107,107,0.2)] hover:shadow-[0_20px_45px_rgba(255,107,107,0.35)]',
         accentText: 'text-[#D9381E] dark:text-[#FF8E53]',
+        modalSubtitle: 'Express Without Boundaries or Suppression',
+        details: [
+            {
+                title: 'Rich Media & Micro-Gusts',
+                desc: 'Share high-resolution images, rich Markdown formatting, and spontaneous micro-thoughts with zero file compression degradation.'
+            },
+            {
+                title: 'Chronological Feed Delivery',
+                desc: 'Your posts are delivered directly to your followers in exact real-time order with zero algorithmic shadow-banning or artificial throttling.'
+            },
+            {
+                title: 'Wind-Tag Categorization',
+                desc: 'Organize your posts with custom topic wind-tags so creators interested in niche topics can discover your voice instantly.'
+            }
+        ],
+        metrics: [
+            { label: 'Instant Feed Sync', value: '100%' },
+            { label: 'Media Loss', value: '0%' },
+            { label: 'Markdown & Code', value: 'Built-in' }
+        ],
+        ctaText: 'Start Expressing Freely',
+        ctaLink: '/register'
     },
     {
+        id: 'realtime',
         icon: HiOutlineBolt,
         title: 'Real-time Currents',
         description: 'Instant socket-powered messaging, live interactions, and instant notifications that never sleep.',
@@ -179,8 +205,31 @@ const FEATURES = [
         badgeBg: 'bg-[#4F46E5] text-white font-extrabold dark:bg-[#6366F1]/20 dark:text-[#A5B4FC]',
         glowColor: 'shadow-[0_12px_35px_rgba(99,102,241,0.2)] hover:shadow-[0_20px_45px_rgba(99,102,241,0.35)]',
         accentText: 'text-[#4F46E5] dark:text-[#A5B4FC]',
+        modalSubtitle: 'Sub-15ms WebSocket Messaging Engine',
+        details: [
+            {
+                title: 'Sub-15ms Socket Delivery',
+                desc: 'Direct 1-on-1 and group messaging powered by an optimized Socket.IO infrastructure for instant message dispatch.'
+            },
+            {
+                title: 'Live Presence & Typing Sync',
+                desc: 'Know exactly when your friends are online, actively typing, or reading your messages with live status badges.'
+            },
+            {
+                title: 'Realtime Inbox & Alerts',
+                desc: 'Receive instant notifications for likes, comments, and new followers without ever needing to manually refresh the page.'
+            }
+        ],
+        metrics: [
+            { label: 'Sync Latency', value: '< 15ms' },
+            { label: 'Socket Uptime', value: '99.9%' },
+            { label: 'Live Presence', value: 'Realtime' }
+        ],
+        ctaText: 'Experience Realtime Chat',
+        ctaLink: '/register'
     },
     {
+        id: 'privacy',
         icon: HiOutlineShieldCheck,
         title: 'Complete Privacy Controls',
         description: 'Every post gives you full control. Public gusts, follower-only updates, or direct messages.',
@@ -191,8 +240,31 @@ const FEATURES = [
         badgeBg: 'bg-[#059669] text-white font-extrabold dark:bg-[#10B981]/20 dark:text-[#6EE7B7]',
         glowColor: 'shadow-[0_12px_35px_rgba(16,185,129,0.2)] hover:shadow-[0_20px_45px_rgba(16,185,129,0.35)]',
         accentText: 'text-[#047857] dark:text-[#6EE7B7]',
+        modalSubtitle: 'Your Content, Your Data, Your Absolute Rules',
+        details: [
+            {
+                title: 'Granular Audience Scoping',
+                desc: 'Choose precisely who views each post - Public Gusts for everyone, Follower-Only updates, or Direct Encrypted messages.'
+            },
+            {
+                title: 'Zero Third-Party Data Selling',
+                desc: 'Zephyra never tracks your off-site browsing habits or sells your data to third-party ad networks or brokers.'
+            },
+            {
+                title: 'Instant Data Export & Deletion',
+                desc: 'Enjoy complete digital sovereignty - export your complete profile archive or permanently delete your account history in 1 click.'
+            }
+        ],
+        metrics: [
+            { label: 'Ad Tracking', value: '0%' },
+            { label: 'Data Sovereignty', value: '100%' },
+            { label: 'Visibility Control', value: 'Per-Post' }
+        ],
+        ctaText: 'Manage Your Privacy',
+        ctaLink: '/register'
     },
     {
+        id: 'discovery',
         icon: HiOutlineGlobeAlt,
         title: 'Boundaryless Discovery',
         description: 'Discover trending stories, global topics, and active creators across every realm seamlessly.',
@@ -203,6 +275,28 @@ const FEATURES = [
         badgeBg: 'bg-[#0284C7] text-white font-extrabold dark:bg-[#06B6D4]/20 dark:text-[#67E8F9]',
         glowColor: 'shadow-[0_12px_35px_rgba(6,182,212,0.2)] hover:shadow-[0_20px_45px_rgba(6,182,212,0.35)]',
         accentText: 'text-[#0E7490] dark:text-[#67E8F9]',
+        modalSubtitle: 'Unbiased Global Topic & Creator Exploration',
+        details: [
+            {
+                title: 'Global Topic Realms',
+                desc: 'Explore curated channels spanning Digital Art, Software Engineering, Literature, Design, and World Philosophy.'
+            },
+            {
+                title: 'Rising Creator Spotlights',
+                desc: 'Discover authentic emerging creators based on genuine community engagement rather than manufactured virality.'
+            },
+            {
+                title: 'Seamless One-Click Follows',
+                desc: 'Connect with authors and thought leaders across the platform and customize your daily home stream instantly.'
+            }
+        ],
+        metrics: [
+            { label: 'Topic Channels', value: '50+' },
+            { label: 'Rage-Bait Algorithms', value: 'Zero' },
+            { label: 'Creator Network', value: '50K+' }
+        ],
+        ctaText: 'Explore Trending Feeds',
+        ctaLink: '/register'
     },
 ];
 
@@ -283,6 +377,7 @@ export default function Home() {
 
     const [likesCount, setLikesCount] = useState(1482);
     const [hasLiked, setHasLiked] = useState(false);
+    const [selectedFeature, setSelectedFeature] = useState(null);
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -540,6 +635,7 @@ export default function Home() {
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: index * 0.12 }}
                                     whileHover={{ y: -10, scale: 1.03 }}
+                                    onClick={() => setSelectedFeature(feature)}
                                     className={`group relative rounded-3xl p-6.5 border ${feature.cardBg} ${feature.borderColor} ${feature.glowColor} shadow-md transition-all duration-500 flex flex-col justify-between overflow-hidden cursor-pointer`}
                                 >
                                     {/* Ambient Top Corner Gradient Halo Beam */}
@@ -733,6 +829,105 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* ===== FEATURE DETAIL MODAL ===== */}
+            <AnimatePresence>
+                {selectedFeature && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+                        {/* Backdrop Blur */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedFeature(null)}
+                            className="fixed inset-0 bg-[#090C15]/80 backdrop-blur-xl"
+                        />
+
+                        {/* Modal Card */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="relative w-full max-w-2xl rounded-3xl bg-white dark:bg-[#141824] border border-[#EAECF0] dark:border-[#283244] p-6 sm:p-8 shadow-2xl z-10 text-[#101828] dark:text-[#E2E8F0] overflow-hidden"
+                        >
+                            {/* Top Accent Gradient Line */}
+                            <div className={`h-2 w-full absolute top-0 left-0 bg-gradient-to-r ${selectedFeature.gradient}`} />
+
+                            {/* Close Button */}
+                            <button
+                                onClick={() => setSelectedFeature(null)}
+                                className="absolute top-5 right-5 p-2 rounded-full bg-[#F1F5F9] dark:bg-[#1E2638] text-[#64748B] dark:text-[#94A3B8] hover:text-[#101828] dark:hover:text-white transition-colors cursor-pointer"
+                                aria-label="Close modal"
+                            >
+                                <HiXMark className="h-5 w-5" />
+                            </button>
+
+                            {/* Header */}
+                            <div className="flex items-center gap-4 mb-6 pr-10">
+                                <div className={`h-13 w-13 rounded-2xl bg-gradient-to-br ${selectedFeature.gradient} flex items-center justify-center text-white shadow-lg shrink-0`}>
+                                    <selectedFeature.icon className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${selectedFeature.badgeBg}`}>
+                                        {selectedFeature.badge}
+                                    </span>
+                                    <h3 className="font-['Fraunces'] italic text-2xl sm:text-3xl font-extrabold text-[#101828] dark:text-white mt-1">
+                                        {selectedFeature.title}
+                                    </h3>
+                                    <p className="text-xs sm:text-sm font-semibold text-[#64748B] dark:text-[#94A3B8]">
+                                        {selectedFeature.modalSubtitle}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Detailed Informative Bullet Points */}
+                            <div className="space-y-3.5 mb-6">
+                                {selectedFeature.details.map((detail, idx) => (
+                                    <div key={idx} className="p-4 rounded-2xl bg-[#F8F9FA] dark:bg-[#1B2130] border border-[#EAECF0] dark:border-[#252E42] flex items-start gap-3">
+                                        <HiCheckCircle className={`h-5 w-5 shrink-0 mt-0.5 ${selectedFeature.accentText}`} />
+                                        <div>
+                                            <h4 className="text-sm font-extrabold text-[#101828] dark:text-white">
+                                                {detail.title}
+                                            </h4>
+                                            <p className="text-xs text-[#475467] dark:text-[#CBD5E1] mt-1 leading-relaxed font-medium">
+                                                {detail.desc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Metrics Banner */}
+                            <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-[#FFF5EE] dark:bg-[#1C2333] border border-[#F5D0C0] dark:border-[#2D384D] text-center mb-6">
+                                {selectedFeature.metrics.map((metric, idx) => (
+                                    <div key={idx}>
+                                        <p className="text-sm sm:text-base font-black text-[#101828] dark:text-white">{metric.value}</p>
+                                        <p className="text-[10px] sm:text-xs font-bold text-[#64748B] dark:text-[#94A3B8] uppercase">{metric.label}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Action CTA */}
+                            <div className="flex justify-end gap-3 pt-2">
+                                <button
+                                    onClick={() => setSelectedFeature(null)}
+                                    className="px-5 py-2.5 rounded-full border border-[#CBD5E1] dark:border-[#3A475C] text-xs font-bold text-[#475467] dark:text-[#94A3B8] hover:bg-[#F1F5F9] dark:hover:bg-[#1E2638] transition-colors cursor-pointer"
+                                >
+                                    Close Preview
+                                </button>
+                                <Link
+                                    to={selectedFeature.ctaLink}
+                                    onClick={() => setSelectedFeature(null)}
+                                    className={`px-6 py-2.5 rounded-full bg-gradient-to-r ${selectedFeature.gradient} text-white text-xs font-extrabold shadow-md hover:brightness-110 hover:scale-105 transition-all`}
+                                >
+                                    {selectedFeature.ctaText} →
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
 
         </div>
     );
