@@ -626,7 +626,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
                         {FEATURES.map((feature, index) => {
                             const Icon = feature.icon;
                             return (
@@ -636,33 +636,33 @@ export default function Home() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: index * 0.12 }}
-                                    whileHover={{ y: -10, scale: 1.03 }}
+                                    whileHover={{ y: -6, scale: 1.02 }}
                                     onClick={() => setSelectedFeature(feature)}
-                                    className={`group relative rounded-3xl p-6.5 border ${feature.cardBg} ${feature.borderColor} ${feature.glowColor} shadow-md transition-all duration-500 flex flex-col justify-between overflow-hidden cursor-pointer`}
+                                    className={`group relative rounded-2xl sm:rounded-3xl p-4 sm:p-6 border ${feature.cardBg} ${feature.borderColor} ${feature.glowColor} shadow-md transition-all duration-500 flex flex-col justify-between overflow-hidden cursor-pointer`}
                                 >
                                     {/* Ambient Top Corner Gradient Halo Beam */}
-                                    <div className={`absolute -top-12 -right-12 h-36 w-36 rounded-full bg-gradient-to-br ${feature.gradient} opacity-20 group-hover:opacity-40 blur-2xl transition-opacity duration-500 pointer-events-none`} />
+                                    <div className={`absolute -top-12 -right-12 h-32 w-32 sm:h-36 sm:w-36 rounded-full bg-gradient-to-br ${feature.gradient} opacity-20 group-hover:opacity-40 blur-2xl transition-opacity duration-500 pointer-events-none`} />
 
                                     <div>
-                                        <div className="flex items-center justify-between mb-6 relative z-10">
+                                        <div className="flex items-center justify-between mb-3.5 sm:mb-6 relative z-10">
                                             {/* Icon Badge with Pulse Aura & Rotate animation */}
-                                            <div className={`h-13 w-13 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 ring-2 ring-white/40 dark:ring-black/20`}>
-                                                <Icon />
+                                            <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-md group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 ring-2 ring-white/40 dark:ring-black/20 shrink-0`}>
+                                                <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
                                             </div>
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${feature.badgeBg} border border-current/20 shadow-xs backdrop-blur-md`}>
+                                            <span className={`px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider ${feature.badgeBg} border border-current/20 shadow-xs backdrop-blur-md`}>
                                                 {feature.badge}
                                             </span>
                                         </div>
 
-                                        <h3 className="text-xl font-extrabold text-[#101828] dark:text-white font-[Manrope] group-hover:translate-x-0.5 transition-transform">
+                                        <h3 className="text-base sm:text-xl font-extrabold text-[#101828] dark:text-white font-[Manrope] group-hover:translate-x-0.5 transition-transform leading-tight">
                                             {feature.title}
                                         </h3>
-                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] mt-3 leading-relaxed font-medium font-[Manrope]">
+                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] mt-1.5 sm:mt-3 leading-snug sm:leading-relaxed font-medium font-[Manrope]">
                                             {feature.description}
                                         </p>
                                     </div>
 
-                                    <div className={`mt-8 pt-4 border-t border-current/10 flex items-center text-xs font-black ${feature.accentText} group-hover:gap-2 transition-all`}>
+                                    <div className={`mt-4 pt-2.5 sm:mt-8 sm:pt-4 border-t border-current/10 flex items-center text-xs font-black ${feature.accentText} group-hover:gap-2 transition-all`}>
                                         <span>Explore feature</span>
                                         <span className="ml-1 transition-transform group-hover:translate-x-2 text-sm">→</span>
                                     </div>
