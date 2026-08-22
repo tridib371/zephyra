@@ -17,6 +17,9 @@ import { FiFeather, FiWind } from 'react-icons/fi';
 import { RiLeafLine } from 'react-icons/ri';
 import { TbMessageCircleBolt } from 'react-icons/tb';
 
+import aboutBgLight from '../assets/about-bg-light.jpg';
+import aboutBgDark from '../assets/about-bg-dark.jpg';
+
 // Animated Counter component
 const StatCounter = ({ target, suffix = '', prefix = '', decimals = 0, duration = 2.2 }) => {
     const [count, setCount] = useState(0);
@@ -43,7 +46,7 @@ const StatCounter = ({ target, suffix = '', prefix = '', decimals = 0, duration 
     }, [isInView, target, duration]);
 
     return (
-        <span ref={ref} className="font-['Fraunces'] font-extrabold text-3xl sm:text-5xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] bg-clip-text text-transparent">
+        <span ref={ref} className="font-['Fraunces'] font-extrabold text-3xl sm:text-5xl bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:via-[#D97B4F] dark:to-[#F5C36B] bg-clip-text text-transparent">
             {prefix}{decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}{suffix}
         </span>
     );
@@ -52,7 +55,7 @@ const StatCounter = ({ target, suffix = '', prefix = '', decimals = 0, duration 
 // Animated wind gust SVG lines
 const WindBreeze = () => (
     <svg
-        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25"
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
         viewBox="0 0 1200 800"
         preserveAspectRatio="none"
         aria-hidden="true"
@@ -163,15 +166,26 @@ export default function About() {
     ];
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-[#F8F9FA] dark:bg-[#090B0F] text-[#101828] dark:text-[#EDEBE6] transition-colors duration-300 font-[Manrope]">
+        <div className="relative min-h-screen overflow-hidden bg-[#FAF7F2] dark:bg-[#090B0F] text-[#0F172A] dark:text-[#EDEBE6] transition-colors duration-300 font-[Manrope]">
+
+            {/* Wallpaper Background - Light Mode */}
+            <div
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 transition-opacity duration-500 pointer-events-none z-0"
+                style={{ backgroundImage: `url(${aboutBgLight})` }}
+            />
+            {/* Wallpaper Background - Dark Mode */}
+            <div
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-65 transition-opacity duration-500 pointer-events-none z-0"
+                style={{ backgroundImage: `url(${aboutBgDark})` }}
+            />
 
             {/* Glowing Atmospheric Orbs */}
             <motion.div
                 style={{ scale: backgroundGlow }}
-                className="absolute -top-32 -left-40 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/20 to-transparent blur-3xl pointer-events-none"
+                className="absolute -top-32 -left-40 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/20 to-transparent blur-3xl pointer-events-none z-0"
             />
-            <div className="absolute top-1/3 -right-40 w-[750px] h-[750px] rounded-full bg-gradient-to-tl from-[#F5C36B]/30 via-[#FF8F6B]/20 to-transparent blur-3xl pointer-events-none" />
-            <div className="absolute bottom-10 left-1/4 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-[#D97B4F]/20 to-transparent blur-3xl pointer-events-none" />
+            <div className="absolute top-1/3 -right-40 w-[750px] h-[750px] rounded-full bg-gradient-to-tl from-[#F5C36B]/30 via-[#FF8F6B]/20 to-transparent blur-3xl pointer-events-none z-0" />
+            <div className="absolute bottom-10 left-1/4 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-[#D97B4F]/20 to-transparent blur-3xl pointer-events-none z-0" />
 
             <WindBreeze />
 
@@ -183,7 +197,7 @@ export default function About() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#EAECF0] dark:border-[#FF8F6B]/30 bg-white dark:bg-[#151922]/80 backdrop-blur-xl shadow-xs"
+                        className="inline-flex items-center px-5 py-2 rounded-full border border-[#D0D5DD] dark:border-[#FF8F6B]/30 bg-white/90 dark:bg-[#151922]/80 backdrop-blur-xl shadow-sm"
                     >
                         <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#B85323] dark:text-[#F5C36B]">
                             The Zephyra Manifesto
@@ -194,7 +208,7 @@ export default function About() {
                         initial={{ opacity: 0, y: 25 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.15 }}
-                        className="font-['Fraunces'] italic font-extrabold text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[1.05]"
+                        className="font-['Fraunces'] italic font-extrabold text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[1.05] text-[#0F172A] dark:text-white"
                     >
                         A Sanctuary for <br />
                         <span className="bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent">
@@ -206,7 +220,7 @@ export default function About() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="text-lg sm:text-2xl text-[#475467] dark:text-[#C5C9D3] font-medium leading-relaxed max-w-3xl mx-auto"
+                        className="text-lg sm:text-2xl text-[#1E293B] dark:text-[#C5C9D3] font-semibold leading-relaxed max-w-3xl mx-auto"
                     >
                         We did not build Zephyra to capture your attention and sell it to the highest bidder. We built it so your thoughts can catch the wind - freely, beautifully, and on your own terms.
                     </motion.p>
@@ -220,21 +234,21 @@ export default function About() {
                     transition={{ duration: 0.8 }}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
                 >
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
                         <StatCounter target={15} prefix="< " suffix=" ms" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Socket Latency</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Socket Latency</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
                         <StatCounter target={100} suffix="%" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Chronological Feed</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Chronological Feed</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
                         <StatCounter target={0} suffix=" Ads" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Zero Ad Trackers</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Zero Ad Trackers</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#121622] backdrop-blur-xl shadow-xs text-center space-y-2">
+                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
                         <StatCounter target={99.9} decimals={1} suffix="%" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#475467] dark:text-[#CBD5E1]">Real-Time Uptime</p>
+                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Real-Time Uptime</p>
                     </div>
                 </motion.section>
 
@@ -244,12 +258,12 @@ export default function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="rounded-3xl border border-[#EAECF0] dark:border-[#1F2636] bg-white dark:bg-[#11151F] backdrop-blur-2xl p-6 sm:p-12 shadow-md space-y-8"
+                    className="rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#11151F] backdrop-blur-2xl p-6 sm:p-12 shadow-xl space-y-8"
                 >
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#EAECF0] dark:border-[#1F2636] pb-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#CBD5E1] dark:border-[#1F2636] pb-6">
                         <div>
                             <span className="text-xs uppercase font-extrabold tracking-widest text-[#B85323] dark:text-[#F5C36B]">The Zephyra Contrast</span>
-                            <h2 className="font-['Fraunces'] text-2xl sm:text-4xl font-extrabold text-[#101828] dark:text-white mt-1">
+                            <h2 className="font-['Fraunces'] text-2xl sm:text-4xl font-extrabold text-[#0F172A] dark:text-white mt-1">
                                 Why We Reimagined Social Connection
                             </h2>
                         </div>
@@ -259,27 +273,27 @@ export default function About() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                        <div className="p-5 sm:p-6 rounded-2xl bg-rose-50/70 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 space-y-3">
-                            <h3 className="font-extrabold text-base text-rose-700 dark:text-rose-300 flex items-center gap-2">
+                        <div className="p-5 sm:p-6 rounded-2xl bg-rose-50/95 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-900/50 space-y-3 shadow-xs">
+                            <h3 className="font-extrabold text-base text-rose-800 dark:text-rose-300 flex items-center gap-2">
                                 <HiOutlineXMark className="text-lg" /> Conventional Platforms
                             </h3>
-                            <ul className="text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] space-y-2.5 leading-relaxed font-medium">
-                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Manipulative algorithms engineered to trigger anger and outrage</li>
-                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Cluttered timelines drowning in unskippable sponsored ads</li>
-                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Uncontrolled tracking of personal data, clicks, and messages</li>
-                                <li className="flex items-start gap-2"><span className="text-rose-500 font-bold">•</span> Vanity metric addiction that reduces humans to follower counts</li>
+                            <ul className="text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] space-y-2.5 leading-relaxed font-semibold">
+                                <li className="flex items-start gap-2"><span className="text-rose-600 font-bold">•</span> Manipulative algorithms engineered to trigger anger and outrage</li>
+                                <li className="flex items-start gap-2"><span className="text-rose-600 font-bold">•</span> Cluttered timelines drowning in unskippable sponsored ads</li>
+                                <li className="flex items-start gap-2"><span className="text-rose-600 font-bold">•</span> Uncontrolled tracking of personal data, clicks, and messages</li>
+                                <li className="flex items-start gap-2"><span className="text-rose-600 font-bold">•</span> Vanity metric addiction that reduces humans to follower counts</li>
                             </ul>
                         </div>
 
-                        <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 space-y-3">
-                            <h3 className="font-extrabold text-base text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
+                        <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/95 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-900/50 space-y-3 shadow-xs">
+                            <h3 className="font-extrabold text-base text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
                                 <HiOutlineCheckCircle className="text-lg" /> The Zephyra Experience
                             </h3>
-                            <ul className="text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] space-y-2.5 leading-relaxed font-medium">
-                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Organic, chronological delivery of stories you actually care about</li>
-                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Breath-like, peaceful UI crafted to inspire mindfulness and creativity</li>
-                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Zero third-party trackers, zero data brokering, zero compromise</li>
-                                <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">•</span> Direct, lightning-fast private messaging with real human intimacy</li>
+                            <ul className="text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] space-y-2.5 leading-relaxed font-semibold">
+                                <li className="flex items-start gap-2"><span className="text-emerald-600 font-bold">•</span> Organic, chronological delivery of stories you actually care about</li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-600 font-bold">•</span> Breath-like, peaceful UI crafted to inspire mindfulness and creativity</li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-600 font-bold">•</span> Zero third-party trackers, zero data brokering, zero compromise</li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-600 font-bold">•</span> Direct, lightning-fast private messaging with real human intimacy</li>
                             </ul>
                         </div>
                     </div>
