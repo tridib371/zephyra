@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -219,9 +219,12 @@ const FAQS = [
 ];
 
 export default function Support() {
+    const [inputText, setInputText] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [openIndex, setOpenIndex] = useState(null);
+
+    const faqSectionRef = useRef(null);
 
     // Calculate dynamic guide count for each category
     const getCategoryCount = (catId) => {
@@ -229,13 +232,44 @@ export default function Support() {
         return FAQS.filter((f) => f.category === catId).length;
     };
 
-    // When the user starts typing in search, reset category to 'all' so search is never constrained
-    const handleSearchChange = (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        if (query.trim().length > 0 && selectedCategory !== 'all') {
+    const scrollToResults = () => {
+        setTimeout(() => {
+            if (faqSectionRef.current) {
+                const navOffset = 80;
+                const elementPosition = faqSectionRef.current.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth',
+                });
+            }
+        }, 50);
+    };
+
+    // User submits search via Search button or Enter key
+    const handleSearchSubmit = (e) => {
+        if (e) e.preventDefault();
+        const trimmed = inputText.trim();
+        setSearchQuery(trimmed);
+        if (trimmed.length > 0 && selectedCategory !== 'all') {
             setSelectedCategory('all');
         }
+        scrollToResults();
+    };
+
+    const handleClearSearch = () => {
+        setInputText('');
+        setSearchQuery('');
+        setSelectedCategory('all');
+        setOpenIndex(null);
+    };
+
+    const handleCategorySelect = (catId) => {
+        setSelectedCategory(catId);
+        setInputText('');
+        setSearchQuery('');
+        setOpenIndex(null);
+        scrollToResults();
     };
 
     const filteredFaqs = useMemo(() => {
@@ -253,7 +287,7 @@ export default function Support() {
         });
     }, [searchQuery, selectedCategory]);
 
-    // Automatically expand the first item when a search is entered
+    // Automatically expand the first item when a search is executed
     useEffect(() => {
         if (searchQuery.trim().length > 0 && filteredFaqs.length > 0) {
             setOpenIndex(0);
@@ -280,32 +314,40 @@ export default function Support() {
                         Search our knowledge base for guides on real-time messaging, privacy controls, and account management.
                     </p>
 
-                    {/* Interactive Search Bar */}
-                    <div className="relative max-w-xl mx-auto pt-2">
-                        <div className="relative flex items-center">
-                            <HiOutlineMagnifyingGlass className="absolute left-4.5 text-gray-400 text-xl pointer-events-none" />
+                    {/* Interactive Search Bar Form with Search Button */}
+                    <form onSubmit={handleSearchSubmit} className="relative max-w-2xl mx-auto pt-2">
+                        <div className="relative flex items-center bg-white dark:bg-[#181C26] rounded-2xl border border-gray-200 dark:border-[#252A36] shadow-md p-1.5 focus-within:ring-2 focus-within:ring-[#FF8F6B]/50 transition-all">
+                            <HiOutlineMagnifyingGlass className="ml-3 text-gray-400 text-xl pointer-events-none shrink-0" />
                             <input
                                 type="text"
-                                value={searchQuery}
-                                onChange={handleSearchChange}
+                                value={inputText}
+                                onChange={(e) => setInputText(e.target.value)}
                                 placeholder="Search questions, password, messaging, privacy, delete..."
-                                className="w-full rounded-2xl border border-gray-200 dark:border-[#252A36] bg-white dark:bg-[#181C26] px-5 py-4 pl-12 pr-16 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 shadow-md transition-all"
+                                className="w-full bg-transparent px-3 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none"
                             />
-                            {searchQuery && (
+                            {inputText && (
                                 <button
-                                    onClick={() => setSearchQuery('')}
-                                    className="absolute right-4 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white cursor-pointer px-2 py-1 bg-gray-100 dark:bg-[#202532] rounded-lg"
+                                    type="button"
+                                    onClick={handleClearSearch}
+                                    className="px-2.5 py-1.5 text-xs font-bold text-gray-400 hover:text-gray-600 dark:hover:text-white cursor-pointer mr-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#202532] transition-colors shrink-0"
                                 >
                                     Clear
                                 </button>
                             )}
+                            <button
+                                type="submit"
+                                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-xs sm:text-sm hover:scale-105 transition-all shadow-xs shrink-0 cursor-pointer"
+                            >
+                                <HiOutlineMagnifyingGlass className="text-base" />
+                                <span>Search</span>
+                            </button>
                         </div>
                         {searchQuery && (
-                            <p className="text-xs text-left text-gray-500 dark:text-gray-400 mt-2 px-1">
-                                Found {filteredFaqs.length} {filteredFaqs.length === 1 ? 'result' : 'results'} for "{searchQuery}"
+                            <p className="text-xs text-left text-gray-500 dark:text-gray-400 mt-2 px-2">
+                                Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'result' : 'results'} for "{searchQuery}"
                             </p>
                         )}
-                    </div>
+                    </form>
 
                     {/* System Live Status Pill */}
                     <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-900/40 bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
@@ -318,7 +360,7 @@ export default function Support() {
                     </div>
                 </div>
 
-                {/* Top Category Glass Cards with Exact Natural Dynamic Counts */}
+                {/* Top Category Glass Cards with Natural Dynamic Counts */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                     {HELP_CARDS.map((card) => {
                         const Icon = card.icon;
@@ -327,10 +369,7 @@ export default function Support() {
                         return (
                             <div
                                 key={card.title}
-                                onClick={() => {
-                                    setSelectedCategory(card.category);
-                                    setSearchQuery('');
-                                }}
+                                onClick={() => handleCategorySelect(card.category)}
                                 className={`p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
                                     isSelected
                                         ? 'bg-white dark:bg-[#181C26] border-[#D97B4F] dark:border-[#FF8F6B] shadow-md scale-[1.02]'
@@ -356,12 +395,12 @@ export default function Support() {
                     })}
                 </div>
 
-                {/* Filterable FAQ Section */}
-                <div className="space-y-6">
+                {/* Filterable FAQ Section / Search Results */}
+                <div ref={faqSectionRef} id="faq-results" className="space-y-6 pt-4">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
                             <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                                Frequently Asked Questions
+                                {searchQuery ? `Search Results for "${searchQuery}"` : 'Frequently Asked Questions'}
                             </h2>
                             <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C] mt-1">
                                 Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'question' : 'questions'}
@@ -375,10 +414,7 @@ export default function Support() {
                                 return (
                                     <button
                                         key={cat.id}
-                                        onClick={() => {
-                                            setSelectedCategory(cat.id);
-                                            setSearchQuery('');
-                                        }}
+                                        onClick={() => handleCategorySelect(cat.id)}
                                         className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                                             selectedCategory === cat.id
                                                 ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
@@ -406,10 +442,7 @@ export default function Support() {
                                     Try searching for different keywords or click "All Topics" above.
                                 </p>
                                 <button
-                                    onClick={() => {
-                                        setSearchQuery('');
-                                        setSelectedCategory('all');
-                                    }}
+                                    onClick={handleClearSearch}
                                     className="px-4 py-2 rounded-full bg-[#D97B4F] text-white text-xs font-bold hover:brightness-105 transition-all cursor-pointer"
                                 >
                                     Reset Filters
