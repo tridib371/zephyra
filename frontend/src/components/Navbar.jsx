@@ -93,6 +93,13 @@ const TrashIcon = () => (
     </svg>
 );
 
+const ShieldKeyIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeLinejoin="round" />
+        <path d="m9 12 2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
 const HamburgerIcon = ({ open }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
         {open ? (
@@ -157,21 +164,23 @@ const Navbar = () => {
     const isActive = (path) => location.pathname === path;
 
     const navLinkClasses = (path) => `
-        flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all duration-200 cursor-pointer font-[Manrope]
+        flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-sm font-extrabold rounded-full transition-all duration-200 cursor-pointer font-[Manrope]
         ${isActive(path)
-            ? 'bg-[#FFE8D6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] shadow-xs'
-            : 'text-[#36271A] dark:text-[#EDEBE6] hover:bg-[#EFE3D4] dark:hover:bg-white/5 hover:text-[#B85323] dark:hover:text-[#F5C36B]'
+            ? 'bg-gradient-to-r from-[#FFE8D6] to-[#FCE3D0] dark:bg-[#1F2637] text-[#B85323] dark:text-[#F5C36B] border border-[#DECDBB] dark:border-[#303B52] shadow-xs'
+            : 'text-[#36271A] dark:text-[#D0D4DF] hover:bg-[#F3E8DB] dark:hover:bg-[#1C2230] hover:text-[#B85323] dark:hover:text-[#FF8F6B]'
         }
     `;
 
     const iconBtnClasses = `
-        p-2 rounded-full text-[#36271A] dark:text-[#EDEBE6] hover:bg-[#EFE3D4] dark:hover:bg-white/10 
-        hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-all duration-200 cursor-pointer relative
-        border border-transparent hover:border-[#FF8F6B]/30 dark:hover:border-white/10
+        p-2 rounded-full text-[#36271A] dark:text-[#D0D4DF] hover:bg-[#F3E8DB] dark:hover:bg-[#1C2230] 
+        hover:text-[#B85323] dark:hover:text-[#FF8F6B] transition-all duration-200 cursor-pointer relative
+        border border-transparent hover:border-[#DECDBB] dark:hover:border-[#303B52]
     `;
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-[#E2D4C3]/90 dark:border-[#1F232C]/80 bg-[#F6EFE6]/92 dark:bg-[#0B0D10]/85 backdrop-blur-2xl shadow-[0_4px_30px_-10px_rgba(217,123,79,0.12)] dark:shadow-[0_4px_30px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300">
+        <nav className="sticky top-0 z-40 w-full border-b border-[#DECDBB] dark:border-[#252C3D] bg-[#FFFDF9]/95 dark:bg-[#131722]/95 backdrop-blur-xl shadow-[0_4px_25px_-5px_rgba(217,123,79,0.14)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.7)] transition-colors duration-300">
+            {/* Subtle Horizon Glow Edge */}
+            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#D97B4F]/60 dark:via-[#FF8F6B]/50 to-transparent" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
 
@@ -244,9 +253,9 @@ const Navbar = () => {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 8, scale: 0.95 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D]/95 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-50"
+                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#DECDBB] dark:border-[#252C3D] bg-[#FFFDF9] dark:bg-[#131722]/98 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.25)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] overflow-hidden z-50"
                                             >
-                                                <div className="flex items-center justify-between px-5 py-4 border-b border-[#EFE5D8] dark:border-[#1F232C] bg-[#F7EFE4] dark:bg-transparent">
+                                                <div className="flex items-center justify-between px-5 py-4 border-b border-[#EFE5D8] dark:border-[#252C3D] bg-[#FAF2E8] dark:bg-[#171D2B]">
                                                     <div>
                                                         <p className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#B85323] dark:text-[#F5C36B]">Realtime Inbox</p>
                                                         <h4 className="font-['Fraunces'] italic text-lg font-bold text-[#1F1710] dark:text-[#EDEBE6]">Notifications</h4>
@@ -258,7 +267,7 @@ const Navbar = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="max-h-96 overflow-y-auto divide-y divide-[#EFE5D8] dark:divide-[#1F232C]/60">
+                                                <div className="max-h-96 overflow-y-auto divide-y divide-[#EFE5D8] dark:divide-[#252C3D]/60">
                                                     {notifications.length === 0 ? (
                                                         <div className="px-5 py-10 text-center text-xs font-semibold text-stone-500 dark:text-[#8A8F9C]">
                                                             No notifications yet.
@@ -332,12 +341,12 @@ const Navbar = () => {
                         {/* Theme Toggle Pill */}
                         <button
                             onClick={toggleTheme}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#EFE8DC] dark:border-[#1F232C] bg-[#FFF8F4] dark:bg-[#12151C] text-[#2D241C] dark:text-[#EDEBE6] hover:border-[#FF8F6B]/50 transition-all cursor-pointer shadow-xs ml-1"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#DECDBB] dark:border-[#2E374D] bg-[#F5EDE1] dark:bg-[#1A202C] text-[#2D241C] dark:text-[#EDEBE6] hover:border-[#D97B4F]/50 hover:bg-[#EFE3D4] dark:hover:bg-[#232B3B] dark:hover:border-[#FF8F6B]/40 transition-all cursor-pointer shadow-xs ml-1"
                             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                         >
                             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-                            <span className="text-xs font-bold font-[Manrope]">
+                            <span className="text-xs font-extrabold font-[Manrope]">
                                 {theme === 'dark' ? 'Light' : 'Dark'}
                             </span>
                         </button>
@@ -367,31 +376,31 @@ const Navbar = () => {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 8, scale: 0.95 }}
                                             transition={{ duration: 0.2 }}
-                                            className="absolute right-0 mt-3 w-56 rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/95 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-50 py-2"
+                                            className="absolute right-0 mt-3 w-56 rounded-3xl border border-[#DECDBB] dark:border-[#252C3D] bg-[#FFFDF9] dark:bg-[#131722]/98 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.25)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] overflow-hidden z-50 py-2"
                                         >
-                                            <div className="px-4 py-3 border-b border-gray-100 dark:border-[#1F232C] bg-[#FFFDF9]/60 dark:bg-transparent">
-                                                <p className="text-sm font-bold text-[#1A140D] dark:text-[#EDEBE6] truncate">{user?.name}</p>
-                                                <p className="text-xs font-semibold text-gray-500 dark:text-[#8A8F9C] truncate">@{user?.username}</p>
+                                            <div className="px-4 py-3 border-b border-[#EFE5D8] dark:border-[#252C3D] bg-[#FAF2E8] dark:bg-[#171D2B]">
+                                                <p className="text-sm font-bold text-[#1F1710] dark:text-[#EDEBE6] truncate">{user?.name}</p>
+                                                <p className="text-xs font-semibold text-[#877568] dark:text-[#8A8F9C] truncate">@{user?.username}</p>
                                             </div>
 
                                             <div className="py-1">
                                                 <Link
                                                     to="/profile"
                                                     onClick={() => setIsProfileMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-gray-700 dark:text-[#E7E6E3] hover:bg-[#FFF5EF] dark:hover:bg-[#1A1E27] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#36271A] dark:text-[#E7E6E3] hover:bg-[#FAF2E8] dark:hover:bg-[#1A202C] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                                 >
                                                     <ProfileGlyphIcon /> My Profile
                                                 </Link>
                                                 <Link
                                                     to="/settings"
                                                     onClick={() => setIsProfileMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-gray-700 dark:text-[#E7E6E3] hover:bg-[#FFF5EF] dark:hover:bg-[#1A1E27] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#36271A] dark:text-[#E7E6E3] hover:bg-[#FAF2E8] dark:hover:bg-[#1A202C] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                                 >
                                                     <GearIcon /> Settings
                                                 </Link>
                                             </div>
 
-                                            <div className="border-t border-gray-100 dark:border-[#1F232C] pt-1 mt-1">
+                                            <div className="border-t border-[#EFE5D8] dark:border-[#252C3D] pt-1 mt-1">
                                                 <button
                                                     onClick={handleLogout}
                                                     className="w-full flex items-center gap-2.5 text-left px-4 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors cursor-pointer"
@@ -407,14 +416,15 @@ const Navbar = () => {
                             <div className="flex items-center gap-2 ml-2">
                                 <Link
                                     to="/admin"
-                                    className="px-3 py-1.5 text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-bold text-[#5C4A3C] dark:text-[#9DA3B4] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                     title="Administrator Portal"
                                 >
-                                    ⚡ Admin
+                                    <ShieldKeyIcon />
+                                    <span>Admin</span>
                                 </Link>
                                 <Link
                                     to="/login"
-                                    className="px-4 py-2 text-xs sm:text-sm font-bold text-gray-700 dark:text-[#E7E6E3] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                    className="px-4 py-2 text-xs sm:text-sm font-bold text-[#36271A] dark:text-[#E7E6E3] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                 >
                                     Sign In
                                 </Link>
@@ -460,7 +470,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu Drawer */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden pb-4 space-y-1.5 border-t border-[#EFE8DC] dark:border-[#1F232C] pt-3 font-[Manrope]">
+                    <div className="md:hidden pb-4 space-y-1.5 border-t border-[#DECDBB] dark:border-[#252C3D] pt-3 font-[Manrope] bg-[#FFFDF9] dark:bg-[#131722] rounded-b-3xl px-2 mt-1">
                         {isAuthenticated ? (
                             <>
                                 <Link to="/feed" className={navLinkClasses('/feed')} onClick={() => setIsMobileMenuOpen(false)}>
@@ -489,21 +499,22 @@ const Navbar = () => {
                                 <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
                                     <GearIcon /> Settings
                                 </Link>
-                                <hr className="my-2 border-gray-200 dark:border-[#1F232C]" />
+                                <hr className="my-2 border-[#EFE5D8] dark:border-[#252C3D]" />
                                 <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
                                     <LogoutIcon /> Logout
                                 </button>
                             </>
                         ) : (
                             <div className="flex flex-col gap-2 p-2">
-                                <Link to="/login" className="px-4 py-2.5 text-center text-xs font-bold border border-gray-200 dark:border-[#1F232C] rounded-full text-[#1A140D] dark:text-[#EDEBE6]" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link to="/login" className="px-4 py-2.5 text-center text-xs font-bold border border-[#DECDBB] dark:border-[#252C3D] rounded-full text-[#1F1710] dark:text-[#EDEBE6] bg-[#FAF2E8] dark:bg-[#1A202C]" onClick={() => setIsMobileMenuOpen(false)}>
                                     Sign In
                                 </Link>
                                 <Link to="/register" className="px-4 py-2.5 text-center text-xs font-extrabold bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] rounded-full shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
                                     Get Started
                                 </Link>
-                                <Link to="/admin" className="px-4 py-2 text-center text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-[#D97B4F]" onClick={() => setIsMobileMenuOpen(false)}>
-                                    ⚡ Admin Portal
+                                <Link to="/admin" className="flex items-center justify-center gap-1.5 px-4 py-2 text-center text-xs font-bold text-[#5C4A3C] dark:text-[#9DA3B4] hover:text-[#B85323]" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <ShieldKeyIcon />
+                                    <span>Admin Portal</span>
                                 </Link>
                             </div>
                         )}
