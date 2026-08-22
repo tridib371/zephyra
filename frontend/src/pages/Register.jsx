@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import registerBg from '../assets/register-bg.jpg';
 import {
     HiOutlineCheck,
     HiOutlineXMark,
@@ -82,14 +83,14 @@ const Register = () => {
                ============================================ */}
             {/* Base Wallpaper Image with subtle slow zoom animation */}
             <motion.div
-                animate={{ scale: [1, 1.04, 1] }}
+                animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url('/images/register-bg.jpg')` }}
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-80"
+                style={{ backgroundImage: `url(${registerBg})` }}
             />
 
-            {/* Mode-Adaptive Glass & Gradient Overlays */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF5F0]/85 via-[#F8F9FA]/75 to-[#FFF0E6]/85 dark:from-[#090C12]/92 dark:via-[#0E1116]/88 dark:to-[#121620]/94 backdrop-blur-md transition-colors duration-500" />
+            {/* Mode-Adaptive Translucent Glass & Gradient Overlay */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF8F5]/40 via-[#F8F9FA]/25 to-[#FFF0E6]/40 dark:from-[#090C12]/65 dark:via-[#0E1116]/55 dark:to-[#121620]/65 backdrop-blur-xs transition-colors duration-500" />
 
             {/* Floating Ambient Glowing Beams */}
             <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/30 to-[#F5C36B]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
