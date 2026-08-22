@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import {
     HiOutlineCheck,
     HiOutlineXMark,
-    HiOutlineSparkles,
+    HiOutlineUserGroup,
     HiOutlineBolt,
     HiOutlineShieldCheck,
     HiOutlineUser,
@@ -129,7 +129,7 @@ const Register = () => {
                     <div className="space-y-4">
                         {/* Live Community Badge */}
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-black/40 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-xs text-xs font-black text-[#B85323] dark:text-[#F5C36B]">
-                            <HiOutlineSparkles className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B] animate-spin" style={{ animationDuration: '6s' }} />
+                            <HiOutlineUserGroup className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
                             <span>Join 50,000+ Active Creators</span>
                         </div>
 
