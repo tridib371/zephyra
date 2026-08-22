@@ -46,7 +46,7 @@ const StatCounter = ({ target, suffix = '', prefix = '', decimals = 0, duration 
     }, [isInView, target, duration]);
 
     return (
-        <span ref={ref} className="font-['Fraunces'] font-extrabold text-3xl sm:text-5xl bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:via-[#D97B4F] dark:to-[#F5C36B] bg-clip-text text-transparent">
+        <span ref={ref} className="font-['Fraunces'] font-black text-xl sm:text-5xl bg-gradient-to-r from-[#B85323] via-[#D97B4F] to-[#C6822E] dark:from-[#FF8F6B] dark:via-[#D97B4F] dark:to-[#F5C36B] bg-clip-text text-transparent whitespace-nowrap inline-block">
             {prefix}{decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}{suffix}
         </span>
     );
@@ -232,23 +232,23 @@ export default function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
+                    className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6"
                 >
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
+                    <div className="p-3.5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-1 sm:space-y-2 flex flex-col justify-center items-center overflow-hidden min-w-0">
                         <StatCounter target={15} prefix="< " suffix=" ms" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Socket Latency</p>
+                        <p className="text-[9px] sm:text-xs font-black uppercase tracking-tight sm:tracking-wider text-[#334155] dark:text-[#CBD5E1] leading-tight w-full truncate">Socket Latency</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
+                    <div className="p-3.5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-1 sm:space-y-2 flex flex-col justify-center items-center overflow-hidden min-w-0">
                         <StatCounter target={100} suffix="%" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Chronological Feed</p>
+                        <p className="text-[9px] sm:text-xs font-black uppercase tracking-tight sm:tracking-wider text-[#334155] dark:text-[#CBD5E1] leading-tight w-full truncate">Chronological Feed</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
+                    <div className="p-3.5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-1 sm:space-y-2 flex flex-col justify-center items-center overflow-hidden min-w-0">
                         <StatCounter target={0} suffix=" Ads" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Zero Ad Trackers</p>
+                        <p className="text-[9px] sm:text-xs font-black uppercase tracking-tight sm:tracking-wider text-[#334155] dark:text-[#CBD5E1] leading-tight w-full truncate">Zero Ad Trackers</p>
                     </div>
-                    <div className="p-6 sm:p-8 rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-2">
+                    <div className="p-3.5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#CBD5E1] dark:border-[#1F2636] bg-white/95 dark:bg-[#121622] backdrop-blur-xl shadow-md text-center space-y-1 sm:space-y-2 flex flex-col justify-center items-center overflow-hidden min-w-0">
                         <StatCounter target={99.9} decimals={1} suffix="%" />
-                        <p className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#334155] dark:text-[#CBD5E1]">Real-Time Uptime</p>
+                        <p className="text-[9px] sm:text-xs font-black uppercase tracking-tight sm:tracking-wider text-[#334155] dark:text-[#CBD5E1] leading-tight w-full truncate">Real-Time Uptime</p>
                     </div>
                 </motion.section>
 
