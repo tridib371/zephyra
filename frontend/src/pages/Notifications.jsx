@@ -30,12 +30,12 @@ const Notifications = () => {
     const activeNotifications = notifications;
 
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(255,143,107,0.14),_transparent_38%),linear-gradient(180deg,_#fff_0%,_#fbf7f2_100%)] dark:bg-[radial-gradient(circle_at_top,_rgba(245,195,107,0.12),_transparent_34%),linear-gradient(180deg,_#0E1116_0%,_#0B0E13_100%)] px-4 sm:px-6 py-8 transition-colors duration-300">
+        <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(255,143,107,0.14),_transparent_38%),linear-gradient(180deg,_#FAF7F2_0%,_#F5EFE6_100%)] dark:bg-[radial-gradient(circle_at_top,_rgba(245,195,107,0.12),_transparent_34%),linear-gradient(180deg,_#0E1116_0%,_#0B0E13_100%)] px-4 sm:px-6 py-8 transition-colors duration-300">
             <div className="max-w-5xl mx-auto space-y-6">
                 <motion.section
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="relative overflow-hidden rounded-[2rem] border border-white/40 dark:border-white/8 bg-white/80 dark:bg-[#11151D]/80 backdrop-blur-xl shadow-[0_24px_80px_-40px_rgba(0,0,0,0.35)] px-6 sm:px-8 py-7"
+                    className="relative overflow-hidden rounded-[2rem] border border-[#EAE2D5] dark:border-white/8 bg-white/90 dark:bg-[#11151D]/80 backdrop-blur-xl shadow-sm px-6 sm:px-8 py-7"
                 >
                     <div className="absolute inset-0 bg-linear-to-r from-[#FF8F6B]/10 via-transparent to-[#F5C36B]/10 pointer-events-none" />
                     <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -43,10 +43,10 @@ const Notifications = () => {
                             <p className="inline-flex items-center gap-2 rounded-full bg-[#FFF1EA] dark:bg-white/5 px-3 py-1 text-xs font-semibold tracking-[0.18em] uppercase text-[#B5652F] dark:text-[#F5C36B]">
                                 Inbox
                             </p>
-                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic text-gray-900 dark:text-white">
+                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic text-stone-900 dark:text-white">
                                 Your notification stream
                             </h1>
-                            <p className="mt-2 max-w-2xl text-sm sm:text-base text-gray-600 dark:text-[#A0A6B6]">
+                            <p className="mt-2 max-w-2xl text-xs sm:text-sm text-stone-600 dark:text-[#A0A6B6]">
                                 One place for follows, likes, and comments with fast read, delete, and deep-link navigation.
                             </p>
                         </div>
@@ -55,13 +55,13 @@ const Notifications = () => {
                             <button
                                 onClick={markAllAsRead}
                                 disabled={unreadCount === 0}
-                                className="px-4 py-2 rounded-full bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-sm font-semibold shadow-lg shadow-orange-200/40 dark:shadow-black/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs font-extrabold shadow-sm hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             >
                                 Mark all read
                             </button>
                             <button
                                 onClick={fetchNotifications}
-                                className="px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white/70 dark:bg-white/5 text-sm font-semibold text-gray-700 dark:text-[#E7E6E3] hover:bg-white dark:hover:bg-white/10 transition-colors"
+                                className="px-4 py-2 rounded-full border border-[#EAE2D5] dark:border-white/10 bg-white/80 dark:bg-white/5 text-xs font-bold text-stone-700 dark:text-[#E7E6E3] hover:bg-[#FAF7F2] dark:hover:bg-white/10 transition-colors cursor-pointer"
                             >
                                 Refresh
                             </button>
@@ -70,9 +70,9 @@ const Notifications = () => {
 
                     <div className="relative mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {filters.map(filter => (
-                            <div key={filter.key} className="rounded-2xl border border-gray-200/70 dark:border-white/10 bg-white/75 dark:bg-white/5 px-4 py-3">
-                                <p className="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-[#8A8F9C]">{filter.label}</p>
-                                <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">{filter.count}</p>
+                            <div key={filter.key} className="rounded-2xl border border-[#EAE2D5] dark:border-white/10 bg-white/85 dark:bg-white/5 px-4 py-3">
+                                <p className="text-xs uppercase tracking-[0.2em] text-stone-500 dark:text-[#8A8F9C] font-bold">{filter.label}</p>
+                                <p className="mt-1 text-2xl font-bold text-stone-900 dark:text-white font-['Fraunces'] italic">{filter.count}</p>
                             </div>
                         ))}
                     </div>

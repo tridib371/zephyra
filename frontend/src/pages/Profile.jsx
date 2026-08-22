@@ -4,6 +4,12 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
+import {
+    HiOutlineDocumentText,
+    HiOutlinePhoto,
+    HiOutlineFilm,
+    HiOutlineSquares2X2,
+} from 'react-icons/hi2';
 import FollowListModal from '../components/FollowListModal';
 
 const Profile = () => {
@@ -202,11 +208,10 @@ const Profile = () => {
 
     // Filter tabs configuration
     const filterTabs = [
-        { key: 'all', label: 'All Posts', icon: '📰' },
-        { key: 'photo', label: 'Photos', icon: '📷' },
-        { key: 'video', label: 'Videos', icon: '🎬' },
-        { key: 'text', label: 'Text', icon: '📝' },
-        { key: 'gif', label: 'GIFs', icon: '🎞️' },
+        { key: 'all', label: 'All Posts', icon: HiOutlineSquares2X2 },
+        { key: 'photo', label: 'Photos', icon: HiOutlinePhoto },
+        { key: 'video', label: 'Videos', icon: HiOutlineFilm },
+        { key: 'text', label: 'Text', icon: HiOutlineDocumentText },
     ];
 
     const filteredPosts = getFilteredPosts();
@@ -234,10 +239,10 @@ const Profile = () => {
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="min-h-screen bg-white dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+                className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
             >
-                <div className="max-w-4xl mx-auto">
-                    <div className="bg-white dark:bg-[#12151C] rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-[#1F232C] transition-colors duration-300">
+                <div className="max-w-4xl mx-auto space-y-6">
+                    <div className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 sm:p-8 border border-[#EAE2D5] dark:border-[#1F232C] transition-colors duration-300">
                         {/* Profile Header */}
                         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                             <img
@@ -316,27 +321,27 @@ const Profile = () => {
                         )}
 
                         {/* Filter Tabs */}
-                        <div className="mt-6 border-t border-gray-200 dark:border-[#1F232C] pt-4">
+                        <div className="mt-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4">
                             <div className="flex flex-wrap gap-1 sm:gap-2">
                                 {filterTabs.map((tab) => {
-                                    const isActive = activeFilter === tab.key;
-                                    const count = tab.key === 'all'
-                                        ? userPosts.length
-                                        : userPosts.filter(p => getPostType(p).type === tab.key).length;
-
-                                    // Hide tabs with zero count except "All"
-                                    if (count === 0 && tab.key !== 'all') return null;
-
+                                    const Icon = tab.icon;
                                     return (
                                         <button
                                             key={tab.key}
                                             onClick={() => setActiveFilter(tab.key)}
-                                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive
-                                                ? 'bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-md'
-                                                : 'bg-gray-100 dark:bg-[#1A1E27] text-gray-600 dark:text-[#8A8F9C] hover:bg-gray-200 dark:hover:bg-[#2A2E3A]'
-                                                }`}
+                                            className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
+                                                activeFilter === tab.key
+                                                    ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
+                                                    : 'bg-white/80 dark:bg-[#12151C] border border-[#EAE2D5] dark:border-[#252A36] text-stone-600 dark:text-[#A0A5B2] hover:border-stone-300'
+                                            }`}
                                         >
-                                            {tab.icon} {tab.label} {count > 0 && `(${count})`}
+                                            {Icon && <Icon className="text-sm" />}
+                                            <span>{tab.label}</span>
+                                            {postStats[tab.key] > 0 && (
+                                                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-stone-100 dark:bg-[#202532] text-stone-500">
+                                                    {postStats[tab.key]}
+                                                </span>
+                                            )}
                                         </button>
                                     );
                                 })}

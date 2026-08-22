@@ -234,13 +234,13 @@ const Feed = () => {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-[#1F232C]"
+                className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 border border-[#EAE2D5] dark:border-[#1F232C]"
             >
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-[#EDEBE6]">
-                    Welcome back, {user?.name}! 👋
+                <h1 className="text-2xl font-bold text-stone-900 dark:text-[#EDEBE6] font-['Fraunces'] italic">
+                    Welcome back, {user?.name}
                 </h1>
-                <p className="text-gray-600 dark:text-[#8A8F9C] mt-1">
-                    Here's what's happening on Zephyra.
+                <p className="text-stone-600 dark:text-[#8A8F9C] mt-1 text-sm">
+                    Here is the latest from your chronological feed.
                 </p>
             </motion.div>
 
@@ -249,17 +249,17 @@ const Feed = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-8 text-center border border-gray-200 dark:border-[#1F232C]"
+                    className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-8 text-center border border-[#EAE2D5] dark:border-[#1F232C]"
                 >
                     <div className="flex justify-center text-[#D97B4F] dark:text-[#F5C36B] mb-4">
                         <FeatherMark />
                     </div>
-                    <p className="text-gray-500 dark:text-[#8A8F9C] text-lg font-[Manrope]">
-                        No posts yet. Be the first to share something! ✨
+                    <p className="text-stone-500 dark:text-[#8A8F9C] text-base font-[Manrope]">
+                        No posts yet. Be the first to share your story on the wind.
                     </p>
                     <Link
                         to="/create"
-                        className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)] transition-all duration-200"
+                        className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all text-sm shadow-sm"
                     >
                         Create Post
                     </Link>
@@ -276,7 +276,7 @@ const Feed = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.08 }}
-                            className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-[#1F232C] hover:border-[#D97B4F]/30 dark:hover:border-[#F5C36B]/30 transition-all duration-300 cursor-pointer"
+                            className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 border border-[#EAE2D5] dark:border-[#1F232C] hover:border-[#D97B4F]/40 dark:hover:border-[#F5C36B]/30 transition-all duration-300 cursor-pointer"
                             onClick={() => goToPost(post._id)}
                         >
                             {/* Author Info - Clicking this navigates to the author's profile */}
@@ -408,12 +408,12 @@ const Feed = () => {
                                                     if (e.key === 'Enter') handleCommentSubmit(post._id, e);
                                                 }}
                                                 placeholder="Write a comment..."
-                                                className="flex-1 px-3 py-2 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-200 dark:border-[#3A3F4B] rounded-full text-sm text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                                className="flex-1 px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-full text-sm text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                             />
                                             <button
                                                 onClick={(e) => handleCommentSubmit(post._id, e)}
                                                 disabled={submittingComment[post._id] || !(commentTexts[post._id] || '').trim()}
-                                                className="px-4 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full text-sm hover:brightness-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] whitespace-nowrap"
+                                                className="px-5 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full text-xs hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] whitespace-nowrap cursor-pointer shadow-xs"
                                             >
                                                 {submittingComment[post._id] ? '...' : 'Post'}
                                             </button>
@@ -421,8 +421,8 @@ const Feed = () => {
 
                                         {/* Comments List */}
                                         {commentCount === 0 ? (
-                                            <p className="text-sm text-gray-400 dark:text-[#6E7280] text-center font-[Manrope] py-2">
-                                                No comments yet. Be the first! 💬
+                                            <p className="text-xs text-stone-400 dark:text-[#6E7280] text-center font-[Manrope] py-2">
+                                                No comments yet. Be the first to share your thoughts.
                                             </p>
                                         ) : (
                                             <div className="space-y-3 max-h-60 overflow-y-auto pr-1">

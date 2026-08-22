@@ -6,7 +6,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================
-   BASE STYLES
+   BASE STYLES - WARM ORGANIC LIGHT & OBSIDIAN DARK
    ============================================ */
 @layer base {
     html {
@@ -14,7 +14,7 @@
     }
 
     body {
-        @apply bg-white dark:bg-[#0E1116] text-gray-900 dark:text-[#E7E6E3] font-[Manrope];
+        @apply bg-[#FAF7F2] dark:bg-[#0E1116] text-[#241C15] dark:text-[#EDEBE6] font-[Manrope] antialiased selection:bg-[#FF8F6B]/30 selection:text-[#B85323];
     }
 
     /* Custom scrollbar */
@@ -23,7 +23,7 @@
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-gray-100 dark:bg-[#0B0D12];
+        @apply bg-[#F0EAE1] dark:bg-[#0B0D12];
     }
 
     ::-webkit-scrollbar-thumb {

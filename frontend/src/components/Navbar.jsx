@@ -171,7 +171,7 @@ const Navbar = () => {
     `;
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-[#EFE8DC]/80 dark:border-[#1F232C]/80 bg-white/80 dark:bg-[#0B0D10]/85 backdrop-blur-2xl shadow-[0_4px_30px_-10px_rgba(217,123,79,0.08)] dark:shadow-[0_4px_30px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300">
+        <nav className="sticky top-0 z-40 w-full border-b border-[#E8E1D5]/80 dark:border-[#1F232C]/80 bg-[#FAF7F2]/90 dark:bg-[#0B0D10]/85 backdrop-blur-2xl shadow-[0_4px_30px_-10px_rgba(217,123,79,0.08)] dark:shadow-[0_4px_30px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
 

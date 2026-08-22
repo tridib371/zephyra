@@ -111,17 +111,18 @@ export default function Search() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="rounded-3xl border border-[#EFE8DC] dark:border-[#1F232C] bg-white/90 dark:bg-[#11151D]/90 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_20px_50px_-15px_rgba(217,123,79,0.15)] dark:shadow-2xl"
+                    className="rounded-3xl border border-[#EAE2D5] dark:border-[#1F232C] bg-white/95 dark:bg-[#11151D]/90 backdrop-blur-2xl p-6 sm:p-8 shadow-sm"
                 >
                     <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                            <span className="px-3.5 py-1 rounded-full bg-[#FFF0E6] dark:bg-[#FF8F6B]/15 text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-wider border border-[#FF8F6B]/30">
-                                🔍 Global Explorer
+                            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF0E6] dark:bg-[#FF8F6B]/15 text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-wider border border-[#FF8F6B]/30">
+                                <SearchIcon />
+                                <span>Global Explorer</span>
                             </span>
-                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic font-bold text-[#1A140D] dark:text-white">
+                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic font-bold text-stone-900 dark:text-white">
                                 Search Zephyra Realm
                             </h1>
-                            <p className="mt-1.5 text-xs sm:text-sm text-gray-600 dark:text-[#8A8F9C] font-medium max-w-xl">
+                            <p className="mt-1.5 text-xs sm:text-sm text-stone-600 dark:text-[#8A8F9C] font-medium max-w-xl">
                                 Instantly discover creators, real-time posts, direct conversations, and trending topics.
                             </p>
                         </div>

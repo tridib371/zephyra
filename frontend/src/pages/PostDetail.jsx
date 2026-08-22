@@ -213,20 +213,20 @@ const PostDetail = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="min-h-screen bg-white dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+                className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
             >
                 <div className="max-w-3xl mx-auto">
                     {/* Back Button */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4"
+                        className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-sm font-bold cursor-pointer"
                     >
                         <ArrowLeftIcon />
-                        <span>Back</span>
+                        <span>Back to feed</span>
                     </button>
 
                     {/* Post Card */}
-                    <div className="bg-white dark:bg-[#12151C] rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-[#1F232C]">
+                    <div className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 sm:p-8 border border-[#EAE2D5] dark:border-[#1F232C]">
                         {/* Author Info */}
                         <div className="flex items-start justify-between">
                             <Link to={`/profile/${post.author?._id}`} className="flex items-center gap-3">
@@ -282,40 +282,42 @@ const PostDetail = () => {
                         </p>
 
                         {/* Stats */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-gray-100 dark:border-[#1F232C] pt-4">
-                            <span className="text-sm text-gray-600 dark:text-[#8A8F9C]">
-                                ❤️ {post.likes?.length || 0} likes
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4 text-xs font-bold text-stone-600 dark:text-[#8A8F9C]">
+                            <span className="flex items-center gap-1.5">
+                                <HeartIcon filled={isLiked} />
+                                {post.likes?.length || 0} likes
                             </span>
-                            <span className="text-sm text-gray-600 dark:text-[#8A8F9C]">
-                                💬 {post.comments?.length || 0} comments
+                            <span className="flex items-center gap-1.5">
+                                <CommentIcon />
+                                {post.comments?.length || 0} comments
                             </span>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-gray-100 dark:border-[#1F232C] pt-4">
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4">
                             <button
                                 onClick={handleLike}
-                                className={`flex items-center gap-2 transition ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
+                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
                             >
                                 <HeartIcon filled={isLiked} />
                                 <span>Like</span>
                             </button>
-                            <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition">
+                            <button className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
                                 <CommentIcon />
                                 <span>Comment</span>
                             </button>
-                            <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition">
+                            <button className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
                                 <BookmarkIcon />
                                 <span>Save</span>
                             </button>
-                            <button className="flex items-center gap-2 text-gray-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto">
+                            <button className="flex items-center gap-2 text-stone-500 dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer">
                                 <ShareIcon />
                                 <span>Share</span>
                             </button>
                         </div>
 
                         {/* Comment Input */}
-                        <div className="mt-6 border-t border-gray-100 dark:border-[#1F232C] pt-4">
+                        <div className="mt-6 border-t border-[#EAE2D5] dark:border-[#1F232C] pt-4">
                             <div className="flex items-center gap-3">
                                 <img
                                     src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
@@ -333,12 +335,12 @@ const PostDetail = () => {
                                         if (e.key === 'Enter') handleCommentSubmit();
                                     }}
                                     placeholder="Write a comment..."
-                                    className="flex-1 px-4 py-2.5 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-200 dark:border-[#3A3F4B] rounded-full text-sm text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                    className="flex-1 px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-full text-sm text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                 />
                                 <button
                                     onClick={handleCommentSubmit}
                                     disabled={submittingComment || !commentText.trim()}
-                                    className="px-5 py-2.5 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full text-sm hover:brightness-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope]"
+                                    className="px-5 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full text-xs hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] cursor-pointer shadow-xs"
                                 >
                                     {submittingComment ? '...' : 'Post'}
                                 </button>

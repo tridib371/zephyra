@@ -26,23 +26,23 @@ const Login = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 bg-gray-50 dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
+            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 bg-[#FAF7F2] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
         >
             <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-full max-w-md sm:max-w-lg bg-white dark:bg-[#12151C] rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border border-gray-200 dark:border-[#1F232C] transition-colors duration-300"
+                className="w-full max-w-md sm:max-w-lg bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 sm:p-8 md:p-10 border border-[#EAE2D5] dark:border-[#1F232C] transition-colors duration-300"
             >
                 {/* Header */}
                 <div className="text-center mb-6 sm:mb-8">
                     <h2
-                        className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent"
+                        className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent font-bold"
                         style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
                     >
                         Welcome Back
                     </h2>
-                    <p className="text-sm sm:text-base text-gray-500 dark:text-[#8A8F9C] mt-2 font-[Manrope]">
+                    <p className="text-xs sm:text-sm text-stone-500 dark:text-[#8A8F9C] mt-2 font-[Manrope]">
                         Sign in to continue your journey on Zephyra
                     </p>
                 </div>
@@ -52,7 +52,7 @@ const Login = () => {
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded-xl text-sm text-center font-[Manrope]"
+                        className="mb-4 p-3 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 rounded-2xl text-xs text-center font-[Manrope]"
                     >
                         {error}
                     </motion.div>
@@ -61,7 +61,7 @@ const Login = () => {
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
                             Email Address
                         </label>
                         <input
@@ -69,13 +69,13 @@ const Login = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-3 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-300 dark:border-[#3A3F4B] rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                            className="w-full px-4 py-3 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
                             placeholder="you@example.com"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
                             Password
                         </label>
                         <input
@@ -83,7 +83,7 @@ const Login = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-300 dark:border-[#3A3F4B] rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                            className="w-full px-4 py-3 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
                             placeholder="••••••••"
                         />
                     </div>
@@ -91,7 +91,7 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_30px_-6px_rgba(255,143,107,0.55)] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed font-[Manrope]"
+                        className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-[1.02] transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer"
                     >
                         {isLoading ? (
                             <span className="flex items-center justify-center gap-2">

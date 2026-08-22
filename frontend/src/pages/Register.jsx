@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { HiOutlineCheck, HiOutlineXMark } from 'react-icons/hi2';
 import GoogleButton from '../components/GoogleButton';
 
 const Register = () => {
@@ -63,23 +64,23 @@ const Register = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 bg-gray-50 dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
+            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 bg-[#FAF7F2] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
         >
             <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-full max-w-md sm:max-w-lg bg-white dark:bg-[#12151C] rounded-2xl shadow-xl p-5 sm:p-8 md:p-10 border border-gray-200 dark:border-[#1F232C] transition-colors duration-300"
+                className="w-full max-w-md sm:max-w-lg bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-5 sm:p-8 md:p-10 border border-[#EAE2D5] dark:border-[#1F232C] transition-colors duration-300"
             >
                 {/* Header */}
                 <div className="text-center mb-4 sm:mb-6">
                     <h2
-                        className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1"
+                        className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1 font-bold"
                         style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
                     >
                         Join Zephyra
                     </h2>
-                    <p className="text-sm sm:text-base text-gray-500 dark:text-[#8A8F9C] mt-1 font-[Manrope]">
+                    <p className="text-xs sm:text-sm text-stone-500 dark:text-[#8A8F9C] mt-1 font-[Manrope]">
                         Create your account and start sharing
                     </p>
                 </div>
@@ -89,16 +90,16 @@ const Register = () => {
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mb-3 p-2.5 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded-xl text-sm text-center font-[Manrope]"
+                        className="mb-3 p-2.5 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 rounded-2xl text-xs text-center font-[Manrope]"
                     >
                         {error}
                     </motion.div>
                 )}
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3">
+                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Full Name
                         </label>
                         <input
@@ -107,13 +108,13 @@ const Register = () => {
                             required
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-300 dark:border-[#3A3F4B] rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
+                            className="w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
                             placeholder="John Doe"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Username
                         </label>
                         <input
@@ -122,13 +123,13 @@ const Register = () => {
                             required
                             value={formData.username}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-300 dark:border-[#3A3F4B] rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
+                            className="w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
                             placeholder="johndoe"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Email Address
                         </label>
                         <input
@@ -137,13 +138,13 @@ const Register = () => {
                             required
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-300 dark:border-[#3A3F4B] rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
+                            className="w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm"
                             placeholder="you@example.com"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-[#E7E6E3] mb-1 font-[Manrope]">
                             Password
                         </label>
                         <input
@@ -152,11 +153,11 @@ const Register = () => {
                             required
                             value={formData.password}
                             onChange={handleChange}
-                            className={`w-full px-4 py-2.5 bg-gray-50/50 dark:bg-[#0E1116] border rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm ${formData.password.length > 0 && !isPasswordValid
+                            className={`w-full px-4 py-2.5 bg-[#FAF7F2] dark:bg-[#0E1116] border rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm ${formData.password.length > 0 && !isPasswordValid
                                 ? 'border-red-500 dark:border-red-500'
                                 : formData.password.length > 0 && isPasswordValid
-                                    ? 'border-green-500 dark:border-green-500'
-                                    : 'border-gray-300 dark:border-[#3A3F4B]'
+                                    ? 'border-emerald-500 dark:border-emerald-500'
+                                    : 'border-[#EAE2D5] dark:border-[#3A3F4B]'
                                 }`}
                             placeholder="Enter a strong password"
                         />
@@ -166,22 +167,27 @@ const Register = () => {
                             <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
-                                className="mt-1.5 text-xs space-y-0.5 font-[Manrope]"
+                                className="mt-2 text-xs space-y-1 font-[Manrope] bg-stone-50/80 dark:bg-[#181C26]/80 p-3 rounded-2xl border border-stone-200/60 dark:border-[#252A36]"
                             >
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-green-500' : 'text-red-500'}`}>
-                                    {passwordChecks.length ? '✅' : '❌'} At least 8 characters
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                    {passwordChecks.length ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                    <span>At least 8 characters</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-green-500' : 'text-red-500'}`}>
-                                    {passwordChecks.uppercase ? '✅' : '❌'} At least 1 uppercase letter
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                    {passwordChecks.uppercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                    <span>At least 1 uppercase letter</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-green-500' : 'text-red-500'}`}>
-                                    {passwordChecks.lowercase ? '✅' : '❌'} At least 1 lowercase letter
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                    {passwordChecks.lowercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                    <span>At least 1 lowercase letter</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-green-500' : 'text-red-500'}`}>
-                                    {passwordChecks.number ? '✅' : '❌'} At least 1 number
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                    {passwordChecks.number ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                    <span>At least 1 number</span>
                                 </p>
-                                <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-green-500' : 'text-red-500'}`}>
-                                    {passwordChecks.special ? '✅' : '❌'} At least 1 special character (@, $, !, %, *, ?, &)
+                                <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                    {passwordChecks.special ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
+                                    <span>At least 1 special character (@$!%*?&)</span>
                                 </p>
                             </motion.div>
                         )}
@@ -189,8 +195,8 @@ const Register = () => {
 
                     <button
                         type="submit"
-                        disabled={isLoading}
-                        className="w-full py-2.5 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_30px_-6px_rgba(255,143,107,0.55)] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed font-[Manrope] text-sm mt-1"
+                        disabled={isLoading || !isPasswordValid}
+                        className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-[1.02] transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer mt-2"
                     >
                         {isLoading ? (
                             <span className="flex items-center justify-center gap-2">

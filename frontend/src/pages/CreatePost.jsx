@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
+import { HiOutlinePhoto, HiOutlineVideoCamera, HiOutlineHashtag } from 'react-icons/hi2';
 
 const CreatePost = () => {
     const [content, setContent] = useState('');
@@ -85,7 +86,7 @@ const CreatePost = () => {
             transition={{ duration: 0.5 }}
             className="max-w-2xl mx-auto p-4 sm:p-6 min-h-[70vh]"
         >
-            <div className="bg-white dark:bg-[#12151C] rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-[#1F232C]">
+            <div className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-6 sm:p-8 border border-[#EAE2D5] dark:border-[#1F232C]">
                 <div className="flex items-center space-x-3 mb-6">
                     <img
                         src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
@@ -96,28 +97,28 @@ const CreatePost = () => {
                         }}
                     />
                     <div>
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-[#EDEBE6] font-[Manrope]">
-                            Create Post
+                        <h2 className="text-xl font-bold text-stone-900 dark:text-[#EDEBE6] font-['Fraunces'] italic">
+                            Create Story
                         </h2>
-                        <p className="text-sm text-gray-500 dark:text-[#8A8F9C] font-[Manrope]">
-                            Share what's on your mind
+                        <p className="text-xs text-stone-500 dark:text-[#8A8F9C] font-[Manrope]">
+                            Share your thoughts or artwork with the community
                         </p>
                     </div>
                 </div>
 
                 {error && (
-                    <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded-xl text-sm font-[Manrope]">
+                    <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded-2xl text-xs font-[Manrope]">
                         {error}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        placeholder="What's happening, 🌬️?"
+                        placeholder="What is on your mind today?"
                         rows={4}
-                        className="w-full px-4 py-3 bg-gray-50/50 dark:bg-[#0E1116] border border-gray-300 dark:border-[#3A3F4B] rounded-xl text-gray-900 dark:text-[#E7E6E3] placeholder:text-gray-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none resize-none font-[Manrope]"
+                        className="w-full px-4 py-3 bg-[#FAF7F2] dark:bg-[#0E1116] border border-[#EAE2D5] dark:border-[#3A3F4B] rounded-2xl text-stone-900 dark:text-[#E7E6E3] placeholder:text-stone-400 dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none resize-none font-[Manrope] text-sm"
                     />
 
                     {/* Image Preview */}
@@ -141,46 +142,23 @@ const CreatePost = () => {
                     )}
 
                     <div className="flex flex-wrap justify-between items-center mt-4 gap-2">
-                        <div className="flex gap-1 text-gray-500 dark:text-[#6E7280]">
+                        <div className="flex gap-1 text-stone-500 dark:text-[#6E7280]">
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-[#1A1E27] rounded-lg transition-colors text-sm font-[Manrope]"
+                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-[#FAF7F2] dark:hover:bg-[#1A1E27] rounded-xl transition-colors text-xs font-bold font-[Manrope] cursor-pointer"
                             >
-                                📷 <span>Photo</span>
-                            </button>
-                            <button
-                                type="button"
-                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-[#1A1E27] rounded-lg transition-colors text-sm font-[Manrope]"
-                            >
-                                🎥 <span>Video</span>
-                            </button>
-                            <button
-                                type="button"
-                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-[#1A1E27] rounded-lg transition-colors text-sm font-[Manrope]"
-                            >
-                                #️⃣ <span>Hashtag</span>
+                                <HiOutlinePhoto className="text-base text-[#D97B4F]" />
+                                <span>Photo</span>
                             </button>
                             <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
                         </div>
                         <button
                             type="submit"
                             disabled={loading || uploadingImage}
-                            className="px-6 py-2 bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-semibold rounded-full hover:brightness-105 hover:shadow-[0_0_20px_-6px_rgba(255,143,107,0.6)] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed font-[Manrope]"
+                            className="px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-xs cursor-pointer"
                         >
-                            {uploadingImage ? (
-                                <span className="flex items-center gap-2">
-                                    <svg className="animate-spin h-4 w-4 text-[#1A140D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Uploading...
-                                </span>
-                            ) : loading ? (
-                                'Posting...'
-                            ) : (
-                                'Post ✨'
-                            )}
+                            {uploadingImage ? 'Uploading Image...' : loading ? 'Publishing...' : 'Publish Story'}
                         </button>
                     </div>
                 </form>

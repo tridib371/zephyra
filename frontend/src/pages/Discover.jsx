@@ -93,19 +93,21 @@ const Discover = () => {
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="min-h-screen bg-white dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+            className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
         >
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl sm:text-4xl font-['Fraunces'] italic text-gray-900 dark:text-[#EDEBE6] mb-2">
-                    Discover People
-                </h1>
-                <p className="text-gray-500 dark:text-[#8A8F9C] mb-6">
-                    Connect with others on Zephyra.
-                </p>
+            <div className="max-w-4xl mx-auto space-y-6">
+                <div>
+                    <h1 className="text-3xl sm:text-4xl font-['Fraunces'] italic font-bold text-stone-900 dark:text-[#EDEBE6]">
+                        Discover Creators
+                    </h1>
+                    <p className="text-stone-600 dark:text-[#8A8F9C] mt-1 text-sm">
+                        Connect with authentic voices across the Zephyra community.
+                    </p>
+                </div>
 
                 {users.length === 0 ? (
-                    <div className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-8 text-center border border-gray-200 dark:border-[#1F232C]">
-                        <p className="text-gray-500 dark:text-[#8A8F9C]">No other users found yet. Invite some friends!</p>
+                    <div className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-8 text-center border border-[#EAE2D5] dark:border-[#1F232C]">
+                        <p className="text-stone-500 dark:text-[#8A8F9C] text-sm">No other users found yet. Invite some friends to join!</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -119,33 +121,33 @@ const Discover = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3 }}
-                                    className="bg-white dark:bg-[#12151C] rounded-2xl shadow-lg p-5 border border-gray-200 dark:border-[#1F232C] hover:border-[#D97B4F]/30 dark:hover:border-[#F5C36B]/30 transition-all duration-300"
+                                    className="bg-white/95 dark:bg-[#12151C] rounded-3xl shadow-sm p-5 border border-[#EAE2D5] dark:border-[#1F232C] hover:border-[#D97B4F]/40 dark:hover:border-[#F5C36B]/30 transition-all duration-300"
                                 >
                                     <Link to={`/profile/${user._id}`} className="flex items-center gap-4">
                                         <img
                                             src={user.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                             alt={user.name}
-                                            className="w-14 h-14 rounded-full object-cover ring-2 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40"
+                                            className="w-13 h-13 rounded-full object-cover ring-2 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40"
                                         />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-semibold text-gray-900 dark:text-[#EDEBE6] truncate">
+                                            <p className="font-bold text-stone-900 dark:text-[#EDEBE6] truncate text-sm">
                                                 {user.name}
                                             </p>
-                                            <p className="text-sm text-gray-500 dark:text-[#6E7280] truncate">
+                                            <p className="text-xs text-stone-500 dark:text-[#6E7280] truncate font-mono">
                                                 @{user.username}
                                             </p>
-                                            <p className="text-xs text-gray-400 dark:text-[#6E7280]">
+                                            <p className="text-[11px] text-stone-400 dark:text-[#6E7280] mt-0.5">
                                                 {followerCount} follower{followerCount !== 1 ? 's' : ''}
                                             </p>
                                         </div>
                                     </Link>
-                                    <div className="mt-3">
+                                    <div className="mt-4">
                                         <button
                                             onClick={() => handleFollowToggle(user._id)}
                                             disabled={togglingId === user._id}
-                                            className={`w-full py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isFollowing
-                                                ? 'border border-gray-300 dark:border-[#3A3F4B] text-gray-700 dark:text-[#E7E6E3] hover:bg-gray-50 dark:hover:bg-[#1A1E27]'
-                                                : 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] hover:brightness-105 hover:shadow-[0_0_15px_-4px_rgba(255,143,107,0.5)]'
+                                            className={`w-full py-2.5 rounded-full text-xs font-extrabold transition-all duration-200 cursor-pointer ${isFollowing
+                                                ? 'border border-[#EAE2D5] dark:border-[#3A3F4B] text-stone-700 dark:text-[#E7E6E3] hover:bg-[#FAF7F2] dark:hover:bg-[#1A1E27]'
+                                                : 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] hover:scale-105 shadow-xs'
                                                 } disabled:opacity-50 disabled:cursor-not-allowed`}
                                         >
                                             {togglingId === user._id ? '...' : (isFollowing ? 'Unfollow' : 'Follow')}
