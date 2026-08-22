@@ -120,38 +120,38 @@ const Register = () => {
                ============================================ */}
             <div className="relative z-10 w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
-                {/* ===== LEFT DESKTOP SHOWCASE HERO (ANIMATED SCENARIO) ===== */}
+                {/* ===== SHOWCASE HERO PANEL (MOBILE & DESKTOP) ===== */}
                 <motion.div
-                    initial={{ x: -40, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.7, delay: 0.1 }}
-                    className="hidden lg:flex lg:col-span-5 flex-col justify-between space-y-8 pr-4"
+                    className="col-span-1 lg:col-span-5 flex flex-col justify-between space-y-6 sm:space-y-8 text-center lg:text-left items-center lg:items-start pr-0 lg:pr-4"
                 >
-                    <div className="space-y-4">
+                    <div className="space-y-3.5 sm:space-y-4 flex flex-col items-center lg:items-start">
                         {/* Live Community Badge */}
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-black/40 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-xs text-xs font-black text-[#B85323] dark:text-[#F5C36B]">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-xs text-xs font-black text-[#B85323] dark:text-[#F5C36B]">
                             <HiOutlineUserGroup className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
                             <span>Join 50,000+ Active Creators</span>
                         </div>
 
                         {/* Main Title */}
-                        <h1 className="font-['Fraunces'] italic text-4xl xl:text-5xl font-black text-[#101828] dark:text-white leading-tight tracking-tight drop-shadow-xs">
+                        <h1 className="font-['Fraunces'] italic text-3xl sm:text-4xl xl:text-5xl font-black text-[#101828] dark:text-white leading-tight tracking-tight drop-shadow-xs">
                             Where your voice carries on the wind.
                         </h1>
 
-                        <p className="text-sm text-[#475467] dark:text-[#CBD5E1] font-semibold leading-relaxed">
+                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] font-semibold leading-relaxed max-w-lg">
                             Experience a distraction-free social realm built for instant expression, realtime messaging, and complete privacy control.
                         </p>
                     </div>
 
                     {/* Feature Highlight Glass Chips */}
-                    <div className="space-y-3.5">
+                    <div className="w-full space-y-3 text-left">
                         <motion.div
-                            whileHover={{ x: 6 }}
-                            className="p-3.5 rounded-2xl bg-white/60 dark:bg-[#12151C]/70 backdrop-blur-xl border border-white/80 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                            whileHover={{ x: 4 }}
+                            className="p-3.5 rounded-2xl bg-white/70 dark:bg-[#12151C]/75 backdrop-blur-xl border border-white/90 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
                         >
-                            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[#1A140D] font-bold shadow-xs shrink-0">
-                                <HiOutlineBolt className="h-5 w-5" />
+                            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[#1A140D] font-bold shadow-xs shrink-0">
+                                <HiOutlineBolt className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
                             </div>
                             <div>
                                 <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">Sub-15ms Realtime Sync</h4>
@@ -160,11 +160,11 @@ const Register = () => {
                         </motion.div>
 
                         <motion.div
-                            whileHover={{ x: 6 }}
-                            className="p-3.5 rounded-2xl bg-white/60 dark:bg-[#12151C]/70 backdrop-blur-xl border border-white/80 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                            whileHover={{ x: 4 }}
+                            className="p-3.5 rounded-2xl bg-white/70 dark:bg-[#12151C]/75 backdrop-blur-xl border border-white/90 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
                         >
-                            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center text-white font-bold shadow-xs shrink-0">
-                                <HiOutlineShieldCheck className="h-5 w-5" />
+                            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center text-white font-bold shadow-xs shrink-0">
+                                <HiOutlineShieldCheck className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
                             </div>
                             <div>
                                 <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">100% Privacy Sovereignty</h4>
@@ -174,7 +174,7 @@ const Register = () => {
                     </div>
 
                     {/* Floating Testimonial Snippet */}
-                    <div className="p-4 rounded-2xl bg-gradient-to-r from-white/70 to-white/40 dark:from-[#1A202C]/80 dark:to-[#121620]/60 backdrop-blur-xl border border-white/80 dark:border-[#2A3447] shadow-md space-y-2">
+                    <div className="w-full text-left p-4 rounded-2xl bg-gradient-to-r from-white/80 to-white/50 dark:from-[#1A202C]/85 dark:to-[#121620]/70 backdrop-blur-xl border border-white/90 dark:border-[#2A3447] shadow-md space-y-2">
                         <div className="flex items-center gap-1 text-amber-400">
                             {Array.from({ length: 5 }).map((_, i) => (
                                 <HiStar key={i} className="h-3.5 w-3.5" />
