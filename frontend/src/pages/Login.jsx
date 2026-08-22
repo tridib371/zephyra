@@ -2,6 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import loginBg from '../assets/login-bg.jpg';
+import {
+    HiOutlineEnvelope,
+    HiOutlineLockClosed,
+    HiOutlineKey,
+    HiOutlineChatBubbleLeftRight,
+    HiOutlineShieldCheck,
+    HiStar,
+} from 'react-icons/hi2';
 import GoogleButton from '../components/GoogleButton';
 
 const Login = () => {
@@ -25,113 +34,233 @@ const Login = () => {
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 bg-[#F8F9FA] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
+            transition={{ duration: 0.8 }}
+            className="min-h-screen relative flex items-center justify-center px-4 sm:px-6 py-12 sm:py-16 font-[Manrope] overflow-hidden"
         >
+            {/* ============================================
+               UNIQUE ANIMATED BACKGROUND PHOTO & OVERLAYS
+               ============================================ */}
+            {/* Base Wallpaper Image with slow ambient zoom animation */}
             <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-full max-w-md sm:max-w-lg bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 sm:p-8 md:p-10 border border-[#EAECF0] dark:border-[#1F232C] transition-colors duration-300"
-            >
-                {/* Header */}
-                <div className="text-center mb-6 sm:mb-8">
-                    <h2
-                        className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent font-bold"
-                        style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
-                    >
-                        Welcome Back
-                    </h2>
-                    <p className="text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] mt-2 font-[Manrope] font-medium">
-                        Sign in to continue your journey on Zephyra
-                    </p>
-                </div>
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-80"
+                style={{ backgroundImage: `url(${loginBg})` }}
+            />
 
-                {/* Error Message */}
-                {error && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mb-4 p-3 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 rounded-2xl text-xs text-center font-[Manrope]"
-                    >
-                        {error}
-                    </motion.div>
-                )}
+            {/* Mode-Adaptive Glass & Gradient Overlays */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF8F5]/40 via-[#F8F9FA]/25 to-[#FFF0E6]/40 dark:from-[#090C12]/70 dark:via-[#0E1116]/60 dark:to-[#121620]/70 backdrop-blur-xs transition-colors duration-500" />
 
-                {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-                    <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
-                            Email Address
-                        </label>
-                        <input
-                            type="email"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
-                            placeholder="you@example.com"
-                        />
+            {/* Floating Ambient Glowing Beams */}
+            <div className="absolute top-1/3 left-12 w-96 h-96 bg-gradient-to-br from-[#8B5CF6]/30 to-[#EC4899]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute bottom-1/3 right-12 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/30 to-[#F5C36B]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+
+            {/* Animated Floating Particles / Energy Currents Scenario */}
+            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <motion.div
+                    animate={{ y: [0, -40, 0], x: [0, 25, 0], opacity: [0.3, 0.8, 0.3] }}
+                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute top-20 right-1/3 w-3.5 h-3.5 rounded-full bg-[#8B5CF6] blur-xs"
+                />
+                <motion.div
+                    animate={{ y: [0, 50, 0], x: [0, -30, 0], opacity: [0.2, 0.7, 0.2] }}
+                    transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                    className="absolute bottom-1/4 left-1/4 w-4 h-4 rounded-full bg-[#FF8F6B] blur-xs"
+                />
+            </div>
+
+            {/* ============================================
+               MAIN CONTAINER (Desktop Split / Mobile Stack)
+               ============================================ */}
+            <div className="relative z-10 w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+                {/* ===== SHOWCASE HERO PANEL (MOBILE & DESKTOP) ===== */}
+                <motion.div
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.7, delay: 0.1 }}
+                    className="col-span-1 lg:col-span-5 flex flex-col justify-between space-y-6 sm:space-y-8 text-center lg:text-left items-center lg:items-start pr-0 lg:pr-4"
+                >
+                    <div className="space-y-3.5 sm:space-y-4 flex flex-col items-center lg:items-start">
+                        {/* Welcome Back Badge */}
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-[#D97B4F]/30 dark:border-[#F5C36B]/30 backdrop-blur-md shadow-xs text-xs font-black text-[#B85323] dark:text-[#F5C36B]">
+                            <HiOutlineKey className="h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" />
+                            <span>Welcome Back to Zephyra</span>
+                        </div>
+
+                        {/* Main Title */}
+                        <h1 className="font-['Fraunces'] italic text-3xl sm:text-4xl xl:text-5xl font-black text-[#101828] dark:text-white leading-tight tracking-tight drop-shadow-xs">
+                            Reconnect with your realm.
+                        </h1>
+
+                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] font-semibold leading-relaxed max-w-lg">
+                            Pick up right where you left off. Access your direct messages, real-time community feeds, and saved gusts seamlessly.
+                        </p>
                     </div>
 
-                    <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
-                            placeholder="••••••••"
-                        />
+                    {/* Feature Highlight Glass Chips */}
+                    <div className="w-full space-y-3 text-left">
+                        <motion.div
+                            whileHover={{ x: 4 }}
+                            className="p-3.5 rounded-2xl bg-white/70 dark:bg-[#12151C]/75 backdrop-blur-xl border border-white/90 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                        >
+                            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] flex items-center justify-center text-white font-bold shadow-xs shrink-0">
+                                <HiOutlineChatBubbleLeftRight className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
+                            </div>
+                            <div>
+                                <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">Realtime Direct Inbox</h4>
+                                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium">Sub-15ms socket chat & instant notifications</p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            whileHover={{ x: 4 }}
+                            className="p-3.5 rounded-2xl bg-white/70 dark:bg-[#12151C]/75 backdrop-blur-xl border border-white/90 dark:border-[#252B38] shadow-sm flex items-center gap-3.5"
+                        >
+                            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] flex items-center justify-center text-[#1A140D] font-bold shadow-xs shrink-0">
+                                <HiOutlineShieldCheck className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
+                            </div>
+                            <div>
+                                <h4 className="text-xs font-extrabold text-[#101828] dark:text-white">Encrypted Session Security</h4>
+                                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium">JWT authenticated & Google OAuth integration</p>
+                            </div>
+                        </motion.div>
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-[1.02] transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer"
-                    >
-                        {isLoading ? (
-                            <span className="flex items-center justify-center gap-2">
-                                <svg className="animate-spin h-5 w-5 text-[#1A140D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Signing in...
-                            </span>
-                        ) : (
-                            'Sign In'
+                    {/* Security Guarantee Badge */}
+                    <div className="w-full text-left p-4 rounded-2xl bg-gradient-to-r from-white/80 to-white/50 dark:from-[#1A202C]/85 dark:to-[#121620]/70 backdrop-blur-xl border border-white/90 dark:border-[#2A3447] shadow-md space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-[#059669] dark:text-[#10B981] text-xs font-black uppercase tracking-wider">
+                            <HiOutlineShieldCheck className="h-4 w-4" />
+                            <span>Verified Safe Sign-In</span>
+                        </div>
+                        <p className="text-xs text-[#334155] dark:text-[#CBD5E1] font-medium leading-relaxed">
+                            Your login session is protected with end-to-end token encryption and zero third-party tracking.
+                        </p>
+                    </div>
+                </motion.div>
+
+                {/* ===== RIGHT COLUMN: LOGIN FORM GLASS CARD ===== */}
+                <motion.div
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="col-span-1 lg:col-span-7 w-full max-w-md sm:max-w-lg mx-auto"
+                >
+                    <div className="relative rounded-3xl bg-white/85 dark:bg-[#12151C]/90 backdrop-blur-2xl p-6 sm:p-9 border border-white/90 dark:border-[#252B38] shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300">
+
+                        {/* Top Gradient Beam Line */}
+                        <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]" />
+
+                        {/* Header */}
+                        <div className="text-center mb-6 sm:mb-7">
+                            <h2
+                                className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1 font-bold"
+                                style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
+                            >
+                                Welcome Back
+                            </h2>
+                            <p className="text-xs sm:text-sm text-[#475467] dark:text-[#94A3B8] mt-1 font-[Manrope] font-semibold">
+                                Sign in to continue your journey on Zephyra
+                            </p>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-4 p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-700 dark:text-rose-300 rounded-2xl text-xs text-center font-bold font-[Manrope] shadow-xs"
+                            >
+                                {error}
+                            </motion.div>
                         )}
-                    </button>
-                </form>
 
-                {/* Divider */}
-                <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-[#EAECF0] dark:border-[#1F232C]"></div>
+                        {/* Login Form */}
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* Email */}
+                            <div>
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                    Email Address
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <input
+                                        type="email"
+                                        required
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        placeholder="you@example.com"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Password */}
+                            <div>
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <input
+                                        type="password"
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        placeholder="••••••••"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer mt-3"
+                            >
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg className="animate-spin h-5 w-5 text-[#1A140D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Signing in...
+                                    </span>
+                                ) : (
+                                    'Sign In →'
+                                )}
+                            </button>
+                        </form>
+
+                        {/* Divider */}
+                        <div className="relative my-5">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-[#E2E8F0] dark:border-[#252B38]"></div>
+                            </div>
+                            <div className="relative flex justify-center text-xs">
+                                <span className="px-3 bg-white/90 dark:bg-[#12151C]/90 text-[#64748B] dark:text-[#94A3B8] font-[Manrope] font-bold uppercase tracking-wider">
+                                    or continue with
+                                </span>
+                            </div>
+                        </div>
+
+                        <GoogleButton />
+
+                        {/* Footer Link */}
+                        <p className="text-center text-xs sm:text-sm text-[#475467] dark:text-[#94A3B8] mt-5 font-[Manrope] font-medium">
+                            Don't have an account?{' '}
+                            <Link
+                                to="/register"
+                                className="text-[#D97B4F] dark:text-[#F5C36B] font-extrabold hover:underline transition-colors"
+                            >
+                                Create one
+                            </Link>
+                        </p>
                     </div>
-                    <div className="relative flex justify-center text-sm">
-                        <span className="px-3 bg-white dark:bg-[#12151C] text-[#667085] dark:text-[#6E7280] font-[Manrope] font-medium">
-                            or continue with
-                        </span>
-                    </div>
-                </div>
+                </motion.div>
 
-                <GoogleButton />
-
-                {/* Footer */}
-                <p className="text-center text-sm text-[#475467] dark:text-[#8A8F9C] mt-6 font-[Manrope]">
-                    Don't have an account?{' '}
-                    <Link
-                        to="/register"
-                        className="text-[#D97B4F] dark:text-[#F5C36B] font-bold hover:underline transition-colors"
-                    >
-                        Create one
-                    </Link>
-                </p>
-            </motion.div>
+            </div>
         </motion.div>
     );
 };
