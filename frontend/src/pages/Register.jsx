@@ -204,7 +204,7 @@ const Register = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="col-span-1 lg:col-span-7 w-full max-w-md sm:max-w-lg mx-auto"
                 >
-                    <div className="relative rounded-3xl bg-white/85 dark:bg-[#12151C]/90 backdrop-blur-2xl p-6 sm:p-9 border border-white/90 dark:border-[#252B38] shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300">
+                    <div className="relative rounded-3xl bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-2xl p-6 sm:p-9 border border-white/90 dark:border-[#252B38] shadow-[0_20px_60px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300">
 
                         {/* Top Gradient Beam Line */}
                         <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]" />
@@ -212,12 +212,12 @@ const Register = () => {
                         {/* Header */}
                         <div className="text-center mb-6 sm:mb-7">
                             <h2
-                                className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#D97B4F] via-[#C6822E] to-[#D97B4F] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1 font-bold"
+                                className="font-['Fraunces'] italic text-3xl sm:text-4xl bg-gradient-to-r from-[#C2410C] via-[#EA580C] to-[#D97706] dark:from-[#FF8F6B] dark:via-[#F5C36B] dark:to-[#FF8F6B] bg-clip-text text-transparent pb-1 font-bold"
                                 style={{ fontVariationSettings: '"opsz" 30, "wght" 500' }}
                             >
                                 Join Zephyra
                             </h2>
-                            <p className="text-xs sm:text-sm text-[#475467] dark:text-[#94A3B8] mt-1 font-[Manrope] font-semibold">
+                            <p className="text-xs sm:text-sm text-[#334155] dark:text-[#94A3B8] mt-1 font-[Manrope] font-bold">
                                 Create your free account and start sharing ideas
                             </p>
                         </div>
@@ -237,18 +237,18 @@ const Register = () => {
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Full Name */}
                             <div>
-                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#0F172A] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
                                     Full Name
                                 </label>
                                 <div className="relative">
-                                    <HiOutlineUser className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <HiOutlineUser className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#64748B]" />
                                     <input
                                         type="text"
                                         name="name"
                                         required
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border border-[#CBD5E1] dark:border-[#2D3546] rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs"
                                         placeholder="John Doe"
                                     />
                                 </div>
@@ -256,18 +256,18 @@ const Register = () => {
 
                             {/* Username */}
                             <div>
-                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#0F172A] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
                                     Username
                                 </label>
                                 <div className="relative">
-                                    <HiOutlineAtSymbol className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <HiOutlineAtSymbol className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#64748B]" />
                                     <input
                                         type="text"
                                         name="username"
                                         required
                                         value={formData.username}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border border-[#CBD5E1] dark:border-[#2D3546] rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs"
                                         placeholder="johndoe"
                                     />
                                 </div>
@@ -275,18 +275,18 @@ const Register = () => {
 
                             {/* Email */}
                             <div>
-                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#0F172A] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
                                     Email Address
                                 </label>
                                 <div className="relative">
-                                    <HiOutlineEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <HiOutlineEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#64748B]" />
                                     <input
                                         type="email"
                                         name="email"
                                         required
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border border-[#E2E8F0] dark:border-[#2D3546] rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs"
+                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border border-[#CBD5E1] dark:border-[#2D3546] rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs"
                                         placeholder="you@example.com"
                                     />
                                 </div>
@@ -294,22 +294,22 @@ const Register = () => {
 
                             {/* Password */}
                             <div>
-                                <label className="block text-xs font-black uppercase tracking-wider text-[#344054] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
+                                <label className="block text-xs font-black uppercase tracking-wider text-[#0F172A] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
                                     Password
                                 </label>
                                 <div className="relative">
-                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8] dark:text-[#64748B]" />
+                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#64748B]" />
                                     <input
                                         type="password"
                                         name="password"
                                         required
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className={`w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#F8F9FA]/80 dark:bg-[#0E1116]/80 border rounded-2xl text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#94A3B8] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-semibold shadow-xs ${formData.password.length > 0 && !isPasswordValid
+                                        className={`w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs ${formData.password.length > 0 && !isPasswordValid
                                             ? 'border-rose-500 dark:border-rose-500'
                                             : formData.password.length > 0 && isPasswordValid
                                                 ? 'border-emerald-500 dark:border-emerald-500'
-                                                : 'border-[#E2E8F0] dark:border-[#2D3546]'
+                                                : 'border-[#CBD5E1] dark:border-[#2D3546]'
                                             }`}
                                         placeholder="Enter a strong password"
                                     />
@@ -320,25 +320,25 @@ const Register = () => {
                                     <motion.div
                                         initial={{ opacity: 0, height: 0 }}
                                         animate={{ opacity: 1, height: 'auto' }}
-                                        className="mt-2.5 text-xs space-y-1.5 font-[Manrope] bg-[#F8F9FA] dark:bg-[#181C26]/90 p-3.5 rounded-2xl border border-[#E2E8F0] dark:border-[#252A36]"
+                                        className="mt-2.5 text-xs space-y-1.5 font-[Manrope] bg-slate-50/90 dark:bg-[#181C26]/90 p-3.5 rounded-2xl border border-[#CBD5E1] dark:border-[#252A36]"
                                     >
-                                        <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-700 dark:text-emerald-400 font-extrabold' : 'text-rose-600 dark:text-rose-400 font-bold'}`}>
                                             {passwordChecks.length ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                             <span>At least 8 characters</span>
                                         </p>
-                                        <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-700 dark:text-emerald-400 font-extrabold' : 'text-rose-600 dark:text-rose-400 font-bold'}`}>
                                             {passwordChecks.uppercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                             <span>At least 1 uppercase letter</span>
                                         </p>
-                                        <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-700 dark:text-emerald-400 font-extrabold' : 'text-rose-600 dark:text-rose-400 font-bold'}`}>
                                             {passwordChecks.lowercase ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                             <span>At least 1 lowercase letter</span>
                                         </p>
-                                        <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-700 dark:text-emerald-400 font-extrabold' : 'text-rose-600 dark:text-rose-400 font-bold'}`}>
                                             {passwordChecks.number ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                             <span>At least 1 number</span>
                                         </p>
-                                        <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-500'}`}>
+                                        <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-700 dark:text-emerald-400 font-extrabold' : 'text-rose-600 dark:text-rose-400 font-bold'}`}>
                                             {passwordChecks.special ? <HiOutlineCheck className="text-sm shrink-0" /> : <HiOutlineXMark className="text-sm shrink-0" />}
                                             <span>At least 1 special character (@$!%*?&)</span>
                                         </p>
@@ -350,7 +350,7 @@ const Register = () => {
                             <button
                                 type="submit"
                                 disabled={isLoading || !isPasswordValid}
-                                className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer mt-3"
+                                className="w-full py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#E2774C] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-sm cursor-pointer mt-3"
                             >
                                 {isLoading ? (
                                     <span className="flex items-center justify-center gap-2">
@@ -372,7 +372,7 @@ const Register = () => {
                                 <div className="w-full border-t border-[#E2E8F0] dark:border-[#252B38]"></div>
                             </div>
                             <div className="relative flex justify-center text-xs">
-                                <span className="px-3 bg-white/90 dark:bg-[#12151C]/90 text-[#64748B] dark:text-[#94A3B8] font-[Manrope] font-bold uppercase tracking-wider">
+                                <span className="px-3 bg-white/95 dark:bg-[#12151C]/90 text-[#475467] dark:text-[#94A3B8] font-[Manrope] font-black uppercase tracking-wider">
                                     or continue with
                                 </span>
                             </div>
@@ -381,11 +381,11 @@ const Register = () => {
                         <GoogleButton />
 
                         {/* Footer Link */}
-                        <p className="text-center text-xs sm:text-sm text-[#475467] dark:text-[#94A3B8] mt-5 font-[Manrope] font-medium">
+                        <p className="text-center text-xs sm:text-sm text-[#334155] dark:text-[#94A3B8] mt-5 font-[Manrope] font-bold">
                             Already have an account?{' '}
                             <Link
                                 to="/login"
-                                className="text-[#D97B4F] dark:text-[#F5C36B] font-extrabold hover:underline transition-colors"
+                                className="text-[#C2410C] dark:text-[#F5C36B] font-black hover:underline transition-colors"
                             >
                                 Sign in
                             </Link>
