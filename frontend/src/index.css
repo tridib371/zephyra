@@ -17,21 +17,32 @@
         @apply bg-[#F8F9FA] dark:bg-[#0E1116] text-[#101828] dark:text-[#EDEBE6] font-[Manrope] antialiased selection:bg-[#FF8F6B]/30 selection:text-[#B85323];
     }
 
-    /* Custom scrollbar */
+    /* Custom Sleek Scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
+        width: 5px;
+        height: 5px;
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-[#EAECF0] dark:bg-[#0B0D12];
+        background: transparent;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-[#D97B4F] dark:bg-[#F5C36B] rounded-full;
+        @apply bg-[#D97B4F]/40 dark:bg-[#F5C36B]/35 rounded-full transition-colors;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-[#B5652F] dark:bg-[#FF8F6B];
+        @apply bg-[#D97B4F]/75 dark:bg-[#F5C36B]/75;
+    }
+
+    /* Firefox Scrollbar */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(217, 123, 79, 0.4) transparent;
+    }
+
+    .dark * {
+        scrollbar-color: rgba(245, 195, 107, 0.35) transparent;
     }
 }
 

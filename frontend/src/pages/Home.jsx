@@ -911,19 +911,20 @@ export default function Home() {
                             </div>
 
                             {/* Action CTA */}
-                            <div className="flex justify-end gap-2.5 sm:gap-3 pt-1">
+                            <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 pt-2 sm:pt-3">
                                 <button
                                     onClick={() => setSelectedFeature(null)}
-                                    className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-full border border-[#CBD5E1] dark:border-[#3A475C] text-xs font-bold text-[#475467] dark:text-[#94A3B8] hover:bg-[#F1F5F9] dark:hover:bg-[#1E2638] transition-colors cursor-pointer"
+                                    className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full border border-[#CBD5E1] dark:border-[#3A475C] text-xs font-bold text-[#475467] dark:text-[#94A3B8] hover:bg-[#F1F5F9] dark:hover:bg-[#1E2638] transition-colors cursor-pointer whitespace-nowrap shrink-0"
                                 >
                                     Close
                                 </button>
                                 <Link
                                     to={selectedFeature.ctaLink}
                                     onClick={() => setSelectedFeature(null)}
-                                    className={`px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r ${selectedFeature.gradient} text-white text-xs font-extrabold shadow-md hover:brightness-110 hover:scale-105 transition-all`}
+                                    className={`px-4 py-2 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r ${selectedFeature.gradient} text-white text-xs font-black shadow-md hover:brightness-110 hover:scale-105 transition-all whitespace-nowrap shrink-0`}
                                 >
-                                    {selectedFeature.ctaText} →
+                                    <span className="inline sm:hidden">Get Started →</span>
+                                    <span className="hidden sm:inline">{selectedFeature.ctaText} →</span>
                                 </Link>
                             </div>
                         </motion.div>
