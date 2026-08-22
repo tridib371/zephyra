@@ -86,7 +86,7 @@ const CreatePost = () => {
             transition={{ duration: 0.5 }}
             className="max-w-2xl mx-auto p-4 sm:p-6 min-h-[70vh]"
         >
-            <div className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 sm:p-8 border border-[#E2D4C3] dark:border-[#1F232C]">
+            <div className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 sm:p-8 border border-[#EAECF0] dark:border-[#1F232C]">
                 <div className="flex items-center space-x-3 mb-6">
                     <img
                         src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
@@ -97,17 +97,17 @@ const CreatePost = () => {
                         }}
                     />
                     <div>
-                        <h2 className="text-xl font-bold text-[#1F1710] dark:text-[#EDEBE6] font-['Fraunces'] italic">
+                        <h2 className="text-xl font-bold text-[#101828] dark:text-[#EDEBE6] font-['Fraunces'] italic">
                             Create Story
                         </h2>
-                        <p className="text-xs text-[#665548] dark:text-[#8A8F9C] font-[Manrope]">
+                        <p className="text-xs text-[#475467] dark:text-[#8A8F9C] font-[Manrope]">
                             Share your thoughts or artwork with the community
                         </p>
                     </div>
                 </div>
 
                 {error && (
-                    <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded-2xl text-xs font-[Manrope]">
+                    <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-600 text-red-700 dark:text-red-300 rounded-2xl text-xs font-[Manrope]">
                         {error}
                     </div>
                 )}
@@ -118,16 +118,16 @@ const CreatePost = () => {
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="What is on your mind today?"
                         rows={4}
-                        className="w-full px-4 py-3 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none resize-none font-[Manrope] text-sm"
+                        className="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none resize-none font-[Manrope] text-sm"
                     />
 
                     {/* Image Preview */}
                     {imagePreview && (
-                        <div className="relative mt-3 rounded-2xl overflow-hidden border border-[#DECDBB] dark:border-[#1F232C]">
+                        <div className="relative mt-3 rounded-2xl overflow-hidden border border-[#EAECF0] dark:border-[#1F232C]">
                             <img
                                 src={imagePreview}
                                 alt="Post preview"
-                                className="w-full max-h-80 object-contain bg-[#F4ECE1] dark:bg-[#0E1116]"
+                                className="w-full max-h-80 object-contain bg-[#F8F9FA] dark:bg-[#0E1116]"
                             />
                             <button
                                 type="button"
@@ -142,11 +142,11 @@ const CreatePost = () => {
                     )}
 
                     <div className="flex flex-wrap justify-between items-center mt-4 gap-2">
-                        <div className="flex gap-1 text-[#665548] dark:text-[#6E7280]">
+                        <div className="flex gap-1 text-[#475467] dark:text-[#6E7280]">
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-[#EFE3D4] dark:hover:bg-[#1A1E27] rounded-xl transition-colors text-xs font-bold font-[Manrope] cursor-pointer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-[#F2F4F7] dark:hover:bg-[#1A1E27] rounded-xl transition-colors text-xs font-bold font-[Manrope] cursor-pointer"
                             >
                                 <HiOutlinePhoto className="text-base text-[#D97B4F]" />
                                 <span>Photo</span>
@@ -156,7 +156,7 @@ const CreatePost = () => {
                         <button
                             type="submit"
                             disabled={loading || uploadingImage}
-                            className="px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-xs cursor-pointer"
+                            className="px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all shadow-xs disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] text-xs cursor-pointer"
                         >
                             {uploadingImage ? 'Uploading Image...' : loading ? 'Publishing...' : 'Publish Story'}
                         </button>

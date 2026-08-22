@@ -213,20 +213,20 @@ const PostDetail = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="min-h-screen bg-[#F6EFE6] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+                className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
             >
                 <div className="max-w-3xl mx-auto">
                     {/* Back Button */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-sm font-bold cursor-pointer"
+                        className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-sm font-bold cursor-pointer"
                     >
                         <ArrowLeftIcon />
                         <span>Back to feed</span>
                     </button>
 
                     {/* Post Card */}
-                    <div className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 sm:p-8 border border-[#E2D4C3] dark:border-[#1F232C]">
+                    <div className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 sm:p-8 border border-[#EAECF0] dark:border-[#1F232C]">
                         {/* Author Info */}
                         <div className="flex items-start justify-between">
                             <Link to={`/profile/${post.author?._id}`} className="flex items-center gap-3">
@@ -239,10 +239,10 @@ const PostDetail = () => {
                                     }}
                                 />
                                 <div>
-                                    <p className="font-semibold text-gray-900 dark:text-[#EDEBE6]">
+                                    <p className="font-semibold text-[#101828] dark:text-[#EDEBE6]">
                                         {post.author?.name}
                                     </p>
-                                    <p className="text-sm text-gray-500 dark:text-[#6E7280]">
+                                    <p className="text-sm text-[#667085] dark:text-[#6E7280]">
                                         @{post.author?.username}
                                     </p>
                                 </div>
@@ -259,15 +259,15 @@ const PostDetail = () => {
 
                         {/* Post Content */}
                         <div className="mt-4">
-                            <p className="text-gray-800 dark:text-[#E7E6E3] whitespace-pre-wrap break-words leading-relaxed text-lg">
+                            <p className="text-[#101828] dark:text-[#E7E6E3] whitespace-pre-wrap break-words leading-relaxed text-lg">
                                 {post.content}
                             </p>
                             {post.image && (
-                                <div className="mt-4 rounded-xl overflow-hidden border border-gray-200 dark:border-[#1F232C]">
+                                <div className="mt-4 rounded-xl overflow-hidden border border-[#EAECF0] dark:border-[#1F232C]">
                                     <img
                                         src={post.image}
                                         alt="Post"
-                                        className="w-full max-h-[500px] object-contain bg-gray-50 dark:bg-[#0E1116]"
+                                        className="w-full max-h-[500px] object-contain bg-[#F8F9FA] dark:bg-[#0E1116]"
                                         onError={(e) => {
                                             e.target.style.display = 'none';
                                         }}
@@ -277,12 +277,12 @@ const PostDetail = () => {
                         </div>
 
                         {/* Post Time */}
-                        <p className="text-xs text-gray-400 dark:text-[#6E7280] mt-4">
+                        <p className="text-xs text-[#667085] dark:text-[#6E7280] mt-4">
                             {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                         </p>
 
                         {/* Stats */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4 text-xs font-bold text-[#5C4A3C] dark:text-[#8A8F9C]">
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 text-xs font-bold text-[#475467] dark:text-[#8A8F9C]">
                             <span className="flex items-center gap-1.5">
                                 <HeartIcon filled={isLiked} />
                                 {post.likes?.length || 0} likes
@@ -294,30 +294,30 @@ const PostDetail = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4">
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
                             <button
                                 onClick={handleLike}
-                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
+                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
                             >
                                 <HeartIcon filled={isLiked} />
                                 <span>Like</span>
                             </button>
-                            <button className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
                                 <CommentIcon />
                                 <span>Comment</span>
                             </button>
-                            <button className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
                                 <BookmarkIcon />
                                 <span>Save</span>
                             </button>
-                            <button className="flex items-center gap-2 text-[#5C4A3C] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer">
                                 <ShareIcon />
                                 <span>Share</span>
                             </button>
                         </div>
 
                         {/* Comment Input */}
-                        <div className="mt-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4">
+                        <div className="mt-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
                             <div className="flex items-center gap-3">
                                 <img
                                     src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
@@ -335,7 +335,7 @@ const PostDetail = () => {
                                         if (e.key === 'Enter') handleCommentSubmit();
                                     }}
                                     placeholder="Write a comment..."
-                                    className="flex-1 px-4 py-2.5 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-full text-sm text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                    className="flex-1 px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-full text-sm text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                 />
                                 <button
                                     onClick={handleCommentSubmit}
@@ -350,7 +350,7 @@ const PostDetail = () => {
                         {/* Comments List */}
                         <div className="mt-6 space-y-4 max-h-96 overflow-y-auto pr-1">
                             {post.comments?.length === 0 ? (
-                                <p className="text-xs text-stone-400 dark:text-[#6E7280] text-center py-4 font-[Manrope]">
+                                <p className="text-xs text-[#667085] dark:text-[#6E7280] text-center py-4 font-[Manrope]">
                                     No comments yet. Be the first to share your thoughts.
                                 </p>
                             ) : (
@@ -365,13 +365,13 @@ const PostDetail = () => {
                                                 }
                                             }}
                                             id={`comment-${comment._id}`}
-                                            className={`flex items-start gap-3 rounded-xl px-2 py-2 transition-colors ${highlightedCommentId === comment._id ? 'bg-[#F5EFE6] dark:bg-[#1A1E27] ring-1 ring-[#D97B4F]/30 dark:ring-[#F5C36B]/30' : ''}`}
+                                            className={`flex items-start gap-3 rounded-xl px-2 py-2 transition-colors ${highlightedCommentId === comment._id ? 'bg-[#F2F4F7] dark:bg-[#1A1E27] ring-1 ring-[#D97B4F]/30 dark:ring-[#F5C36B]/30' : ''}`}
                                         >
                                             <Link to={`/profile/${comment.user?._id}`}>
                                                 <img
                                                     src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                                     alt={comment.user?.name}
-                                                    className="w-8 h-8 rounded-full object-cover ring-1 ring-gray-300 dark:ring-[#3A3F4B] flex-shrink-0"
+                                                    className="w-8 h-8 rounded-full object-cover ring-1 ring-[#EAECF0] dark:ring-[#3A3F4B] flex-shrink-0"
                                                     onError={(e) => {
                                                         e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
                                                     }}
@@ -379,17 +379,17 @@ const PostDetail = () => {
                                             </Link>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center gap-2 flex-wrap">
-                                                    <Link to={`/profile/${comment.user?._id}`} className="text-sm font-semibold text-gray-900 dark:text-[#EDEBE6] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition">
+                                                    <Link to={`/profile/${comment.user?._id}`} className="text-sm font-semibold text-[#101828] dark:text-[#EDEBE6] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition">
                                                         {comment.user?.name}
                                                     </Link>
-                                                    <span className="text-xs text-gray-400 dark:text-[#6E7280]">
+                                                    <span className="text-xs text-[#667085] dark:text-[#6E7280]">
                                                         @{comment.user?.username}
                                                     </span>
-                                                    <span className="text-xs text-gray-400 dark:text-[#6E7280]">
+                                                    <span className="text-xs text-[#667085] dark:text-[#6E7280]">
                                                         • {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                                     </span>
                                                 </div>
-                                                <p className="text-sm text-gray-700 dark:text-[#D9D3E6] font-[Manrope] break-words">
+                                                <p className="text-sm text-[#344054] dark:text-[#D9D3E6] font-[Manrope] break-words">
                                                     {comment.text}
                                                 </p>
                                             </div>

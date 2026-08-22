@@ -239,10 +239,10 @@ const Profile = () => {
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="min-h-screen bg-[#F6EFE6] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+                className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
             >
                 <div className="max-w-4xl mx-auto space-y-6">
-                    <div className="bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 sm:p-8 border border-[#E2D4C3] dark:border-[#1F232C] transition-colors duration-300">
+                    <div className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 sm:p-8 border border-[#EAECF0] dark:border-[#1F232C] transition-colors duration-300">
                         {/* Profile Header */}
                         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                             <img
@@ -254,25 +254,25 @@ const Profile = () => {
                                 }}
                             />
                             <div className="flex-1 text-center sm:text-left">
-                                <h1 className="text-3xl font-bold text-[#1F1710] dark:text-[#EDEBE6]">
+                                <h1 className="text-3xl font-bold text-[#101828] dark:text-[#EDEBE6]">
                                     {profileUser.name}
                                 </h1>
-                                <p className="text-[#665548] dark:text-[#6E7280]">@{profileUser.username}</p>
-                                <p className="text-[#5C4A3C] dark:text-[#8A8F9C] mt-2 font-medium">
+                                <p className="text-[#667085] dark:text-[#6E7280]">@{profileUser.username}</p>
+                                <p className="text-[#475467] dark:text-[#8A8F9C] mt-2 font-medium">
                                     {profileUser.bio || 'No bio yet.'}
                                 </p>
-                                <div className="flex justify-center sm:justify-start gap-6 mt-3 text-sm text-[#5C4A3C] dark:text-[#8A8F9C]">
+                                <div className="flex justify-center sm:justify-start gap-6 mt-3 text-sm text-[#475467] dark:text-[#8A8F9C]">
                                     <button
                                         onClick={() => openModal('following')}
                                         className="hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors cursor-pointer"
                                     >
-                                        <strong className="text-[#1F1710] dark:text-[#EDEBE6]">{followingCount}</strong> Following
+                                        <strong className="text-[#101828] dark:text-[#EDEBE6]">{followingCount}</strong> Following
                                     </button>
                                     <button
                                         onClick={() => openModal('followers')}
                                         className="hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors cursor-pointer"
                                     >
-                                        <strong className="text-[#1F1710] dark:text-[#EDEBE6]">{followersCount}</strong> Followers
+                                        <strong className="text-[#101828] dark:text-[#EDEBE6]">{followersCount}</strong> Followers
                                     </button>
                                 </div>
 
@@ -282,7 +282,7 @@ const Profile = () => {
                                             onClick={handleFollowToggle}
                                             disabled={isTogglingFollow}
                                             className={`px-6 py-2 rounded-full font-semibold text-sm transition-all duration-200 cursor-pointer ${isFollowing
-                                                ? 'border border-[#DECDBB] dark:border-[#3A3F4B] text-[#5C4A3C] dark:text-[#E7E6E3] hover:bg-[#EFE3D4] dark:hover:bg-[#1A1E27]'
+                                                ? 'border border-[#EAECF0] dark:border-[#3A3F4B] text-[#344054] dark:text-[#E7E6E3] hover:bg-[#F2F4F7] dark:hover:bg-[#1A1E27]'
                                                 : 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold hover:scale-105 shadow-xs'
                                                 } disabled:opacity-50 disabled:cursor-not-allowed`}
                                         >
@@ -291,7 +291,7 @@ const Profile = () => {
 
                                         <button
                                             onClick={() => navigate(`/messages?userId=${profileUser._id}`)}
-                                            className="px-6 py-2 rounded-full font-semibold text-sm border border-[#DECDBB] dark:border-[#3A3F4B] text-[#5C4A3C] dark:text-[#E7E6E3] hover:bg-[#EFE3D4] dark:hover:bg-[#1A1E27] transition-all duration-200 cursor-pointer"
+                                            className="px-6 py-2 rounded-full font-semibold text-sm border border-[#EAECF0] dark:border-[#3A3F4B] text-[#344054] dark:text-[#E7E6E3] hover:bg-[#F2F4F7] dark:hover:bg-[#1A1E27] transition-all duration-200 cursor-pointer"
                                         >
                                             Message
                                         </button>
@@ -302,7 +302,7 @@ const Profile = () => {
 
                         {/* Post Type Stats */}
                         {userPosts.length > 0 && (
-                            <div className="mt-6 flex flex-wrap gap-3 justify-center sm:justify-start text-xs font-bold text-[#5C4A3C] dark:text-[#8A8F9C]">
+                            <div className="mt-6 flex flex-wrap gap-3 justify-center sm:justify-start text-xs font-bold text-[#475467] dark:text-[#8A8F9C]">
                                 {Object.entries(postStats).map(([type, count]) => {
                                     const typeMap = {
                                         photo: { label: 'Photos', Icon: HiOutlinePhoto },
@@ -312,7 +312,7 @@ const Profile = () => {
                                     const info = typeMap[type] || { label: type, Icon: HiOutlineDocumentText };
                                     const TypeIcon = info.Icon;
                                     return (
-                                        <span key={type} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF2E8] dark:bg-white/5 border border-[#DECDBB] dark:border-[#1F232C]">
+                                        <span key={type} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F8F9FA] dark:bg-white/5 border border-[#EAECF0] dark:border-[#1F232C]">
                                             <TypeIcon className="text-sm text-[#D97B4F]" />
                                             <span>{count} {info.label}</span>
                                         </span>
@@ -322,7 +322,7 @@ const Profile = () => {
                         )}
 
                         {/* Filter Tabs */}
-                        <div className="mt-6 border-t border-[#EFE5D8] dark:border-[#1F232C] pt-4">
+                        <div className="mt-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
                             <div className="flex flex-wrap gap-1 sm:gap-2">
                                 {filterTabs.map((tab) => {
                                     const Icon = tab.icon;
@@ -332,14 +332,14 @@ const Profile = () => {
                                             onClick={() => setActiveFilter(tab.key)}
                                             className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
                                                 activeFilter === tab.key
-                                                    ? 'bg-[#1F1710] text-[#FFFDF9] dark:bg-white dark:text-[#1A140D] shadow-xs scale-105'
-                                                    : 'bg-[#FAF2E8] dark:bg-[#12151C] border border-[#DECDBB] dark:border-[#252A36] text-[#5C4A3C] dark:text-[#A0A5B2] hover:bg-[#EFE3D4]'
+                                                    ? 'bg-[#101828] text-white dark:bg-white dark:text-[#1A140D] shadow-xs scale-105'
+                                                    : 'bg-[#F8F9FA] dark:bg-[#12151C] border border-[#EAECF0] dark:border-[#252A36] text-[#344054] dark:text-[#A0A5B2] hover:bg-[#F2F4F7]'
                                             }`}
                                         >
                                             {Icon && <Icon className="text-sm" />}
                                             <span>{tab.label}</span>
                                             {postStats[tab.key] > 0 && (
-                                                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#EFE3D4] dark:bg-[#202532] text-[#5C4A3C]">
+                                                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#EAECF0] dark:bg-[#202532] text-[#344054]">
                                                     {postStats[tab.key]}
                                                 </span>
                                             )}
@@ -357,7 +357,7 @@ const Profile = () => {
                                 </div>
                             ) : filteredPosts.length === 0 ? (
                                 <div className="text-center py-12">
-                                    <p className="text-[#5C4A3C] dark:text-[#8A8F9C] font-[Manrope] text-sm">
+                                    <p className="text-[#475467] dark:text-[#8A8F9C] font-[Manrope] text-sm">
                                         {activeFilter === 'all'
                                             ? (isOwnProfile ? "You haven't posted anything yet." : `${profileUser.name} hasn't posted anything yet.`)
                                             : `No ${activeFilter} posts found.`}
@@ -380,7 +380,7 @@ const Profile = () => {
                                             <Link
                                                 key={post._id}
                                                 to={`/post/${post._id}`}
-                                                className="aspect-square bg-[#F4ECE1] dark:bg-[#1A1E27] rounded-2xl overflow-hidden relative group cursor-pointer border border-[#DECDBB] dark:border-[#1F232C]"
+                                                className="aspect-square bg-[#F8F9FA] dark:bg-[#1A1E27] rounded-2xl overflow-hidden relative group cursor-pointer border border-[#EAECF0] dark:border-[#1F232C]"
                                             >
                                                 {post.image ? (
                                                     <img

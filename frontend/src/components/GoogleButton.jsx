@@ -43,7 +43,7 @@ const GoogleButton = ({ text = 'Continue with Google' }) => {
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl bg-white dark:bg-[#181C26] hover:bg-[#F8F9FA] dark:hover:bg-[#202532] text-[#101828] dark:text-[#EDEBE6] font-semibold text-sm transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer font-[Manrope] shadow-xs"
             >
                 <svg className="w-5 h-5" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />

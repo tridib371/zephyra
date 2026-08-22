@@ -76,7 +76,7 @@ const SOCIALS = [
 
 const Footer = () => {
     return (
-        <footer className="relative mt-auto bg-white/55 dark:bg-gradient-to-b dark:from-[#14100D] dark:to-[#0C0A09] backdrop-blur-2xl border-t border-white/80 dark:border-[#2E221A] shadow-[0_-8px_32px_0_rgba(217,123,79,0.04)] font-[Manrope] transition-colors duration-300 overflow-hidden">
+        <footer className="relative mt-auto bg-white/70 dark:bg-gradient-to-b dark:from-[#14100D] dark:to-[#0C0A09] backdrop-blur-2xl border-t border-[#EAECF0] dark:border-[#2E221A] shadow-[0_-8px_32px_0_rgba(16,24,40,0.03)] font-[Manrope] transition-colors duration-300 overflow-hidden">
             {/* Subtle Ambient Night / Day Ember Halo */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-28 bg-gradient-to-r from-transparent via-[#FF8F6B]/10 dark:via-[#FF8F6B]/10 to-transparent blur-3xl pointer-events-none" />
 
@@ -97,7 +97,7 @@ const Footer = () => {
                                 Zephyra
                             </span>
                         </Link>
-                        <p className="mt-3 text-sm text-[#5C4A3C] dark:text-[#A89F95] max-w-xs leading-relaxed font-medium">
+                        <p className="mt-3 text-sm text-[#475467] dark:text-[#A89F95] max-w-xs leading-relaxed font-medium">
                             Carry your story on the wind - to every corner, to every soul.
                         </p>
 
@@ -111,7 +111,7 @@ const Footer = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={social.label}
-                                        className="p-2.5 rounded-2xl text-[#5C4A3C] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] bg-white/70 dark:bg-[#1E1713] hover:bg-white dark:hover:bg-[#281F1A] border border-white/90 dark:border-[#38281E] shadow-xs backdrop-blur-md transition-all duration-200"
+                                        className="p-2.5 rounded-2xl text-[#475467] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] bg-white dark:bg-[#1E1713] hover:bg-[#F2F4F7] dark:hover:bg-[#281F1A] border border-[#EAECF0] dark:border-[#38281E] shadow-xs backdrop-blur-md transition-all duration-200"
                                     >
                                         <SocialIcon />
                                     </a>
@@ -124,7 +124,7 @@ const Footer = () => {
                         const links = FOOTER_LINKS[heading];
                         return (
                             <div key={heading}>
-                                <h3 className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#877568] dark:text-[#D8A782] mb-3.5">
+                                <h3 className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#344054] dark:text-[#D8A782] mb-3.5">
                                     {heading}
                                 </h3>
                                 <ul className="space-y-2.5">
@@ -133,7 +133,7 @@ const Footer = () => {
                                             <li key={link.label}>
                                                 <Link
                                                     to={link.to}
-                                                    className="text-sm text-[#36271A] dark:text-[#DDD6CE] hover:text-[#B85323] dark:hover:text-[#FF8F6B] font-medium transition-colors"
+                                                    className="text-sm text-[#475467] dark:text-[#DDD6CE] hover:text-[#B85323] dark:hover:text-[#FF8F6B] font-medium transition-colors"
                                                 >
                                                     {link.label}
                                                 </Link>
@@ -146,7 +146,7 @@ const Footer = () => {
                     })}
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-white/80 dark:border-[#2E221A] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#5C4A3C] dark:text-[#8E8478]">
+                <div className="mt-10 pt-6 border-t border-[#EAECF0] dark:border-[#2E221A] flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-[#667085] dark:text-[#8E8478]">
                     <div className="flex items-center gap-3 text-xs sm:text-sm font-medium">
                         <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
                         <span>•</span>

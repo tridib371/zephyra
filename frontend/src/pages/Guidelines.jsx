@@ -179,7 +179,7 @@ export default function Guidelines() {
     });
 
     return (
-        <div className="min-h-screen bg-[#F6EFE6] dark:bg-[#0E1116] text-[#1F1710] dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
+        <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] text-[#101828] dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
             <div className="max-w-5xl mx-auto space-y-16">
 
                 {/* Hero Header */}
@@ -187,24 +187,24 @@ export default function Guidelines() {
                     <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-widest">
                         Community Trust, Safety & Ethics
                     </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1F1710] dark:text-white">
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#101828] dark:text-white">
                         Community Guidelines
                     </h1>
-                    <p className="text-base sm:text-xl text-[#5C4A3C] dark:text-[#9DA3B4] leading-relaxed font-medium">
+                    <p className="text-base sm:text-xl text-[#475467] dark:text-[#9DA3B4] leading-relaxed font-medium">
                         These foundational principles ensure that Zephyra remains a welcoming, calm, and inspiring sanctuary for creators and thinkers worldwide.
                     </p>
                 </div>
 
                 {/* Philosophy Manifesto Banner */}
-                <div className="p-8 sm:p-10 rounded-3xl border border-[#E2D4C3] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#FAF2E8] via-[#FFFDF9] to-[#F4ECE1] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] flex flex-col sm:flex-row items-center gap-6">
+                <div className="p-8 sm:p-10 rounded-3xl border border-[#EAECF0] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#F8F9FA] via-white to-[#F2F4F7] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] shadow-xs flex flex-col sm:flex-row items-center gap-6">
                     <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-3xl shrink-0">
                         <HiOutlineUserGroup />
                     </div>
                     <div className="space-y-2 text-center sm:text-left">
-                        <h3 className="font-['Fraunces'] font-bold text-xl sm:text-2xl text-[#1F1710] dark:text-white">
+                        <h3 className="font-['Fraunces'] font-bold text-xl sm:text-2xl text-[#101828] dark:text-white">
                             The Sanctuary Covenant
                         </h3>
-                        <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#A0A5B2] leading-relaxed font-medium">
+                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#A0A5B2] leading-relaxed font-medium">
                             Zephyra is built on the belief that social spaces should nourish creativity rather than provoke outrage. By participating in our community, you commit to respecting fellow creators, upholding authenticity, and fostering positive, thoughtful connections.
                         </p>
                     </div>
@@ -218,8 +218,8 @@ export default function Guidelines() {
                             onClick={() => setActiveTab(cat.id)}
                             className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
                                 activeTab === cat.id
-                                    ? 'bg-[#1F1710] text-[#FFFDF9] dark:bg-white dark:text-[#1A140D] shadow-sm scale-105'
-                                    : 'bg-[#FAF2E8] dark:bg-[#181C26] border border-[#DECDBB] dark:border-[#252A36] text-[#5C4A3C] dark:text-[#A0A5B2] hover:bg-[#EFE3D4]'
+                                    ? 'bg-[#101828] text-white dark:bg-white dark:text-[#1A140D] shadow-sm scale-105'
+                                    : 'bg-white dark:bg-[#181C26] border border-[#EAECF0] dark:border-[#252A36] text-[#344054] dark:text-[#A0A5B2] hover:bg-[#F2F4F7]'
                             }`}
                         >
                             {cat.label}
@@ -234,10 +234,10 @@ export default function Guidelines() {
                         return (
                             <div
                                 key={item.id}
-                                className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] backdrop-blur-xl space-y-6 transition-all hover:border-[#D97B4F]/50"
+                                className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-xs backdrop-blur-xl space-y-6 transition-all hover:border-[#D97B4F]/50"
                             >
                                 {/* Header of the Card */}
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#EFE5D8] dark:border-[#1F232C] pb-6">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#EAECF0] dark:border-[#1F232C] pb-6">
                                     <div className="flex items-start sm:items-center gap-4">
                                         <div className="p-3.5 rounded-2xl bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-2xl shrink-0">
                                             <IconComponent />
@@ -246,18 +246,18 @@ export default function Guidelines() {
                                             <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B] block">
                                                 Principle {item.number}
                                             </span>
-                                            <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-[#1F1710] dark:text-white">
+                                            <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-[#101828] dark:text-white">
                                                 {item.title}
                                             </h2>
                                         </div>
                                     </div>
-                                    <span className="text-xs text-[#877568] dark:text-gray-500 font-semibold italic">
+                                    <span className="text-xs text-[#667085] dark:text-gray-500 font-semibold italic">
                                         {item.tagline}
                                     </span>
                                 </div>
 
                                 {/* Body Description */}
-                                <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#B5B9C5] leading-relaxed font-medium">
+                                <p className="text-xs sm:text-sm text-[#475467] dark:text-[#B5B9C5] leading-relaxed font-medium">
                                     {item.description}
                                 </p>
 
@@ -273,7 +273,7 @@ export default function Guidelines() {
                                         </div>
                                         <ul className="space-y-2">
                                             {item.dos.map((doItem) => (
-                                                <li key={doItem} className="text-xs text-[#2D241C] dark:text-[#C5C9D3] flex items-start gap-2 leading-relaxed font-medium">
+                                                <li key={doItem} className="text-xs text-[#344054] dark:text-[#C5C9D3] flex items-start gap-2 leading-relaxed font-medium">
                                                     <span className="text-emerald-600 font-bold mt-0.5">•</span>
                                                     <span>{doItem}</span>
                                                 </li>
@@ -291,7 +291,7 @@ export default function Guidelines() {
                                         </div>
                                         <ul className="space-y-2">
                                             {item.donts.map((dontItem) => (
-                                                <li key={dontItem} className="text-xs text-[#2D241C] dark:text-[#C5C9D3] flex items-start gap-2 leading-relaxed font-medium">
+                                                <li key={dontItem} className="text-xs text-[#344054] dark:text-[#C5C9D3] flex items-start gap-2 leading-relaxed font-medium">
                                                     <span className="text-rose-600 font-bold mt-0.5">•</span>
                                                     <span>{dontItem}</span>
                                                 </li>
@@ -305,15 +305,15 @@ export default function Guidelines() {
                 </div>
 
                 {/* 4-Step Moderation & Enforcement Ladder */}
-                <div className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] space-y-8">
+                <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-xs space-y-8">
                     <div className="text-center space-y-2 max-w-2xl mx-auto">
                         <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B]">
                             Fair & Transparent Governance
                         </span>
-                        <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1F1710] dark:text-white">
+                        <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#101828] dark:text-white">
                             How We Enforce Guidelines
                         </h2>
-                        <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#8A8F9C] font-medium">
+                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] font-medium">
                             Our moderation process is guided by proportionality, human oversight, and transparent appeals.
                         </p>
                     </div>
@@ -322,15 +322,15 @@ export default function Guidelines() {
                         {MODERATION_STEPS.map((m) => (
                             <div
                                 key={m.step}
-                                className="p-6 rounded-2xl bg-[#FAF2E8] dark:bg-[#181C26] border border-[#DECDBB] dark:border-[#252A36] space-y-3 relative"
+                                className="p-6 rounded-2xl bg-[#F8F9FA] dark:bg-[#181C26] border border-[#EAECF0] dark:border-[#252A36] space-y-3 relative"
                             >
                                 <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] font-extrabold text-xs">
                                     {m.step}
                                 </span>
-                                <h3 className="font-['Fraunces'] font-bold text-base text-[#1F1710] dark:text-white">
+                                <h3 className="font-['Fraunces'] font-bold text-base text-[#101828] dark:text-white">
                                     {m.title}
                                 </h3>
-                                <p className="text-xs text-[#5C4A3C] dark:text-[#9DA3B4] leading-relaxed font-medium">
+                                <p className="text-xs text-[#475467] dark:text-[#9DA3B4] leading-relaxed font-medium">
                                     {m.desc}
                                 </p>
                             </div>
@@ -339,16 +339,16 @@ export default function Guidelines() {
                 </div>
 
                 {/* Reporting & Assistance Banner */}
-                <div className="rounded-3xl border border-[#E2D4C3] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#FAF2E8] via-[#FFFDF9] to-[#F4ECE1] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-[0_10px_35px_-10px_rgba(217,123,79,0.15)] flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="rounded-3xl border border-[#EAECF0] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#F8F9FA] via-white to-[#F2F4F7] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6">
                     <div className="space-y-2 text-center sm:text-left">
                         <div className="flex items-center justify-center sm:justify-start gap-2 text-[#B85323] dark:text-[#F5C36B] font-bold text-sm">
                             <HiOutlineFlag className="text-lg" />
                             <span>See something that violates these rules?</span>
                         </div>
-                        <h3 className="font-['Fraunces'] text-2xl font-bold text-[#1F1710] dark:text-white">
+                        <h3 className="font-['Fraunces'] text-2xl font-bold text-[#101828] dark:text-white">
                             Submit a Confidential Safety Report
                         </h3>
-                        <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#9DA3B4] max-w-lg font-medium">
+                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#9DA3B4] max-w-lg font-medium">
                             Use the (...) menu on any post or message to flag content, or contact our trust & safety administrators directly.
                         </p>
                     </div>

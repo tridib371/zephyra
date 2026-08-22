@@ -39,7 +39,7 @@ const ConfirmDialog = ({
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.92, opacity: 0, y: 15 }}
                     transition={{ duration: 0.2 }}
-                    className="bg-white dark:bg-[#12151C] rounded-3xl shadow-2xl border border-gray-200/80 dark:border-[#1F232C] p-6 sm:p-8 max-w-md w-full font-[Manrope]"
+                    className="bg-white dark:bg-[#12151C] rounded-3xl shadow-2xl border border-[#EAECF0] dark:border-[#1F232C] p-6 sm:p-8 max-w-md w-full font-[Manrope]"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Icon */}
@@ -50,12 +50,12 @@ const ConfirmDialog = ({
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-['Fraunces'] italic text-xl sm:text-2xl text-center text-gray-900 dark:text-[#EDEBE6] mb-2 font-bold">
+                    <h3 className="font-['Fraunces'] italic text-xl sm:text-2xl text-center text-[#101828] dark:text-[#EDEBE6] mb-2 font-bold">
                         {title}
                     </h3>
 
                     {/* Message */}
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] text-center mb-6 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#475467] dark:text-[#9DA3B4] text-center mb-6 leading-relaxed">
                         {message}
                     </p>
 
@@ -64,7 +64,7 @@ const ConfirmDialog = ({
                         <button
                             type="button"
                             onClick={handleClose}
-                            className="px-6 py-2.5 border border-gray-300 dark:border-[#2E3544] text-gray-700 dark:text-[#E7E6E3] font-bold rounded-full hover:bg-gray-50 dark:hover:bg-[#181C26] transition-all text-xs sm:text-sm order-2 sm:order-1 cursor-pointer"
+                            className="px-6 py-2.5 border border-[#EAECF0] dark:border-[#2E3544] text-[#344054] dark:text-[#E7E6E3] font-bold rounded-full hover:bg-[#F2F4F7] dark:hover:bg-[#181C26] transition-all text-xs sm:text-sm order-2 sm:order-1 cursor-pointer"
                         >
                             {cancelText}
                         </button>

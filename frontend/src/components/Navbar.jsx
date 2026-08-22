@@ -166,19 +166,19 @@ const Navbar = () => {
     const navLinkClasses = (path) => `
         flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-sm font-extrabold rounded-full transition-all duration-200 cursor-pointer font-[Manrope]
         ${isActive(path)
-            ? 'bg-white/80 backdrop-blur-md dark:bg-[#251C16] text-[#B85323] dark:text-[#F5C36B] border border-white/90 dark:border-[#423126] shadow-xs'
-            : 'text-[#2D241C] dark:text-[#E2DAD1] hover:bg-white/70 dark:hover:bg-[#241B16] hover:text-[#B85323] dark:hover:text-[#FF8F6B]'
+            ? 'bg-[#F2F4F7] dark:bg-[#251C16] text-[#B85323] dark:text-[#F5C36B] border border-[#EAECF0] dark:border-[#423126] shadow-xs'
+            : 'text-[#344054] dark:text-[#E2DAD1] hover:bg-[#F2F4F7] dark:hover:bg-[#241B16] hover:text-[#B85323] dark:hover:text-[#FF8F6B]'
         }
     `;
 
     const iconBtnClasses = `
-        p-2 rounded-full text-[#2D241C] dark:text-[#E2DAD1] hover:bg-white/70 dark:hover:bg-[#241B16] 
+        p-2 rounded-full text-[#344054] dark:text-[#E2DAD1] hover:bg-[#F2F4F7] dark:hover:bg-[#241B16] 
         hover:text-[#B85323] dark:hover:text-[#FF8F6B] transition-all duration-200 cursor-pointer relative
-        border border-transparent hover:border-white/90 dark:hover:border-[#423126]
+        border border-transparent hover:border-[#EAECF0] dark:hover:border-[#423126]
     `;
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-white/80 dark:border-[#2E221A] bg-white/60 dark:bg-[#14100D]/95 backdrop-blur-2xl shadow-[0_4px_30px_-5px_rgba(217,123,79,0.08)] dark:shadow-[0_8px_30px_-8px_rgba(217,123,79,0.18)] transition-colors duration-300">
+        <nav className="sticky top-0 z-40 w-full border-b border-[#EAECF0] dark:border-[#2E221A] bg-white/70 dark:bg-[#14100D]/95 backdrop-blur-2xl shadow-[0_4px_30px_-5px_rgba(217,123,79,0.06)] dark:shadow-[0_8px_30px_-8px_rgba(217,123,79,0.18)] transition-colors duration-300">
             {/* Subtle Horizon Glow Edge */}
             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#D97B4F]/50 dark:via-[#FF8F6B]/60 to-transparent" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -253,12 +253,12 @@ const Navbar = () => {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 8, scale: 0.95 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-white/90 dark:border-[#38281E] bg-white/85 dark:bg-[#181310]/98 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-50"
+                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#EAECF0] dark:border-[#38281E] bg-white/95 dark:bg-[#181310]/98 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(16,24,40,0.12)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-50"
                                             >
-                                                <div className="flex items-center justify-between px-5 py-4 border-b border-stone-100 dark:border-[#38281E] bg-white/70 dark:bg-[#201814]">
+                                                <div className="flex items-center justify-between px-5 py-4 border-b border-[#EAECF0] dark:border-[#38281E] bg-[#F8F9FA] dark:bg-[#201814]">
                                                     <div>
                                                         <p className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#B85323] dark:text-[#F5C36B]">Realtime Inbox</p>
-                                                        <h4 className="font-['Fraunces'] italic text-lg font-bold text-[#1F1710] dark:text-[#EDEBE6]">Notifications</h4>
+                                                        <h4 className="font-['Fraunces'] italic text-lg font-bold text-[#101828] dark:text-[#EDEBE6]">Notifications</h4>
                                                     </div>
                                                     {unreadCount > 0 && (
                                                         <button onClick={markAllAsRead} className="text-xs font-bold text-[#B85323] dark:text-[#F5C36B] hover:underline cursor-pointer">
@@ -267,9 +267,9 @@ const Navbar = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="max-h-96 overflow-y-auto divide-y divide-[#EFE5D8] dark:divide-[#2E221A]/60">
+                                                <div className="max-h-96 overflow-y-auto divide-y divide-[#EAECF0] dark:divide-[#2E221A]/60">
                                                     {notifications.length === 0 ? (
-                                                        <div className="px-5 py-10 text-center text-xs font-semibold text-[#877568] dark:text-[#8A8F9C]">
+                                                        <div className="px-5 py-10 text-center text-xs font-semibold text-[#667085] dark:text-[#8A8F9C]">
                                                             No notifications yet.
                                                         </div>
                                                     ) : (
@@ -283,7 +283,7 @@ const Navbar = () => {
                                                                     onClick={() => handleNotificationClick(notification)}
                                                                     className={`flex items-start gap-3 px-5 py-4 transition-colors cursor-pointer ${unread
                                                                             ? 'bg-[#FFF8F4] dark:bg-[#251C16]/60 hover:bg-[#FFEFE6] dark:hover:bg-[#2B2019]'
-                                                                            : 'hover:bg-[#FAF7F2] dark:hover:bg-[#201814]'
+                                                                            : 'hover:bg-[#F8F9FA] dark:hover:bg-[#201814]'
                                                                         }`}
                                                                 >
                                                                     <img
@@ -293,15 +293,15 @@ const Navbar = () => {
                                                                         onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`; }}
                                                                     />
                                                                     <div className="min-w-0 flex-1">
-                                                                        <p className={`text-xs sm:text-sm ${unread ? 'font-bold text-[#1A140D] dark:text-[#EDEBE6]' : 'text-[#5C4A3C] dark:text-[#A0A6B6]'}`}>
+                                                                        <p className={`text-xs sm:text-sm ${unread ? 'font-bold text-[#101828] dark:text-[#EDEBE6]' : 'text-[#475467] dark:text-[#A0A6B6]'}`}>
                                                                             {getNotificationMessage(notification)}
                                                                         </p>
                                                                         {detail && (
-                                                                            <p className="mt-1 text-xs text-[#877568] dark:text-[#8A8F9C] line-clamp-2 font-medium">
+                                                                            <p className="mt-1 text-xs text-[#667085] dark:text-[#8A8F9C] line-clamp-2 font-medium">
                                                                                 {detail}
                                                                             </p>
                                                                         )}
-                                                                        <p className="mt-1 text-[10px] font-semibold text-[#877568] dark:text-[#6E7280]">
+                                                                        <p className="mt-1 text-[10px] font-semibold text-[#667085] dark:text-[#6E7280]">
                                                                             {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
                                                                         </p>
                                                                     </div>
@@ -318,7 +318,7 @@ const Navbar = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="border-t border-[#DECDBB] dark:border-[#2E221A] px-5 py-3 bg-[#FAF2E8]/70 dark:bg-[#14100D]">
+                                                <div className="border-t border-[#EAECF0] dark:border-[#2E221A] px-5 py-3 bg-[#F8F9FA] dark:bg-[#14100D]">
                                                     <Link
                                                         to="/notifications"
                                                         onClick={() => setIsNotificationOpen(false)}
@@ -341,7 +341,7 @@ const Navbar = () => {
                         {/* Theme Toggle Pill */}
                         <button
                             onClick={toggleTheme}
-                            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/80 dark:border-[#38281E] bg-white/60 dark:bg-[#201814] text-[#2D241C] dark:text-[#EDEBE6] hover:border-[#D97B4F]/40 hover:bg-white/90 dark:hover:bg-[#2A201B] dark:hover:border-[#FF8F6B]/50 backdrop-blur-md transition-all cursor-pointer shadow-xs ml-1"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#EAECF0] dark:border-[#38281E] bg-[#F2F4F7] dark:bg-[#201814] text-[#344054] dark:text-[#EDEBE6] hover:border-[#D97B4F]/40 hover:bg-[#EAECF0] dark:hover:bg-[#2A201B] dark:hover:border-[#FF8F6B]/50 backdrop-blur-md transition-all cursor-pointer shadow-xs ml-1"
                             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                         >
@@ -376,31 +376,31 @@ const Navbar = () => {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 8, scale: 0.95 }}
                                             transition={{ duration: 0.2 }}
-                                            className="absolute right-0 mt-3 w-56 rounded-3xl border border-white/90 dark:border-[#38281E] bg-white/85 dark:bg-[#181310]/98 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(217,123,79,0.2)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-50 py-2"
+                                            className="absolute right-0 mt-3 w-56 rounded-3xl border border-[#EAECF0] dark:border-[#38281E] bg-white/95 dark:bg-[#181310]/98 backdrop-blur-2xl shadow-[0_24px_60px_-15px_rgba(16,24,40,0.12)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-50 py-2"
                                         >
-                                            <div className="px-4 py-3 border-b border-stone-100 dark:border-[#38281E] bg-white/70 dark:bg-[#201814]">
-                                                <p className="text-sm font-bold text-[#1F1710] dark:text-[#EDEBE6] truncate">{user?.name}</p>
-                                                <p className="text-xs font-semibold text-[#877568] dark:text-[#A89F95] truncate">@{user?.username}</p>
+                                            <div className="px-4 py-3 border-b border-[#EAECF0] dark:border-[#38281E] bg-[#F8F9FA] dark:bg-[#201814]">
+                                                <p className="text-sm font-bold text-[#101828] dark:text-[#EDEBE6] truncate">{user?.name}</p>
+                                                <p className="text-xs font-semibold text-[#667085] dark:text-[#A89F95] truncate">@{user?.username}</p>
                                             </div>
 
                                             <div className="py-1">
                                                 <Link
                                                     to="/profile"
                                                     onClick={() => setIsProfileMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#36271A] dark:text-[#E8E3DD] hover:bg-white/90 dark:hover:bg-[#201814] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#344054] dark:text-[#E8E3DD] hover:bg-[#F8F9FA] dark:hover:bg-[#201814] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                                 >
                                                     <ProfileGlyphIcon /> My Profile
                                                 </Link>
                                                 <Link
                                                     to="/settings"
                                                     onClick={() => setIsProfileMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#36271A] dark:text-[#E8E3DD] hover:bg-white/90 dark:hover:bg-[#201814] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#344054] dark:text-[#E8E3DD] hover:bg-[#F8F9FA] dark:hover:bg-[#201814] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                                 >
                                                     <GearIcon /> Settings
                                                 </Link>
                                             </div>
 
-                                            <div className="border-t border-stone-100 dark:border-[#2E221A] pt-1 mt-1">
+                                            <div className="border-t border-[#EAECF0] dark:border-[#2E221A] pt-1 mt-1">
                                                 <button
                                                     onClick={handleLogout}
                                                     className="w-full flex items-center gap-2.5 text-left px-4 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors cursor-pointer"
@@ -416,7 +416,7 @@ const Navbar = () => {
                             <div className="flex items-center gap-2 ml-2">
                                 <Link
                                     to="/admin"
-                                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-bold text-[#5C4A3C] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-bold text-[#475467] dark:text-[#A89F95] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                     title="Administrator Portal"
                                 >
                                     <ShieldKeyIcon />
@@ -424,7 +424,7 @@ const Navbar = () => {
                                 </Link>
                                 <Link
                                     to="/login"
-                                    className="px-4 py-2 text-xs sm:text-sm font-bold text-[#36271A] dark:text-[#E8E3DD] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
+                                    className="px-4 py-2 text-xs sm:text-sm font-bold text-[#344054] dark:text-[#E8E3DD] hover:text-[#B85323] dark:hover:text-[#F5C36B] transition-colors"
                                 >
                                     Sign In
                                 </Link>
@@ -470,7 +470,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu Drawer */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden pb-4 space-y-1.5 border-t border-white/80 dark:border-[#2E221A] pt-3 font-[Manrope] bg-white/80 dark:bg-[#14100D] backdrop-blur-2xl rounded-b-3xl px-2 mt-1 shadow-md">
+                    <div className="md:hidden pb-4 space-y-1.5 border-t border-[#EAECF0] dark:border-[#2E221A] pt-3 font-[Manrope] bg-white/95 dark:bg-[#14100D] backdrop-blur-2xl rounded-b-3xl px-2 mt-1 shadow-md">
                         {isAuthenticated ? (
                             <>
                                 <Link to="/feed" className={navLinkClasses('/feed')} onClick={() => setIsMobileMenuOpen(false)}>
@@ -499,20 +499,20 @@ const Navbar = () => {
                                 <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
                                     <GearIcon /> Settings
                                 </Link>
-                                <hr className="my-2 border-stone-100 dark:border-[#2E221A]" />
+                                <hr className="my-2 border-[#EAECF0] dark:border-[#2E221A]" />
                                 <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
                                     <LogoutIcon /> Logout
                                 </button>
                             </>
                         ) : (
                             <div className="flex flex-col gap-2 p-2">
-                                <Link to="/login" className="px-4 py-2.5 text-center text-xs font-bold border border-white/90 dark:border-[#38281E] rounded-full text-[#1F1710] dark:text-[#EDEBE6] bg-white/70 dark:bg-[#201814]" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link to="/login" className="px-4 py-2.5 text-center text-xs font-bold border border-[#EAECF0] dark:border-[#38281E] rounded-full text-[#101828] dark:text-[#EDEBE6] bg-[#F8F9FA] dark:bg-[#201814]" onClick={() => setIsMobileMenuOpen(false)}>
                                     Sign In
                                 </Link>
                                 <Link to="/register" className="px-4 py-2.5 text-center text-xs font-extrabold bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] rounded-full shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
                                     Get Started
                                 </Link>
-                                <Link to="/admin" className="flex items-center justify-center gap-1.5 px-4 py-2 text-center text-xs font-bold text-[#5C4A3C] dark:text-[#A89F95] hover:text-[#B85323]" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link to="/admin" className="flex items-center justify-center gap-1.5 px-4 py-2 text-center text-xs font-bold text-[#475467] dark:text-[#A89F95] hover:text-[#B85323]" onClick={() => setIsMobileMenuOpen(false)}>
                                     <ShieldKeyIcon />
                                     <span>Admin Portal</span>
                                 </Link>

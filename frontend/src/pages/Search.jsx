@@ -98,7 +98,7 @@ export default function Search() {
     const showHashtags = activeTab === 'all' || activeTab === 'hashtags';
 
     return (
-        <div className="min-h-screen px-4 sm:px-6 py-10 bg-[#F6EFE6] dark:bg-[#0B0D10] text-[#1F1710] dark:text-[#EDEBE6] font-[Manrope] transition-colors duration-300">
+        <div className="min-h-screen px-4 sm:px-6 py-10 bg-[#F8F9FA] dark:bg-[#0B0D10] text-[#101828] dark:text-[#EDEBE6] font-[Manrope] transition-colors duration-300">
 
             {/* Background Ambient Orbs */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -112,7 +112,7 @@ export default function Search() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D]/90 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)]"
+                    className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D]/90 backdrop-blur-2xl p-6 sm:p-8 shadow-xs"
                 >
                     <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div>
@@ -120,10 +120,10 @@ export default function Search() {
                                 <SearchIcon />
                                 <span>Global Explorer</span>
                             </span>
-                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic font-bold text-[#1F1710] dark:text-white">
+                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic font-bold text-[#101828] dark:text-white">
                                 Search Zephyra Realm
                             </h1>
-                            <p className="mt-1.5 text-xs sm:text-sm text-[#5C4A3C] dark:text-[#8A8F9C] font-medium max-w-xl">
+                            <p className="mt-1.5 text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] font-medium max-w-xl">
                                 Instantly discover creators, real-time posts, direct conversations, and trending topics.
                             </p>
                         </div>
@@ -134,12 +134,12 @@ export default function Search() {
                                 {stats.map((item) => {
                                     const Icon = item.icon;
                                     return (
-                                        <div key={item.label} className="rounded-2xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#FAF2E8] dark:bg-[#151922] p-3 text-center shadow-xs">
+                                        <div key={item.label} className="rounded-2xl border border-[#EAECF0] dark:border-[#1F232C] bg-[#F8F9FA] dark:bg-[#151922] p-3 text-center shadow-xs">
                                             <div className="flex items-center justify-center gap-1.5 text-[#B85323] dark:text-[#F5C36B] mb-1">
                                                 <Icon />
                                                 <span className="text-[10px] uppercase font-extrabold tracking-wider">{item.label}</span>
                                             </div>
-                                            <p className="text-xl font-extrabold text-[#1F1710] dark:text-white">{item.value}</p>
+                                            <p className="text-xl font-extrabold text-[#101828] dark:text-white">{item.value}</p>
                                         </div>
                                     );
                                 })}
@@ -157,12 +157,12 @@ export default function Search() {
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 placeholder="Search creators by name, @username, keywords, or #hashtags..."
-                                className="w-full rounded-2xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#F4ECE1] dark:bg-[#0A0D11] py-4 pl-12 pr-12 text-sm sm:text-base font-semibold text-[#1F1710] dark:text-[#EDEBE6] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] outline-none focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] shadow-inner transition-all"
+                                className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#1F232C] bg-[#F8F9FA] dark:bg-[#0A0D11] py-4 pl-12 pr-12 text-sm sm:text-base font-semibold text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] outline-none focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] shadow-inner transition-all"
                             />
                             {query && (
                                 <button
                                     onClick={() => setQuery('')}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-[#E5D7C7] dark:bg-gray-800 text-[#36271A] dark:text-gray-300 hover:bg-[#D9C9B7] dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-[#EAECF0] dark:bg-gray-800 text-[#344054] dark:text-gray-300 hover:bg-[#D0D5DD] dark:hover:bg-gray-700 transition-colors cursor-pointer"
                                 >
                                     <CloseIcon />
                                 </button>
@@ -177,8 +177,8 @@ export default function Search() {
                                         key={tab.key}
                                         onClick={() => setActiveTab(tab.key)}
                                         className={`rounded-full px-4 py-2 text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${activeTab === tab.key
-                                                ? 'bg-[#1F1710] text-[#FFFDF9] dark:bg-white dark:text-[#1A140D] shadow-md scale-105'
-                                                : 'border border-[#DECDBB] dark:border-[#1F232C] bg-[#FAF2E8] dark:bg-[#151922] text-[#5C4A3C] dark:text-[#EDEBE6] hover:bg-[#EFE3D4] dark:hover:bg-white/10'
+                                                ? 'bg-[#101828] text-white dark:bg-white dark:text-[#1A140D] shadow-md scale-105'
+                                                : 'border border-[#EAECF0] dark:border-[#1F232C] bg-[#F8F9FA] dark:bg-[#151922] text-[#344054] dark:text-[#EDEBE6] hover:bg-[#F2F4F7] dark:hover:bg-white/10'
                                             }`}
                                     >
                                         {tab.label}
@@ -191,7 +191,7 @@ export default function Search() {
 
                 {/* ===== LOADING SKELETON STATE ===== */}
                 {loading && (
-                    <div className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D]/90 p-12 text-center shadow-xs">
+                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D]/90 p-12 text-center shadow-xs">
                         <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#FFE8D6] dark:bg-white/5 text-[#B85323] dark:text-[#F5C36B] font-extrabold text-sm">
                             <svg className="animate-spin h-4 w-4 text-[#D97B4F] dark:text-[#F5C36B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -207,14 +207,14 @@ export default function Search() {
                     <motion.div
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D]/90 p-8 sm:p-10 shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] space-y-6"
+                        className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D]/90 p-8 sm:p-10 shadow-xs space-y-6"
                     >
                         <div>
                             <h3 className="inline-flex items-center gap-1.5 text-sm font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B]">
                                 <HiOutlineFire className="text-base text-[#D97B4F]" />
                                 <span>Trending Topics</span>
                             </h3>
-                            <p className="text-xs text-[#5C4A3C] dark:text-gray-400 mt-1 font-medium">
+                            <p className="text-xs text-[#475467] dark:text-gray-400 mt-1 font-medium">
                                 Click any topic to instantly start exploring global posts
                             </p>
                             <div className="flex flex-wrap gap-2.5 mt-4">
@@ -222,7 +222,7 @@ export default function Search() {
                                     <button
                                         key={tag}
                                         onClick={() => setQuery(tag)}
-                                        className="px-4 py-2 rounded-full border border-[#DECDBB] dark:border-[#1F232C] bg-[#FAF2E8] dark:bg-[#151922] text-xs font-bold text-[#1F1710] dark:text-[#EDEBE6] hover:bg-[#EFE3D4] dark:hover:bg-[#1A1E27] hover:border-[#FF8F6B]/50 transition-all cursor-pointer shadow-xs"
+                                        className="px-4 py-2 rounded-full border border-[#EAECF0] dark:border-[#1F232C] bg-[#F8F9FA] dark:bg-[#151922] text-xs font-bold text-[#101828] dark:text-[#EDEBE6] hover:bg-[#F2F4F7] dark:hover:bg-[#1A1E27] hover:border-[#FF8F6B]/50 transition-all cursor-pointer shadow-xs"
                                     >
                                         {tag}
                                     </button>
@@ -239,8 +239,8 @@ export default function Search() {
                         {/* PEOPLE SECTION */}
                         {showUsers && (
                             <section className={`${activeTab === 'users' ? 'lg:col-span-12 grid md:grid-cols-2 lg:grid-cols-3 gap-4' : 'lg:col-span-4 space-y-4'}`}>
-                                <div className="flex items-center justify-between col-span-full pb-1 border-b border-[#DECDBB] dark:border-[#1F232C]">
-                                    <h2 className="text-lg font-bold text-[#1F1710] dark:text-white font-[Manrope] flex items-center gap-2">
+                                <div className="flex items-center justify-between col-span-full pb-1 border-b border-[#EAECF0] dark:border-[#1F232C]">
+                                    <h2 className="text-lg font-bold text-[#101828] dark:text-white font-[Manrope] flex items-center gap-2">
                                         <UserGroupIcon /> People
                                     </h2>
                                     <span className="px-2.5 py-0.5 rounded-full bg-[#FFE8D6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold">
@@ -249,14 +249,14 @@ export default function Search() {
                                 </div>
 
                                 {results.users.length === 0 ? (
-                                    <div className="col-span-full rounded-2xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D] p-6 text-center text-xs font-semibold text-[#665548] dark:text-[#8A8F9C]">
+                                    <div className="col-span-full rounded-2xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D] p-6 text-center text-xs font-semibold text-[#667085] dark:text-[#8A8F9C]">
                                         No users matching "{query}"
                                     </div>
                                 ) : results.users.map((person) => (
                                     <motion.article
                                         key={person._id}
                                         whileHover={{ y: -4 }}
-                                        className="rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] p-5 shadow-[0_10px_30px_-10px_rgba(217,123,79,0.12)] hover:shadow-[0_15px_35px_-5px_rgba(217,123,79,0.22)] transition-all duration-300 flex flex-col justify-between"
+                                        className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                                     >
                                         <div className="flex items-start gap-3.5">
                                             <img
@@ -267,20 +267,20 @@ export default function Search() {
                                                 className="h-13 w-13 rounded-2xl object-cover ring-2 ring-[#FF8F6B]/40 shrink-0 shadow-xs"
                                             />
                                             <div className="min-w-0 flex-1">
-                                                <Link to={`/profile/${person._id}`} className="block truncate text-base font-extrabold text-[#1F1710] dark:text-white hover:text-[#B85323] dark:hover:text-[#F5C36B]">
+                                                <Link to={`/profile/${person._id}`} className="block truncate text-base font-extrabold text-[#101828] dark:text-white hover:text-[#B85323] dark:hover:text-[#F5C36B]">
                                                     {person.name}
                                                 </Link>
-                                                <p className="truncate text-xs font-semibold text-[#665548] dark:text-[#8A8F9C]">@{person.username}</p>
-                                                <p className="mt-1.5 text-xs text-[#5C4A3C] dark:text-gray-400 line-clamp-2 font-medium">
+                                                <p className="truncate text-xs font-semibold text-[#667085] dark:text-[#8A8F9C]">@{person.username}</p>
+                                                <p className="mt-1.5 text-xs text-[#475467] dark:text-gray-400 line-clamp-2 font-medium">
                                                     {person.bio || 'Zephyra creator.'}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        <div className="mt-5 pt-3 border-t border-[#EFE5D8] dark:border-[#1F232C] flex gap-2">
+                                        <div className="mt-5 pt-3 border-t border-[#EAECF0] dark:border-[#1F232C] flex gap-2">
                                             <Link
                                                 to={`/profile/${person._id}`}
-                                                className="flex-1 py-2 text-center rounded-full border border-[#DECDBB] dark:border-[#1F232C] bg-[#FAF2E8] dark:bg-[#181D27] text-xs font-bold text-[#1F1710] dark:text-white hover:border-[#FF8F6B]/50 transition-all"
+                                                className="flex-1 py-2 text-center rounded-full border border-[#EAECF0] dark:border-[#1F232C] bg-[#F8F9FA] dark:bg-[#181D27] text-xs font-bold text-[#101828] dark:text-white hover:border-[#FF8F6B]/50 transition-all"
                                             >
                                                 View Profile
                                             </Link>
@@ -299,8 +299,8 @@ export default function Search() {
                         {/* POSTS SECTION */}
                         {showPosts && (
                             <section className={`${activeTab === 'posts' ? 'lg:col-span-12 grid md:grid-cols-2 gap-4' : activeTab === 'all' ? 'lg:col-span-5 space-y-4' : 'lg:col-span-8 space-y-4'}`}>
-                                <div className="flex items-center justify-between pb-1 border-b border-[#DECDBB] dark:border-[#1F232C]">
-                                    <h2 className="text-lg font-bold text-[#1F1710] dark:text-white font-[Manrope] flex items-center gap-2">
+                                <div className="flex items-center justify-between pb-1 border-b border-[#EAECF0] dark:border-[#1F232C]">
+                                    <h2 className="text-lg font-bold text-[#101828] dark:text-white font-[Manrope] flex items-center gap-2">
                                         <PostFeedIcon /> Posts
                                     </h2>
                                     <span className="px-2.5 py-0.5 rounded-full bg-[#FFE8D6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold">
@@ -309,7 +309,7 @@ export default function Search() {
                                 </div>
 
                                 {results.posts.length === 0 ? (
-                                    <div className="rounded-2xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D] p-6 text-center text-xs font-semibold text-[#665548] dark:text-[#8A8F9C]">
+                                    <div className="rounded-2xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D] p-6 text-center text-xs font-semibold text-[#667085] dark:text-[#8A8F9C]">
                                         No posts matching "{query}"
                                     </div>
                                 ) : results.posts.map((post) => (
@@ -317,7 +317,7 @@ export default function Search() {
                                         key={post._id}
                                         whileHover={{ y: -3 }}
                                         onClick={() => navigate(`/post/${post._id}`)}
-                                        className="cursor-pointer rounded-3xl border border-[#E2D4C3] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] p-5 shadow-[0_10px_30px_-10px_rgba(217,123,79,0.12)] hover:shadow-[0_15px_35px_-5px_rgba(217,123,79,0.22)] hover:border-[#FF8F6B]/50 transition-all duration-300"
+                                        className="cursor-pointer rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs hover:shadow-md hover:border-[#FF8F6B]/50 transition-all duration-300"
                                     >
                                         <div className="flex items-center gap-3">
                                             <img
@@ -328,18 +328,18 @@ export default function Search() {
                                                 className="h-10 w-10 rounded-2xl object-cover ring-1 ring-[#FF8F6B]/30"
                                             />
                                             <div>
-                                                <p className="font-extrabold text-sm text-[#1F1710] dark:text-white">{post.author?.name}</p>
-                                                <p className="text-[11px] font-semibold text-[#665548] dark:text-[#8A8F9C]">
+                                                <p className="font-extrabold text-sm text-[#101828] dark:text-white">{post.author?.name}</p>
+                                                <p className="text-[11px] font-semibold text-[#667085] dark:text-[#8A8F9C]">
                                                     @{post.author?.username} • {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        <p className="mt-3.5 text-xs sm:text-sm text-[#36271A] dark:text-[#EDEBE6] line-clamp-3 leading-relaxed font-medium">
+                                        <p className="mt-3.5 text-xs sm:text-sm text-[#344054] dark:text-[#EDEBE6] line-clamp-3 leading-relaxed font-medium">
                                             {post.content}
                                         </p>
 
-                                        <div className="mt-4 pt-3 border-t border-[#EFE5D8] dark:border-[#1F232C] flex items-center gap-4 text-xs font-bold text-[#665548] dark:text-[#8A8F9C]">
+                                        <div className="mt-4 pt-3 border-t border-[#EAECF0] dark:border-[#1F232C] flex items-center gap-4 text-xs font-bold text-[#667085] dark:text-[#8A8F9C]">
                                             <span className="flex items-center gap-1.5">
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5 text-rose-500">
                                                     <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
@@ -359,8 +359,8 @@ export default function Search() {
                         {/* HASHTAGS SECTION */}
                         {showHashtags && (
                             <section className={`${activeTab === 'hashtags' ? 'lg:col-span-12 grid md:grid-cols-3 gap-4' : 'lg:col-span-3 space-y-4'}`}>
-                                <div className="flex items-center justify-between pb-1 border-b border-[#DECDBB] dark:border-[#1F232C]">
-                                    <h2 className="text-lg font-bold text-[#1F1710] dark:text-white font-[Manrope] flex items-center gap-2">
+                                <div className="flex items-center justify-between pb-1 border-b border-[#EAECF0] dark:border-[#1F232C]">
+                                    <h2 className="text-lg font-bold text-[#101828] dark:text-white font-[Manrope] flex items-center gap-2">
                                         <HashIcon /> Hashtags
                                     </h2>
                                     <span className="px-2.5 py-0.5 rounded-full bg-[#FFE8D6] dark:bg-white/10 text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold">
@@ -369,17 +369,17 @@ export default function Search() {
                                 </div>
 
                                 {results.hashtags.length === 0 ? (
-                                    <div className="rounded-2xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#11151D] p-6 text-center text-xs font-semibold text-[#665548] dark:text-[#8A8F9C]">
+                                    <div className="rounded-2xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#11151D] p-6 text-center text-xs font-semibold text-[#667085] dark:text-[#8A8F9C]">
                                         No hashtags found.
                                     </div>
                                 ) : results.hashtags.map((item) => (
                                     <button
                                         key={item.tag}
                                         onClick={() => setQuery(item.tag)}
-                                        className="w-full rounded-2xl border border-[#DECDBB] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] p-4 text-left shadow-xs hover:border-[#FF8F6B]/50 transition-all cursor-pointer"
+                                        className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-4 text-left shadow-xs hover:border-[#FF8F6B]/50 transition-all cursor-pointer"
                                     >
                                         <p className="text-sm font-extrabold text-[#B85323] dark:text-[#F5C36B]">{item.tag}</p>
-                                        <p className="mt-1 text-xs font-semibold text-[#665548] dark:text-[#8A8F9C]">
+                                        <p className="mt-1 text-xs font-semibold text-[#667085] dark:text-[#8A8F9C]">
                                             {item.count} post{item.count !== 1 ? 's' : ''}
                                         </p>
                                     </button>

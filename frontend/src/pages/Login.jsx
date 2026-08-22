@@ -26,13 +26,13 @@ const Login = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 bg-[#F6EFE6] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
+            className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 bg-[#F8F9FA] dark:bg-[#0E1116] transition-colors duration-300 font-[Manrope]"
         >
             <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-full max-w-md sm:max-w-lg bg-[#FFFDF9] dark:bg-[#12151C] rounded-3xl shadow-[0_8px_30px_-10px_rgba(217,123,79,0.12)] p-6 sm:p-8 md:p-10 border border-[#E2D4C3] dark:border-[#1F232C] transition-colors duration-300"
+                className="w-full max-w-md sm:max-w-lg bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 sm:p-8 md:p-10 border border-[#EAECF0] dark:border-[#1F232C] transition-colors duration-300"
             >
                 {/* Header */}
                 <div className="text-center mb-6 sm:mb-8">
@@ -42,7 +42,7 @@ const Login = () => {
                     >
                         Welcome Back
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#5C4A3C] dark:text-[#8A8F9C] mt-2 font-[Manrope] font-medium">
+                    <p className="text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] mt-2 font-[Manrope] font-medium">
                         Sign in to continue your journey on Zephyra
                     </p>
                 </div>
@@ -61,7 +61,7 @@ const Login = () => {
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                     <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
+                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
                             Email Address
                         </label>
                         <input
@@ -69,13 +69,13 @@ const Login = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-3 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
+                            className="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
                             placeholder="you@example.com"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#5C4A3C] dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
+                        <label className="block text-xs font-extrabold uppercase tracking-wider text-[#344054] dark:text-[#E7E6E3] mb-1.5 font-[Manrope]">
                             Password
                         </label>
                         <input
@@ -83,7 +83,7 @@ const Login = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 bg-[#F4ECE1] dark:bg-[#0E1116] border border-[#DECDBB] dark:border-[#3A3F4B] rounded-2xl text-[#1F1710] dark:text-[#E7E6E3] placeholder:text-[#877568] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
+                            className="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-2xl text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-medium"
                             placeholder="••••••••"
                         />
                     </div>
@@ -110,10 +110,10 @@ const Login = () => {
                 {/* Divider */}
                 <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-[#DECDBB] dark:border-[#1F232C]"></div>
+                        <div className="w-full border-t border-[#EAECF0] dark:border-[#1F232C]"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-3 bg-[#FFFDF9] dark:bg-[#12151C] text-[#877568] dark:text-[#6E7280] font-[Manrope] font-medium">
+                        <span className="px-3 bg-white dark:bg-[#12151C] text-[#667085] dark:text-[#6E7280] font-[Manrope] font-medium">
                             or continue with
                         </span>
                     </div>
@@ -122,7 +122,7 @@ const Login = () => {
                 <GoogleButton />
 
                 {/* Footer */}
-                <p className="text-center text-sm text-[#5C4A3C] dark:text-[#8A8F9C] mt-6 font-[Manrope]">
+                <p className="text-center text-sm text-[#475467] dark:text-[#8A8F9C] mt-6 font-[Manrope]">
                     Don't have an account?{' '}
                     <Link
                         to="/register"
