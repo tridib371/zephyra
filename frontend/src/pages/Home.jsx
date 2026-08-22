@@ -184,28 +184,48 @@ const FEATURES = [
         title: 'Set your thoughts adrift',
         description: 'Post updates, media, and spontaneous thoughts - Zephyra carries them to standard feeds instantly.',
         badge: 'Express Freely',
-        gradient: 'from-[#FF8F6B] to-[#D97B4F]',
+        gradient: 'from-[#FF6B6B] via-[#FF8E53] to-[#F5C36B]',
+        cardBg: 'bg-gradient-to-br from-[#FFF5F2] via-white to-[#FFEBE5] dark:from-[#1E1926] dark:via-[#161B26] dark:to-[#261B25]',
+        borderColor: 'border-[#FFC4B3] dark:border-[#4A2B3B]',
+        badgeBg: 'bg-[#FFE2D9] dark:bg-[#FF6B6B]/20 text-[#D9381E] dark:text-[#FF8E53]',
+        glowColor: 'hover:shadow-[0_12px_35px_rgba(255,107,107,0.25)] dark:hover:shadow-[0_12px_35px_rgba(255,107,107,0.3)]',
+        accentText: 'text-[#D9381E] dark:text-[#FF8E53]',
     },
     {
         icon: PulseIcon,
         title: 'Real-time Currents',
         description: 'Instant socket-powered messaging, live interactions, and instant notifications that never sleep.',
         badge: 'Zero Latency',
-        gradient: 'from-[#F5C36B] to-[#FF8F6B]',
+        gradient: 'from-[#6366F1] via-[#8B5CF6] to-[#EC4899]',
+        cardBg: 'bg-gradient-to-br from-[#F5F3FF] via-white to-[#F0EEFF] dark:from-[#191832] dark:via-[#161B26] dark:to-[#241A38]',
+        borderColor: 'border-[#D8D2FF] dark:border-[#3D3366]',
+        badgeBg: 'bg-[#EAE4FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#A5B4FC]',
+        glowColor: 'hover:shadow-[0_12px_35px_rgba(99,102,241,0.25)] dark:hover:shadow-[0_12px_35px_rgba(99,102,241,0.3)]',
+        accentText: 'text-[#4F46E5] dark:text-[#A5B4FC]',
     },
     {
         icon: CloudLockIcon,
         title: 'Complete Privacy Controls',
         description: 'Every post gives you full control. Public gusts, follower-only updates, or direct messages.',
         badge: 'Private & Secure',
-        gradient: 'from-[#D97B4F] to-[#C6822E]',
+        gradient: 'from-[#10B981] via-[#059669] to-[#F59E0B]',
+        cardBg: 'bg-gradient-to-br from-[#ECFDF5] via-white to-[#E6F4EA] dark:from-[#13241F] dark:via-[#161B26] dark:to-[#12271E]',
+        borderColor: 'border-[#B7E4C7] dark:border-[#204E3C]',
+        badgeBg: 'bg-[#D1FAE5] dark:bg-[#10B981]/20 text-[#047857] dark:text-[#6EE7B7]',
+        glowColor: 'hover:shadow-[0_12px_35px_rgba(16,185,129,0.25)] dark:hover:shadow-[0_12px_35px_rgba(16,185,129,0.3)]',
+        accentText: 'text-[#047857] dark:text-[#6EE7B7]',
     },
     {
         icon: CompassIcon,
         title: 'Boundaryless Discovery',
         description: 'Discover trending stories, global topics, and active creators across every realm seamlessly.',
         badge: 'Explore Worlds',
-        gradient: 'from-[#F5C36B] to-[#D97B4F]',
+        gradient: 'from-[#06B6D4] via-[#3B82F6] to-[#6366F1]',
+        cardBg: 'bg-gradient-to-br from-[#ECFEFF] via-white to-[#E0F2FE] dark:from-[#132435] dark:via-[#161B26] dark:to-[#162A42]',
+        borderColor: 'border-[#BEE3F8] dark:border-[#22476B]',
+        badgeBg: 'bg-[#CFFAFE] dark:bg-[#06B6D4]/20 text-[#0E7490] dark:text-[#67E8F9]',
+        glowColor: 'hover:shadow-[0_12px_35px_rgba(6,182,212,0.25)] dark:hover:shadow-[0_12px_35px_rgba(6,182,212,0.3)]',
+        accentText: 'text-[#0E7490] dark:text-[#67E8F9]',
     },
 ];
 
@@ -496,34 +516,38 @@ export default function Home() {
                             return (
                                 <motion.div
                                     key={feature.title}
-                                    initial={{ opacity: 0, y: 25 }}
+                                    initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    className="group relative bg-white dark:bg-[#161B26] rounded-3xl p-6 border border-[#EAECF0] dark:border-[#283244] shadow-sm dark:shadow-xl hover:shadow-xl hover:border-[#FF8F6B]/60 dark:hover:border-[#FF8F6B]/60 transition-all duration-300 flex flex-col justify-between"
+                                    transition={{ duration: 0.6, delay: index * 0.12 }}
+                                    whileHover={{ y: -10, scale: 1.03 }}
+                                    className={`group relative rounded-3xl p-6.5 border ${feature.cardBg} ${feature.borderColor} ${feature.glowColor} shadow-md transition-all duration-500 flex flex-col justify-between overflow-hidden cursor-pointer`}
                                 >
+                                    {/* Ambient Top Corner Gradient Halo Beam */}
+                                    <div className={`absolute -top-12 -right-12 h-36 w-36 rounded-full bg-gradient-to-br ${feature.gradient} opacity-20 group-hover:opacity-40 blur-2xl transition-opacity duration-500 pointer-events-none`} />
+
                                     <div>
-                                        <div className="flex items-center justify-between mb-5">
-                                            <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-[#1A140D] shadow-xs group-hover:scale-110 transition-transform duration-300`}>
+                                        <div className="flex items-center justify-between mb-6 relative z-10">
+                                            {/* Icon Badge with Pulse Aura & Rotate animation */}
+                                            <div className={`h-13 w-13 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 ring-2 ring-white/40 dark:ring-black/20`}>
                                                 <Icon />
                                             </div>
-                                            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#FFE8D6] dark:bg-[#FF8F6B]/20 text-[#B85323] dark:text-[#F5C36B]">
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${feature.badgeBg} border border-current/20 shadow-xs backdrop-blur-md`}>
                                                 {feature.badge}
                                             </span>
                                         </div>
 
-                                        <h3 className="text-lg font-bold text-[#101828] dark:text-white font-[Manrope]">
+                                        <h3 className="text-xl font-extrabold text-[#101828] dark:text-white font-[Manrope] group-hover:translate-x-0.5 transition-transform">
                                             {feature.title}
                                         </h3>
-                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] mt-2.5 leading-relaxed font-medium font-[Manrope]">
+                                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#CBD5E1] mt-3 leading-relaxed font-medium font-[Manrope]">
                                             {feature.description}
                                         </p>
                                     </div>
 
-                                    <div className="mt-6 pt-4 border-t border-[#EAECF0] dark:border-[#283244] flex items-center text-xs font-extrabold text-[#B85323] dark:text-[#F5C36B]">
+                                    <div className={`mt-8 pt-4 border-t border-current/10 flex items-center text-xs font-black ${feature.accentText} group-hover:gap-2 transition-all`}>
                                         <span>Explore feature</span>
-                                        <span className="ml-1 transition-transform group-hover:translate-x-1.5">→</span>
+                                        <span className="ml-1 transition-transform group-hover:translate-x-2 text-sm">→</span>
                                     </div>
                                 </motion.div>
                             );
