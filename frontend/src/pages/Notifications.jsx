@@ -178,24 +178,27 @@ const Notifications = () => {
 
                     {/* Filter Metric Cards */}
                     <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {filters.map((filter) => (
-                            <button
-                                key={filter.key}
-                                onClick={() => setActiveFilter(filter.key)}
-                                className={`rounded-2xl border-2 border-black p-4 text-left transition-all cursor-pointer shadow-xs ${
-                                    activeFilter === filter.key
-                                        ? 'bg-[#1A0F08] text-white dark:bg-white dark:text-[#1A140D] scale-102'
-                                        : 'bg-[#E2B293] dark:bg-[#0E1116] hover:bg-[#D59E7C] text-[#1A0F08] dark:text-white'
-                                }`}
-                            >
-                                <p className={`text-[10px] font-black uppercase tracking-widest ${
-                                    activeFilter === filter.key ? 'text-[#F5C36B] dark:text-[#D97B4F]' : 'text-[#5C361E] dark:text-[#8A8F9C]'
-                                }`}>
-                                    {filter.label}
-                                </p>
-                                <p className="mt-1 text-2xl font-black font-['Fraunces'] italic">{filter.count}</p>
-                            </button>
-                        ))}
+                        {filters.map((filter) => {
+                            const isActive = activeFilter === filter.key;
+                            return (
+                                <button
+                                    key={filter.key}
+                                    onClick={() => setActiveFilter(filter.key)}
+                                    className={`rounded-2xl border-2 border-black p-4 text-left transition-all cursor-pointer shadow-xs ${
+                                        isActive
+                                            ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] dark:text-[#1A140D] scale-102 shadow-md ring-2 ring-black/30 dark:ring-[#FF8F6B]/60'
+                                            : 'bg-[#E2B293] dark:bg-[#0E1116] hover:bg-[#D59E7C] dark:hover:bg-[#181C26] text-[#1A0F08] dark:text-[#EDEBE6]'
+                                    }`}
+                                >
+                                    <p className={`text-[10px] font-black uppercase tracking-widest ${
+                                        isActive ? 'text-[#6B2207]' : 'text-[#5C361E] dark:text-[#8A8F9C]'
+                                    }`}>
+                                        {filter.label}
+                                    </p>
+                                    <p className="mt-1 text-2xl font-black font-['Fraunces'] italic">{filter.count}</p>
+                                </button>
+                            );
+                        })}
                     </div>
                 </motion.section>
 
