@@ -122,16 +122,21 @@ const RELEASES = [
 export default function Changelog() {
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Realistic Photography Background Wallpaper - Light Mode */}
-            <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${changelogBgLight})` }}
-            />
-            {/* Realistic Photography Background Wallpaper - Dark Mode */}
-            <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${changelogBgDark})` }}
-            />
+            {/* Realistic Version Roadmap & Release Timeline Photography Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={changelogBgLight}
+                    alt="Release Log & Product Roadmap Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={changelogBgDark}
+                    alt="Git Commit Graph & Dark Developer Workstation Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Overlay Tint Gradients for High Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/65 via-[#FAF7F2]/45 to-[#FAF7F2]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
 
             <div className="relative max-w-4xl mx-auto space-y-12 z-10">
 
