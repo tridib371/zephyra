@@ -46,13 +46,11 @@ const SettingsBackgroundAnimation = () => {
 
             {/* 2. Interlocking Precision Mechanical Calibration Gears */}
             <div className="absolute -top-12 -right-12 w-[380px] sm:w-[600px] h-[380px] sm:h-[600px] opacity-35 dark:opacity-20">
-                {/* Primary Outer Precision Cogwheel */}
                 <svg viewBox="0 0 400 400" className="w-full h-full animate-gear-main text-[#D97B4F] dark:text-[#FF8F6B]">
                     <circle cx="200" cy="200" r="170" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="14 10" />
                     <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" strokeWidth="1" />
                     <circle cx="200" cy="200" r="90" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 6" />
                     <circle cx="200" cy="200" r="40" fill="none" stroke="currentColor" strokeWidth="2" />
-                    {/* Gear teeth spikes */}
                     {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
                         <line
                             key={deg}
@@ -79,7 +77,7 @@ const SettingsBackgroundAnimation = () => {
                 </svg>
             </div>
 
-            {/* Secondary Interlocking Sub-Pinion (Bottom Left) */}
+            {/* Secondary Interlocking Sub-Pinion */}
             <div className="absolute -bottom-16 -left-16 w-[300px] sm:w-[480px] h-[300px] sm:h-[480px] opacity-35 dark:opacity-20">
                 <svg viewBox="0 0 300 300" className="w-full h-full animate-gear-sub text-[#F5C36B] dark:text-[#F5C36B]">
                     <circle cx="150" cy="150" r="130" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="8 6" />
@@ -245,6 +243,9 @@ const Settings = () => {
             setSaving(false);
         }
     };
+
+    const defaultAvatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name || user?.name || 'User')}&background=D97B4F&color=fff&bold=true`;
+    const avatarSrc = formData.profilePicture?.trim() || user?.profilePicture?.trim() || defaultAvatarUrl;
 
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] px-4 sm:px-6 py-10 font-[Manrope] transition-colors duration-300 overflow-x-hidden">
@@ -467,16 +468,28 @@ const Settings = () => {
                                 </h2>
                             </div>
                             <div className="mt-4 rounded-2xl overflow-hidden border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] shadow-sm">
-                                <div className="h-20 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] opacity-90 border-b-2 border-black" />
-                                <div className="px-5 pb-5 -mt-10">
-                                    <img
-                                        src={formData.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                        alt="Preview"
-                                        className="h-20 w-20 rounded-full object-cover border-2 border-black ring-4 ring-[#FAF7F2] dark:ring-[#0E1116] shadow-md"
-                                        onError={(e) => {
-                                            e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                        }}
-                                    />
+                                {/* Cover banner */}
+                                <div className="h-20 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] border-b-2 border-black overflow-hidden relative">
+                                    {formData.coverPhoto?.trim() && (
+                                        <img
+                                            src={formData.coverPhoto}
+                                            alt="Cover"
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => { e.target.style.display = 'none'; }}
+                                        />
+                                    )}
+                                </div>
+                                <div className="px-5 pb-5 -mt-10 relative z-10">
+                                    <div className="h-20 w-20 rounded-full border-2 border-black ring-4 ring-[#E2B293] dark:ring-[#0E1116] shadow-md overflow-hidden bg-[#FAF7F2] dark:bg-[#181C26]">
+                                        <img
+                                            src={avatarSrc}
+                                            alt="Preview"
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.target.src = defaultAvatarUrl;
+                                            }}
+                                        />
+                                    </div>
                                     <h3 className="mt-3 text-lg font-extrabold text-[#1A0F08] dark:text-white font-['Fraunces']">
                                         {formData.name || 'Your name'}
                                     </h3>
