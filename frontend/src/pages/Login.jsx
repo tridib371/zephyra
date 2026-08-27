@@ -12,6 +12,7 @@ import {
     HiOutlineShieldCheck,
     HiOutlineEye,
     HiOutlineEyeSlash,
+    HiOutlineExclamationCircle,
     HiStar,
 } from 'react-icons/hi2';
 import GoogleButton from '../components/GoogleButton';
@@ -20,14 +21,33 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const { login, error } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const newErrors = {};
+
+        if (!email.trim()) {
+            newErrors.email = 'Please enter your email address.';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+            newErrors.email = 'Please enter a valid email address.';
+        }
+
+        if (!password) {
+            newErrors.password = 'Please enter your password.';
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setFieldErrors(newErrors);
+            return;
+        }
+
+        setFieldErrors({});
         setIsLoading(true);
-        const result = await login(email, password);
+        const result = await login(email.trim(), password);
         setIsLoading(false);
         if (result.success) {
             navigate('/feed');
@@ -185,7 +205,7 @@ const Login = () => {
                         )}
 
                         {/* Login Form */}
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmit} noValidate className="space-y-4">
                             {/* Email */}
                             <div>
                                 <label className="block text-xs font-black uppercase tracking-wider text-[#0F172A] dark:text-[#E2E8F0] mb-1.5 font-[Manrope]">
@@ -195,13 +215,29 @@ const Login = () => {
                                     <HiOutlineEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#64748B]" />
                                     <input
                                         type="email"
-                                        required
                                         value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border border-[#CBD5E1] dark:border-[#2D3546] rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs"
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                            if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: '' }));
+                                        }}
+                                        className={`w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs ${
+                                            fieldErrors.email
+                                                ? 'border-rose-500 ring-1 ring-rose-500/50 dark:border-rose-500'
+                                                : 'border-[#CBD5E1] dark:border-[#2D3546]'
+                                        }`}
                                         placeholder="you@example.com"
                                     />
                                 </div>
+                                {fieldErrors.email && (
+                                    <motion.p
+                                        initial={{ opacity: 0, y: -4 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mt-1.5 text-xs text-rose-600 dark:text-rose-400 font-bold flex items-center gap-1 font-[Manrope]"
+                                    >
+                                        <HiOutlineExclamationCircle className="h-3.5 w-3.5 shrink-0 stroke-[2.5]" />
+                                        <span>{fieldErrors.email}</span>
+                                    </motion.p>
+                                )}
                             </div>
 
                             {/* Password */}
@@ -213,10 +249,16 @@ const Login = () => {
                                     <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#64748B]" />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
-                                        required
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border border-[#CBD5E1] dark:border-[#2D3546] rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs"
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: '' }));
+                                        }}
+                                        className={`w-full pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs ${
+                                            fieldErrors.password
+                                                ? 'border-rose-500 ring-1 ring-rose-500/50 dark:border-rose-500'
+                                                : 'border-[#CBD5E1] dark:border-[#2D3546]'
+                                        }`}
                                         placeholder="••••••••"
                                     />
                                     <button
@@ -228,6 +270,16 @@ const Login = () => {
                                         {showPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
                                     </button>
                                 </div>
+                                {fieldErrors.password && (
+                                    <motion.p
+                                        initial={{ opacity: 0, y: -4 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mt-1.5 text-xs text-rose-600 dark:text-rose-400 font-bold flex items-center gap-1 font-[Manrope]"
+                                    >
+                                        <HiOutlineExclamationCircle className="h-3.5 w-3.5 shrink-0 stroke-[2.5]" />
+                                        <span>{fieldErrors.password}</span>
+                                    </motion.p>
+                                )}
                             </div>
 
                             {/* Submit Button */}
