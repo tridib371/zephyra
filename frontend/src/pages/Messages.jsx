@@ -16,6 +16,119 @@ import ConfirmDialog from '../components/ConfirmDialog';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
+// ===== UNIQUE ACOUSTIC SIGNAL PULSE & TRANSMISSION WAVE BACKGROUND =====
+const MessagesBackgroundAnimation = () => {
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <style>{`
+                @keyframes signalRipple {
+                    0% { transform: scale(0.6); opacity: 0.8; }
+                    50% { opacity: 0.4; }
+                    100% { transform: scale(2.2); opacity: 0; }
+                }
+                @keyframes eqPulse {
+                    0%, 100% { height: 12px; }
+                    50% { height: 48px; }
+                }
+                @keyframes eqPulseAlt {
+                    0%, 100% { height: 36px; }
+                    50% { height: 16px; }
+                }
+                @keyframes floatPacket {
+                    0% { transform: translateY(30px) scale(0.8); opacity: 0; }
+                    50% { opacity: 0.7; }
+                    100% { transform: translateY(-70px) scale(1.1); opacity: 0; }
+                }
+                @keyframes waveShift {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-signal-ring {
+                    animation: signalRipple 5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+                    transform-origin: center center;
+                }
+                .animate-signal-ring-delay-1 {
+                    animation: signalRipple 5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite 1.6s;
+                    transform-origin: center center;
+                }
+                .animate-signal-ring-delay-2 {
+                    animation: signalRipple 5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite 3.2s;
+                    transform-origin: center center;
+                }
+                .animate-packet-1 { animation: floatPacket 6s ease-in-out infinite; }
+                .animate-packet-2 { animation: floatPacket 8s ease-in-out infinite 2s; }
+                .animate-packet-3 { animation: floatPacket 7s ease-in-out infinite 4s; }
+            `}</style>
+
+            {/* 1. Ambient Dynamic Transmission Glow Orbs */}
+            <div className="absolute -top-24 -left-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-br from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl" />
+            <div className="absolute top-1/2 -right-24 w-80 sm:w-[450px] h-80 sm:h-[450px] rounded-full bg-gradient-to-bl from-[#F5C36B]/20 via-[#E2774C]/15 to-transparent blur-3xl" />
+            <div className="absolute -bottom-20 left-1/3 w-80 sm:w-[460px] h-80 sm:h-[460px] rounded-full bg-gradient-to-tr from-[#EA580C]/20 via-[#FF8F6B]/10 to-transparent blur-3xl" />
+
+            {/* 2. Concentric Transmission Relay Rings (Top-Left Hub) */}
+            <div className="absolute top-8 left-8 sm:left-16 w-64 h-64 opacity-40 dark:opacity-30">
+                <div className="absolute inset-0 rounded-full border-2 border-[#D97B4F] dark:border-[#FF8F6B] animate-signal-ring" />
+                <div className="absolute inset-0 rounded-full border-2 border-[#F5C36B] dark:border-[#F5C36B] animate-signal-ring-delay-1" />
+                <div className="absolute inset-0 rounded-full border border-[#EA580C] dark:border-[#FF8F6B] animate-signal-ring-delay-2" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#EA580C] dark:bg-[#FF8F6B] shadow-lg shadow-[#FF8F6B]/50" />
+            </div>
+
+            {/* 3. Concentric Transmission Relay Rings (Bottom-Right Hub) */}
+            <div className="absolute bottom-12 right-10 sm:right-24 w-60 h-60 opacity-35 dark:opacity-25">
+                <div className="absolute inset-0 rounded-full border-2 border-[#F5C36B] dark:border-[#F5C36B] animate-signal-ring" />
+                <div className="absolute inset-0 rounded-full border-2 border-[#D97B4F] dark:border-[#FF8F6B] animate-signal-ring-delay-1" />
+                <div className="absolute inset-0 rounded-full border border-[#E2774C] dark:border-[#F5C36B] animate-signal-ring-delay-2" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#D97B4F] dark:bg-[#F5C36B]" />
+            </div>
+
+            {/* 4. Acoustic Frequency Equalizer Waves (Top Right) */}
+            <div className="absolute top-4 right-12 sm:right-32 flex items-end gap-1.5 opacity-35 dark:opacity-30">
+                {[18, 38, 22, 46, 30, 52, 26, 42, 16, 34, 48, 24, 40, 20].map((h, i) => (
+                    <div
+                        key={i}
+                        className="w-1 sm:w-1.5 rounded-full bg-gradient-to-t from-[#D97B4F] via-[#FF8F6B] to-[#F5C36B]"
+                        style={{
+                            height: `${h}px`,
+                            animation: `${i % 2 === 0 ? 'eqPulse' : 'eqPulseAlt'} ${2 + (i % 3) * 0.5}s ease-in-out infinite ${(i * 0.15)}s`,
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* 5. Acoustic Frequency Equalizer Waves (Bottom Left) */}
+            <div className="absolute bottom-6 left-10 sm:left-32 flex items-end gap-1.5 opacity-30 dark:opacity-25">
+                {[28, 16, 42, 24, 50, 32, 18, 44, 26, 38, 14, 46, 22].map((h, i) => (
+                    <div
+                        key={i}
+                        className="w-1 sm:w-1.5 rounded-full bg-gradient-to-t from-[#F5C36B] via-[#D97B4F] to-[#EA580C]"
+                        style={{
+                            height: `${h}px`,
+                            animation: `${i % 2 === 0 ? 'eqPulseAlt' : 'eqPulse'} ${2.4 + (i % 3) * 0.4}s ease-in-out infinite ${(i * 0.18)}s`,
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* 6. Floating Encrypted Dialogue Packets */}
+            <div className="absolute top-[35%] left-[18%] animate-packet-1">
+                <div className="px-2.5 py-1 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
+                    📡 Sync
+                </div>
+            </div>
+            <div className="absolute top-[60%] right-[22%] animate-packet-2">
+                <div className="px-2.5 py-1 rounded-full bg-[#F5C36B]/25 text-[#9E3610] dark:text-[#F5C36B] border border-black/20 dark:border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase">
+                    💬 Direct
+                </div>
+            </div>
+            <div className="absolute top-[75%] left-[45%] animate-packet-3">
+                <div className="px-2.5 py-1 rounded-full bg-[#E2774C]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
+                    ⚡ Live
+                </div>
+            </div>
+        </div>
+    );
+};
+
 // Robust helper to format dates without crashing on invalid/null dates
 const safeFormatDistance = (dateValue, options = {}) => {
     try {
@@ -500,40 +613,44 @@ export default function Messages() {
 
     if (!user) {
         return (
-            <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[#FAF7F2] dark:bg-[#0E1116]">
-                <div className="animate-spin rounded-full h-10 w-10 border-2 border-[#D97B4F] border-t-transparent"></div>
+            <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[#FAF7F2] dark:bg-[#0E1116] relative overflow-hidden">
+                <MessagesBackgroundAnimation />
+                <div className="relative z-10 animate-spin rounded-full h-10 w-10 border-2 border-[#9E3610] dark:border-[#FF8F6B] border-t-transparent"></div>
             </div>
         );
     }
 
     return (
-        <div className="h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 px-2.5 sm:px-6 py-2 sm:py-4 flex flex-col">
-            <div className="mx-auto grid flex-1 min-h-0 w-full max-w-7xl gap-3 sm:gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-12 overflow-hidden">
+        <div className="relative h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 px-2.5 sm:px-6 py-2 sm:py-4 flex flex-col overflow-hidden font-[Manrope]">
+            {/* Unique Acoustic Signal & Telemetry Wave Animation */}
+            <MessagesBackgroundAnimation />
+
+            <div className="relative z-10 mx-auto grid flex-1 min-h-0 w-full max-w-7xl gap-3 sm:gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-12 overflow-hidden">
 
                 {/* ===== SIDEBAR: Conversation List & User Search ===== */}
                 <aside
                     className={`${activeConversation ? 'hidden lg:flex' : 'flex'
-                        } lg:col-span-4 xl:col-span-3 flex-col rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-md overflow-hidden h-full min-h-0`}
+                        } lg:col-span-4 xl:col-span-3 flex-col rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl shadow-[5px_5px_0px_#000000] dark:shadow-xl overflow-hidden h-full min-h-0`}
                 >
                     {/* Header */}
-                    <div className="px-5 py-4 border-b border-gray-100 dark:border-[#1F232C] flex items-center justify-between shrink-0">
+                    <div className="px-5 py-4 border-b-2 border-black/15 dark:border-[#1F232C] flex items-center justify-between shrink-0">
                         <div>
-                            <p className="text-xs uppercase tracking-[0.2em] font-semibold text-[#D97B4F] dark:text-[#F5C36B]">
-                                Messages
-                            </p>
-                            <h2 className="font-['Fraunces'] italic text-xl font-bold text-gray-900 dark:text-[#EDEBE6]">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FF8F6B]/30 text-[#6B2207] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40 text-[9px] font-black uppercase tracking-widest mb-1">
+                                📡 Direct Signal
+                            </span>
+                            <h2 className="font-['Fraunces'] italic text-xl font-extrabold text-[#1A0F08] dark:text-[#EDEBE6]">
                                 Direct Chats
                             </h2>
                         </div>
                     </div>
 
                     {/* Search Users Input */}
-                    <div className="p-4 border-b border-gray-100 dark:border-[#1F232C] relative shrink-0">
+                    <div className="p-3.5 border-b-2 border-black/15 dark:border-[#1F232C] relative shrink-0">
                         <div className="relative">
                             <input
                                 type="text"
                                 placeholder="Search users or chats..."
-                                className="w-full rounded-2xl border border-gray-200 dark:border-[#1F232C] bg-gray-50 dark:bg-[#141821] pl-10 pr-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 transition-all"
+                                className="w-full rounded-2xl border-2 border-black dark:border-[#1F232C] bg-[#E2B293] dark:bg-[#141821] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#1A0F08] dark:text-white placeholder-[#5C361E] dark:placeholder-gray-500 font-bold focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all shadow-xs"
                                 value={searchQueryText}
                                 onChange={(e) => setSearchQueryText(e.target.value)}
                             />
@@ -541,8 +658,8 @@ export default function Messages() {
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                strokeWidth="1.8"
-                                className="absolute left-3.5 top-3 h-4 w-4 text-gray-400 dark:text-gray-500"
+                                strokeWidth="2"
+                                className="absolute left-3.5 top-2.5 h-4 w-4 text-[#5C361E] dark:text-gray-400"
                             >
                                 <circle cx="11" cy="11" r="7" />
                                 <path d="m20 20-3.5-3.5" strokeLinecap="round" />
@@ -553,7 +670,7 @@ export default function Messages() {
                                         setSearchQueryText('');
                                         setSearchResults([]);
                                     }}
-                                    className="absolute right-3 top-3 text-xs text-stone-400 hover:text-stone-600 dark:hover:text-white cursor-pointer"
+                                    className="absolute right-3 top-2.5 text-xs text-[#5C361E] hover:text-black dark:hover:text-white cursor-pointer"
                                 >
                                     <HiOutlineXMark className="h-4 w-4" />
                                 </button>
@@ -562,13 +679,13 @@ export default function Messages() {
 
                         {/* Search Results Dropdown */}
                         {searchQueryText.trim().length > 0 && (
-                            <div className="absolute left-4 right-4 top-16 z-30 max-h-64 overflow-y-auto rounded-2xl border border-gray-200 dark:border-[#1F232C] bg-white dark:bg-[#11151D] shadow-xl p-2 space-y-1">
+                            <div className="absolute left-3.5 right-3.5 top-15 z-30 max-h-64 overflow-y-auto rounded-2xl border-2 border-black dark:border-[#1F232C] bg-[#E2B293] dark:bg-[#11151D] shadow-2xl p-2 space-y-1">
                                 {searching ? (
-                                    <div className="p-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                                    <div className="p-3 text-center text-xs font-bold text-[#5C361E] dark:text-gray-400">
                                         Searching users...
                                     </div>
                                 ) : searchResults.length === 0 ? (
-                                    <div className="p-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                                    <div className="p-3 text-center text-xs font-bold text-[#5C361E] dark:text-gray-400">
                                         No users found.
                                     </div>
                                 ) : (
@@ -580,7 +697,7 @@ export default function Messages() {
                                                 setSearchResults([]);
                                                 startConversationWithUser(u._id);
                                             }}
-                                            className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1A1E27] flex items-center gap-3 transition-colors cursor-pointer"
+                                            className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-[#D59E7C] dark:hover:bg-[#1A1E27] flex items-center gap-3 transition-colors cursor-pointer border border-black/15 dark:border-transparent"
                                         >
                                             <img
                                                 src={
@@ -592,13 +709,13 @@ export default function Messages() {
                                                 onError={(e) => {
                                                     e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || 'User')}&background=D97B4F&color=fff`;
                                                 }}
-                                                className="h-9 w-9 rounded-full object-cover shrink-0 border border-gray-200 dark:border-[#1F232C]"
+                                                className="h-9 w-9 rounded-full object-cover shrink-0 border-2 border-black dark:border-[#1F232C]"
                                             />
                                             <div className="min-w-0 flex-1">
-                                                <div className="truncate font-semibold text-sm text-gray-900 dark:text-white">
+                                                <div className="truncate font-black text-sm text-[#1A0F08] dark:text-white">
                                                     {u.name}
                                                 </div>
-                                                <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                <div className="text-xs text-[#5C361E] dark:text-gray-400 truncate font-bold">
                                                     @{u.username}
                                                 </div>
                                             </div>
@@ -610,21 +727,21 @@ export default function Messages() {
                     </div>
 
                     {/* Conversation List Scrollable */}
-                    <div className="flex-1 overflow-y-auto min-h-0 divide-y divide-gray-100/70 dark:divide-[#1F232C]/60">
+                    <div className="flex-1 overflow-y-auto min-h-0 divide-y-2 divide-black/10 dark:divide-[#1F232C]/60">
                         {conversationsLoading ? (
-                            <div className="p-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                                Loading conversations...
+                            <div className="p-6 text-center text-xs font-black uppercase tracking-widest text-[#9E3610] dark:text-[#FF8F6B]">
+                                Loading signals...
                             </div>
                         ) : conversations.length === 0 ? (
-                            <div className="p-8 text-center">
-                                <div className="flex justify-center text-3xl mb-2 text-[#D97B4F]">
+                            <div className="p-8 text-center space-y-2">
+                                <div className="flex justify-center text-3xl mb-2 text-[#9E3610] dark:text-[#F5C36B]">
                                     <HiOutlineChatBubbleLeftRight className="text-3xl" />
                                 </div>
-                                <p className="text-sm font-medium text-stone-600 dark:text-gray-300">
+                                <p className="text-sm font-black text-[#1A0F08] dark:text-gray-300">
                                     No conversations yet.
                                 </p>
-                                <p className="text-xs text-stone-400 dark:text-gray-500 mt-1">
-                                    Search a user above to start chatting!
+                                <p className="text-xs font-bold text-[#5C361E] dark:text-gray-500">
+                                    Search a creator above to start chatting!
                                 </p>
                             </div>
                         ) : (
@@ -640,8 +757,8 @@ export default function Messages() {
                                         key={c._id}
                                         onClick={() => selectConversation(c)}
                                         className={`group relative flex items-center gap-3.5 px-4 py-3.5 transition-all cursor-pointer ${isActive
-                                            ? 'bg-[#FFF8F4] dark:bg-white/5 border-l-4 border-[#D97B4F]'
-                                            : 'hover:bg-gray-50 dark:hover:bg-[#141821]'
+                                            ? 'bg-[#E2B293] dark:bg-white/10 border-l-4 border-black dark:border-[#FF8F6B]'
+                                            : 'hover:bg-[#E8BC9F] dark:hover:bg-[#141821]'
                                             }`}
                                     >
                                         <div className="relative shrink-0">
@@ -649,7 +766,7 @@ export default function Messages() {
                                                 src={partnerAvatar}
                                                 alt={partnerName}
                                                 referrerPolicy="no-referrer"
-                                                className="h-11 w-11 rounded-2xl object-cover border border-gray-200 dark:border-[#1F232C]"
+                                                className="h-11 w-11 rounded-2xl object-cover border-2 border-black dark:border-[#1F232C]"
                                                 onError={(e) => {
                                                     e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partnerName)}&background=D97B4F&color=fff`;
                                                 }}
@@ -658,22 +775,22 @@ export default function Messages() {
 
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-center justify-between gap-1 mb-0.5">
-                                                <h4 className={`truncate text-sm ${unread ? 'font-bold text-gray-900 dark:text-white' : 'font-semibold text-gray-800 dark:text-[#E7E6E3]'}`}>
+                                                <h4 className={`truncate text-sm ${unread ? 'font-black text-[#1A0F08] dark:text-white' : 'font-extrabold text-[#2C1810] dark:text-[#E7E6E3]'}`}>
                                                     {partnerName}
                                                 </h4>
                                                 {c.lastMessageAt && safeFormatDistance(c.lastMessageAt) && (
-                                                    <span className="text-[10px] text-gray-400 dark:text-gray-500 shrink-0">
+                                                    <span className="text-[10px] text-[#5C361E] dark:text-gray-500 shrink-0 font-bold">
                                                         {safeFormatDistance(c.lastMessageAt, { addSuffix: false })}
                                                     </span>
                                                 )}
                                             </div>
 
                                             <div className="flex items-center justify-between gap-2">
-                                                <p className={`truncate text-xs ${unread ? 'font-semibold text-[#D97B4F] dark:text-[#F5C36B]' : 'text-gray-500 dark:text-gray-400'}`}>
+                                                <p className={`truncate text-xs ${unread ? 'font-black text-[#9E3610] dark:text-[#F5C36B]' : 'font-bold text-[#5C361E] dark:text-gray-400'}`}>
                                                     {c.lastMessage?.text || 'No messages yet'}
                                                 </p>
                                                 {unread && (
-                                                    <span className="grid min-h-5 min-w-5 place-items-center rounded-full bg-[#D97B4F] px-1.5 text-[10px] font-bold text-white shrink-0">
+                                                    <span className="grid min-h-5 min-w-5 place-items-center rounded-full bg-[#EA580C] px-1.5 text-[10px] font-black text-white shrink-0 border border-black">
                                                         {c.unreadCount}
                                                     </span>
                                                 )}
@@ -689,33 +806,33 @@ export default function Messages() {
                 {/* ===== MAIN CHAT PANEL ===== */}
                 <section
                     className={`${!activeConversation ? 'hidden lg:flex' : 'flex'
-                        } lg:col-span-8 xl:col-span-9 flex-col rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-md overflow-hidden h-full min-h-0`}
+                        } lg:col-span-8 xl:col-span-9 flex-col rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl shadow-[5px_5px_0px_#000000] dark:shadow-xl overflow-hidden h-full min-h-0`}
                 >
                     {!activeConversation ? (
                         /* Empty Chat Selection Screen */
                         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-                            <div className="h-20 w-20 rounded-3xl bg-gradient-to-br from-[#FF8F6B]/20 to-[#F5C36B]/20 border border-[#FF8F6B]/30 grid place-items-center mb-5 text-4xl shadow-inner text-[#D97B4F]">
+                            <div className="h-20 w-20 rounded-3xl bg-[#E2B293] dark:bg-gradient-to-br dark:from-[#FF8F6B]/20 dark:to-[#F5C36B]/20 border-2 border-black dark:border-[#FF8F6B]/30 grid place-items-center mb-5 text-4xl shadow-md text-[#9E3610] dark:text-[#FF8F6B]">
                                 <HiOutlineInbox className="text-4xl" />
                             </div>
-                            <h3 className="font-['Fraunces'] italic text-2xl font-bold text-stone-900 dark:text-[#EDEBE6]">
-                                Your Inbox
+                            <h3 className="font-['Fraunces'] italic text-2xl font-black text-[#1A0F08] dark:text-[#EDEBE6]">
+                                Telemetry Inbox
                             </h3>
-                            <p className="mt-2 text-sm text-stone-500 dark:text-gray-400 max-w-sm">
-                                Select an existing conversation from the left sidebar or search for a friend to start chatting in real time.
+                            <p className="mt-2 text-xs sm:text-sm text-[#402414] dark:text-gray-400 max-w-sm font-extrabold">
+                                Select an active frequency from the left or search for a creator to initiate direct transmission.
                             </p>
                         </div>
                     ) : (
                         <>
                             {/* Active Chat Header */}
-                            <div className="px-5 py-3.5 border-b border-gray-100 dark:border-[#1F232C] flex items-center justify-between shrink-0 bg-white/50 dark:bg-[#0E1116]/50 backdrop-blur-md">
+                            <div className="px-5 py-3.5 border-b-2 border-black/15 dark:border-[#1F232C] flex items-center justify-between shrink-0 bg-[#E8BC9F]/80 dark:bg-[#0E1116]/50 backdrop-blur-md">
                                 <div className="flex items-center gap-3 min-w-0">
                                     {/* Mobile Back Button */}
                                     <button
                                         onClick={handleBackToList}
-                                        className="lg:hidden p-2 -ml-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#1A1E27] transition-colors"
+                                        className="lg:hidden p-2 -ml-2 rounded-xl text-gray-800 dark:text-gray-300 hover:bg-[#D59E7C] dark:hover:bg-[#1A1E27] transition-colors"
                                         aria-label="Back to conversations"
                                     >
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-5 w-5">
                                             <path d="M19 12H5M12 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </button>
@@ -732,19 +849,19 @@ export default function Messages() {
                                                 }
                                                 alt=""
                                                 referrerPolicy="no-referrer"
-                                                className="h-10 w-10 rounded-2xl object-cover border border-gray-200 dark:border-[#1F232C] group-hover:scale-105 transition-transform"
+                                                className="h-10 w-10 rounded-2xl object-cover border-2 border-black dark:border-[#1F232C] group-hover:scale-105 transition-transform shadow-xs"
                                                 onError={(e) => {
                                                     e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partnerUser.name || 'User')}&background=D97B4F&color=fff`;
                                                 }}
                                             />
                                         </div>
                                         <div className="min-w-0">
-                                            <h3 className="font-semibold text-sm text-gray-900 dark:text-white truncate group-hover:text-[#D97B4F] dark:group-hover:text-[#F5C36B] transition-colors">
+                                            <h3 className="font-black text-sm text-[#1A0F08] dark:text-white truncate group-hover:text-[#9E3610] dark:group-hover:text-[#F5C36B] transition-colors">
                                                 {partnerUser.name || 'User'}
                                             </h3>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                            <p className="text-xs text-[#5C361E] dark:text-gray-400 truncate font-extrabold">
                                                 {isPartnerTyping ? (
-                                                    <span className="text-[#D97B4F] dark:text-[#F5C36B] font-medium animate-pulse">typing...</span>
+                                                    <span className="text-[#9E3610] dark:text-[#F5C36B] font-black animate-pulse">typing signal...</span>
                                                 ) : (
                                                     `@${partnerUser.username || ''}`
                                                 )}
@@ -757,10 +874,10 @@ export default function Messages() {
                                 <div className="flex items-center gap-1">
                                     <button
                                         onClick={() => setConfirmDeleteConv(activeConversation._id)}
-                                        className="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                                        className="p-2 rounded-xl text-[#6B2207] dark:text-gray-400 hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-500/10 transition-colors border border-black/20 dark:border-transparent"
                                         title="Delete conversation"
                                     >
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
                                             <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </button>
@@ -770,19 +887,19 @@ export default function Messages() {
                             {/* Message Feed Stream */}
                             <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-4 min-h-0">
                                 {messagesLoading ? (
-                                    <div className="flex items-center justify-center h-full text-sm text-gray-500 dark:text-gray-400">
-                                        Loading message history...
+                                    <div className="flex items-center justify-center h-full text-xs font-black uppercase tracking-widest text-[#9E3610] dark:text-[#FF8F6B]">
+                                        Retrieving packet stream...
                                     </div>
                                 ) : messages.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center h-full text-center">
-                                        <div className="flex justify-center text-4xl mb-3 text-[#D97B4F]">
+                                    <div className="flex flex-col items-center justify-center h-full text-center space-y-2">
+                                        <div className="flex justify-center text-4xl mb-2 text-[#9E3610] dark:text-[#F5C36B]">
                                             <HiOutlineChatBubbleBottomCenterText className="text-4xl" />
                                         </div>
-                                        <p className="text-sm font-semibold text-stone-700 dark:text-gray-200">
-                                            No messages yet
+                                        <p className="text-sm font-black text-[#1A0F08] dark:text-gray-200">
+                                            Channel opened
                                         </p>
-                                        <p className="text-xs text-stone-400 dark:text-gray-500 mt-1">
-                                            Send a message below to start the conversation!
+                                        <p className="text-xs font-bold text-[#5C361E] dark:text-gray-500">
+                                            Send the first packet below to begin chatting!
                                         </p>
                                     </div>
                                 ) : (
@@ -806,7 +923,7 @@ export default function Messages() {
                                                         }
                                                         alt=""
                                                         referrerPolicy="no-referrer"
-                                                        className="h-7 w-7 rounded-full object-cover shrink-0 mb-1 border border-gray-200 dark:border-[#1F232C]"
+                                                        className="h-7 w-7 rounded-full object-cover shrink-0 mb-1 border-2 border-black dark:border-[#1F232C]"
                                                         onError={(e) => {
                                                             e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(m.sender?.name || partnerUser.name || 'User')}&background=D97B4F&color=fff`;
                                                         }}
@@ -816,14 +933,14 @@ export default function Messages() {
                                                 <div className="relative max-w-[85%] sm:max-w-[70%]">
                                                     {/* Message Bubble */}
                                                     <div
-                                                        className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words shadow-xs ${isMine
-                                                            ? 'bg-linear-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] font-medium rounded-br-xs'
-                                                            : 'bg-white dark:bg-[#141821] border border-gray-200/80 dark:border-[#1F232C] text-gray-900 dark:text-[#EDEBE6] rounded-bl-xs'
+                                                        className={`px-4 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words shadow-xs border-2 border-black ${isMine
+                                                            ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-br-xs'
+                                                            : 'bg-[#E2B293] dark:bg-[#141821] text-[#1A0F08] dark:text-[#EDEBE6] font-bold rounded-bl-xs'
                                                             }`}
                                                     >
                                                         <p>{m.text}</p>
                                                         <div
-                                                            className={`mt-1 flex items-center justify-end gap-1.5 text-[10px] ${isMine ? 'text-[#3D1E0C]/85 font-medium' : 'text-gray-400 dark:text-gray-500'
+                                                            className={`mt-1 flex items-center justify-end gap-1.5 text-[10px] ${isMine ? 'text-[#3D1E0C] font-black' : 'text-[#5C361E] dark:text-gray-400 font-bold'
                                                                 }`}
                                                         >
                                                             <span>
@@ -833,7 +950,7 @@ export default function Messages() {
                                                             </span>
                                                             {isMine && (
                                                                 m.read ? (
-                                                                    <span className="font-extrabold text-[#064E3B] tracking-wide inline-flex items-center gap-0.5">
+                                                                    <span className="font-black text-[#064E3B] tracking-wide inline-flex items-center gap-0.5">
                                                                         <span className="inline-flex -space-x-1">
                                                                             <HiCheck className="text-xs" />
                                                                             <HiCheck className="text-xs" />
@@ -854,10 +971,10 @@ export default function Messages() {
                                                     <button
                                                         onClick={() => setConfirmDeleteMsg(m._id)}
                                                         className={`opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 ${isMine ? '-left-8' : '-right-8'
-                                                            } p-1 text-gray-400 hover:text-red-500`}
+                                                            } p-1 text-gray-500 hover:text-red-600`}
                                                         title="Delete message"
                                                     >
-                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
                                                             <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" strokeLinecap="round" strokeLinejoin="round" />
                                                         </svg>
                                                     </button>
@@ -871,7 +988,7 @@ export default function Messages() {
 
                             {/* Typing Indicator Bar */}
                             {isPartnerTyping && (
-                                <div className="px-6 py-1 text-xs text-[#D97B4F] dark:text-[#F5C36B] italic font-medium animate-pulse">
+                                <div className="px-6 py-1 text-xs text-[#9E3610] dark:text-[#F5C36B] italic font-black animate-pulse">
                                     {partnerUser.name || 'User'} is typing...
                                 </div>
                             )}
@@ -879,22 +996,22 @@ export default function Messages() {
                             {/* Message Input Form */}
                             <form
                                 onSubmit={handleSend}
-                                className="p-2.5 sm:p-4 border-t border-gray-100 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 backdrop-blur-md shrink-0"
+                                className="p-2.5 sm:p-4 border-t-2 border-black/15 dark:border-[#1F232C] bg-[#E8BC9F]/90 dark:bg-[#12151C]/95 backdrop-blur-md shrink-0"
                             >
-                                <div className="flex items-center gap-2 bg-gray-50 dark:bg-[#181C26] border border-gray-200/90 dark:border-[#252A36] rounded-3xl p-1.5 pl-3.5 sm:pl-4 focus-within:ring-2 focus-within:ring-[#FF8F6B]/50 transition-all shadow-inner">
+                                <div className="flex items-center gap-2 bg-[#E2B293] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] rounded-3xl p-1.5 pl-3.5 sm:pl-4 focus-within:ring-2 focus-within:ring-black dark:focus-within:ring-[#FF8F6B]/50 transition-all shadow-inner">
                                     <textarea
                                         ref={textareaRef}
                                         value={text}
                                         onChange={handleTextChange}
                                         onKeyDown={handleKeyDown}
                                         rows={1}
-                                        placeholder="Type a message..."
-                                        className="flex-1 bg-transparent border-0 resize-none text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 leading-5 py-1.5 sm:py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-h-28 overflow-y-auto"
+                                        placeholder="Type a transmission..."
+                                        className="flex-1 bg-transparent border-0 resize-none text-xs sm:text-sm text-[#1A0F08] dark:text-white placeholder-[#5C361E] dark:placeholder-gray-500 font-bold focus:outline-none focus:ring-0 leading-5 py-1.5 sm:py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-h-28 overflow-y-auto"
                                     />
                                     <button
                                         type="submit"
                                         disabled={sending || !text.trim()}
-                                        className="h-9.5 w-9.5 sm:h-10 sm:w-auto sm:px-4.5 shrink-0 rounded-full sm:rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:scale-100 disabled:cursor-not-allowed shadow-sm transition-all duration-200"
+                                        className="h-9.5 w-9.5 sm:h-10 sm:w-auto sm:px-4.5 shrink-0 rounded-full sm:rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black text-xs sm:text-sm flex items-center justify-center gap-1.5 border-2 border-black hover:scale-105 active:scale-95 disabled:opacity-40 disabled:scale-100 disabled:cursor-not-allowed shadow-xs transition-all duration-200"
                                         title="Send message"
                                         aria-label="Send message"
                                     >
@@ -903,7 +1020,7 @@ export default function Messages() {
                                         ) : (
                                             <>
                                                 <span className="hidden sm:inline">Send</span>
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-4 w-4 sm:h-4.5 sm:w-4.5 translate-x-0.5">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="h-4 w-4 sm:h-4.5 sm:w-4.5 translate-x-0.5">
                                                     <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </>
