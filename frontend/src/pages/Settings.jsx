@@ -8,8 +8,11 @@ import {
     HiOutlineAdjustmentsHorizontal,
     HiOutlineShieldCheck,
     HiOutlineCheck,
+    HiOutlineXMark,
     HiOutlinePhoto,
-    HiOutlineArrowUpTray
+    HiOutlineArrowUpTray,
+    HiOutlineEye,
+    HiOutlineEyeSlash
 } from 'react-icons/hi2';
 
 // ===== UNIQUE GEAR & CALIBRATION DIAL BACKGROUND ANIMATION =====
@@ -161,11 +164,24 @@ const Settings = () => {
         },
     });
 
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [passwordData, setPasswordData] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
     });
+
+    const passwordChecks = {
+        length: passwordData.newPassword.length >= 8,
+        uppercase: /[A-Z]/.test(passwordData.newPassword),
+        lowercase: /[a-z]/.test(passwordData.newPassword),
+        number: /\d/.test(passwordData.newPassword),
+        special: /[@$!%*?&]/.test(passwordData.newPassword),
+    };
+    const isNewPasswordValid = Object.values(passwordChecks).every(Boolean);
 
     useEffect(() => {
         if (!user) return;
@@ -285,9 +301,9 @@ const Settings = () => {
             return;
         }
 
-        if (passwordData.newPassword.length < 6) {
+        if (!isNewPasswordValid) {
             setPasswordStatusType('error');
-            setPasswordStatus('New password must be at least 6 characters long.');
+            setPasswordStatus('Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character (@, $, !, %, *, ?, &).');
             setSaving(false);
             return;
         }
@@ -300,10 +316,10 @@ const Settings = () => {
         }
 
         try {
-            await api.put('/users/me/password', passwordData);
+            const res = await api.put('/users/me/password', passwordData);
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
             setPasswordStatusType('success');
-            setPasswordStatus('Password updated successfully.');
+            setPasswordStatus(res.data.message || 'Password updated successfully.');
         } catch (error) {
             console.error('Password update error:', error);
             setPasswordStatusType('error');
@@ -627,7 +643,7 @@ const Settings = () => {
                             initial={{ opacity: 0, y: 12 }}
                             animate={{ opacity: 1, y: 0 }}
                             onSubmit={handlePasswordChange}
-                            className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl shadow-[6px_6px_0px_#000000] dark:shadow-2xl p-6 space-y-4"
+                            className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl shadow-[6px_6px_0px_#000000] dark:shadow-2xl p-6 space-y-3.5"
                         >
                             <div className="flex items-center gap-2 pb-2 border-b-2 border-black/15 dark:border-[#1F232C]">
                                 <HiOutlineLockClosed className="text-lg text-[#9E3610] dark:text-[#FF8F6B]" />
@@ -639,27 +655,110 @@ const Settings = () => {
                                 Available for registered email and password accounts.
                             </p>
 
-                            <input
-                                type="password"
-                                placeholder="Current password"
-                                value={passwordData.currentPassword}
-                                onChange={(e) => setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))}
-                                className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
-                            />
-                            <input
-                                type="password"
-                                placeholder="New password"
-                                value={passwordData.newPassword}
-                                onChange={(e) => setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))}
-                                className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
-                            />
-                            <input
-                                type="password"
-                                placeholder="Confirm new password"
-                                value={passwordData.confirmPassword}
-                                onChange={(e) => setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
-                                className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
-                            />
+                            {/* Current Password */}
+                            <div className="space-y-1">
+                                <label className="block text-[11px] font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E2E8F0]">
+                                    Current Password
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5C361E]/70 dark:text-[#8A8F9C]" />
+                                    <input
+                                        type={showCurrentPassword ? 'text' : 'password'}
+                                        placeholder="Current password"
+                                        value={passwordData.currentPassword}
+                                        onChange={(e) => setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))}
+                                        className="w-full pl-10 pr-10 py-2.5 bg-[#E2B293] dark:bg-[#0E1116] border-2 border-black dark:border-white/10 rounded-2xl text-[#1A0F08] dark:text-[#EDEBE6] placeholder:text-[#5C361E]/70 dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] outline-none text-xs font-bold shadow-inner"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowCurrentPassword((prev) => !prev)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5C361E] dark:text-[#8A8F9C] hover:text-black dark:hover:text-white transition-colors cursor-pointer p-1"
+                                        aria-label={showCurrentPassword ? 'Hide current password' : 'Show current password'}
+                                    >
+                                        {showCurrentPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* New Password */}
+                            <div className="space-y-1">
+                                <label className="block text-[11px] font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E2E8F0]">
+                                    New Password
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5C361E]/70 dark:text-[#8A8F9C]" />
+                                    <input
+                                        type={showNewPassword ? 'text' : 'password'}
+                                        placeholder="New strong password"
+                                        value={passwordData.newPassword}
+                                        onChange={(e) => setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))}
+                                        className="w-full pl-10 pr-10 py-2.5 bg-[#E2B293] dark:bg-[#0E1116] border-2 border-black dark:border-white/10 rounded-2xl text-[#1A0F08] dark:text-[#EDEBE6] placeholder:text-[#5C361E]/70 dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] outline-none text-xs font-bold shadow-inner"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowNewPassword((prev) => !prev)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5C361E] dark:text-[#8A8F9C] hover:text-black dark:hover:text-white transition-colors cursor-pointer p-1"
+                                        aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+                                    >
+                                        {showNewPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Password Strength Checklist */}
+                            {passwordData.newPassword.length > 0 && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    className="text-[10px] space-y-1 bg-[#E2B293]/60 dark:bg-[#181C26]/90 p-2.5 rounded-2xl border border-black/20 dark:border-[#252A36]"
+                                >
+                                    <p className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-emerald-800 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-bold'}`}>
+                                        {passwordChecks.length ? <HiOutlineCheck className="text-xs shrink-0 stroke-[3]" /> : <HiOutlineXMark className="text-xs shrink-0 stroke-[3]" />}
+                                        <span>At least 8 characters</span>
+                                    </p>
+                                    <p className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-emerald-800 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-bold'}`}>
+                                        {passwordChecks.uppercase ? <HiOutlineCheck className="text-xs shrink-0 stroke-[3]" /> : <HiOutlineXMark className="text-xs shrink-0 stroke-[3]" />}
+                                        <span>At least 1 uppercase letter (A-Z)</span>
+                                    </p>
+                                    <p className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-emerald-800 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-bold'}`}>
+                                        {passwordChecks.lowercase ? <HiOutlineCheck className="text-xs shrink-0 stroke-[3]" /> : <HiOutlineXMark className="text-xs shrink-0 stroke-[3]" />}
+                                        <span>At least 1 lowercase letter (a-z)</span>
+                                    </p>
+                                    <p className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-emerald-800 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-bold'}`}>
+                                        {passwordChecks.number ? <HiOutlineCheck className="text-xs shrink-0 stroke-[3]" /> : <HiOutlineXMark className="text-xs shrink-0 stroke-[3]" />}
+                                        <span>At least 1 number (0-9)</span>
+                                    </p>
+                                    <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-800 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-bold'}`}>
+                                        {passwordChecks.special ? <HiOutlineCheck className="text-xs shrink-0 stroke-[3]" /> : <HiOutlineXMark className="text-xs shrink-0 stroke-[3]" />}
+                                        <span>At least 1 special char (@$!%*?&)</span>
+                                    </p>
+                                </motion.div>
+                            )}
+
+                            {/* Confirm Password */}
+                            <div className="space-y-1">
+                                <label className="block text-[11px] font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E2E8F0]">
+                                    Confirm New Password
+                                </label>
+                                <div className="relative">
+                                    <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5C361E]/70 dark:text-[#8A8F9C]" />
+                                    <input
+                                        type={showConfirmPassword ? 'text' : 'password'}
+                                        placeholder="Confirm new password"
+                                        value={passwordData.confirmPassword}
+                                        onChange={(e) => setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
+                                        className="w-full pl-10 pr-10 py-2.5 bg-[#E2B293] dark:bg-[#0E1116] border-2 border-black dark:border-white/10 rounded-2xl text-[#1A0F08] dark:text-[#EDEBE6] placeholder:text-[#5C361E]/70 dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] outline-none text-xs font-bold shadow-inner"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5C361E] dark:text-[#8A8F9C] hover:text-black dark:hover:text-white transition-colors cursor-pointer p-1"
+                                        aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                                    >
+                                        {showConfirmPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
+                                    </button>
+                                </div>
+                            </div>
 
                             {passwordStatus && (
                                 <div className={`rounded-2xl border-2 border-black px-3.5 py-2.5 text-[11px] font-black flex items-start gap-2 shadow-xs ${
@@ -667,7 +766,7 @@ const Settings = () => {
                                         ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-300'
                                         : 'bg-red-100 dark:bg-red-950/60 text-red-950 dark:text-red-300'
                                 }`}>
-                                    <HiOutlineCheck className="text-sm shrink-0 mt-0.5" />
+                                    <HiOutlineCheck className="text-sm shrink-0 mt-0.5 stroke-[2.5]" />
                                     <span>{passwordStatus}</span>
                                 </div>
                             )}
