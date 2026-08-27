@@ -486,7 +486,7 @@ export default function Admin() {
                                         required
                                         value={adminInputId}
                                         onChange={(e) => setAdminInputId(e.target.value)}
-                                        placeholder="admin@zephyra.app"
+                                        placeholder=""
                                         className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold transition-all"
                                     />
                                 </div>
@@ -503,7 +503,7 @@ export default function Admin() {
                                         required
                                         value={adminInputPassword}
                                         onChange={(e) => setAdminInputPassword(e.target.value)}
-                                        placeholder="••••••••••••"
+                                        placeholder=""
                                         className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-12 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold transition-all"
                                     />
                                     <button
@@ -810,7 +810,7 @@ export default function Admin() {
                                         setUserSearch(e.target.value);
                                         setUsersPage(1);
                                     }}
-                                    placeholder="Search by name, username, or email..."
+                                    placeholder=""
                                     className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
                                 />
                             </div>
@@ -989,7 +989,7 @@ export default function Admin() {
                                         setPostSearch(e.target.value);
                                         setPostsPage(1);
                                     }}
-                                    placeholder="Search stories by content or author..."
+                                    placeholder=""
                                     className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
                                 />
                             </div>
@@ -1098,7 +1098,7 @@ export default function Admin() {
                                         required
                                         value={announcementTitle}
                                         onChange={(e) => setAnnouncementTitle(e.target.value)}
-                                        placeholder="e.g. Scheduled System Maintenance Notice"
+                                        placeholder=""
                                         className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black font-bold"
                                     />
                                 </div>
@@ -1112,7 +1112,7 @@ export default function Admin() {
                                         required
                                         value={announcementMessage}
                                         onChange={(e) => setAnnouncementMessage(e.target.value)}
-                                        placeholder="Write clear announcement details for all platform members..."
+                                        placeholder=""
                                         className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] p-4 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black resize-none font-bold"
                                     />
                                 </div>
@@ -1149,7 +1149,7 @@ export default function Admin() {
                                 rows={3}
                                 value={banReason}
                                 onChange={(e) => setBanReason(e.target.value)}
-                                placeholder="Enter violation reason..."
+                                placeholder=""
                                 className="w-full rounded-2xl border-2 border-black bg-[#FFF6EF] dark:bg-[#181C26] p-3 text-xs font-bold text-[#1C1008] dark:text-white"
                             />
                         )}
