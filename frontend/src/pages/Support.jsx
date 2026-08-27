@@ -304,7 +304,7 @@ export default function Support() {
 
                 {/* Hero Search Section */}
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-widest">
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs">
                         Help Center & Knowledge Hub
                     </span>
                     <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#101828] dark:text-white">
@@ -349,9 +349,8 @@ export default function Support() {
                         )}
                     </form>
 
-                    {/* System Live Status Pill */}
+                    {/* System Live Status Pill (Green Dot Removed) */}
                     <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-900/40 bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
-                        <span className="h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-400/40 shrink-0" />
                         <span className="flex items-center gap-1.5">
                             <HiOutlineSignal />
                             <span>All Systems Operational</span>
