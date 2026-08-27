@@ -241,7 +241,6 @@ export default function Privacy() {
 
                 {/* Hero Header in Frosted Glass Card */}
                 <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/80 dark:bg-[#11151F]/90 backdrop-blur-2xl border border-white/90 dark:border-[#1F2636] shadow-2xl overflow-hidden">
-                    <WindBreeze />
                     <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
                         Trust, Transparency & Safety
                     </span>
