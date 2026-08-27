@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import {
     HiOutlineSun,
     HiOutlineBolt,
@@ -6,6 +7,58 @@ import {
     HiOutlineChatBubbleLeftRight,
     HiOutlinePaintBrush,
 } from 'react-icons/hi2';
+import changelogBgLight from '../assets/changelog-bg-light.jpg';
+import changelogBgDark from '../assets/changelog-bg-dark.jpg';
+
+// Animated wind gust SVG lines for smooth motion
+const WindBreeze = () => (
+    <svg
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+        <defs>
+            <linearGradient id="changelogGust" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
+                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
+            </linearGradient>
+        </defs>
+        <motion.path
+            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+            fill="none"
+            stroke="url(#changelogGust)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
+                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+                ],
+                opacity: [0.3, 0.7, 0.3]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.path
+            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+            fill="none"
+            stroke="url(#changelogGust)"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
+                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+                ],
+                opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+    </svg>
+);
 
 const RELEASES = [
     {
@@ -68,18 +121,30 @@ const RELEASES = [
 
 export default function Changelog() {
     return (
-        <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
-            <div className="max-w-4xl mx-auto space-y-12">
+        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+            {/* Realistic Photography Background Wallpaper - Light Mode */}
+            <div
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
+                style={{ backgroundImage: `url(${changelogBgLight})` }}
+            />
+            {/* Realistic Photography Background Wallpaper - Dark Mode */}
+            <div
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
+                style={{ backgroundImage: `url(${changelogBgDark})` }}
+            />
 
-                {/* Hero Header */}
-                <div className="text-center space-y-4 max-w-2xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xs font-bold uppercase tracking-widest">
-                        Release Notes
+            <div className="relative max-w-4xl mx-auto space-y-12 z-10">
+
+                {/* Hero Header in Frosted Glass Card */}
+                <div className="relative text-center space-y-6 max-w-3xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/85 dark:bg-[#11151F]/90 backdrop-blur-xl border border-white/90 dark:border-[#1F2636] shadow-2xl overflow-hidden">
+                    <WindBreeze />
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
+                        Release Notes & Changelog
                     </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight">
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#0F172A] dark:text-white relative z-10">
                         What's New in Zephyra
                     </h1>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                    <p className="text-base sm:text-xl text-[#334155] dark:text-[#9DA3B4] leading-relaxed font-medium max-w-xl mx-auto relative z-10">
                         Continuous improvements, speed optimizations, and new features shipped to the community.
                     </p>
                 </div>
@@ -91,34 +156,34 @@ export default function Changelog() {
                         return (
                             <div
                                 key={rel.version}
-                                className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-xs backdrop-blur-xl space-y-6 relative overflow-hidden"
+                                className="rounded-3xl border border-white/90 dark:border-[#1F232C] bg-white/85 dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-xl backdrop-blur-xl space-y-6 relative overflow-hidden transition-all hover:border-[#FF8F6B]/60"
                             >
                                 <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${rel.accent}`} />
 
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 dark:border-[#1F232C] pb-4">
-                                    <div className="flex items-center gap-3">
-                                        <span className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xl">
-                                            <Icon />
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200/80 dark:border-[#1F232C] pb-5">
+                                    <div className="flex items-center gap-4">
+                                        <span className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                            <Icon className="stroke-[2.2]" />
                                         </span>
                                         <div>
-                                            <div className="flex items-center gap-2">
-                                                <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                                            <div className="flex items-center gap-2.5">
+                                                <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-[#0F172A] dark:text-white">
                                                     {rel.version}
                                                 </h2>
-                                                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]">
+                                                <span className="px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#FF8F6B]/20 text-[#C2410C] dark:text-[#F5C36B] border border-[#FF8F6B]/30">
                                                     {rel.tag}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-gray-400 font-medium">{rel.date}</p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mt-0.5">{rel.date}</p>
                                         </div>
                                     </div>
-                                    <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">{rel.title}</h3>
+                                    <h3 className="text-sm sm:text-base font-bold text-[#0F172A] dark:text-white">{rel.title}</h3>
                                 </div>
 
-                                <ul className="space-y-2.5">
+                                <ul className="space-y-3">
                                     {rel.changes.map((item) => (
-                                        <li key={item} className="flex items-start gap-3 text-xs sm:text-sm text-gray-600 dark:text-[#B5B9C5] leading-relaxed">
-                                            <span className="p-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 text-xs shrink-0 mt-0.5">
+                                        <li key={item} className="flex items-start gap-3 text-xs sm:text-sm text-gray-700 dark:text-[#CBD5E1] leading-relaxed font-medium">
+                                            <span className="p-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs shrink-0 mt-0.5 font-bold">
                                                 <HiOutlineCheck />
                                             </span>
                                             <span>{item}</span>
