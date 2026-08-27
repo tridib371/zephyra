@@ -131,6 +131,13 @@ router.put('/me/password', protect, async (req, res) => {
             }
         }
 
+        if (currentPassword === newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: 'New password cannot be the same as your current password. Please choose a different password.',
+            });
+        }
+
         // Password strength check
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (!passwordRegex.test(newPassword)) {

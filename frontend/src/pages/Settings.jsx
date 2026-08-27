@@ -308,6 +308,13 @@ const Settings = () => {
             return;
         }
 
+        if (passwordData.currentPassword === passwordData.newPassword) {
+            setPasswordStatusType('error');
+            setPasswordStatus('New password cannot be the same as your current password. Please choose a different password.');
+            setSaving(false);
+            return;
+        }
+
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             setPasswordStatusType('error');
             setPasswordStatus('New password and confirm password do not match.');
