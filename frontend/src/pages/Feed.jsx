@@ -379,8 +379,8 @@ navigate(`/post/${postId}`);
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
                 <FeedBackgroundAnimation />
-                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-[#FFF4EB]/95 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#EA580C] dark:border-[#FF8F6B]"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-[#F0C9AE] dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-[5px_5px_0px_#000000] dark:shadow-2xl">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9E3610] dark:border-[#FF8F6B]"></div>
                     <p className="text-xs font-black uppercase tracking-widest text-[#9E3610] dark:text-[#FF8F6B]">
                         Loading Streamlines...
                     </p>
@@ -393,8 +393,8 @@ navigate(`/post/${postId}`);
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
                 <FeedBackgroundAnimation />
-                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-[#FFF4EB]/95 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl text-center space-y-4">
-                    <p className="text-sm font-bold text-[#C2410C] dark:text-[#FF8F6B]">
+                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-[#F0C9AE] dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-[5px_5px_0px_#000000] dark:shadow-2xl text-center space-y-4">
+                    <p className="text-sm font-black text-[#9E3610] dark:text-[#FF8F6B]">
                         {error}
                     </p>
                     <button
@@ -419,15 +419,15 @@ navigate(`/post/${postId}`);
                     initial={{ opacity: 0, y: -20, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="bg-[#FFF4EB]/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden"
+                    className="bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden"
                 >
-                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40 text-[10px] font-black uppercase tracking-widest mb-3">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF8F6B]/30 text-[#6B2207] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40 text-[10px] font-black uppercase tracking-widest mb-3">
                         ⚡ Chronological Stream
                     </span>
-                    <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white font-['Fraunces'] italic tracking-tight">
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A0F08] dark:text-white font-['Fraunces'] italic tracking-tight">
                         Welcome back, {user?.name}
                     </h1>
-                    <p className="text-[#4D3222] dark:text-[#9DA3B4] mt-1.5 text-xs sm:text-sm font-bold">
+                    <p className="text-[#402414] dark:text-[#9DA3B4] mt-1.5 text-xs sm:text-sm font-black">
                         Here is the latest from your distraction-free chronological feed.
                     </p>
                 </motion.div>
@@ -437,17 +437,17 @@ navigate(`/post/${postId}`);
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-[#FFF4EB]/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4"
+                        className="bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4"
                     >
-                        <div className="flex justify-center text-[#D97B4F] dark:text-[#F5C36B]">
+                        <div className="flex justify-center text-[#9E3610] dark:text-[#F5C36B]">
                             <FeatherMark />
                         </div>
-                        <p className="text-[#4D3222] dark:text-[#8A8F9C] text-sm sm:text-base font-bold">
+                        <p className="text-[#381F10] dark:text-[#8A8F9C] text-sm sm:text-base font-extrabold">
                             No posts yet. Be the first to share your voice on the wind.
                         </p>
                         <Link
                             to="/create"
-                            className="inline-block mt-2 px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all text-xs uppercase tracking-wider border-2 border-black shadow-md"
+                            className="inline-block mt-2 px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-105 transition-all text-xs uppercase tracking-wider border-2 border-black shadow-md"
                         >
                             Create First Post →
                         </Link>
@@ -465,7 +465,7 @@ navigate(`/post/${postId}`);
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.06, duration: 0.5 }}
                                 whileHover={{ y: -3 }}
-                                className="bg-[#FFF4EB]/95 dark:bg-[#12151C]/92 hover:bg-[#FFEFE3] dark:hover:bg-[#161B24] backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-300 cursor-pointer"
+                                className="bg-[#F0C9AE] dark:bg-[#12151C]/92 hover:bg-[#E8BC9F] dark:hover:bg-[#161B24] backdrop-blur-xl rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-300 cursor-pointer"
                                 onClick={() => goToPost(post._id)}
                             >
                                 {/* Author Info - Clicking this navigates to the author's profile */}
@@ -481,7 +481,7 @@ navigate(`/post/${postId}`);
                                             <img
                                                 src={post.author.profilePicture}
                                                 alt={post.author.name}
-                                                className="h-11 w-11 rounded-full object-cover border-2 border-black dark:border-[#FF8F6B]/50"
+                                                className="h-11 w-11 rounded-full object-cover border-2 border-black dark:border-[#FF8F6B]/50 shadow-xs"
                                             />
                                         ) : (
                                             <div className="h-11 w-11 rounded-full bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] border-2 border-black dark:border-[#FF8F6B]/50 flex items-center justify-center text-gray-900 font-extrabold text-sm shadow-xs">
@@ -491,14 +491,14 @@ navigate(`/post/${postId}`);
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center space-x-2">
-                                            <p className="text-sm font-extrabold text-[#1C1008] dark:text-[#EDEBE6] hover:text-[#EA580C] dark:hover:text-[#F5C36B] transition-colors truncate">
+                                            <p className="text-sm font-black text-[#1A0F08] dark:text-[#EDEBE6] hover:text-[#9E3610] dark:hover:text-[#F5C36B] transition-colors truncate">
                                                 {post.author?.name || 'Anonymous'}
                                             </p>
-                                            <span className="text-xs text-[#667085] dark:text-[#8A8F9C] font-bold truncate">
+                                            <span className="text-xs text-[#5C361E] dark:text-[#8A8F9C] font-extrabold truncate">
                                                 @{post.author?.username || 'user'}
                                             </span>
                                         </div>
-                                        <p className="text-xs text-[#667085] dark:text-[#8A8F9C] font-bold">
+                                        <p className="text-xs text-[#5C361E] dark:text-[#8A8F9C] font-bold">
                                             {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                                         </p>
                                     </div>
@@ -506,13 +506,13 @@ navigate(`/post/${postId}`);
 
                                 {/* Post Content */}
                                 <div className="mt-4">
-                                    <p className="text-[#2C1810] dark:text-[#D9D3E6] text-sm sm:text-base font-bold whitespace-pre-line break-words leading-relaxed font-[Manrope]">
+                                    <p className="text-[#1A0F08] dark:text-[#D9D3E6] text-sm sm:text-base font-extrabold whitespace-pre-line break-words leading-relaxed font-[Manrope]">
                                         {post.content}
                                     </p>
 
                                     {/* Post Image */}
                                     {post.image && (
-                                        <div className="mt-3 rounded-2xl overflow-hidden border-2 border-black dark:border-[#252A36]">
+                                        <div className="mt-3 rounded-2xl overflow-hidden border-2 border-black dark:border-[#252A36] shadow-xs">
                                             <img
                                                 src={post.image}
                                                 alt="Post media"
@@ -524,7 +524,7 @@ navigate(`/post/${postId}`);
 
                                 {/* Post Actions */}
                                 <div
-                                    className="mt-5 pt-4 border-t-2 border-black/10 dark:border-[#1F232C] flex items-center justify-between text-[#667085] dark:text-[#8A8F9C]"
+                                    className="mt-5 pt-4 border-t-2 border-black/20 dark:border-[#1F232C] flex items-center justify-between text-[#381F10] dark:text-[#8A8F9C]"
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <div className="flex items-center space-x-6">
@@ -544,8 +544,8 @@ navigate(`/post/${postId}`);
                                         {/* Comment Toggle Button */}
                                         <button
                                             onClick={() => toggleComments(post._id, { stopPropagation: () => {} })}
-                                            className={`flex items-center space-x-2 text-xs sm:text-sm font-black transition-colors hover:text-[#EA580C] dark:hover:text-[#F5C36B] ${
-                                                isCommentsOpen ? 'text-[#EA580C] dark:text-[#F5C36B]' : ''
+                                            className={`flex items-center space-x-2 text-xs sm:text-sm font-black transition-colors hover:text-[#9E3610] dark:hover:text-[#F5C36B] ${
+                                                isCommentsOpen ? 'text-[#9E3610] dark:text-[#F5C36B]' : ''
                                             }`}
                                         >
                                             <CommentIcon active={isCommentsOpen} />
@@ -554,7 +554,7 @@ navigate(`/post/${postId}`);
 
                                         {/* Share Button */}
                                         <button
-                                            className="flex items-center space-x-1.5 text-xs sm:text-sm font-black hover:text-[#EA580C] dark:hover:text-[#F5C36B] transition-colors"
+                                            className="flex items-center space-x-1.5 text-xs sm:text-sm font-black hover:text-[#9E3610] dark:hover:text-[#F5C36B] transition-colors"
                                         >
                                             <ShareIcon />
                                             <span className="hidden sm:inline">Share</span>
@@ -570,7 +570,7 @@ navigate(`/post/${postId}`);
                                             animate={{ opacity: 1, height: 'auto' }}
                                             exit={{ opacity: 0, height: 0 }}
                                             transition={{ duration: 0.3 }}
-                                            className="mt-4 pt-4 border-t-2 border-black/10 dark:border-[#1F232C] space-y-4"
+                                            className="mt-4 pt-4 border-t-2 border-black/20 dark:border-[#1F232C] space-y-4"
                                             onClick={(e) => e.stopPropagation()}
                                         >
                                             {/* Add Comment Input */}
@@ -581,7 +581,7 @@ navigate(`/post/${postId}`);
                                                     onChange={(e) => handleCommentChange(post._id, e.target.value)}
                                                     onKeyDown={(e) => { if (e.key === 'Enter') handleCommentSubmit(post._id, e); }}
                                                     placeholder="Write a comment..."
-                                                    className="flex-1 rounded-full border-2 border-black dark:border-[#252A36] bg-[#FFE9DA] dark:bg-[#181C26] px-4 py-2 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
+                                                    className="flex-1 rounded-full border-2 border-black dark:border-[#252A36] bg-[#E2B293] dark:bg-[#181C26] px-4 py-2 text-xs sm:text-sm text-[#1A0F08] dark:text-white placeholder:text-[#5C361E] dark:placeholder:text-[#8A8F9C] focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
                                                 />
                                                 <button
                                                     onClick={(e) => handleCommentSubmit(post._id, e)}
@@ -603,32 +603,32 @@ navigate(`/post/${postId}`);
                                                         return (
                                                             <div
                                                                 key={comment._id}
-                                                                className="flex items-start justify-between gap-2 p-3 rounded-2xl bg-[#FFE9DA] dark:bg-[#181C26]/80 border border-black/15 dark:border-[#252A36]"
+                                                                className="flex items-start justify-between gap-2 p-3 rounded-2xl bg-[#E2B293] dark:bg-[#181C26]/80 border-2 border-black/25 dark:border-[#252A36]"
                                                             >
                                                                 <div className="flex-1 min-w-0">
                                                                     <div className="flex items-center gap-2 flex-wrap">
                                                                         <Link
                                                                             to={`/profile/${comment.user?._id}`}
-                                                                            className="text-xs sm:text-sm font-extrabold text-[#1C1008] dark:text-[#EDEBE6] hover:text-[#EA580C] dark:hover:text-[#F5C36B] transition-colors"
+                                                                            className="text-xs sm:text-sm font-black text-[#1A0F08] dark:text-[#EDEBE6] hover:text-[#9E3610] dark:hover:text-[#F5C36B] transition-colors"
                                                                             onClick={(e) => e.stopPropagation()}
                                                                         >
                                                                             {comment.user?.name}
                                                                         </Link>
-                                                                        <span className="text-[11px] text-[#667085] dark:text-[#8A8F9C] font-bold">
+                                                                        <span className="text-[11px] text-[#5C361E] dark:text-[#8A8F9C] font-extrabold">
                                                                             @{comment.user?.username}
                                                                         </span>
-                                                                        <span className="text-[11px] text-[#667085] dark:text-[#8A8F9C] font-bold">
+                                                                        <span className="text-[11px] text-[#5C361E] dark:text-[#8A8F9C] font-bold">
                                                                             • {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                                                         </span>
                                                                     </div>
-                                                                    <p className="text-xs sm:text-sm text-[#2C1810] dark:text-[#D9D3E6] font-bold break-words mt-0.5">
+                                                                    <p className="text-xs sm:text-sm text-[#1A0F08] dark:text-[#D9D3E6] font-extrabold break-words mt-0.5">
                                                                         {comment.text}
                                                                     </p>
                                                                 </div>
                                                                 {canDelete && (
                                                                     <button
                                                                         onClick={() => handleDeleteComment(post._id, comment._id)}
-                                                                        className="text-gray-400 dark:text-[#6E7280] hover:text-red-500 dark:hover:text-red-400 transition flex-shrink-0 mt-1"
+                                                                        className="text-[#6B2207] dark:text-[#6E7280] hover:text-red-600 dark:hover:text-red-400 transition flex-shrink-0 mt-1"
                                                                         aria-label="Delete comment"
                                                                     >
                                                                         <TrashIcon />
