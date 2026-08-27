@@ -15,90 +15,179 @@ import {
     HiOutlineChevronRight,
 } from 'react-icons/hi2';
 
-// Animated background color mesh orbs for both Day and Dark modes (No static photo)
-const AnimatedColorMesh = () => (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
-        {/* Orb 1: Sunset Coral / Terracotta */}
-        <motion.div
-            className="absolute -top-24 -left-20 w-96 h-96 rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/25 to-transparent dark:from-[#FF8F6B]/20 dark:via-[#C2410C]/15 blur-3xl"
-            animate={{
-                x: [0, 40, -20, 0],
-                y: [0, -30, 20, 0],
-                scale: [1, 1.15, 0.95, 1],
-            }}
-            transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        {/* Orb 2: Golden Amber / Warm Sunset */}
-        <motion.div
-            className="absolute top-1/3 -right-24 w-[28rem] h-[28rem] rounded-full bg-gradient-to-bl from-[#F5C36B]/35 via-[#FF8F6B]/20 to-transparent dark:from-[#F5C36B]/15 dark:via-[#D97B4F]/10 blur-3xl"
-            animate={{
-                x: [0, -50, 30, 0],
-                y: [0, 40, -20, 0],
-                scale: [1, 0.9, 1.1, 1],
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        />
-        {/* Orb 3: Soft Terracotta Bottom */}
-        <motion.div
-            className="absolute -bottom-24 left-1/4 w-[32rem] h-[32rem] rounded-full bg-gradient-to-tr from-[#D97B4F]/25 via-[#FF8F6B]/20 to-transparent dark:from-[#C2410C]/20 dark:via-[#FF8F6B]/10 blur-3xl"
-            animate={{
-                x: [0, 30, -40, 0],
-                y: [0, -40, 30, 0],
-                scale: [1, 1.1, 0.9, 1],
-            }}
-            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-        />
-    </div>
-);
+// Gorgeous fixed full-screen animated background canvas for Day & Night modes (No photo)
+const GorgeousAnimatedBackground = () => (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        {/* Day Mode Vivid Gradient Waves & Glow Orbs */}
+        <div className="absolute inset-0 dark:hidden">
+            {/* Glowing Orb 1 - Top Left Terracotta Sunset */}
+            <motion.div
+                className="absolute -top-32 -left-32 w-[36rem] h-[36rem] rounded-full bg-gradient-to-br from-[#FF8F6B]/60 via-[#D97B4F]/40 to-[#F5C36B]/20 blur-3xl opacity-75"
+                animate={{
+                    x: [0, 60, -30, 0],
+                    y: [0, -50, 40, 0],
+                    scale: [1, 1.25, 0.9, 1],
+                    rotate: [0, 45, 90, 0],
+                }}
+                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            {/* Glowing Orb 2 - Center Right Golden Amber */}
+            <motion.div
+                className="absolute top-1/4 -right-32 w-[42rem] h-[42rem] rounded-full bg-gradient-to-bl from-[#F5C36B]/65 via-[#FF8F6B]/45 to-[#E05A47]/30 blur-3xl opacity-70"
+                animate={{
+                    x: [0, -80, 50, 0],
+                    y: [0, 60, -30, 0],
+                    scale: [1, 0.85, 1.2, 1],
+                    rotate: [0, -60, 30, 0],
+                }}
+                transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            />
+            {/* Glowing Orb 3 - Bottom Left Coral Rose */}
+            <motion.div
+                className="absolute -bottom-32 left-1/3 w-[40rem] h-[40rem] rounded-full bg-gradient-to-tr from-[#E05A47]/50 via-[#FF8F6B]/40 to-[#F5C36B]/30 blur-3xl opacity-75"
+                animate={{
+                    x: [0, 70, -60, 0],
+                    y: [0, -60, 40, 0],
+                    scale: [1, 1.15, 0.95, 1],
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+            />
+            {/* Glowing Floating Ambient Particles */}
+            {[...Array(6)].map((_, i) => (
+                <motion.div
+                    key={`day-particle-${i}`}
+                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] blur-sm opacity-60"
+                    style={{
+                        width: `${16 + i * 8}px`,
+                        height: `${16 + i * 8}px`,
+                        left: `${15 + i * 15}%`,
+                        top: `${20 + (i % 4) * 20}%`,
+                    }}
+                    animate={{
+                        y: [0, -80, 0],
+                        x: [0, i % 2 === 0 ? 40 : -40, 0],
+                        opacity: [0.3, 0.7, 0.3],
+                        scale: [0.8, 1.2, 0.8],
+                    }}
+                    transition={{
+                        duration: 8 + i * 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: i * 1.2,
+                    }}
+                />
+            ))}
+        </div>
 
-// Animated wind gust SVG lines for smooth motion
-const WindBreeze = () => (
-    <svg
-        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-    >
-        <defs>
-            <linearGradient id="privacyGust" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
-                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
-            </linearGradient>
-        </defs>
-        <motion.path
-            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
-            fill="none"
-            stroke="url(#privacyGust)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            animate={{
-                d: [
-                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
-                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
-                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
-                ],
-                opacity: [0.3, 0.7, 0.3]
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.path
-            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
-            fill="none"
-            stroke="url(#privacyGust)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            animate={{
-                d: [
-                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
-                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
-                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
-                ],
-                opacity: [0.2, 0.6, 0.2]
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-    </svg>
+        {/* Dark Mode Vivid Aurora & Midnight Glow Orbs */}
+        <div className="absolute inset-0 hidden dark:block">
+            {/* Glowing Orb 1 - Deep Sunset Coral Velvet */}
+            <motion.div
+                className="absolute -top-32 -left-32 w-[38rem] h-[38rem] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#993B22]/30 to-[#3B1F42]/40 blur-3xl opacity-80"
+                animate={{
+                    x: [0, 60, -30, 0],
+                    y: [0, -50, 40, 0],
+                    scale: [1, 1.2, 0.9, 1],
+                }}
+                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            {/* Glowing Orb 2 - Midnight Amber / Violet */}
+            <motion.div
+                className="absolute top-1/3 -right-32 w-[44rem] h-[44rem] rounded-full bg-gradient-to-bl from-[#C2410C]/40 via-[#5C243B]/35 to-[#1B2232]/50 blur-3xl opacity-80"
+                animate={{
+                    x: [0, -70, 40, 0],
+                    y: [0, 50, -30, 0],
+                    scale: [1, 0.85, 1.15, 1],
+                }}
+                transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            />
+            {/* Glowing Orb 3 - Deep Terracotta Bottom */}
+            <motion.div
+                className="absolute -bottom-32 left-1/4 w-[40rem] h-[40rem] rounded-full bg-gradient-to-tr from-[#D97B4F]/35 via-[#FF8F6B]/25 to-transparent blur-3xl opacity-75"
+                animate={{
+                    x: [0, 50, -50, 0],
+                    y: [0, -50, 30, 0],
+                    scale: [1, 1.1, 0.9, 1],
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+            />
+            {/* Glowing Dark Mode Particles */}
+            {[...Array(8)].map((_, i) => (
+                <motion.div
+                    key={`dark-particle-${i}`}
+                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] blur-sm"
+                    style={{
+                        width: `${12 + i * 6}px`,
+                        height: `${12 + i * 6}px`,
+                        left: `${10 + i * 11}%`,
+                        top: `${15 + (i % 4) * 22}%`,
+                    }}
+                    animate={{
+                        y: [0, -90, 0],
+                        x: [0, i % 2 === 0 ? 50 : -50, 0],
+                        opacity: [0.2, 0.7, 0.2],
+                        scale: [0.7, 1.3, 0.7],
+                    }}
+                    transition={{
+                        duration: 7 + i * 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: i * 0.9,
+                    }}
+                />
+            ))}
+        </div>
+
+        {/* Dynamic Sweeping SVG Ribbon Waves across the viewport */}
+        <svg
+            className="absolute inset-0 h-full w-full pointer-events-none opacity-50 dark:opacity-35"
+            viewBox="0 0 1400 900"
+            preserveAspectRatio="none"
+        >
+            <defs>
+                <linearGradient id="gorgeousWave1" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0.8" />
+                    <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#F5C36B" stopOpacity="0.9" />
+                </linearGradient>
+                <linearGradient id="gorgeousWave2" x1="1" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F5C36B" stopOpacity="0.7" />
+                    <stop offset="50%" stopColor="#FF8F6B" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="#E05A47" stopOpacity="0.8" />
+                </linearGradient>
+            </defs>
+            <motion.path
+                d="M -100 250 C 350 50, 750 450, 1150 200 S 1450 150, 1600 300"
+                fill="none"
+                stroke="url(#gorgeousWave1)"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                animate={{
+                    d: [
+                        "M -100 250 C 350 50, 750 450, 1150 200 S 1450 150, 1600 300",
+                        "M -100 300 C 400 150, 700 350, 1100 300 S 1400 100, 1600 250",
+                        "M -100 250 C 350 50, 750 450, 1150 200 S 1450 150, 1600 300"
+                    ],
+                }}
+                transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.path
+                d="M -100 650 C 400 800, 800 500, 1200 700 S 1450 600, 1600 650"
+                fill="none"
+                stroke="url(#gorgeousWave2)"
+                strokeWidth="2.8"
+                strokeLinecap="round"
+                animate={{
+                    d: [
+                        "M -100 650 C 400 800, 800 500, 1200 700 S 1450 600, 1600 650",
+                        "M -100 600 C 350 700, 850 600, 1150 620 S 1400 750, 1600 680",
+                        "M -100 650 C 400 800, 800 500, 1200 700 S 1450 600, 1600 650"
+                    ],
+                }}
+                transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+        </svg>
+    </div>
 );
 
 const SECTIONS = [
@@ -145,13 +234,13 @@ export default function Privacy() {
 
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Dynamic Animated Ambient Color Mesh Gradients (No Photo) */}
-            <AnimatedColorMesh />
+            {/* Dynamic Animated Ambient Color Mesh & Aurora Waves Canvas (No Photo) */}
+            <GorgeousAnimatedBackground />
 
             <div className="relative max-w-6xl mx-auto space-y-12 z-10">
 
                 {/* Hero Header in Frosted Glass Card */}
-                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/85 dark:bg-[#11151F]/90 backdrop-blur-xl border border-white/90 dark:border-[#1F2636] shadow-2xl overflow-hidden">
+                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/80 dark:bg-[#11151F]/90 backdrop-blur-2xl border border-white/90 dark:border-[#1F2636] shadow-2xl overflow-hidden">
                     <WindBreeze />
                     <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
                         Trust, Transparency & Safety
