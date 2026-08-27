@@ -428,21 +428,21 @@ export default function Support() {
                         </div>
 
                         {/* Category Filter Pills */}
-                        <div className="flex flex-wrap items-center gap-1.5">
+                        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar whitespace-nowrap shrink-0 max-w-full sm:flex-wrap">
                             {CATEGORIES.map((cat) => {
                                 const catCount = getCategoryCount(cat.id);
                                 return (
                                     <button
                                         key={cat.id}
                                         onClick={() => handleCategorySelect(cat.id)}
-                                        className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center gap-1.5 ${
+                                        className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
                                             selectedCategory === cat.id
-                                                ? 'bg-[#101828] text-white dark:bg-white dark:text-[#1A140D] shadow-xs'
+                                                ? 'bg-[#101828] text-white dark:bg-white dark:text-[#1A140D] shadow-sm scale-[1.02]'
                                                 : 'bg-white dark:bg-[#181C26] border border-[#EAECF0] dark:border-[#252A36] text-[#344054] dark:text-[#A0A5B2] hover:bg-[#F2F4F7]'
                                         }`}
                                     >
                                         <span>{cat.label}</span>
-                                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D]' : 'bg-[#F2F4F7] dark:bg-[#202532] text-[#475467]'}`}>
+                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D]' : 'bg-[#F2F4F7] dark:bg-[#202532] text-[#475467]'}`}>
                                             {catCount}
                                         </span>
                                     </button>
