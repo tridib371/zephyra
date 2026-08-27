@@ -20,6 +20,8 @@ import {
     HiOutlineChatBubbleLeftRight,
     HiOutlineCheckCircle,
     HiOutlinePaperAirplane,
+    HiOutlineEye,
+    HiOutlineEyeSlash,
 } from 'react-icons/hi2';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
@@ -497,22 +499,22 @@ export default function Admin() {
                                     Admin Security Key / Password
                                 </label>
                                 <div className="relative">
-                                    <HiOutlineKey className="absolute left-3.5 top-3.5 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
+                                    <HiOutlineKey className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         required
                                         value={adminInputPassword}
                                         onChange={(e) => setAdminInputPassword(e.target.value)}
-                                        placeholder=""
-                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-12 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold transition-all"
+                                        placeholder="••••••••"
+                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-11 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold transition-all"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3.5 top-3 text-xs text-[#5E3821] hover:text-[#1C1008] dark:hover:text-gray-200 font-black p-0.5"
-                                        tabIndex={-1}
+                                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#5E3821] hover:text-[#1C1008] dark:text-gray-400 dark:hover:text-white transition-colors cursor-pointer p-1"
+                                        aria-label={showPassword ? 'Hide password' : 'Show password'}
                                     >
-                                        {showPassword ? 'Hide' : 'Show'}
+                                        {showPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
                                     </button>
                                 </div>
                             </div>
