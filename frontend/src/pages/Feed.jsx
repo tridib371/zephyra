@@ -46,6 +46,169 @@ const TrashIcon = () => (
     </svg>
 );
 
+// ===== Animated Background Component for Day & Night Modes =====
+const FeedBackgroundAnimation = () => {
+    return (
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+            {/* Ambient Background Gradient Base */}
+            <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-[#0E1116] transition-colors duration-500" />
+
+            {/* Glowing Amber/Terracotta Radial Orbs (Day & Night) */}
+            <motion.div
+                animate={{
+                    scale: [1, 1.25, 1],
+                    x: [0, 50, 0],
+                    y: [0, 30, 0],
+                    opacity: [0.45, 0.7, 0.45],
+                }}
+                transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/25 to-transparent dark:from-[#FF8F6B]/20 dark:via-[#9E3610]/15 dark:to-transparent blur-3xl"
+            />
+
+            <motion.div
+                animate={{
+                    scale: [1.1, 0.9, 1.1],
+                    x: [0, -40, 0],
+                    y: [0, 60, 0],
+                    opacity: [0.4, 0.65, 0.4],
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+                className="absolute top-1/3 -right-36 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-[#F5C36B]/35 via-[#E2774C]/25 to-transparent dark:from-[#F5C36B]/15 dark:via-[#D97B4F]/10 dark:to-transparent blur-3xl"
+            />
+
+            <motion.div
+                animate={{
+                    scale: [0.95, 1.2, 0.95],
+                    x: [0, 35, 0],
+                    y: [0, -45, 0],
+                    opacity: [0.35, 0.6, 0.35],
+                }}
+                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+                className="absolute -bottom-40 left-1/4 w-[580px] h-[580px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/30 via-[#F5C36B]/20 to-transparent dark:from-[#E2774C]/15 dark:via-[#7A2B0E]/15 dark:to-transparent blur-3xl"
+            />
+
+            {/* Subtle Cyber Dot Matrix Grid (Light & Dark) */}
+            <div
+                className="absolute inset-0 opacity-[0.35] dark:opacity-[0.2]"
+                style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(217, 123, 79, 0.4) 1.2px, transparent 0)`,
+                    backgroundSize: '36px 36px',
+                }}
+            />
+
+            {/* Multi-Layered Animated Wind Breeze Wave Currents */}
+            <svg
+                className="absolute inset-0 h-full w-full opacity-65 dark:opacity-40"
+                viewBox="0 0 1400 900"
+                preserveAspectRatio="none"
+            >
+                <defs>
+                    <linearGradient id="feedGustA" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
+                        <stop offset="25%" stopColor="#FF8F6B" stopOpacity="0.8" />
+                        <stop offset="70%" stopColor="#E2774C" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="feedGustB" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#F5C36B" stopOpacity="0" />
+                        <stop offset="35%" stopColor="#D97B4F" stopOpacity="0.75" />
+                        <stop offset="80%" stopColor="#FF8F6B" stopOpacity="0.85" />
+                        <stop offset="100%" stopColor="#E2774C" stopOpacity="0" />
+                    </linearGradient>
+                </defs>
+
+                {/* Primary undulating wave */}
+                <motion.path
+                    d="M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200"
+                    fill="none"
+                    stroke="url(#feedGustA)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    animate={{
+                        d: [
+                            "M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200",
+                            "M -150 220 C 280 150, 490 240, 820 230 S 1140 50, 1550 160",
+                            "M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200"
+                        ],
+                        opacity: [0.35, 0.75, 0.35]
+                    }}
+                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                />
+
+                {/* Secondary harmonic wave */}
+                <motion.path
+                    d="M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490"
+                    fill="none"
+                    stroke="url(#feedGustB)"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    animate={{
+                        d: [
+                            "M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490",
+                            "M -150 440 C 190 520, 710 440, 930 460 S 1160 560, 1550 510",
+                            "M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490"
+                        ],
+                        opacity: [0.25, 0.65, 0.25]
+                    }}
+                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                />
+
+                {/* Third low breeze current */}
+                <motion.path
+                    d="M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760"
+                    fill="none"
+                    stroke="url(#feedGustA)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    animate={{
+                        d: [
+                            "M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760",
+                            "M -150 740 C 290 800, 750 780, 970 750 S 1240 830, 1550 780",
+                            "M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760"
+                        ],
+                        opacity: [0.3, 0.65, 0.3]
+                    }}
+                    transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+                />
+            </svg>
+
+            {/* Floating Ambient Feather & Particle Motes */}
+            {[
+                { top: '12%', left: '8%', size: 8, duration: 8, delay: 0 },
+                { top: '22%', left: '88%', size: 12, duration: 10, delay: 1.5 },
+                { top: '42%', left: '15%', size: 6, duration: 7, delay: 3 },
+                { top: '62%', left: '82%', size: 10, duration: 9, delay: 2 },
+                { top: '78%', left: '25%', size: 14, duration: 11, delay: 0.5 },
+                { top: '88%', left: '72%', size: 7, duration: 8.5, delay: 4 },
+                { top: '32%', left: '52%', size: 9, duration: 9.5, delay: 2.2 },
+            ].map((p, idx) => (
+                <motion.div
+                    key={idx}
+                    style={{
+                        top: p.top,
+                        left: p.left,
+                        width: `${p.size}px`,
+                        height: `${p.size}px`,
+                    }}
+                    animate={{
+                        y: [-25, 30, -25],
+                        x: [-15, 20, -15],
+                        opacity: [0.2, 0.8, 0.2],
+                        scale: [0.85, 1.3, 0.85],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: p.delay,
+                    }}
+                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] shadow-xs shadow-[#E2774C]/60"
+                />
+            ))}
+        </div>
+    );
+};
+
 // ===== Feed Component =====
 const Feed = () => {
     const { user } = useAuth();
@@ -209,296 +372,292 @@ const Feed = () => {
 
     // Navigate to post detail
     const goToPost = (postId) => {
-        navigate(`/post/${postId}`);
+navigate(`/post/${postId}`);
     };
 
     if (loading) {
         return (
-            <div className="max-w-3xl mx-auto p-4 sm:p-6 flex justify-center items-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#D97B4F] dark:border-[#F5C36B]"></div>
+            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
+                <FeedBackgroundAnimation />
+                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#EA580C] dark:border-[#FF8F6B]"></div>
+                    <p className="text-xs font-black uppercase tracking-widest text-[#9E3610] dark:text-[#FF8F6B]">
+                        Loading Streamlines...
+                    </p>
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="max-w-3xl mx-auto p-4 sm:p-6 text-center text-[#C4573F] dark:text-[#FF8F6B]">
-                {error}
+            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
+                <FeedBackgroundAnimation />
+                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl text-center space-y-4">
+                    <p className="text-sm font-bold text-[#C2410C] dark:text-[#FF8F6B]">
+                        {error}
+                    </p>
+                    <button
+                        onClick={fetchPosts}
+                        className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 transition-all shadow-md"
+                    >
+                        Try Again
+                    </button>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
-            {/* Welcome Header */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 border border-[#EAECF0] dark:border-[#1F232C]"
-            >
-                <h1 className="text-2xl font-bold text-[#101828] dark:text-[#EDEBE6] font-['Fraunces'] italic">
-                    Welcome back, {user?.name}
-                </h1>
-                <p className="text-[#475467] dark:text-[#8A8F9C] mt-1 text-sm font-medium">
-                    Here is the latest from your chronological feed.
-                </p>
-            </motion.div>
+        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-8 px-4 sm:px-6 font-[Manrope] overflow-x-hidden">
+            {/* Background Animation for Both Day & Night Modes */}
+            <FeedBackgroundAnimation />
 
-            {/* Posts Feed */}
-            {posts.length === 0 ? (
+            <div className="relative max-w-3xl mx-auto space-y-6 z-10">
+                {/* Welcome Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-8 text-center border border-[#EAECF0] dark:border-[#1F232C]"
+                    initial={{ opacity: 0, y: -20, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.6 }}
+                    className="bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden"
                 >
-                    <div className="flex justify-center text-[#D97B4F] dark:text-[#F5C36B] mb-4">
-                        <FeatherMark />
-                    </div>
-                    <p className="text-[#475467] dark:text-[#8A8F9C] text-base font-[Manrope]">
-                        No posts yet. Be the first to share your story on the wind.
+                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40 text-[10px] font-black uppercase tracking-widest mb-3">
+                        ⚡ Chronological Stream
+                    </span>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white font-['Fraunces'] italic tracking-tight">
+                        Welcome back, {user?.name}
+                    </h1>
+                    <p className="text-[#4D3222] dark:text-[#9DA3B4] mt-1.5 text-xs sm:text-sm font-bold">
+                        Here is the latest from your distraction-free chronological feed.
                     </p>
-                    <Link
-                        to="/create"
-                        className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all text-sm shadow-xs"
-                    >
-                        Create Post
-                    </Link>
                 </motion.div>
-            ) : (
-                posts.map((post, index) => {
-                    const isLiked = likedPosts.has(post._id);
-                    const isCommentsOpen = openComments[post._id] || false;
-                    const commentCount = post.comments?.length || 0;
 
-                    return (
-                        <motion.div
-                            key={post._id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.08 }}
-                            className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 border border-[#EAECF0] dark:border-[#1F232C] hover:border-[#D97B4F]/50 dark:hover:border-[#F5C36B]/30 transition-all duration-300 cursor-pointer"
-                            onClick={() => goToPost(post._id)}
+                {/* Posts Feed */}
+                {posts.length === 0 ? (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4"
+                    >
+                        <div className="flex justify-center text-[#D97B4F] dark:text-[#F5C36B]">
+                            <FeatherMark />
+                        </div>
+                        <p className="text-[#4D3222] dark:text-[#8A8F9C] text-sm sm:text-base font-bold">
+                            No posts yet. Be the first to share your voice on the wind.
+                        </p>
+                        <Link
+                            to="/create"
+                            className="inline-block mt-2 px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full hover:scale-105 transition-all text-xs uppercase tracking-wider border-2 border-black shadow-md"
                         >
-                            {/* Author Info - Clicking this navigates to the author's profile */}
-                            <div
-                                className="flex items-start space-x-3"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigate(`/profile/${post.author?._id}`);
-                                }}
+                            Create First Post →
+                        </Link>
+                    </motion.div>
+                ) : (
+                    posts.map((post, index) => {
+                        const isLiked = likedPosts.has(post._id);
+                        const isCommentsOpen = openComments[post._id] || false;
+                        const commentCount = post.comments?.length || 0;
+
+                        return (
+                            <motion.div
+                                key={post._id}
+                                initial={{ opacity: 0, y: 25 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.06, duration: 0.5 }}
+                                whileHover={{ y: -3 }}
+                                className="bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-300 cursor-pointer"
+                                onClick={() => goToPost(post._id)}
                             >
-                                <img
-                                    src={post.author?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                    alt={post.author?.name}
-                                    className="w-10 h-10 rounded-full object-cover ring-2 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60 cursor-pointer hover:ring-[#D97B4F] dark:hover:ring-[#F5C36B] transition-all"
-                                    onError={(e) => {
-                                        e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                    }}
-                                />
-                                <div className="flex-1">
-                                    <div className="flex items-center flex-wrap gap-2">
-                                        <span className="font-semibold text-[#101828] dark:text-[#EDEBE6] font-[Manrope] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors">
-                                            {post.author?.name}
-                                        </span>
-                                        <span className="text-sm text-[#667085] dark:text-[#6E7280] font-[Manrope]">
-                                            @{post.author?.username}
-                                        </span>
-                                    </div>
-                                    <p className="text-xs text-[#667085] dark:text-[#6E7280] mt-0.5 font-[Manrope]">
-                                        {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Post Content - Clicking this navigates to post detail */}
-                            <div className="mt-3" onClick={(e) => e.stopPropagation()}>
-                                <p className="text-[#344054] dark:text-[#E7E6E3] whitespace-pre-wrap break-words font-[Manrope] leading-relaxed font-medium">
-                                    {post.content}
-                                </p>
-                                {post.image && (
-                                    <div className="mt-3 rounded-2xl overflow-hidden border border-[#EAECF0] dark:border-[#1F232C]">
-                                        <img
-                                            src={post.image}
-                                            alt="Post image"
-                                            className="w-full max-h-96 object-contain bg-[#F8F9FA] dark:bg-[#0E1116]"
-                                            onError={(e) => {
-                                                e.target.style.display = 'none';
-                                            }}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Post Actions - Click handlers with stopPropagation */}
-                            <div className="mt-4 flex items-center gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
-                                {/* Like Button */}
-                                <button
+                                {/* Author Info - Clicking this navigates to the author's profile */}
+                                <div
+                                    className="flex items-start space-x-3"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        handleLike(post._id);
+                                        navigate(`/profile/${post.author?._id}`);
                                     }}
-                                    className={`flex items-center gap-2 transition group ${isLiked
-                                        ? 'text-[#D97B4F] dark:text-[#FF8F6B]'
-                                        : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'
-                                        }`}
                                 >
-                                    <HeartIcon filled={isLiked} />
-                                    <span className="text-sm font-medium font-[Manrope]">
-                                        {post.likes?.length || 0}
-                                    </span>
-                                </button>
-
-                                {/* Comment Button */}
-                                <button
-                                    onClick={(e) => toggleComments(post._id, e)}
-                                    className={`flex items-center gap-2 transition group ${isCommentsOpen
-                                        ? 'text-[#D97B4F] dark:text-[#F5C36B]'
-                                        : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B]'
-                                        }`}
-                                >
-                                    <CommentIcon active={isCommentsOpen} />
-                                    <span className="text-sm font-medium font-[Manrope]">
-                                        {commentCount}
-                                    </span>
-                                </button>
-
-                                {/* Bookmark Button */}
-                                <button
-                                    className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <BookmarkIcon />
-                                </button>
-
-                                {/* Share Button */}
-                                <button
-                                    className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition group ml-auto"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <ShareIcon />
-                                </button>
-                            </div>
-
-                            {/* Comments Section */}
-                            <AnimatePresence>
-                                {isCommentsOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="mt-4 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 space-y-3"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        {/* Comment Input */}
-                                        <div className="flex items-center gap-2">
+                                    <div className="flex-shrink-0">
+                                        {post.author?.profilePicture ? (
                                             <img
-                                                src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                                alt="Your avatar"
-                                                className="w-8 h-8 rounded-full object-cover ring-1 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40 flex-shrink-0"
-                                                onError={(e) => {
-                                                    e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                                }}
+                                                src={post.author.profilePicture}
+                                                alt={post.author.name}
+                                                className="h-11 w-11 rounded-full object-cover border-2 border-black dark:border-[#FF8F6B]/50"
                                             />
-                                            <input
-                                                type="text"
-                                                value={commentTexts[post._id] || ''}
-                                                onChange={(e) => handleCommentChange(post._id, e.target.value)}
-                                                onKeyDown={(e) => {
-                                                    if (e.key === 'Enter') handleCommentSubmit(post._id, e);
-                                                }}
-                                                placeholder="Write a comment..."
-                                                className="flex-1 px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-full text-sm text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
-                                            />
-                                            <button
-                                                onClick={(e) => handleCommentSubmit(post._id, e)}
-                                                disabled={submittingComment[post._id] || !(commentTexts[post._id] || '').trim()}
-                                                className="px-5 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full text-xs hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] whitespace-nowrap cursor-pointer shadow-xs"
-                                            >
-                                                {submittingComment[post._id] ? '...' : 'Post'}
-                                            </button>
-                                        </div>
-
-                                        {/* Comments List */}
-                                        {commentCount === 0 ? (
-                                            <p className="text-xs text-[#667085] dark:text-[#6E7280] text-center font-[Manrope] py-2">
-                                                No comments yet. Be the first to share your thoughts.
-                                            </p>
                                         ) : (
-                                            <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
-                                                {post.comments.map((comment) => {
-                                                    const isOwn = comment.user?._id === user?._id;
-                                                    const isPostAuthor = post.author?._id === user?._id;
-                                                    const canDelete = isOwn || isPostAuthor;
-
-                                                    return (
-                                                        <div key={comment._id} className="flex items-start gap-2">
-                                                            <Link
-                                                                to={`/profile/${comment.user?._id}`}
-                                                                className="flex-shrink-0"
-                                                                onClick={(e) => e.stopPropagation()}
-                                                            >
-                                                                <img
-                                                                    src={comment.user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                                                    alt={comment.user?.name}
-                                                                    className="w-7 h-7 rounded-full object-cover ring-1 ring-[#EAECF0] dark:ring-[#3A3F4B] mt-0.5 hover:ring-[#D97B4F] dark:hover:ring-[#F5C36B] transition-all"
-                                                                    onError={(e) => {
-                                                                        e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                                                    }}
-                                                                />
-                                                            </Link>
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-center gap-2 flex-wrap">
-                                                                    <Link
-                                                                        to={`/profile/${comment.user?._id}`}
-                                                                        className="text-sm font-semibold text-[#101828] dark:text-[#EDEBE6] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
-                                                                        onClick={(e) => e.stopPropagation()}
-                                                                    >
-                                                                        {comment.user?.name}
-                                                                    </Link>
-                                                                    <span className="text-xs text-[#667085] dark:text-[#6E7280] font-[Manrope]">
-                                                                        @{comment.user?.username}
-                                                                    </span>
-                                                                    <span className="text-xs text-[#667085] dark:text-[#6E7280] font-[Manrope]">
-                                                                        • {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-                                                                    </span>
-                                                                </div>
-                                                                <p className="text-sm text-[#344054] dark:text-[#D9D3E6] font-[Manrope] break-words">
-                                                                    {comment.text}
-                                                                </p>
-                                                            </div>
-                                                            {canDelete && (
-                                                                <button
-                                                                    onClick={() => handleDeleteComment(post._id, comment._id)}
-                                                                    className="text-gray-400 dark:text-[#6E7280] hover:text-red-500 dark:hover:text-red-400 transition flex-shrink-0 mt-1"
-                                                                    aria-label="Delete comment"
-                                                                >
-                                                                    <TrashIcon />
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    );
-                                                })}
+                                            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] border-2 border-black dark:border-[#FF8F6B]/50 flex items-center justify-center text-gray-900 font-extrabold text-sm shadow-xs">
+                                                {post.author?.name?.charAt(0).toUpperCase() || 'U'}
                                             </div>
                                         )}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    );
-                })
-            )}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center space-x-2">
+                                            <p className="text-sm font-extrabold text-[#1C1008] dark:text-[#EDEBE6] hover:text-[#EA580C] dark:hover:text-[#F5C36B] transition-colors truncate">
+                                                {post.author?.name || 'Anonymous'}
+                                            </p>
+                                            <span className="text-xs text-[#667085] dark:text-[#8A8F9C] font-bold truncate">
+                                                @{post.author?.username || 'user'}
+                                            </span>
+                                        </div>
+                                        <p className="text-xs text-[#667085] dark:text-[#8A8F9C] font-bold">
+                                            {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+                                        </p>
+                                    </div>
+                                </div>
 
-            {/* ===== CUSTOM CONFIRMATION MODAL ===== */}
-            <ConfirmDialog
-                isOpen={deleteModal.isOpen}
-                onClose={() => setDeleteModal({ isOpen: false, postId: null, commentId: null })}
-                onConfirm={confirmDeleteComment}
-                title="Delete Comment?"
-                message="This action cannot be undone. Are you sure you want to delete this comment?"
-                confirmText="Delete"
-                cancelText="Cancel"
-            />
+                                {/* Post Content */}
+                                <div className="mt-4">
+                                    <p className="text-[#2C1810] dark:text-[#D9D3E6] text-sm sm:text-base font-bold whitespace-pre-line break-words leading-relaxed font-[Manrope]">
+                                        {post.content}
+                                    </p>
+
+                                    {/* Post Image */}
+                                    {post.image && (
+                                        <div className="mt-3 rounded-2xl overflow-hidden border-2 border-black dark:border-[#252A36]">
+                                            <img
+                                                src={post.image}
+                                                alt="Post media"
+                                                className="w-full max-h-96 object-cover hover:scale-101 transition-transform duration-300"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Post Actions */}
+                                <div
+                                    className="mt-5 pt-4 border-t-2 border-black/10 dark:border-[#1F232C] flex items-center justify-between text-[#667085] dark:text-[#8A8F9C]"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <div className="flex items-center space-x-6">
+                                        {/* Like Button */}
+                                        <button
+                                            onClick={() => handleLike(post._id)}
+                                            className={`flex items-center space-x-2 text-xs sm:text-sm font-black transition-colors ${
+                                                isLiked
+                                                    ? 'text-[#E11D48]'
+                                                    : 'hover:text-[#E11D48]'
+                                            }`}
+                                        >
+                                            <HeartIcon filled={isLiked} />
+                                            <span>{post.likes?.length || 0}</span>
+                                        </button>
+
+                                        {/* Comment Toggle Button */}
+                                        <button
+                                            onClick={() => toggleComments(post._id, { stopPropagation: () => {} })}
+                                            className={`flex items-center space-x-2 text-xs sm:text-sm font-black transition-colors hover:text-[#EA580C] dark:hover:text-[#F5C36B] ${
+                                                isCommentsOpen ? 'text-[#EA580C] dark:text-[#F5C36B]' : ''
+                                            }`}
+                                        >
+                                            <CommentIcon active={isCommentsOpen} />
+                                            <span>{commentCount}</span>
+                                        </button>
+
+                                        {/* Share Button */}
+                                        <button
+                                            className="flex items-center space-x-1.5 text-xs sm:text-sm font-black hover:text-[#EA580C] dark:hover:text-[#F5C36B] transition-colors"
+                                        >
+                                            <ShareIcon />
+                                            <span className="hidden sm:inline">Share</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Comments Section */}
+                                <AnimatePresence>
+                                    {isCommentsOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="mt-4 pt-4 border-t-2 border-black/10 dark:border-[#1F232C] space-y-4"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {/* Add Comment Input */}
+                                            <div className="flex items-center gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={commentTexts[post._id] || ''}
+                                                    onChange={(e) => handleCommentChange(post._id, e.target.value)}
+                                                    onKeyDown={(e) => { if (e.key === 'Enter') handleCommentSubmit(post._id, e); }}
+                                                    placeholder="Write a comment..."
+                                                    className="flex-1 rounded-full border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-4 py-2 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
+                                                />
+                                                <button
+                                                    onClick={(e) => handleCommentSubmit(post._id, e)}
+                                                    disabled={!(commentTexts[post._id] || '').trim() || submittingComment[post._id]}
+                                                    className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-black text-xs hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xs"
+                                                >
+                                                    {submittingComment[post._id] ? '...' : 'Reply'}
+                                                </button>
+                                            </div>
+
+                                            {/* Comment List */}
+                                            {post.comments && post.comments.length > 0 && (
+                                                <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+                                                    {post.comments.map((comment) => {
+                                                        const isAuthor = comment.user?._id === user?._id;
+                                                        const isPostAuthor = post.author?._id === user?._id;
+                                                        const canDelete = isAuthor || isPostAuthor;
+
+                                                        return (
+                                                            <div
+                                                                key={comment._id}
+                                                                className="flex items-start justify-between gap-2 p-3 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26]/80 border border-black/15 dark:border-[#252A36]"
+                                                            >
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                                        <Link
+                                                                            to={`/profile/${comment.user?._id}`}
+                                                                            className="text-xs sm:text-sm font-extrabold text-[#1C1008] dark:text-[#EDEBE6] hover:text-[#EA580C] dark:hover:text-[#F5C36B] transition-colors"
+                                                                            onClick={(e) => e.stopPropagation()}
+                                                                        >
+                                                                            {comment.user?.name}
+                                                                        </Link>
+                                                                        <span className="text-[11px] text-[#667085] dark:text-[#8A8F9C] font-bold">
+                                                                            @{comment.user?.username}
+                                                                        </span>
+                                                                        <span className="text-[11px] text-[#667085] dark:text-[#8A8F9C] font-bold">
+                                                                            • {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                                                                        </span>
+                                                                    </div>
+                                                                    <p className="text-xs sm:text-sm text-[#2C1810] dark:text-[#D9D3E6] font-bold break-words mt-0.5">
+                                                                        {comment.text}
+                                                                    </p>
+                                                                </div>
+                                                                {canDelete && (
+                                                                    <button
+                                                                        onClick={() => handleDeleteComment(post._id, comment._id)}
+                                                                        className="text-gray-400 dark:text-[#6E7280] hover:text-red-500 dark:hover:text-red-400 transition flex-shrink-0 mt-1"
+                                                                        aria-label="Delete comment"
+                                                                    >
+                                                                        <TrashIcon />
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        );
+                    })
+                )}
+
+                {/* ===== CUSTOM CONFIRMATION MODAL ===== */}
+                <ConfirmDialog
+                    isOpen={deleteModal.isOpen}
+                    onClose={() => setDeleteModal({ isOpen: false, postId: null, commentId: null })}
+                    onConfirm={confirmDeleteComment}
+                    title="Delete Comment?"
+                    message="This action cannot be undone. Are you sure you want to delete this comment?"
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                />
+            </div>
         </div>
     );
 };
