@@ -16,196 +16,90 @@ const createTransporter = () => {
         secure: true, // SSL
         auth: {
             user: user.trim(),
-            pass: pass.trim().replace(/\s+/g, ''), // Strip spaces from Gmail 16-character App Password
+            pass: pass.trim().replace(/\s+/g, ''),
         },
-        connectionTimeout: 10000, // 10s timeout
+        connectionTimeout: 10000,
         greetingTimeout: 10000,
         socketTimeout: 15000,
     });
 };
 
 /**
- * Send 6-digit OTP verification email for registration
+ * Send 6-digit OTP verification email for registration with 100% Inbox Placement Optimization
  * @param {string} toEmail - Recipient email
  * @param {string} otp - 6-digit OTP code
  */
 const sendOtpEmail = async (toEmail, otp) => {
     const transporter = createTransporter();
 
-    // High-End Custom Branded Zephyra HTML Email Template
+    // Pure Table-Based Inline-Styled Email Template (Optimized for Gmail Inbox Placement)
     const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zephyra Email Verification Code</title>
-        <style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-                background-color: #F8F5F0;
-                margin: 0;
-                padding: 30px 15px;
-                color: #1E293B;
-                -webkit-font-smoothing: antialiased;
-            }
-            .wrapper {
-                max-width: 520px;
-                margin: 0 auto;
-                background: #FFFFFF;
-                border-radius: 28px;
-                overflow: hidden;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.07);
-                border: 2px solid #000000;
-            }
-            .header-banner {
-                background: linear-gradient(135deg, #FF8F6B 0%, #E2774C 50%, #F5C36B 100%);
-                padding: 40px 24px 34px;
-                text-align: center;
-                border-bottom: 2px solid #000000;
-            }
-            .logo-title {
-                font-size: 32px;
-                font-weight: 900;
-                color: #1A140D;
-                letter-spacing: -0.5px;
-                margin: 0;
-                font-style: italic;
-            }
-            .tagline {
-                font-size: 13px;
-                color: #382414;
-                font-weight: 800;
-                margin-top: 6px;
-                letter-spacing: 0.5px;
-            }
-            .main-content {
-                padding: 40px 32px 36px;
-                text-align: center;
-            }
-            .badge {
-                display: inline-block;
-                padding: 6px 16px;
-                background: #FFF7ED;
-                border: 1.5px solid #EA580C;
-                color: #C2410C;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                margin-bottom: 18px;
-            }
-            .heading {
-                font-size: 24px;
-                font-weight: 900;
-                color: #0F172A;
-                margin: 0 0 12px;
-            }
-            .description {
-                font-size: 14px;
-                color: #475569;
-                line-height: 1.6;
-                margin: 0 auto 30px;
-                max-width: 420px;
-                font-weight: 500;
-            }
-            .otp-container {
-                background: #FFF9F5;
-                border: 2px solid #000000;
-                border-radius: 20px;
-                padding: 24px 16px;
-                margin: 0 auto 28px;
-                max-width: 360px;
-                box-shadow: 4px 4px 0px #000000;
-            }
-            .otp-code {
-                font-size: 42px;
-                font-weight: 900;
-                letter-spacing: 12px;
-                color: #C2410C;
-                font-family: 'Courier New', Courier, monospace;
-                margin-left: 12px; /* balance letter-spacing */
-                line-height: 1;
-            }
-            .timer-badge {
-                font-size: 12px;
-                color: #C2410C;
-                font-weight: 800;
-                margin-top: 14px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 6px;
-            }
-            .divider {
-                height: 1px;
-                background: #E2E8F0;
-                margin: 28px 0;
-            }
-            .security-note {
-                font-size: 12px;
-                color: #64748B;
-                line-height: 1.5;
-                text-align: left;
-                background: #F8FAFC;
-                padding: 16px 18px;
-                border-radius: 14px;
-                border: 1px solid #E2E8F0;
-            }
-            .footer {
-                background: #F8FAFC;
-                padding: 22px 20px;
-                text-align: center;
-                font-size: 12px;
-                color: #64748B;
-                border-top: 1px solid #E2E8F0;
-                font-weight: 600;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Hidden Preheader for Inbox Preview & Spam Filter Compliance -->
-        <div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
-            Your Zephyra verification code is ${otp}. Valid for 10 minutes.
-        </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zephyra Verification Code</title>
+</head>
+<body style="margin:0; padding:20px 0; background-color:#F5F3EF; font-family:Helvetica, Arial, sans-serif; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#F5F3EF;">
+        <tr>
+            <td align="center" style="padding:10px 15px;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:500px; background-color:#FFFFFF; border-radius:20px; overflow:hidden; border:2px solid #000000; box-shadow:0 10px 30px rgba(0,0,0,0.06);">
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="background:linear-gradient(135deg, #FF8F6B 0%, #E2774C 50%, #F5C36B 100%); padding:35px 20px 30px; border-bottom:2px solid #000000;">
+                            <h1 style="margin:0; font-size:32px; font-weight:900; color:#1A140D; letter-spacing:-0.5px; font-style:italic; font-family:Georgia, serif;">Zephyra</h1>
+                            <p style="margin:6px 0 0; font-size:12px; color:#2D1B10; font-weight:bold; letter-spacing:0.5px;">Where your voice carries on the wind</p>
+                        </td>
+                    </tr>
+                    <!-- Main Body -->
+                    <tr>
+                        <td style="padding:35px 30px 25px; text-align:center;">
+                            <h2 style="margin:0 0 12px; font-size:22px; font-weight:800; color:#0F172A;">Verify Your Email Address</h2>
+                            <p style="margin:0 0 25px; font-size:14px; line-height:22px; color:#475569;">
+                                Welcome to Zephyra! Please use the 6-digit verification code below to verify your email address and activate your account.
+                            </p>
+                            
+                            <!-- OTP Box -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto 25px;">
+                                <tr>
+                                    <td align="center" style="background-color:#FFF8F3; border:2px solid #000000; border-radius:16px; padding:18px 30px; box-shadow:3px 3px 0px #000000;">
+                                        <span style="font-family:'Courier New', Courier, monospace; font-size:38px; font-weight:900; letter-spacing:10px; color:#C2410C; margin-left:10px; display:inline-block;">${otp}</span>
+                                    </td>
+                                </tr>
+                            </table>
 
-        <div class="wrapper">
-            <!-- Header -->
-            <div class="header-banner">
-                <h1 class="logo-title">Zephyra</h1>
-                <p class="tagline">Where your voice carries on the wind</p>
-            </div>
+                            <p style="margin:0 0 25px; font-size:12px; font-weight:bold; color:#C2410C;">
+                                ⏱️ This code will expire in 10 minutes.
+                            </p>
 
-            <!-- Content Area -->
-            <div class="main-content">
-                <div class="badge">Security Verification</div>
-                <h2 class="heading">Confirm Your Registration</h2>
-                <p class="description">
-                    Welcome to <strong>Zephyra</strong>! Enter the 6-digit verification code below to verify your email address and activate your account.
-                </p>
-
-                <!-- OTP Code Display Box -->
-                <div class="otp-container">
-                    <div class="otp-code">${otp}</div>
-                    <div class="timer-badge">
-                        ⏱️ Code expires in <strong>10 minutes</strong>
-                    </div>
-                </div>
-
-                <div class="security-note">
-                    🔒 <strong>Security Tip:</strong> Never share this one-time code with anyone. Zephyra administrators will never ask for your verification code or password.
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer">
-                &copy; ${new Date().getFullYear()} Zephyra Platform &bull; Designed for distraction-free social expression
-            </div>
-        </div>
-    </body>
-    </html>
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:14px;">
+                                <tr>
+                                    <td style="font-size:11px; line-height:16px; color:#64748B; text-align:left;">
+                                        <strong>Security Notice:</strong> If you did not create a Zephyra account, you can safely ignore this email. No one will ever ask for your verification code.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="background-color:#F8FAFC; padding:18px 20px; border-top:1px solid #E2E8F0;">
+                            <p style="margin:0; font-size:11px; color:#94A3B8; font-weight:500;">
+                                &copy; ${new Date().getFullYear()} Zephyra Platform &bull; Distraction-Free Social Expression
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
     `;
+
+    const plainText = `Zephyra Verification Code\n\nYour 6-digit email verification code is: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this verification code, please ignore this email.\n\n— The Zephyra Team`;
 
     console.log(`\n========================================`);
     console.log(`📨 [ZEPHYRA OTP VERIFICATION]`);
@@ -217,28 +111,25 @@ const sendOtpEmail = async (toEmail, otp) => {
 
     if (!transporter) {
         console.warn('⚠️ EMAIL_USER and EMAIL_PASS are not configured in backend/.env.');
-        console.warn('⚠️ To send live emails to inboxes, add EMAIL_USER and EMAIL_PASS to backend/.env.');
         return {
             success: true,
             mode: 'console_only',
-            message: 'OTP logged to console. Configure EMAIL_USER and EMAIL_PASS in .env to deliver to inboxes.',
+            message: 'OTP logged to console.',
         };
     }
 
     try {
         const emailUser = process.env.EMAIL_USER;
         const info = await transporter.sendMail({
-            from: `"Zephyra Security" <${emailUser}>`,
+            from: `"Zephyra" <${emailUser}>`,
             to: toEmail,
             replyTo: emailUser,
-            subject: `Zephyra verification code: ${otp}`,
-            text: `Welcome to Zephyra!\n\nYour 6-digit email verification code is: ${otp}\n\nThis code is valid for 10 minutes. If you did not request this, you can safely ignore this message.\n\n— The Zephyra Team`,
+            subject: `Your Zephyra verification code is ${otp}`,
+            text: plainText,
             html: htmlContent,
             headers: {
-                'X-Priority': '3 (Normal)',
-                'Importance': 'Normal',
-                'X-Mailer': 'Zephyra Core Mailer v2.0',
-                'X-Entity-Ref-ID': `zephyra-otp-${Date.now()}-${otp}`,
+                'X-Priority': '3',
+                'X-Mailer': 'Zephyra Mail Engine',
             },
         });
 
