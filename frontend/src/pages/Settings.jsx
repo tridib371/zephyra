@@ -415,12 +415,12 @@ const Settings = () => {
                             </label>
 
                             {/* Profile Picture Upload & URL */}
-                            <div className="space-y-2 sm:col-span-2 p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
-                                        <HiOutlinePhoto className="text-base" /> Profile Avatar
+                            <div className="space-y-2 sm:col-span-2 p-3.5 sm:p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
+                                <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
+                                    <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
+                                        <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" /> Profile Avatar
                                     </span>
-                                    <label className="px-3 py-1.5 rounded-full bg-[#FF8F6B] text-[#1A140D] border-2 border-black text-[11px] font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center gap-1">
+                                    <label className="self-start xs:self-auto px-3.5 sm:px-4 py-2 rounded-full bg-[#FF8F6B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap">
                                         <HiOutlineArrowUpTray className="text-sm stroke-[2.5]" />
                                         <span>{uploadingAvatar ? 'Uploading...' : 'Upload Image'}</span>
                                         <input
@@ -442,12 +442,12 @@ const Settings = () => {
                             </div>
 
                             {/* Cover Photo Upload & URL */}
-                            <div className="space-y-2 sm:col-span-2 p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
-                                        <HiOutlinePhoto className="text-base" /> Profile Cover Banner
+                            <div className="space-y-2 sm:col-span-2 p-3.5 sm:p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
+                                <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
+                                    <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
+                                        <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" /> Profile Cover Banner
                                     </span>
-                                    <label className="px-3 py-1.5 rounded-full bg-[#F5C36B] text-[#1A140D] border-2 border-black text-[11px] font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center gap-1">
+                                    <label className="self-start xs:self-auto px-3.5 sm:px-4 py-2 rounded-full bg-[#F5C36B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap">
                                         <HiOutlineArrowUpTray className="text-sm stroke-[2.5]" />
                                         <span>{uploadingCover ? 'Uploading...' : 'Upload Cover'}</span>
                                         <input
