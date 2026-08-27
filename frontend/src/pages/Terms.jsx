@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
     HiOutlineScale,
     HiOutlineUserCircle,
@@ -12,6 +13,58 @@ import {
     HiOutlineChevronRight,
     HiOutlineCheck,
 } from 'react-icons/hi2';
+
+import termsBgLight from '../assets/terms-bg-light.jpg';
+import termsBgDark from '../assets/terms-bg-dark.jpg';
+
+// Wind Breeze Floating Motion Element
+const WindBreeze = () => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        <svg
+            className="w-full h-full opacity-35 dark:opacity-20"
+            viewBox="0 0 1200 800"
+            preserveAspectRatio="none"
+        >
+            <motion.path
+                d="M -100 200 C 300 100, 600 350, 1300 150"
+                fill="none"
+                stroke="url(#windGradientTerms)"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                animate={{
+                    d: [
+                        "M -100 200 C 300 100, 600 350, 1300 150",
+                        "M -100 250 C 400 200, 700 250, 1300 200",
+                        "M -100 200 C 300 100, 600 350, 1300 150"
+                    ],
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.path
+                d="M -100 550 C 400 700, 800 450, 1300 600"
+                fill="none"
+                stroke="url(#windGradientTerms)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                animate={{
+                    d: [
+                        "M -100 550 C 400 700, 800 450, 1300 600",
+                        "M -100 500 C 350 600, 750 550, 1300 520",
+                        "M -100 550 C 400 700, 800 450, 1300 600"
+                    ],
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+            <defs>
+                <linearGradient id="windGradientTerms" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0.8" />
+                    <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#F5C36B" stopOpacity="0.9" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+);
 
 const SECTIONS = [
     { id: 'agreement', title: '1. Agreement & Acceptance of Terms' },
@@ -56,50 +109,69 @@ export default function Terms() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
-            <div className="max-w-6xl mx-auto space-y-12">
+        <div className="relative min-h-screen bg-[#F5EFE6] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+            {/* Realistic Law Library Background Wallpapers with Subtle Blur */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={termsBgLight}
+                    alt="Law Library Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[2.5px] scale-105 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={termsBgDark}
+                    alt="Law Library Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[2.5px] scale-105 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Overlay Tint Gradients for Contrast */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#F5EFE6]/70 via-[#F5EFE6]/50 to-[#F5EFE6]/80 dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
+            </div>
 
-                {/* Hero Header */}
-                <div className="text-center space-y-4 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xs font-bold uppercase tracking-widest">
+            {/* Floating SVG Wind Animation */}
+            <WindBreeze />
+
+            <div className="relative max-w-6xl mx-auto space-y-12 z-10">
+
+                {/* Hero Header Card */}
+                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/90 dark:bg-[#11151F]/90 backdrop-blur-2xl border border-white dark:border-[#1F2636] shadow-2xl shadow-amber-950/10 overflow-hidden">
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
                         Legal Framework & User Agreement
                     </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight">
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1C1008] dark:text-white relative z-10">
                         Terms of Service
                     </h1>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
-                        Last Updated: August 2026 - Version 2.4.0 - Please review your rights and responsibilities on Zephyra.
+                    <p className="text-base sm:text-xl text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold max-w-2xl mx-auto relative z-10">
+                        Last Updated: August 2026 • Version 2.4.0 • Please review your rights and responsibilities on Zephyra.
                     </p>
                 </div>
 
                 {/* Key Summary Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div className="p-6 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-xs space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
-                            <HiOutlineScale />
+                    <div className="p-6 sm:p-7 rounded-3xl border border-white/90 dark:border-[#1F232C] bg-white/85 dark:bg-[#12151C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/35">
+                            <HiOutlineScale className="stroke-[2.2]" />
                         </div>
-                        <h3 className="font-['Fraunces'] font-bold text-lg">You Own Your Content</h3>
-                        <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C] leading-relaxed">
+                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#1C1008] dark:text-white">You Own Your Content</h3>
+                        <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             You retain 100% intellectual property rights over all stories, art, and posts you share.
                         </p>
                     </div>
 
-                    <div className="p-6 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-xs space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
-                            <HiOutlineShieldExclamation />
+                    <div className="p-6 sm:p-7 rounded-3xl border border-white/90 dark:border-[#1F232C] bg-white/85 dark:bg-[#12151C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/35">
+                            <HiOutlineShieldExclamation className="stroke-[2.2]" />
                         </div>
-                        <h3 className="font-['Fraunces'] font-bold text-lg">A Respectful Sanctuary</h3>
-                        <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C] leading-relaxed">
+                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#1C1008] dark:text-white">A Respectful Sanctuary</h3>
+                        <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             Zero tolerance for harassment, automated spam bots, deceptive impersonation, or illegal activity.
                         </p>
                     </div>
 
-                    <div className="p-6 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] shadow-xs space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-2xl w-fit">
-                            <HiOutlineUserCircle />
+                    <div className="p-6 sm:p-7 rounded-3xl border border-white/90 dark:border-[#1F232C] bg-white/85 dark:bg-[#12151C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/35">
+                            <HiOutlineUserCircle className="stroke-[2.2]" />
                         </div>
-                        <h3 className="font-['Fraunces'] font-bold text-lg">Total Account Autonomy</h3>
-                        <p className="text-xs sm:text-sm text-gray-500 dark:text-[#8A8F9C] leading-relaxed">
+                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#1C1008] dark:text-white">Total Account Autonomy</h3>
+                        <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             You can export your complete history or permanently delete your account at any moment.
                         </p>
                     </div>
@@ -109,8 +181,8 @@ export default function Terms() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 
                     {/* Table of Contents Sidebar */}
-                    <div className="hidden lg:block sticky top-24 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/90 p-5 shadow-xs backdrop-blur-xl space-y-2">
-                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400 dark:text-gray-500 block mb-3 px-2">
+                    <div className="hidden lg:block sticky top-24 rounded-3xl border border-white/90 dark:border-[#1F232C] bg-white/85 dark:bg-[#12151C]/90 p-5 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-2">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-[#FF8F6B] block mb-3 px-2">
                             Terms Navigation
                         </span>
                         {SECTIONS.map((sec) => {
@@ -119,92 +191,92 @@ export default function Terms() {
                                 <button
                                     key={sec.id}
                                     onClick={() => scrollToSection(sec.id)}
-                                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-between ${
+                                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-between ${
                                         isCurrent
-                                            ? 'bg-gradient-to-r from-[#FF8F6B]/15 to-[#F5C36B]/15 text-[#D97B4F] dark:text-[#F5C36B] font-bold shadow-xs'
-                                            : 'text-gray-600 dark:text-[#A0A5B2] hover:bg-gray-50 dark:hover:bg-[#181C26]'
+                                            ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold shadow-md'
+                                            : 'text-[#4D3222] dark:text-[#A0A5B2] font-bold hover:bg-[#FF8F6B]/15 dark:hover:bg-[#181C26] hover:text-[#9E3610]'
                                     }`}
                                 >
                                     <span className="truncate">{sec.title}</span>
-                                    {isCurrent && <HiOutlineChevronRight className="shrink-0 text-xs" />}
+                                    {isCurrent && <HiOutlineChevronRight className="shrink-0 text-xs text-[#1A140D]" />}
                                 </button>
                             );
                         })}
                     </div>
 
-                    {/* Detailed Legal Content */}
-                    <div className="lg:col-span-3 rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-sm backdrop-blur-xl space-y-12 leading-relaxed text-gray-700 dark:text-[#C5C9D3] text-sm sm:text-base">
+                    {/* Detailed Legal Content Main Card */}
+                    <div className="lg:col-span-3 rounded-3xl border border-white/90 dark:border-[#1F232C] bg-white/90 dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl shadow-amber-950/10 backdrop-blur-xl space-y-12 leading-relaxed text-[#2B1B10] dark:text-[#C5C9D3] text-sm sm:text-base">
 
                         {/* 1. Agreement */}
                         <section id="agreement" className="space-y-4">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineDocumentText />
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineDocumentText className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     1. Agreement & Acceptance of Terms
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 Welcome to Zephyra. These Terms of Service constitute a legally binding agreement between you and Zephyra concerning your access to and use of our web platform, APIs, direct messaging systems, and community feeds.
                             </p>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 By creating an account or accessing any part of Zephyra, you confirm that you have read, understood, and agree to be bound by these Terms and our{' '}
-                                <Link to="/privacy" className="text-[#D97B4F] dark:text-[#F5C36B] font-bold hover:underline">
+                                <Link to="/privacy" className="text-[#9E3610] dark:text-[#F5C36B] font-black hover:underline">
                                     Privacy Policy
                                 </Link>.
                             </p>
                         </section>
 
                         {/* 2. Eligibility */}
-                        <section id="eligibility" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineUserCircle />
+                        <section id="eligibility" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineUserCircle className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     2. Eligibility & Account Security
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 To use Zephyra, you must be at least 13 years of age (or the minimum legal age required in your country).
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm">
-                                <li><strong>Credential Confidentiality:</strong> You are solely responsible for maintaining the confidentiality of your login credentials and password.</li>
-                                <li><strong>Accurate Information:</strong> You agree to provide an authentic email address during registration to receive critical account security alerts.</li>
-                                <li><strong>One Identity:</strong> Automated batch creation of fake accounts or puppet accounts is strictly prohibited.</li>
+                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-bold text-[#4D3222] dark:text-[#CBD5E1]">
+                                <li><strong className="text-[#1C1008] dark:text-white">Credential Confidentiality:</strong> You are solely responsible for maintaining the confidentiality of your login credentials and password.</li>
+                                <li><strong className="text-[#1C1008] dark:text-white">Accurate Information:</strong> You agree to provide an authentic email address during registration to receive critical account security alerts.</li>
+                                <li><strong className="text-[#1C1008] dark:text-white">One Identity:</strong> Automated batch creation of fake accounts or puppet accounts is strictly prohibited.</li>
                             </ul>
                         </section>
 
                         {/* 3. Acceptable Use */}
-                        <section id="conduct" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineNoSymbol />
+                        <section id="conduct" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineNoSymbol className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     3. Acceptable Use & Conduct Standards
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 Zephyra is committed to fostering authentic dialogue and creative sharing. You agree not to engage in any of the following prohibited behaviors:
                             </p>
-                            <div className="space-y-3">
-                                <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30 space-y-1 text-xs sm:text-sm">
-                                    <h4 className="font-bold text-rose-800 dark:text-rose-300">Harassment, Abuse & Hate Speech</h4>
-                                    <p className="text-gray-600 dark:text-[#A0A5B2]">
+                            <div className="space-y-3.5">
+                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1 shadow-xs">
+                                    <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs sm:text-sm">Harassment, Abuse & Hate Speech</h4>
+                                    <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold">
                                         Attacking, threatening, doxxing, or discriminating against individuals based on race, ethnicity, nationality, religion, sexual orientation, gender, or disability.
                                     </p>
                                 </div>
-                                <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30 space-y-1 text-xs sm:text-sm">
-                                    <h4 className="font-bold text-rose-800 dark:text-rose-300">Spam, Automated Bots & Scraping</h4>
-                                    <p className="text-gray-600 dark:text-[#A0A5B2]">
+                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1 shadow-xs">
+                                    <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs sm:text-sm">Spam, Automated Bots & Scraping</h4>
+                                    <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold">
                                         Deploying automated scrapers, repetitive bulk message bots, unsolicited advertising schemes, or unauthorized API querying tools.
                                     </p>
                                 </div>
-                                <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30 space-y-1 text-xs sm:text-sm">
-                                    <h4 className="font-bold text-rose-800 dark:text-rose-300">Impersonation & Deceptive Media</h4>
-                                    <p className="text-gray-600 dark:text-[#A0A5B2]">
+                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1 shadow-xs">
+                                    <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs sm:text-sm">Impersonation & Deceptive Media</h4>
+                                    <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold">
                                         Pretending to be another creator, brand, or administrator, or distributing deliberately manipulated media to defraud community members.
                                     </p>
                                 </div>
@@ -212,56 +284,56 @@ export default function Terms() {
                         </section>
 
                         {/* 4. Content Ownership */}
-                        <section id="ownership" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineScale />
+                        <section id="ownership" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineScale className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     4. Content Ownership & License
                                 </h2>
                             </div>
-                            <p>
-                                <strong>You retain 100% intellectual property ownership</strong> of the original text, photos, illustrations, and media you post on Zephyra.
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
+                                <strong className="text-[#1C1008] dark:text-white">You retain 100% intellectual property ownership</strong> of the original text, photos, illustrations, and media you post on Zephyra.
                             </p>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 By posting content on public feeds, you grant Zephyra a worldwide, non-exclusive, royalty-free license solely to host, store, cache, format, and display your content to other users in accordance with your chosen privacy settings. This license terminates immediately upon your deletion of the post or account.
                             </p>
                         </section>
 
                         {/* 5. Real-Time Messaging */}
-                        <section id="messaging" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineChatBubbleLeftRight />
+                        <section id="messaging" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineChatBubbleLeftRight className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     5. Real-Time Messaging & Direct Chats
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 Direct messaging channels are intended for private, authentic conversation between members:
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm">
+                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 <li>You may not use direct messaging to transmit unsolicited commercial offers or harassment.</li>
                                 <li>You are solely responsible for interactions with other users. Zephyra provides tools to block or report malicious members.</li>
                             </ul>
                         </section>
 
                         {/* 6. Moderation & Enforcement */}
-                        <section id="moderation" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineShieldExclamation />
+                        <section id="moderation" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineShieldExclamation className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     6. Moderation, Enforcement & Bans
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 To preserve the tranquil character of our platform, Zephyra's administration and moderation team reserve the right to:
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm">
+                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 <li>Remove or hide any content that violates these Terms or our Community Guidelines.</li>
                                 <li>Issue temporary suspensions or permanent account bans for severe or repeated infractions.</li>
                                 <li>Provide transparent suspension rationales directly to affected accounts upon review.</li>
@@ -269,55 +341,55 @@ export default function Terms() {
                         </section>
 
                         {/* 7. Liability & Disclaimers */}
-                        <section id="liability" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineDocumentText />
+                        <section id="liability" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineDocumentText className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     7. Disclaimers & Limitation of Liability
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 Zephyra is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, whether express or implied. While we strive for continuous sub-15ms real-time uptime, we do not warrant that services will always be uninterrupted, error-free, or entirely bug-free during maintenance windows.
                             </p>
                         </section>
 
                         {/* 8. Termination */}
-                        <section id="termination" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineUserCircle />
+                        <section id="termination" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineUserCircle className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     8. Account Termination & Data Deletion
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 You may close and delete your Zephyra account at any time through your Profile Settings. Upon deletion, all your posted stories, direct messages, media, and profile metadata are permanently wiped from our active databases.
                             </p>
                         </section>
 
                         {/* 9. Contact */}
-                        <section id="contact" className="space-y-4 pt-8 border-t border-gray-100 dark:border-[#1F232C]">
-                            <div className="flex items-center gap-3">
-                                <span className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-lg">
-                                    <HiOutlineEnvelope />
+                        <section id="contact" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                            <div className="flex items-center gap-3.5">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                    <HiOutlineEnvelope className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                     9. Legal Notices & Contact
                                 </h2>
                             </div>
-                            <p>
+                            <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 For questions, legal notices, or copyright inquiries (DMCA), please contact our legal team:
                             </p>
-                            <div className="p-6 rounded-2xl bg-gray-50 dark:bg-[#181C26] border border-gray-100 dark:border-[#252A36] space-y-2">
-                                <p className="font-bold text-gray-900 dark:text-white">Zephyra Legal & Compliance Department</p>
-                                <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">Direct Inquiries:</p>
-                                <a href="mailto:legal@zephyra.app" className="text-sm font-bold text-[#D97B4F] dark:text-[#F5C36B] hover:underline block">
+                            <div className="p-6 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-2 shadow-xs">
+                                <p className="font-black text-[#1C1008] dark:text-white">Zephyra Legal & Compliance Department</p>
+                                <p className="text-xs text-[#4D3222] dark:text-[#8A8F9C] font-bold">Direct Inquiries:</p>
+                                <a href="mailto:legal@zephyra.app" className="text-sm font-black text-[#9E3610] dark:text-[#F5C36B] hover:underline block">
                                     legal@zephyra.app
                                 </a>
-                                <p className="text-xs text-gray-400">Response time: Within 24-48 business hours.</p>
+                                <p className="text-xs text-[#6E462E] font-bold">Response time: Within 24-48 business hours.</p>
                             </div>
                         </section>
 
@@ -325,15 +397,15 @@ export default function Terms() {
                 </div>
 
                 {/* Bottom Call to Action */}
-                <div className="rounded-3xl border border-[#D97B4F]/30 dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#FFF5EF] via-white to-[#FAF0E6] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-sm text-center space-y-4">
-                    <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold">Ready to share your voice?</h2>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] max-w-lg mx-auto">
+                <div className="rounded-3xl border border-white dark:border-[#FF8F6B]/40 bg-white/90 dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl backdrop-blur-xl text-center space-y-4">
+                    <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white">Ready to share your voice?</h2>
+                    <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] max-w-lg mx-auto font-bold">
                         Join a community dedicated to mindful, genuine expression.
                     </p>
                     <div className="pt-2">
                         <Link
                             to="/register"
-                            className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full hover:scale-105 transition-all shadow-sm"
+                            className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full hover:scale-105 transition-all shadow-md cursor-pointer"
                         >
                             Get Started on Zephyra
                         </Link>
