@@ -75,69 +75,69 @@ const WindBreeze = () => (
     </svg>
 );
 
-// Animated High-Tech Admin Cyber Matrix Background
+// Animated High-Tech Admin Cyber Matrix Background - High Contrast Day & Night Modes
 const AnimatedAdminBackground = () => (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Animated Cyber Grid Matrix */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0000000d_1px,transparent_1px),linear-gradient(to_bottom,#0000000d_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0f_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0f_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+        {/* Animated Crisp Cyber Grid Matrix */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000022_1.5px,transparent_1.5px),linear-gradient(to_bottom,#00000022_1.5px,transparent_1.5px)] dark:bg-[linear-gradient(to_right,#ffffff0f_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0f_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]" />
 
-        {/* Ambient Glowing Orbs & Beams */}
+        {/* Rich Ambient Glowing Orbs & Beams */}
         <motion.div
             animate={{
                 scale: [1, 1.15, 1],
-                opacity: [0.4, 0.7, 0.4],
-                x: [0, 30, 0],
-                y: [0, -20, 0]
+                opacity: [0.65, 0.9, 0.65],
+                x: [0, 35, 0],
+                y: [0, -25, 0]
             }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-32 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/25 to-transparent blur-3xl"
+            className="absolute -top-32 -left-40 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#FF8F6B]/55 via-[#D97B4F]/35 to-transparent dark:from-[#FF8F6B]/35 dark:via-[#D97B4F]/25 blur-2xl"
         />
 
         <motion.div
             animate={{
                 scale: [1, 1.2, 1],
-                opacity: [0.35, 0.65, 0.35],
-                x: [0, -40, 0],
-                y: [0, 30, 0]
+                opacity: [0.6, 0.85, 0.6],
+                x: [0, -45, 0],
+                y: [0, 35, 0]
             }}
             transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-            className="absolute top-1/3 -right-40 w-[650px] h-[650px] rounded-full bg-gradient-to-tl from-[#F5C36B]/35 via-[#FF8F6B]/25 to-transparent blur-3xl"
+            className="absolute top-1/3 -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#F5C36B]/60 via-[#E2774C]/40 to-transparent dark:from-[#F5C36B]/35 dark:via-[#FF8F6B]/25 blur-2xl"
         />
 
         <motion.div
             animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.3, 0.6, 0.3]
+                scale: [1, 1.12, 1],
+                opacity: [0.5, 0.75, 0.5]
             }}
             transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            className="absolute -bottom-32 left-1/3 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-[#3B82F6]/25 via-[#8B5CF6]/20 to-transparent blur-3xl"
+            className="absolute -bottom-32 left-1/3 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#EA580C]/40 via-[#D97B4F]/30 to-transparent dark:from-[#3B82F6]/25 dark:via-[#8B5CF6]/20 blur-2xl"
         />
 
-        {/* Floating Animated Security Pulse Nodes */}
+        {/* High-Contrast Floating Animated Security Pulse Nodes */}
         <div className="absolute inset-0">
             <motion.div
-                animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.4, 0.9, 0.4] }}
+                animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute top-1/4 left-1/5 w-3.5 h-3.5 rounded-full bg-[#D97B4F] dark:bg-[#F5C36B] shadow-[0_0_15px_#D97B4F]"
+                className="absolute top-1/4 left-1/5 w-5 h-5 rounded-full bg-[#EA580C] dark:bg-[#F5C36B] border-2 border-black shadow-[0_0_20px_#EA580C]"
             />
             <motion.div
-                animate={{ y: [0, 45, 0], x: [0, -25, 0], opacity: [0.3, 0.8, 0.3] }}
+                animate={{ y: [0, 45, 0], x: [0, -25, 0], opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-                className="absolute top-2/3 right-1/4 w-4 h-4 rounded-full bg-[#FF8F6B] dark:bg-[#8B5CF6] shadow-[0_0_20px_#FF8F6B]"
+                className="absolute top-2/3 right-1/4 w-5 h-5 rounded-full bg-[#C2410C] dark:bg-[#8B5CF6] border-2 border-black shadow-[0_0_25px_#C2410C]"
             />
             <motion.div
-                animate={{ y: [0, -25, 0], x: [0, -15, 0], opacity: [0.3, 0.7, 0.3] }}
+                animate={{ y: [0, -25, 0], x: [0, -15, 0], opacity: [0.6, 0.9, 0.6] }}
                 transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-                className="absolute bottom-1/4 left-1/3 w-3 h-3 rounded-full bg-[#3B82F6] dark:bg-[#3B82F6] shadow-[0_0_15px_#3B82F6]"
+                className="absolute bottom-1/4 left-1/3 w-4 h-4 rounded-full bg-[#2563EB] dark:bg-[#3B82F6] border-2 border-black shadow-[0_0_20px_#2563EB]"
             />
         </div>
 
-        {/* Animated Cyber Radar Pulse Line */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center pointer-events-none">
+        {/* High-Visibility Animated Cyber Radar Pulse Line */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] rounded-full border-2 border-black/25 dark:border-white/10 flex items-center justify-center pointer-events-none">
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                className="w-full h-full rounded-full border border-dashed border-[#D97B4F]/30 dark:border-[#FF8F6B]/30"
+                className="w-full h-full rounded-full border-2 border-dashed border-[#C2410C]/65 dark:border-[#FF8F6B]/35"
             />
         </div>
 
