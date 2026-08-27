@@ -574,7 +574,7 @@ export default function Privacy() {
                 </div>
 
                 {/* Bottom Call to Action */}
-                <div className="rounded-3xl border-2 border-[#CBB39F] dark:border-[#FF8F6B]/40 bg-[#FFFDF9] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl text-center space-y-4">
+                <div className="rounded-3xl border-2 border-[#CBB39F] dark:border-[#FF8F6B]/40 bg-[#FFFDF9] dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl text-center space-y-4">
                     <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white">Your privacy is guaranteed by design</h2>
                     <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] max-w-lg mx-auto font-bold">
                         Enjoy genuine conversations, serene chronological feeds, and total peace of mind.
