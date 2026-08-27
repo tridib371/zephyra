@@ -131,9 +131,9 @@ export default function Terms() {
 
             <div className="relative max-w-6xl mx-auto space-y-12 z-10">
 
-                {/* Hero Header Card - Warm Parchment Card with Polished Wood Border */}
-                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-[#FFFDF7]/92 dark:bg-[#0F141C]/92 backdrop-blur-2xl border-2 border-[#D9A882]/70 dark:border-[#FF8F6B]/35 shadow-2xl shadow-amber-950/15 overflow-hidden">
-                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
+                {/* Hero Header Card - Warm Parchment Card with Black Border in Day Mode */}
+                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-[#FFFDF7]/92 dark:bg-[#0F141C]/92 backdrop-blur-2xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl shadow-amber-950/15 overflow-hidden">
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
                         Legal Framework & User Agreement
                     </span>
                     <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#2A1608] dark:text-white relative z-10">
@@ -144,10 +144,10 @@ export default function Terms() {
                     </p>
                 </div>
 
-                {/* Key Summary Cards - Warm Parchment Surface & Mahogany Accent Borders */}
+                {/* Key Summary Cards - Black Borders in Day Mode */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#D9A882]/60 dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/40">
+                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineScale className="stroke-[2.2]" />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg text-[#2A1608] dark:text-white">You Own Your Content</h3>
@@ -156,8 +156,8 @@ export default function Terms() {
                         </p>
                     </div>
 
-                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#D9A882]/60 dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/40">
+                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineShieldExclamation className="stroke-[2.2]" />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg text-[#2A1608] dark:text-white">A Respectful Sanctuary</h3>
@@ -166,8 +166,8 @@ export default function Terms() {
                         </p>
                     </div>
 
-                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#D9A882]/60 dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/40">
+                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineUserCircle className="stroke-[2.2]" />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg text-[#2A1608] dark:text-white">Total Account Autonomy</h3>
@@ -181,7 +181,7 @@ export default function Terms() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 
                     {/* Table of Contents Sidebar */}
-                    <div className="hidden lg:block sticky top-24 rounded-3xl border-2 border-[#D9A882]/60 dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 p-5 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-2">
+                    <div className="hidden lg:block sticky top-24 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF7]/90 dark:bg-[#0F141C]/90 p-5 shadow-xl shadow-amber-950/10 backdrop-blur-xl space-y-2">
                         <span className="text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-[#FF8F6B] block mb-3 px-2">
                             Terms Navigation
                         </span>
@@ -205,12 +205,12 @@ export default function Terms() {
                     </div>
 
                     {/* Detailed Legal Content Main Card */}
-                    <div className="lg:col-span-3 rounded-3xl border-2 border-[#D9A882]/70 dark:border-[#FF8F6B]/35 bg-[#FFFDF7]/92 dark:bg-[#0F141C]/95 p-8 sm:p-12 shadow-2xl shadow-amber-950/15 backdrop-blur-xl space-y-12 leading-relaxed text-[#3D2517] dark:text-[#C5C9D3] text-sm sm:text-base">
+                    <div className="lg:col-span-3 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#FFFDF7]/92 dark:bg-[#0F141C]/95 p-8 sm:p-12 shadow-2xl shadow-amber-950/15 backdrop-blur-xl space-y-12 leading-relaxed text-[#3D2517] dark:text-[#C5C9D3] text-sm sm:text-base">
 
                         {/* 1. Agreement */}
                         <section id="agreement" className="space-y-4">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineDocumentText className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -229,9 +229,9 @@ export default function Terms() {
                         </section>
 
                         {/* 2. Eligibility */}
-                        <section id="eligibility" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="eligibility" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineUserCircle className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -249,9 +249,9 @@ export default function Terms() {
                         </section>
 
                         {/* 3. Acceptable Use */}
-                        <section id="conduct" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="conduct" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineNoSymbol className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -262,19 +262,19 @@ export default function Terms() {
                                 Zephyra is committed to fostering authentic dialogue and creative sharing. You agree not to engage in any of the following prohibited behaviors:
                             </p>
                             <div className="space-y-3.5">
-                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1 shadow-xs">
+                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-black dark:border-rose-900/50 space-y-1 shadow-xs">
                                     <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs sm:text-sm">Harassment, Abuse & Hate Speech</h4>
                                     <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold">
                                         Attacking, threatening, doxxing, or discriminating against individuals based on race, ethnicity, nationality, religion, sexual orientation, gender, or disability.
                                     </p>
                                 </div>
-                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1 shadow-xs">
+                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-black dark:border-rose-900/50 space-y-1 shadow-xs">
                                     <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs sm:text-sm">Spam, Automated Bots & Scraping</h4>
                                     <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold">
                                         Deploying automated scrapers, repetitive bulk message bots, unsolicited advertising schemes, or unauthorized API querying tools.
                                     </p>
                                 </div>
-                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1 shadow-xs">
+                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-black dark:border-rose-900/50 space-y-1 shadow-xs">
                                     <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs sm:text-sm">Impersonation & Deceptive Media</h4>
                                     <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold">
                                         Pretending to be another creator, brand, or administrator, or distributing deliberately manipulated media to defraud community members.
@@ -284,9 +284,9 @@ export default function Terms() {
                         </section>
 
                         {/* 4. Content Ownership */}
-                        <section id="ownership" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="ownership" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineScale className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -302,9 +302,9 @@ export default function Terms() {
                         </section>
 
                         {/* 5. Real-Time Messaging */}
-                        <section id="messaging" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="messaging" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineChatBubbleLeftRight className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -321,9 +321,9 @@ export default function Terms() {
                         </section>
 
                         {/* 6. Moderation & Enforcement */}
-                        <section id="moderation" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="moderation" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineShieldExclamation className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -341,9 +341,9 @@ export default function Terms() {
                         </section>
 
                         {/* 7. Liability & Disclaimers */}
-                        <section id="liability" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="liability" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineDocumentText className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -356,9 +356,9 @@ export default function Terms() {
                         </section>
 
                         {/* 8. Termination */}
-                        <section id="termination" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="termination" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineUserCircle className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -371,9 +371,9 @@ export default function Terms() {
                         </section>
 
                         {/* 9. Contact */}
-                        <section id="contact" className="space-y-4 pt-8 border-t-2 border-[#E8CDB5] dark:border-[#1F2636]">
+                        <section id="contact" className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F2636]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineEnvelope className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2A1608] dark:text-white">
@@ -383,7 +383,7 @@ export default function Terms() {
                             <p className="font-bold text-[#5E3821] dark:text-[#CBD5E1]">
                                 For questions, legal notices, or copyright inquiries (DMCA), please contact our legal team:
                             </p>
-                            <div className="p-6 rounded-2xl bg-[#FFF5EA] dark:bg-[#161B26] border-2 border-[#E2BC9B] dark:border-[#252E40] space-y-2 shadow-xs">
+                            <div className="p-6 rounded-2xl bg-[#FFF5EA] dark:bg-[#161B26] border-2 border-black dark:border-[#252E40] space-y-2 shadow-xs">
                                 <p className="font-black text-[#2A1608] dark:text-white">Zephyra Legal & Compliance Department</p>
                                 <p className="text-xs text-[#5E3821] dark:text-[#8A8F9C] font-bold">Direct Inquiries:</p>
                                 <a href="mailto:legal@zephyra.app" className="text-sm font-black text-[#9E3610] dark:text-[#F5C36B] hover:underline block">
@@ -397,7 +397,7 @@ export default function Terms() {
                 </div>
 
                 {/* Bottom Call to Action */}
-                <div className="rounded-3xl border-2 border-[#D9A882]/70 dark:border-[#FF8F6B]/40 bg-[#FFFDF7]/92 dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#0F141C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl backdrop-blur-xl text-center space-y-4">
+                <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/40 bg-[#FFFDF7]/92 dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#0F141C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl backdrop-blur-xl text-center space-y-4">
                     <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#2A1608] dark:text-white">Ready to share your voice?</h2>
                     <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#9DA3B4] max-w-lg mx-auto font-bold">
                         Join a community dedicated to mindful, genuine expression.
