@@ -131,16 +131,21 @@ export default function Features() {
 
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Realistic Photography Background Wallpaper - Light Mode */}
-            <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${featuresBgLight})` }}
-            />
-            {/* Realistic Photography Background Wallpaper - Dark Mode */}
-            <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${featuresBgDark})` }}
-            />
+            {/* Realistic Platform Capabilities & Features Photography Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={featuresBgLight}
+                    alt="Platform Capabilities & Design Workstation Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={featuresBgDark}
+                    alt="High-Tech Developer Workstation & Real-Time Analytics Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Overlay Tint Gradients for High Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/65 via-[#FAF7F2]/45 to-[#FAF7F2]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
 
             <div className="relative max-w-5xl mx-auto space-y-16 z-10">
 
