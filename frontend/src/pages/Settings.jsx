@@ -140,8 +140,10 @@ const Settings = () => {
     const [saving, setSaving] = useState(false);
     const [uploadingAvatar, setUploadingAvatar] = useState(false);
     const [uploadingCover, setUploadingCover] = useState(false);
-    const [status, setStatus] = useState('');
-    const [statusType, setStatusType] = useState('success');
+    const [profileStatus, setProfileStatus] = useState('');
+    const [profileStatusType, setProfileStatusType] = useState('success');
+    const [passwordStatus, setPasswordStatus] = useState('');
+    const [passwordStatusType, setPasswordStatusType] = useState('success');
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -191,14 +193,14 @@ const Settings = () => {
         if (!file) return;
 
         if (!file.type.startsWith('image/')) {
-            setStatusType('error');
-            setStatus('Please select a valid image file (PNG, JPG, WebP).');
+            setProfileStatusType('error');
+            setProfileStatus('Please select a valid image file (PNG, JPG, WebP).');
             return;
         }
 
         if (file.size > 10 * 1024 * 1024) {
-            setStatusType('error');
-            setStatus('Image size should be under 10MB.');
+            setProfileStatusType('error');
+            setProfileStatus('Image size should be under 10MB.');
             return;
         }
 
@@ -208,24 +210,24 @@ const Settings = () => {
             try {
                 if (type === 'avatar') setUploadingAvatar(true);
                 if (type === 'cover') setUploadingCover(true);
-                setStatus('');
+                setProfileStatus('');
 
                 const res = await api.post('/upload', { image: base64 });
                 const uploadedUrl = res.data.url;
 
                 if (type === 'avatar') {
                     setFormData((prev) => ({ ...prev, profilePicture: uploadedUrl }));
-                    setStatusType('success');
-                    setStatus('Profile avatar uploaded! Click "Save Settings" to save.');
+                    setProfileStatusType('success');
+                    setProfileStatus('Profile avatar uploaded! Click "Save Settings" to save.');
                 } else {
                     setFormData((prev) => ({ ...prev, coverPhoto: uploadedUrl }));
-                    setStatusType('success');
-                    setStatus('Cover banner uploaded! Click "Save Settings" to save.');
+                    setProfileStatusType('success');
+                    setProfileStatus('Cover banner uploaded! Click "Save Settings" to save.');
                 }
             } catch (err) {
                 console.error('File upload error:', err);
-                setStatusType('error');
-                setStatus('Failed to upload image. Please try again.');
+                setProfileStatusType('error');
+                setProfileStatus('Failed to upload image. Please try again.');
             } finally {
                 if (type === 'avatar') setUploadingAvatar(false);
                 if (type === 'cover') setUploadingCover(false);
