@@ -109,7 +109,7 @@ export default function Contact() {
 
                 {/* Hero Header */}
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-widest">
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs">
                         Direct Support & Assistance
                     </span>
                     <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#101828] dark:text-white">
@@ -119,11 +119,10 @@ export default function Contact() {
                         Have a question, feedback, or need account assistance? Drop our team a message and receive prompt human support.
                     </p>
 
-                    {/* Live Support Status Pill */}
+                    {/* Live Support Status Pill (Green Dot Removed) */}
                     <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-900/40 bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
-                        <span className="h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-400/40 shrink-0" />
                         <span className="flex items-center gap-1.5">
-                            <HiOutlineBolt />
+                            <HiOutlineBolt className="text-base" />
                             <span>Support Desk Active</span>
                             <span className="text-emerald-600/70 dark:text-emerald-400/70 font-normal">• Average Response Time &lt; 2 Hours</span>
                         </span>
@@ -141,8 +140,8 @@ export default function Contact() {
                             >
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
-                                        <span className="p-3 rounded-2xl bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xl">
-                                            <Icon />
+                                        <span className="p-3 rounded-2xl bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl inline-flex items-center justify-center">
+                                            <Icon className="stroke-[2.2]" />
                                         </span>
                                         <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-[#F8F9FA] dark:bg-[#181C26] text-[#475467] dark:text-gray-400 border border-[#EAECF0] dark:border-[#252A36]">
                                             {ch.responseTime}
@@ -157,7 +156,7 @@ export default function Contact() {
                                 </div>
                                 <a
                                     href={`mailto:${ch.email}`}
-                                    className="text-xs font-extrabold text-[#B85323] dark:text-[#F5C36B] hover:underline flex items-center gap-1"
+                                    className="text-xs font-extrabold text-[#C2410C] dark:text-[#F5C36B] hover:underline flex items-center gap-1"
                                 >
                                     <span>{ch.email}</span>
                                     <span>→</span>
@@ -230,15 +229,15 @@ export default function Contact() {
                                                     onClick={() => setCategory(cat.id)}
                                                     className={`p-3 rounded-2xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
                                                         isSelected
-                                                            ? 'border-[#D97B4F] bg-[#FFE8D6] shadow-xs'
+                                                            ? 'border-[#FF8F6B] bg-[#FFF7F4] dark:bg-[#1E2638] ring-2 ring-[#FF8F6B]/40 shadow-xs'
                                                             : 'border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26]/70 hover:bg-[#F2F4F7]'
                                                     }`}
                                                 >
-                                                    <span className={`p-2 rounded-xl text-base shrink-0 ${isSelected ? 'bg-[#D97B4F] text-[#1A140D]' : 'bg-[#EAECF0] dark:bg-[#202532] text-[#475467] dark:text-gray-300'}`}>
-                                                        <Icon />
+                                                    <span className={`p-2.5 rounded-xl text-base shrink-0 flex items-center justify-center transition-all ${isSelected ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-xs' : 'bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B]'}`}>
+                                                        <Icon className="stroke-[2.2]" />
                                                     </span>
                                                     <div className="space-y-0.5">
-                                                        <p className={`text-xs font-bold ${isSelected ? 'text-[#B85323] dark:text-[#F5C36B]' : 'text-[#101828] dark:text-white'}`}>
+                                                        <p className={`text-xs font-bold ${isSelected ? 'text-[#C2410C] dark:text-[#F5C36B]' : 'text-[#101828] dark:text-white'}`}>
                                                             {cat.label}
                                                         </p>
                                                         <p className="text-[10px] text-[#667085] dark:text-[#8A8F9C] line-clamp-1 font-medium">
@@ -349,7 +348,7 @@ export default function Contact() {
                     <div className="space-y-6">
                         <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/95 p-6 sm:p-8 shadow-xs space-y-4">
                             <div className="flex items-center gap-2.5 text-[#101828] dark:text-white font-bold text-sm">
-                                <HiOutlineQuestionMarkCircle className="text-xl text-[#D97B4F] shrink-0" />
+                                <HiOutlineQuestionMarkCircle className="text-xl text-[#C2410C] dark:text-[#F5C36B] shrink-0 stroke-[2.2]" />
                                 <span className="font-['Fraunces'] text-base">Frequently Asked</span>
                             </div>
 
@@ -359,15 +358,23 @@ export default function Contact() {
                                     return (
                                         <div
                                             key={faq.q}
-                                            className="rounded-2xl border border-[#EAECF0] dark:border-[#202532] bg-[#F8F9FA] dark:bg-[#181C26]/60 overflow-hidden text-xs"
+                                            className={`rounded-2xl border text-xs overflow-hidden transition-all duration-200 ${
+                                                isOpen
+                                                    ? 'border-[#FF8F6B] dark:border-[#FF8F6B] bg-[#FFF7F4] dark:bg-[#1B2232] ring-1 ring-[#FF8F6B]/30'
+                                                    : 'border-[#EAECF0] dark:border-[#202532] bg-[#F8F9FA] dark:bg-[#181C26]/60 hover:border-[#FF8F6B]/40'
+                                            }`}
                                         >
                                             <button
                                                 type="button"
                                                 onClick={() => toggleFaq(idx)}
-                                                className="w-full text-left p-3.5 flex items-center justify-between gap-2 font-bold text-[#101828] dark:text-gray-200 hover:text-[#D97B4F] dark:hover:text-[#F5C36B] cursor-pointer"
+                                                className={`w-full text-left p-3.5 flex items-center justify-between gap-2 font-bold cursor-pointer transition-colors ${
+                                                    isOpen
+                                                        ? 'text-[#C2410C] dark:text-[#F5C36B]'
+                                                        : 'text-[#101828] dark:text-gray-200 hover:text-[#FF8F6B] dark:hover:text-[#FF8F6B]'
+                                                }`}
                                             >
                                                 <span>{faq.q}</span>
-                                                <span className="shrink-0 text-[#667085]">
+                                                <span className={`shrink-0 p-1 rounded-md transition-all ${isOpen ? 'bg-[#FF8F6B] text-[#1A140D]' : 'text-[#667085]'}`}>
                                                     {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
                                                 </span>
                                             </button>
@@ -377,7 +384,7 @@ export default function Contact() {
                                                         initial={{ height: 0, opacity: 0 }}
                                                         animate={{ height: 'auto', opacity: 1 }}
                                                         exit={{ height: 0, opacity: 0 }}
-                                                        className="px-3.5 pb-3.5 text-[#475467] dark:text-[#A0A5B2] leading-relaxed border-t border-[#EAECF0] dark:border-[#202532] pt-2 font-medium"
+                                                        className="px-3.5 pb-3.5 text-[#475467] dark:text-[#A0A5B2] leading-relaxed border-t border-[#FF8F6B]/20 dark:border-[#202532] pt-2 font-medium"
                                                     >
                                                         {faq.a}
                                                     </motion.div>
