@@ -15,130 +15,12 @@ import {
     HiOutlineChevronRight,
 } from 'react-icons/hi2';
 
-// Gorgeous fixed full-screen animated background canvas for Day & Night modes (No photo)
+import privacyBgLight from '../assets/privacy-bg-light.jpg';
+import privacyBgDark from '../assets/privacy-bg-dark.jpg';
+
+// Dynamic Sweeping SVG Ribbon Waves across the viewport
 const GorgeousAnimatedBackground = () => (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        {/* Day Mode Vivid Gradient Waves & Glow Orbs */}
-        <div className="absolute inset-0 dark:hidden">
-            {/* Glowing Orb 1 - Top Left Terracotta Sunset */}
-            <motion.div
-                className="absolute -top-32 -left-32 w-[36rem] h-[36rem] rounded-full bg-gradient-to-br from-[#FF8F6B]/60 via-[#D97B4F]/40 to-[#F5C36B]/20 blur-3xl opacity-75"
-                animate={{
-                    x: [0, 60, -30, 0],
-                    y: [0, -50, 40, 0],
-                    scale: [1, 1.25, 0.9, 1],
-                    rotate: [0, 45, 90, 0],
-                }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            {/* Glowing Orb 2 - Center Right Golden Amber */}
-            <motion.div
-                className="absolute top-1/4 -right-32 w-[42rem] h-[42rem] rounded-full bg-gradient-to-bl from-[#F5C36B]/65 via-[#FF8F6B]/45 to-[#E05A47]/30 blur-3xl opacity-70"
-                animate={{
-                    x: [0, -80, 50, 0],
-                    y: [0, 60, -30, 0],
-                    scale: [1, 0.85, 1.2, 1],
-                    rotate: [0, -60, 30, 0],
-                }}
-                transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            />
-            {/* Glowing Orb 3 - Bottom Left Coral Rose */}
-            <motion.div
-                className="absolute -bottom-32 left-1/3 w-[40rem] h-[40rem] rounded-full bg-gradient-to-tr from-[#E05A47]/50 via-[#FF8F6B]/40 to-[#F5C36B]/30 blur-3xl opacity-75"
-                animate={{
-                    x: [0, 70, -60, 0],
-                    y: [0, -60, 40, 0],
-                    scale: [1, 1.15, 0.95, 1],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-            />
-            {/* Glowing Floating Ambient Particles */}
-            {[...Array(6)].map((_, i) => (
-                <motion.div
-                    key={`day-particle-${i}`}
-                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] blur-sm opacity-60"
-                    style={{
-                        width: `${16 + i * 8}px`,
-                        height: `${16 + i * 8}px`,
-                        left: `${15 + i * 15}%`,
-                        top: `${20 + (i % 4) * 20}%`,
-                    }}
-                    animate={{
-                        y: [0, -80, 0],
-                        x: [0, i % 2 === 0 ? 40 : -40, 0],
-                        opacity: [0.3, 0.7, 0.3],
-                        scale: [0.8, 1.2, 0.8],
-                    }}
-                    transition={{
-                        duration: 8 + i * 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: i * 1.2,
-                    }}
-                />
-            ))}
-        </div>
-
-        {/* Dark Mode Vivid Aurora & Midnight Glow Orbs */}
-        <div className="absolute inset-0 hidden dark:block">
-            {/* Glowing Orb 1 - Deep Sunset Coral Velvet */}
-            <motion.div
-                className="absolute -top-32 -left-32 w-[38rem] h-[38rem] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#993B22]/30 to-[#3B1F42]/40 blur-3xl opacity-80"
-                animate={{
-                    x: [0, 60, -30, 0],
-                    y: [0, -50, 40, 0],
-                    scale: [1, 1.2, 0.9, 1],
-                }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            {/* Glowing Orb 2 - Midnight Amber / Violet */}
-            <motion.div
-                className="absolute top-1/3 -right-32 w-[44rem] h-[44rem] rounded-full bg-gradient-to-bl from-[#C2410C]/40 via-[#5C243B]/35 to-[#1B2232]/50 blur-3xl opacity-80"
-                animate={{
-                    x: [0, -70, 40, 0],
-                    y: [0, 50, -30, 0],
-                    scale: [1, 0.85, 1.15, 1],
-                }}
-                transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            />
-            {/* Glowing Orb 3 - Deep Terracotta Bottom */}
-            <motion.div
-                className="absolute -bottom-32 left-1/4 w-[40rem] h-[40rem] rounded-full bg-gradient-to-tr from-[#D97B4F]/35 via-[#FF8F6B]/25 to-transparent blur-3xl opacity-75"
-                animate={{
-                    x: [0, 50, -50, 0],
-                    y: [0, -50, 30, 0],
-                    scale: [1, 1.1, 0.9, 1],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-            />
-            {/* Glowing Dark Mode Particles */}
-            {[...Array(8)].map((_, i) => (
-                <motion.div
-                    key={`dark-particle-${i}`}
-                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] blur-sm"
-                    style={{
-                        width: `${12 + i * 6}px`,
-                        height: `${12 + i * 6}px`,
-                        left: `${10 + i * 11}%`,
-                        top: `${15 + (i % 4) * 22}%`,
-                    }}
-                    animate={{
-                        y: [0, -90, 0],
-                        x: [0, i % 2 === 0 ? 50 : -50, 0],
-                        opacity: [0.2, 0.7, 0.2],
-                        scale: [0.7, 1.3, 0.7],
-                    }}
-                    transition={{
-                        duration: 7 + i * 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: i * 0.9,
-                    }}
-                />
-            ))}
-        </div>
-
-        {/* Dynamic Sweeping SVG Ribbon Waves across the viewport */}
         <svg
             className="absolute inset-0 h-full w-full pointer-events-none opacity-50 dark:opacity-35"
             viewBox="0 0 1400 900"
@@ -234,7 +116,23 @@ export default function Privacy() {
 
     return (
         <div className="relative min-h-screen bg-[#EBE0D5] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Dynamic Animated Ambient Color Mesh & Aurora Waves Canvas (No Photo) */}
+            {/* Realistic Data Privacy & Sovereignty Photography Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={privacyBgLight}
+                    alt="Privacy Shield Covenant & Data Protection Journal Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={privacyBgDark}
+                    alt="Cryptographic Data Vault & Cyber Privacy Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Overlay Tint Gradients for High Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#EBE0D5]/65 via-[#EBE0D5]/45 to-[#EBE0D5]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
+
+            {/* Dynamic Animated Ambient Color Ribbon Waves Canvas */}
             <GorgeousAnimatedBackground />
 
             <div className="relative max-w-6xl mx-auto space-y-12 z-10">
@@ -245,7 +143,7 @@ export default function Privacy() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     whileHover={{ scale: 1.015, rotateX: 1.5, rotateY: -1 }}
-                    className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-[#FFFDF9] dark:bg-[#11151F] backdrop-blur-2xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl shadow-[#4A2818]/15 overflow-hidden transition-all duration-300"
+                    className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-[#FFFDF9]/92 dark:bg-[#11151F]/90 backdrop-blur-2xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl shadow-[#4A2818]/15 overflow-hidden transition-all duration-300"
                 >
                     <motion.span
                         initial={{ opacity: 0, scale: 0.7 }}
@@ -271,7 +169,7 @@ export default function Privacy() {
                         viewport={{ once: true }}
                         transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.1 }}
                         whileHover={{ y: -8, scale: 1.025 }}
-                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
+                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9]/90 dark:bg-[#12151C]/90 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
                     >
                         <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineEyeSlash className="stroke-[2.2]" />
@@ -288,7 +186,7 @@ export default function Privacy() {
                         viewport={{ once: true }}
                         transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.25 }}
                         whileHover={{ y: -8, scale: 1.025 }}
-                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
+                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9]/90 dark:bg-[#12151C]/90 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
                     >
                         <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineLockClosed className="stroke-[2.2]" />
@@ -305,7 +203,7 @@ export default function Privacy() {
                         viewport={{ once: true }}
                         transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.4 }}
                         whileHover={{ y: -8, scale: 1.025 }}
-                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
+                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9]/90 dark:bg-[#12151C]/90 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
                     >
                         <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineTrash className="stroke-[2.2]" />
@@ -326,7 +224,7 @@ export default function Privacy() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="hidden lg:block sticky top-24 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C]/90 p-5 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-2"
+                        className="hidden lg:block sticky top-24 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9]/90 dark:bg-[#12151C]/90 p-5 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-2"
                     >
                         <span className="text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-[#FF8F6B] block mb-3 px-2">
                             Policy Navigation
@@ -357,7 +255,7 @@ export default function Privacy() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
-                        className="lg:col-span-3 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#FFFDF9] dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl space-y-12 leading-relaxed text-[#2B1B10] dark:text-[#C5C9D3] text-sm sm:text-base"
+                        className="lg:col-span-3 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#FFFDF9]/92 dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl space-y-12 leading-relaxed text-[#2B1B10] dark:text-[#C5C9D3] text-sm sm:text-base"
                     >
 
                         {/* 1. Executive Summary */}
@@ -696,7 +594,7 @@ export default function Privacy() {
                     whileInView={{ opacity: 1, y: 0, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7 }}
-                    className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/40 bg-[#FFFDF9] dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl text-center space-y-4"
+                    className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/40 bg-[#FFFDF9]/92 dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl text-center space-y-4"
                 >
                     <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white">Your privacy is guaranteed by design</h2>
                     <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] max-w-lg mx-auto font-bold">
