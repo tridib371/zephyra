@@ -6,6 +6,7 @@ import { useNotifications } from '../context/NotificationContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import { getNotificationDetail, getNotificationMessage, getNotificationMeta, getNotificationTarget } from '../utils/notificationTools';
+import AdminAvatar from './AdminAvatar';
 
 const FeatherMark = () => (
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -282,12 +283,16 @@ const Navbar = () => {
                                                                             : 'hover:bg-[#1B2130] dark:hover:bg-[#1E2638]'
                                                                         }`}
                                                                 >
-                                                                    <img
-                                                                        src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`}
-                                                                        alt={notification.sender?.name || 'Sender'}
-                                                                        className="h-10 w-10 rounded-2xl object-cover shrink-0 ring-2 ring-[#FF8F6B]/40"
-                                                                        onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`; }}
-                                                                    />
+                                                                    {notification.type === 'announcement' ? (
+                                                                        <AdminAvatar className="h-10 w-10 shrink-0" size={40} />
+                                                                    ) : (
+                                                                        <img
+                                                                            src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`}
+                                                                            alt={notification.sender?.name || 'Sender'}
+                                                                            className="h-10 w-10 rounded-2xl object-cover shrink-0 ring-2 ring-[#FF8F6B]/40"
+                                                                            onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`; }}
+                                                                        />
+                                                                    )}
                                                                     <div className="min-w-0 flex-1">
                                                                         <p className={`text-xs sm:text-sm ${unread ? 'font-bold text-white' : 'text-[#CBD5E1]'}`}>
                                                                             {getNotificationMessage(notification)}

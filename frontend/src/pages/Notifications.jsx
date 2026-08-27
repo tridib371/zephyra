@@ -15,6 +15,7 @@ import {
 import { useNotifications } from '../context/NotificationContext';
 import { useAuth } from '../context/AuthContext';
 import { getNotificationDetail, getNotificationMeta, getNotificationMessage, getNotificationTarget } from '../utils/notificationTools';
+import AdminAvatar from '../components/AdminAvatar';
 
 // ===== UNIQUE SIGNAL BEACON & PULSE WAVE BACKGROUND ANIMATION =====
 const NotificationsBackgroundAnimation = () => {
@@ -252,14 +253,18 @@ const Notifications = () => {
                                         <div className="flex items-start gap-4">
                                             {/* Avatar Frame */}
                                             <div className="relative shrink-0">
-                                                <img
-                                                    src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff&bold=true`}
-                                                    alt={notification.sender?.name || 'Sender'}
-                                                    className="h-12 w-12 rounded-full object-cover border-2 border-black shadow-md bg-[#FAF7F2] dark:bg-[#181C26]"
-                                                    onError={(e) => {
-                                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff&bold=true`;
-                                                    }}
-                                                />
+                                                {notification.type === 'announcement' ? (
+                                                    <AdminAvatar className="h-12 w-12" size={48} />
+                                                ) : (
+                                                    <img
+                                                        src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff&bold=true`}
+                                                        alt={notification.sender?.name || 'Sender'}
+                                                        className="h-12 w-12 rounded-full object-cover border-2 border-black shadow-md bg-[#FAF7F2] dark:bg-[#181C26]"
+                                                        onError={(e) => {
+                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff&bold=true`;
+                                                        }}
+                                                    />
+                                                )}
                                                 <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full border-2 border-black bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[10px] text-[#1A140D] shadow-xs">
                                                     {notification.type === 'like' && <HiOutlineHeart className="text-xs stroke-[2.5]" />}
                                                     {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight className="text-xs stroke-[2.5]" />}
