@@ -167,7 +167,11 @@ router.post('/register', async (req, res) => {
                 role: user.role || 'user',
                 isBanned: user.isBanned || false,
                 profilePicture: user.profilePicture,
+                coverPhoto: user.coverPhoto,
                 bio: user.bio,
+                location: user.location,
+                website: user.website,
+                preferences: user.preferences,
                 followers: user.followers,
                 following: user.following,
                 savedPosts: user.savedPosts,
@@ -231,7 +235,11 @@ router.post('/login', async (req, res) => {
                 role: user.role || 'user',
                 isBanned: user.isBanned || false,
                 profilePicture: user.profilePicture,
+                coverPhoto: user.coverPhoto,
                 bio: user.bio,
+                location: user.location,
+                website: user.website,
+                preferences: user.preferences,
                 followers: user.followers,
                 following: user.following,
                 savedPosts: user.savedPosts,
@@ -302,14 +310,11 @@ router.post('/google', async (req, res) => {
 
             console.log('✅ New user created with Google photo:', profilePicture);
         } else {
-            // User exists - update profile picture if missing or updated
-            if (picture && user.profilePicture !== picture) {
+            // User exists - set profile picture only if currently empty/missing
+            if (!user.profilePicture && picture) {
                 user.profilePicture = picture;
                 await user.save();
-                console.log('✅ Updated profile picture for existing user:', picture);
-            } else if (!user.profilePicture) {
-                user.profilePicture = profilePicture;
-                await user.save();
+                console.log('✅ Set default profile picture for existing user:', picture);
             }
 
             // If user exists but doesn't have googleId, update it
@@ -340,7 +345,11 @@ router.post('/google', async (req, res) => {
                 role: user.role || 'user',
                 isBanned: user.isBanned || false,
                 profilePicture: user.profilePicture,
+                coverPhoto: user.coverPhoto,
                 bio: user.bio,
+                location: user.location,
+                website: user.website,
+                preferences: user.preferences,
                 followers: user.followers,
                 following: user.following,
                 savedPosts: user.savedPosts,
