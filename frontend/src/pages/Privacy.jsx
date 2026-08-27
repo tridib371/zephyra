@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     HiOutlineShieldCheck,
     HiOutlineLockClosed,
@@ -239,86 +239,139 @@ export default function Privacy() {
 
             <div className="relative max-w-6xl mx-auto space-y-12 z-10">
 
-                {/* Hero Header Card - Elevated Crisp Vanilla Card on Sandy Terracotta Canvas */}
-                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-[#FFFDF9] dark:bg-[#11151F] backdrop-blur-2xl border-2 border-[#CBB39F] dark:border-[#1F2636] shadow-2xl shadow-[#4A2818]/15 overflow-hidden">
-                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
+                {/* Hero Header Card with 3D Spring Floating Entrance & Solid Black Border in Day Mode */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    whileHover={{ scale: 1.015, rotateX: 1.5, rotateY: -1 }}
+                    className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-[#FFFDF9] dark:bg-[#11151F] backdrop-blur-2xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl shadow-[#4A2818]/15 overflow-hidden transition-all duration-300"
+                >
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.25, duration: 0.5 }}
+                        className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10"
+                    >
                         Trust, Transparency & Safety
-                    </span>
+                    </motion.span>
                     <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1C1008] dark:text-white relative z-10">
                         Privacy Policy & Data Covenant
                     </h1>
                     <p className="text-base sm:text-xl text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold max-w-2xl mx-auto relative z-10">
                         Last Updated: August 2026 • Version 2.4.0 • Effective for all registered and visiting members globally.
                     </p>
-                </div>
+                </motion.div>
 
-                {/* Core Privacy Highlights Cards - Crisp Vanilla Cards with Dark Sand Borders */}
+                {/* Core Privacy Highlights Cards - Cascading Spring Entrance & Magnetic Hover Lift */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#CBB39F] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/35">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.1 }}
+                        whileHover={{ y: -8, scale: 1.025 }}
+                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
+                    >
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineEyeSlash className="stroke-[2.2]" />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg text-[#1C1008] dark:text-white">No Behavioral Tracking</h3>
                         <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             We never install cross-site advertising pixels or track your reading habits across the web.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#CBB39F] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/35">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.25 }}
+                        whileHover={{ y: -8, scale: 1.025 }}
+                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
+                    >
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineLockClosed className="stroke-[2.2]" />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg text-[#1C1008] dark:text-white">Cryptographic Security</h3>
                         <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             All passwords use 10-round salted bcrypt hashes, and socket streams communicate over TLS/WSS.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#CBB39F] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/35">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.4 }}
+                        whileHover={{ y: -8, scale: 1.025 }}
+                        className="p-6 sm:p-7 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C] shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-3 cursor-pointer"
+                    >
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border-2 border-black dark:border-[#FF8F6B]/40">
                             <HiOutlineTrash className="stroke-[2.2]" />
                         </div>
                         <h3 className="font-['Fraunces'] font-bold text-lg text-[#1C1008] dark:text-white">True Right to Erasure</h3>
                         <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             When you delete a post or account, it is permanently purged from our primary database immediately.
                         </p>
-                    </div>
+                    </motion.div>
                 </div>
 
-                {/* Main Content Layout with Sticky Navigation */}
+                {/* Main Content Layout with Animated Sticky Navigation */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 
                     {/* Table of Contents Sidebar */}
-                    <div className="hidden lg:block sticky top-24 rounded-3xl border-2 border-[#CBB39F] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/90 p-5 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-2">
+                    <motion.div
+                        initial={{ opacity: 0, x: -35 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="hidden lg:block sticky top-24 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/30 bg-[#FFFDF9] dark:bg-[#12151C]/90 p-5 shadow-xl shadow-[#4A2818]/10 backdrop-blur-xl space-y-2"
+                    >
                         <span className="text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-[#FF8F6B] block mb-3 px-2">
                             Policy Navigation
                         </span>
                         {SECTIONS.map((sec) => {
                             const isCurrent = activeSection === sec.id;
                             return (
-                                <button
+                                <motion.button
                                     key={sec.id}
+                                    whileHover={{ x: 4 }}
                                     onClick={() => scrollToSection(sec.id)}
                                     className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-between ${
                                         isCurrent
-                                            ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold shadow-md'
+                                            ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold shadow-md scale-[1.02]'
                                             : 'text-[#4D3222] dark:text-[#A0A5B2] font-bold hover:bg-[#FF8F6B]/15 dark:hover:bg-[#181C26] hover:text-[#9E3610]'
                                     }`}
                                 >
                                     <span className="truncate">{sec.title}</span>
                                     {isCurrent && <HiOutlineChevronRight className="shrink-0 text-xs text-[#1A140D]" />}
-                                </button>
+                                </motion.button>
                             );
                         })}
-                    </div>
+                    </motion.div>
 
                     {/* Detailed Legal Content Main Card */}
-                    <div className="lg:col-span-3 rounded-3xl border-2 border-[#CBB39F] dark:border-[#1F232C] bg-[#FFFDF9] dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl space-y-12 leading-relaxed text-[#2B1B10] dark:text-[#C5C9D3] text-sm sm:text-base">
+                    <motion.div
+                        initial={{ opacity: 0, y: 35 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="lg:col-span-3 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#FFFDF9] dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl space-y-12 leading-relaxed text-[#2B1B10] dark:text-[#C5C9D3] text-sm sm:text-base"
+                    >
 
                         {/* 1. Executive Summary */}
-                        <section id="pledge" className="space-y-4">
+                        <motion.section
+                            id="pledge"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineShieldCheck className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -331,12 +384,20 @@ export default function Privacy() {
                             <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 <strong className="text-[#1C1008] dark:text-white">Our Core Pledge:</strong> We will never sell, rent, monetize, or trade your personal data, profile insights, reading habits, or message history to any advertising network, third-party broker, or commercial AI training consortium.
                             </p>
-                        </section>
+                        </motion.section>
 
                         {/* 2. Collection Breakdown */}
-                        <section id="collection" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="collection"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineDocumentText className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -347,31 +408,39 @@ export default function Privacy() {
                                 We collect only the minimum data strictly required to deliver a responsive, real-time social networking experience:
                             </p>
                             <div className="space-y-3.5">
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-1 shadow-xs">
+                                <motion.div whileHover={{ scale: 1.01 }} className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] space-y-1 shadow-xs cursor-pointer">
                                     <h3 className="font-black text-[#1C1008] dark:text-white text-sm">Account & Identity Information</h3>
                                     <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] font-bold">
                                         Your chosen display name, unique username, email address, and cryptographically salted password hash. We use this to authenticate your sessions and ensure account security.
                                     </p>
-                                </div>
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-1 shadow-xs">
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.01 }} className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] space-y-1 shadow-xs cursor-pointer">
                                     <h3 className="font-black text-[#1C1008] dark:text-white text-sm">Content, Media & Interactions</h3>
                                     <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] font-bold">
                                         Stories you publish, photos you upload, comments you post, and reactions you give. These are stored on our encrypted clusters to display in the chronological timeline.
                                     </p>
-                                </div>
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-1 shadow-xs">
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.01 }} className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] space-y-1 shadow-xs cursor-pointer">
                                     <h3 className="font-black text-[#1C1008] dark:text-white text-sm">Technical Diagnostics</h3>
                                     <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] font-bold">
                                         IP address, user-agent string, and server error logs maintained for up to 14 days solely for rate-limiting, denial-of-service prevention, and bot mitigation.
                                     </p>
-                                </div>
+                                </motion.div>
                             </div>
-                        </section>
+                        </motion.section>
 
                         {/* 3. Direct Messaging Privacy */}
-                        <section id="messaging" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="messaging"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineLockClosed className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -386,12 +455,20 @@ export default function Privacy() {
                                 <li><strong className="text-[#1C1008] dark:text-white">Zero Content Scanning:</strong> We do not parse or scan the text of private messages for ad targeting, interest profiling, or keyword mining.</li>
                                 <li><strong className="text-[#1C1008] dark:text-white">Seen Receipts:</strong> Real-time status indicators (Sent and Seen) are exchanged strictly between the conversation participants.</li>
                             </ul>
-                        </section>
+                        </motion.section>
 
                         {/* 4. Non-Commercialization Guarantee */}
-                        <section id="non-commercial" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="non-commercial"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineEyeSlash className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -402,29 +479,37 @@ export default function Privacy() {
                                 Unlike traditional social media monopolies, Zephyra's economic model does not rely on surveillance capitalism:
                             </p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div className="p-4.5 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/30 border-2 border-emerald-300 dark:border-emerald-900/50 space-y-1.5 shadow-xs">
+                                <motion.div whileHover={{ scale: 1.02 }} className="p-4.5 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/30 border-2 border-black dark:border-emerald-900/50 space-y-1.5 shadow-xs cursor-pointer">
                                     <h4 className="font-black text-emerald-950 dark:text-emerald-300 text-xs uppercase tracking-wider">What We Guarantee</h4>
                                     <p className="text-xs sm:text-sm text-emerald-950 dark:text-[#A0A5B2] font-black leading-relaxed">
                                         • 0 third-party advertising SDKs<br />
                                         • 0 data broker syndication<br />
                                         • 0 behavioral profiling algorithms
                                     </p>
-                                </div>
-                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-rose-300 dark:border-rose-900/50 space-y-1.5 shadow-xs">
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.02 }} className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border-2 border-black dark:border-rose-900/50 space-y-1.5 shadow-xs cursor-pointer">
                                     <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs uppercase tracking-wider">What We Never Do</h4>
                                     <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-black leading-relaxed">
                                         • Sell your email or reading trends<br />
                                         • Share message logs with advertisers<br />
                                         • Feed private drafts to public AI models
                                     </p>
-                                </div>
+                                </motion.div>
                             </div>
-                        </section>
+                        </motion.section>
 
                         {/* 5. Storage & Encryption */}
-                        <section id="infrastructure" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="infrastructure"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineServer className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -439,12 +524,20 @@ export default function Privacy() {
                                 <li><strong className="text-[#1C1008] dark:text-white">Media Storage:</strong> Cloudinary secure CDN storage with optimized delivery and signed access tokens.</li>
                                 <li><strong className="text-[#1C1008] dark:text-white">In-Transit Protection:</strong> End-to-end TLS 1.3 encryption across all HTTP REST endpoints and WebSocket channels.</li>
                             </ul>
-                        </section>
+                        </motion.section>
 
                         {/* 6. Data Retention */}
-                        <section id="retention" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="retention"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineTrash className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -455,31 +548,31 @@ export default function Privacy() {
                                 We maintain data only for as long as your account remains active or until you explicitly delete specific content:
                             </p>
                             <div className="overflow-x-auto">
-                                <table className="w-full text-left text-xs border-2 border-[#EAD5C5] dark:border-[#252A36] rounded-2xl overflow-hidden shadow-xs">
-                                    <thead className="bg-[#FFF0E6] dark:bg-[#181C26] text-[#9E3610] dark:text-white font-black">
+                                <table className="w-full text-left text-xs border-2 border-black dark:border-[#252A36] rounded-2xl overflow-hidden shadow-xs">
+                                    <thead className="bg-[#FFF0E6] dark:bg-[#181C26] text-[#9E3610] dark:text-white font-black border-b-2 border-black dark:border-[#252A36]">
                                         <tr>
                                             <th className="p-3.5">Data Category</th>
                                             <th className="p-3.5">Retention Period</th>
                                             <th className="p-3.5">Deletion Mechanism</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y-2 divide-[#EAD5C5] dark:divide-[#252A36] bg-[#FFF6EF] dark:bg-[#12151C]">
-                                        <tr>
+                                    <tbody className="divide-y-2 divide-black dark:divide-[#252A36] bg-[#FFF6EF] dark:bg-[#12151C]">
+                                        <tr className="hover:bg-[#FF8F6B]/15 transition-colors">
                                             <td className="p-3.5 font-black text-[#1C1008] dark:text-white">User Profile & Account</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Until Account Deletion</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Instant purge via Settings</td>
                                         </tr>
-                                        <tr>
+                                        <tr className="hover:bg-[#FF8F6B]/15 transition-colors">
                                             <td className="p-3.5 font-black text-[#1C1008] dark:text-white">Published Stories & Posts</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Until User Deletion</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Immediate hard-delete</td>
                                         </tr>
-                                        <tr>
+                                        <tr className="hover:bg-[#FF8F6B]/15 transition-colors">
                                             <td className="p-3.5 font-black text-[#1C1008] dark:text-white">Direct Message History</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Until Thread Deletion</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Cascade delete on request</td>
                                         </tr>
-                                        <tr>
+                                        <tr className="hover:bg-[#FF8F6B]/15 transition-colors">
                                             <td className="p-3.5 font-black text-[#1C1008] dark:text-white">Server Diagnostic Logs</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">14 Days Maximum</td>
                                             <td className="p-3.5 font-bold text-[#4D3222] dark:text-[#CBD5E1]">Automated cron rollover</td>
@@ -487,12 +580,20 @@ export default function Privacy() {
                                     </tbody>
                                 </table>
                             </div>
-                        </section>
+                        </motion.section>
 
                         {/* 7. User Rights */}
-                        <section id="rights" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="rights"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineGlobeAlt className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -503,29 +604,37 @@ export default function Privacy() {
                                 Regardless of your physical country or legal jurisdiction, Zephyra grants all registered members global data sovereignty rights:
                             </p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-1.5 shadow-xs">
+                                <motion.div whileHover={{ scale: 1.02 }} className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] space-y-1.5 shadow-xs cursor-pointer">
                                     <h4 className="font-bold text-[#1C1008] dark:text-white flex items-center gap-2">
                                         <HiOutlineArrowDownTray className="text-[#9E3610] dark:text-[#FF8F6B] text-base stroke-[2.2]" /> Right to Access & Export
                                     </h4>
                                     <p className="text-[#4D3222] dark:text-[#9DA3B4] font-bold">
                                         Request a complete JSON archive of all your posts, interactions, profile metadata, and followers.
                                     </p>
-                                </div>
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-1.5 shadow-xs">
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.02 }} className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] space-y-1.5 shadow-xs cursor-pointer">
                                     <h4 className="font-bold text-[#1C1008] dark:text-white flex items-center gap-2">
                                         <HiOutlineTrash className="text-rose-600 dark:text-rose-400 text-base stroke-[2.2]" /> Right to Total Erasure
                                     </h4>
                                     <p className="text-[#4D3222] dark:text-[#9DA3B4] font-bold">
                                         Permanently erase your identity, media assets, direct chats, and comments with zero residual traces.
                                     </p>
-                                </div>
+                                </motion.div>
                             </div>
-                        </section>
+                        </motion.section>
 
                         {/* 8. Cookies */}
-                        <section id="cookies" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="cookies"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineShieldCheck className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -545,12 +654,20 @@ export default function Privacy() {
                                     Cookie Preferences Page
                                 </Link>.
                             </p>
-                        </section>
+                        </motion.section>
 
                         {/* 9. Contact */}
-                        <section id="contact" className="space-y-4 pt-8 border-t-2 border-[#EAD5C5] dark:border-[#1F232C]">
+                        <motion.section
+                            id="contact"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ x: 4 }}
+                            className="space-y-4 pt-8 border-t-2 border-black dark:border-[#1F232C] transition-all"
+                        >
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineEnvelope className="stroke-[2.2]" />
                                 </span>
                                 <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
@@ -560,34 +677,42 @@ export default function Privacy() {
                             <p className="font-bold text-[#4D3222] dark:text-[#CBD5E1]">
                                 If you have questions about our privacy practices, wish to submit a data subject access request, or have compliance inquiries, please contact our Data Governance team:
                             </p>
-                            <div className="p-6 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-[#EAD5C5] dark:border-[#252A36] space-y-2 shadow-xs">
+                            <motion.div whileHover={{ scale: 1.01 }} className="p-6 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#252A36] space-y-2 shadow-xs cursor-pointer">
                                 <p className="font-black text-[#1C1008] dark:text-white">Zephyra Privacy & Data Protection Office</p>
                                 <p className="text-xs text-[#4D3222] dark:text-[#8A8F9C] font-bold">Direct Privacy Inquiries:</p>
                                 <a href="mailto:privacy@zephyra.app" className="text-sm font-black text-[#9E3610] dark:text-[#F5C36B] hover:underline block">
                                     privacy@zephyra.app
                                 </a>
                                 <p className="text-xs text-[#6E462E] font-bold">Response time: Within 24 business hours.</p>
-                            </div>
-                        </section>
+                            </motion.div>
+                        </motion.section>
 
-                    </div>
+                    </motion.div>
                 </div>
 
-                {/* Bottom Call to Action */}
-                <div className="rounded-3xl border-2 border-[#CBB39F] dark:border-[#FF8F6B]/40 bg-[#FFFDF9] dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl text-center space-y-4">
+                {/* Bottom Call to Action Card with Pulse Animation & Button Hover Spring */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40, scale: 0.96 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/40 bg-[#FFFDF9] dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl shadow-[#4A2818]/15 backdrop-blur-xl text-center space-y-4"
+                >
                     <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white">Your privacy is guaranteed by design</h2>
                     <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] max-w-lg mx-auto font-bold">
                         Enjoy genuine conversations, serene chronological feeds, and total peace of mind.
                     </p>
                     <div className="pt-2">
-                        <Link
-                            to="/register"
-                            className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full hover:scale-105 transition-all shadow-md cursor-pointer"
-                        >
-                            Create Your Private Account
-                        </Link>
+                        <motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }} className="inline-block">
+                            <Link
+                                to="/register"
+                                className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm rounded-full transition-all shadow-md cursor-pointer"
+                            >
+                                Create Your Private Account
+                            </Link>
+                        </motion.div>
                     </div>
-                </div>
+                </motion.div>
 
             </div>
         </div>
