@@ -15,6 +15,8 @@ import {
     HiOutlineQuestionMarkCircle,
     HiOutlineChevronDown,
     HiOutlineChevronUp,
+    HiOutlineExclamationCircle,
+    HiOutlineSparkles,
 } from 'react-icons/hi2';
 
 import contactBgLight from '../assets/contact-bg-light.jpg';
@@ -128,9 +130,84 @@ export default function Contact() {
     const [ticketId, setTicketId] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [faqOpenIdx, setFaqOpenIdx] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
+
+    // Real-time custom validation suggestions
+    const validateFields = (fieldsToValidate = { name, email, subject, message }) => {
+        const newErrors = {};
+
+        if ('name' in fieldsToValidate) {
+            if (!fieldsToValidate.name.trim()) {
+                newErrors.name = 'Please enter your name or @username so our team knows who to address.';
+            } else if (fieldsToValidate.name.trim().length < 2) {
+                newErrors.name = 'Name should be at least 2 characters long.';
+            }
+        }
+
+        if ('email' in fieldsToValidate) {
+            if (!fieldsToValidate.email.trim()) {
+                newErrors.email = 'Please provide your email address so our team can send you a resolution.';
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fieldsToValidate.email.trim())) {
+                newErrors.email = 'Please enter a valid email address format (e.g. yourname@gmail.com).';
+            }
+        }
+
+        if ('subject' in fieldsToValidate) {
+            if (!fieldsToValidate.subject.trim()) {
+                newErrors.subject = 'Please add a brief summary so we can route your ticket to the right specialist.';
+            } else if (fieldsToValidate.subject.trim().length < 4) {
+                newErrors.subject = 'Subject should be at least 4 characters long (e.g. "Login assistance").';
+            }
+        }
+
+        if ('message' in fieldsToValidate) {
+            if (!fieldsToValidate.message.trim()) {
+                newErrors.message = 'Please describe your inquiry or issue so our support team can assist you.';
+            } else if (fieldsToValidate.message.trim().length < 10) {
+                newErrors.message = `Please provide a bit more detail (${fieldsToValidate.message.trim().length}/10 characters minimum).`;
+            }
+        }
+
+        return newErrors;
+    };
+
+    const handleFieldChange = (field, value) => {
+        if (field === 'name') setName(value);
+        if (field === 'email') setEmail(value);
+        if (field === 'subject') setSubject(value);
+        if (field === 'message') setMessage(value);
+
+        if (touched[field]) {
+            const fieldErrors = validateFields({ [field]: value });
+            setErrors((prev) => ({
+                ...prev,
+                [field]: fieldErrors[field] || undefined,
+            }));
+        }
+    };
+
+    const handleFieldBlur = (field) => {
+        setTouched((prev) => ({ ...prev, [field]: true }));
+        const values = { name, email, subject, message };
+        const fieldErrors = validateFields({ [field]: values[field] });
+        setErrors((prev) => ({
+            ...prev,
+            [field]: fieldErrors[field] || undefined,
+        }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setTouched({ name: true, email: true, subject: true, message: true });
+
+        const validationErrors = validateFields({ name, email, subject, message });
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
         setSubmitting(true);
 
         setTimeout(() => {
@@ -149,6 +226,8 @@ export default function Contact() {
         setMessage('');
         setCategory('account');
         setUrgency('normal');
+        setErrors({});
+        setTouched({});
     };
 
     const toggleFaq = (idx) => {
@@ -294,7 +373,7 @@ export default function Contact() {
                                 </div>
                             </motion.div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} noValidate className="space-y-6">
                                 <div className="border-b-2 border-black dark:border-[#1F232C] pb-4">
                                     <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-[#1C1008] dark:text-white">
                                         Send a Message to Support
@@ -303,6 +382,28 @@ export default function Contact() {
                                         Fill in the details below and we will triage your inquiry immediately.
                                     </p>
                                 </div>
+
+                                {/* Top Suggestion Alert if any fields are incomplete */}
+                                <AnimatePresence>
+                                    {Object.keys(errors).length > 0 && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                                            className="p-3.5 rounded-2xl bg-[#FFF1EB] dark:bg-[#251613] border-2 border-[#EA580C] text-[#9E3610] dark:text-[#FF8F6B] flex items-start gap-2.5 shadow-sm"
+                                        >
+                                            <HiOutlineSparkles className="text-lg shrink-0 mt-0.5 text-[#EA580C]" />
+                                            <div className="space-y-0.5 text-xs">
+                                                <p className="font-black text-[#9E3610] dark:text-[#FF8F6B]">
+                                                    Quick Attention Needed:
+                                                </p>
+                                                <p className="text-[11px] text-[#6E280C] dark:text-[#F3A585] font-bold">
+                                                    Please review the suggestions highlighted below to help us process your inquiry swiftly.
+                                                </p>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
 
                                 {/* Step 1: Category Picker */}
                                 <div className="space-y-2">
@@ -345,50 +446,101 @@ export default function Contact() {
 
                                 {/* Step 2: Name & Email */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div className="space-y-1">
+                                    <div className="space-y-1.5">
                                         <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
                                             Your Name / Username *
                                         </label>
                                         <input
                                             type="text"
-                                            required
                                             value={name}
-                                            onChange={(e) => setName(e.target.value)}
+                                            onChange={(e) => handleFieldChange('name', e.target.value)}
+                                            onBlur={() => handleFieldBlur('name')}
                                             placeholder="e.g. Alex Vance"
-                                            className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80 px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all font-bold"
+                                            className={`w-full rounded-2xl border-2 ${
+                                                errors.name
+                                                    ? 'border-[#EA580C] bg-[#FFF2EB] dark:bg-[#251512] ring-1 ring-[#EA580C]'
+                                                    : 'border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80'
+                                            } px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all font-bold`}
                                         />
+                                        <AnimatePresence>
+                                            {errors.name && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -4, height: 0 }}
+                                                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                                    exit={{ opacity: 0, y: -4, height: 0 }}
+                                                    className="flex items-start gap-1.5 p-2 rounded-xl bg-[#FFF1EB] dark:bg-[#261613] border border-[#EA580C]/80 text-[#9E3610] dark:text-[#FF8F6B] text-[11px] font-bold shadow-xs"
+                                                >
+                                                    <HiOutlineExclamationCircle className="text-sm shrink-0 mt-0.5 text-[#EA580C]" />
+                                                    <span>💡 <strong>Suggestion:</strong> {errors.name}</span>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
-                                    <div className="space-y-1">
+                                    <div className="space-y-1.5">
                                         <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
                                             Your Email Address *
                                         </label>
                                         <input
                                             type="email"
-                                            required
                                             value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
+                                            onChange={(e) => handleFieldChange('email', e.target.value)}
+                                            onBlur={() => handleFieldBlur('email')}
                                             placeholder="alex@example.com"
-                                            className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80 px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all font-bold"
+                                            className={`w-full rounded-2xl border-2 ${
+                                                errors.email
+                                                    ? 'border-[#EA580C] bg-[#FFF2EB] dark:bg-[#251512] ring-1 ring-[#EA580C]'
+                                                    : 'border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80'
+                                            } px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all font-bold`}
                                         />
+                                        <AnimatePresence>
+                                            {errors.email && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -4, height: 0 }}
+                                                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                                    exit={{ opacity: 0, y: -4, height: 0 }}
+                                                    className="flex items-start gap-1.5 p-2 rounded-xl bg-[#FFF1EB] dark:bg-[#261613] border border-[#EA580C]/80 text-[#9E3610] dark:text-[#FF8F6B] text-[11px] font-bold shadow-xs"
+                                                >
+                                                    <HiOutlineExclamationCircle className="text-sm shrink-0 mt-0.5 text-[#EA580C]" />
+                                                    <span>💡 <strong>Suggestion:</strong> {errors.email}</span>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
 
                                 {/* Step 3: Subject & Urgency */}
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                    <div className="sm:col-span-2 space-y-1">
+                                    <div className="sm:col-span-2 space-y-1.5">
                                         <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
                                             Subject Summary *
                                         </label>
                                         <input
                                             type="text"
-                                            required
                                             value={subject}
-                                            onChange={(e) => setSubject(e.target.value)}
-                                            placeholder="Brief overview of your issue..."
-                                            className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80 px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all font-bold"
+                                            onChange={(e) => handleFieldChange('subject', e.target.value)}
+                                            onBlur={() => handleFieldBlur('subject')}
+                                            placeholder="e.g. Unable to verify my email address..."
+                                            className={`w-full rounded-2xl border-2 ${
+                                                errors.subject
+                                                    ? 'border-[#EA580C] bg-[#FFF2EB] dark:bg-[#251512] ring-1 ring-[#EA580C]'
+                                                    : 'border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80'
+                                            } px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition-all font-bold`}
                                         />
+                                        <AnimatePresence>
+                                            {errors.subject && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -4, height: 0 }}
+                                                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                                    exit={{ opacity: 0, y: -4, height: 0 }}
+                                                    className="flex items-start gap-1.5 p-2 rounded-xl bg-[#FFF1EB] dark:bg-[#261613] border border-[#EA580C]/80 text-[#9E3610] dark:text-[#FF8F6B] text-[11px] font-bold shadow-xs"
+                                                >
+                                                    <HiOutlineExclamationCircle className="text-sm shrink-0 mt-0.5 text-[#EA580C]" />
+                                                    <span>💡 <strong>Suggestion:</strong> {errors.subject}</span>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
-                                    <div className="space-y-1">
+                                    <div className="space-y-1.5">
                                         <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
                                             Priority Level
                                         </label>
@@ -405,24 +557,41 @@ export default function Contact() {
                                 </div>
 
                                 {/* Step 4: Message Body */}
-                                <div className="space-y-1">
+                                <div className="space-y-1.5">
                                     <div className="flex items-center justify-between">
                                         <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
                                             Inquiry Details *
                                         </label>
-                                        <span className="text-[10px] text-[#5E3821] font-bold">
+                                        <span className="text-[10px] text-[#5E3821] dark:text-[#9DA3B4] font-bold">
                                             {message.length} / 2,000 characters
                                         </span>
                                     </div>
                                     <textarea
                                         rows={5}
-                                        required
                                         maxLength={2000}
                                         value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                        placeholder="Please provide clear details, device/browser information, or steps to reproduce if reporting an issue..."
-                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80 p-4 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 resize-none transition-all font-bold"
+                                        onChange={(e) => handleFieldChange('message', e.target.value)}
+                                        onBlur={() => handleFieldBlur('message')}
+                                        placeholder="Please describe what happened, steps to reproduce, or any relevant details..."
+                                        className={`w-full rounded-2xl border-2 ${
+                                            errors.message
+                                                ? 'border-[#EA580C] bg-[#FFF2EB] dark:bg-[#251512] ring-1 ring-[#EA580C]'
+                                                : 'border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26]/80'
+                                        } p-4 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 resize-none transition-all font-bold`}
                                     />
+                                    <AnimatePresence>
+                                        {errors.message && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: -4, height: 0 }}
+                                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                                exit={{ opacity: 0, y: -4, height: 0 }}
+                                                className="flex items-start gap-1.5 p-2 rounded-xl bg-[#FFF1EB] dark:bg-[#261613] border border-[#EA580C]/80 text-[#9E3610] dark:text-[#FF8F6B] text-[11px] font-bold shadow-xs"
+                                            >
+                                                <HiOutlineExclamationCircle className="text-sm shrink-0 mt-0.5 text-[#EA580C]" />
+                                                <span>💡 <strong>Suggestion:</strong> {errors.message}</span>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
 
                                 <motion.button
