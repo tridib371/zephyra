@@ -2,18 +2,118 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Otp = require('../models/Otp');
+const { sendOtpEmail } = require('../utils/emailService');
 const { verifyIdToken } = require('../config/firebaseAdmin');
 const router = express.Router();
 
 // Password strength regex
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
+// Email validation regex
+const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+// @route   POST /api/auth/send-register-otp
+// @desc    Send 6-digit OTP to user email before registration
+// @access  Public
+router.post('/send-register-otp', async (req, res) => {
+    try {
+        const { email, username } = req.body;
+
+        if (!email || !emailRegex.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid email address.',
+            });
+        }
+
+        const normalizedEmail = email.toLowerCase().trim();
+
+        // Check if user with this email or username already exists
+        const query = [{ email: normalizedEmail }];
+        if (username) {
+            query.push({ username: username.toLowerCase().trim() });
+        }
+        const userExists = await User.findOne({ $or: query });
+        if (userExists) {
+            return res.status(400).json({
+                success: false,
+                message: userExists.email === normalizedEmail 
+                    ? 'An account with this email address already exists.' 
+                    : 'This username is already taken.',
+            });
+        }
+
+        // Generate a cryptographically random 6-digit OTP
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+        // Remove any old OTP records for this email
+        await Otp.deleteMany({ email: normalizedEmail });
+
+        // Save new OTP record
+        await Otp.create({
+            email: normalizedEmail,
+            otp: otpCode,
+            expiresAt,
+        });
+
+        // Send email via Gmail SMTP (or fallback in dev)
+        await sendOtpEmail(normalizedEmail, otpCode);
+
+        res.status(200).json({
+            success: true,
+            message: `A 6-digit verification code has been sent to ${normalizedEmail}.`,
+        });
+    } catch (error) {
+        console.error('Send OTP error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to send verification code. Please try again.',
+        });
+    }
+});
+
 // @route   POST /api/auth/register
-// @desc    Register a new user
+// @desc    Register a new user (requires valid OTP)
 // @access  Public
 router.post('/register', async (req, res) => {
     try {
-        const { name, username, email, password } = req.body;
+        const { name, username, email, password, otp } = req.body;
+
+        // Verify OTP is provided
+        if (!otp || typeof otp !== 'string' || otp.trim().length !== 6) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide the 6-digit verification code sent to your email.',
+            });
+        }
+
+        const normalizedEmail = email ? email.toLowerCase().trim() : '';
+
+        // Validate OTP from database
+        const otpRecord = await Otp.findOne({ email: normalizedEmail });
+        if (!otpRecord) {
+            return res.status(400).json({
+                success: false,
+                message: 'Verification code expired or not found. Please request a new code.',
+            });
+        }
+
+        if (otpRecord.otp !== otp.trim()) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid verification code. Please check your email and try again.',
+            });
+        }
+
+        if (new Date() > new Date(otpRecord.expiresAt)) {
+            await Otp.deleteMany({ email: normalizedEmail });
+            return res.status(400).json({
+                success: false,
+                message: 'Verification code has expired. Please request a new code.',
+            });
+        }
 
         // Password strength check
         if (!passwordRegex.test(password)) {
@@ -24,11 +124,11 @@ router.post('/register', async (req, res) => {
         }
 
         // Check if user exists
-        const userExists = await User.findOne({ $or: [{ email }, { username }] });
+        const userExists = await User.findOne({ $or: [{ email: normalizedEmail }, { username }] });
         if (userExists) {
             return res.status(400).json({
                 success: false,
-                message: 'User with this email or username already exists',
+                message: 'User with this email or username already exists.',
             });
         }
 
@@ -41,10 +141,13 @@ router.post('/register', async (req, res) => {
         const user = await User.create({
             name,
             username,
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
             profilePicture: avatarFallback,
         });
+
+        // Delete used OTP
+        await Otp.deleteMany({ email: normalizedEmail });
 
         const token = jwt.sign(
             { id: user._id, username: user.username },

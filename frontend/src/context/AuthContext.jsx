@@ -43,17 +43,30 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Register function (Email/Password)
-    const register = async (name, username, email, password) => {
+    // Send Register OTP function
+    const sendRegisterOtp = async (email, username) => {
         setError(null);
         try {
-            const res = await api.post('/auth/register', { name, username, email, password });
+            const res = await api.post('/auth/send-register-otp', { email, username });
+            return { success: true, message: res.data?.message || 'Verification code sent.' };
+        } catch (err) {
+            const message = err.response?.data?.message || 'Failed to send verification code. Please try again.';
+            setError(message);
+            return { success: false, message };
+        }
+    };
+
+    // Register function (Email/Password + OTP)
+    const register = async (name, username, email, password, otp) => {
+        setError(null);
+        try {
+            const res = await api.post('/auth/register', { name, username, email, password, otp });
             const { token, user } = res.data;
             localStorage.setItem('zephyra_token', token);
             setUser(user);
             return { success: true };
         } catch (err) {
-            const message = err.response?.data?.message || 'Registration failed. Please try again.';
+            const message = err.response?.data?.message || 'Registration failed. Please check the code and try again.';
             setError(message);
             return { success: false, message };
         }
@@ -88,7 +101,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     // =====================================================
-    // VALUE OBJECT (UPDATED TO INCLUDE googleLogin)
+    // VALUE OBJECT (UPDATED TO INCLUDE sendRegisterOtp & googleLogin)
     // =====================================================
     const value = {
         user,
@@ -96,7 +109,8 @@ export const AuthProvider = ({ children }) => {
         error,
         login,
         register,
-        googleLogin,   // <-- THIS IS WHERE IT GOES
+        sendRegisterOtp,
+        googleLogin,
         logout,
         updateUser,
         isAuthenticated: !!user,
