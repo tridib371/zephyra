@@ -233,53 +233,53 @@ export default function Privacy() {
     };
 
     return (
-        <div className="relative min-h-screen bg-[#F5EFE6] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+        <div className="relative min-h-screen bg-[#F7ECE1] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
             {/* Dynamic Animated Ambient Color Mesh & Aurora Waves Canvas (No Photo) */}
             <GorgeousAnimatedBackground />
 
             <div className="relative max-w-6xl mx-auto space-y-12 z-10">
 
-                {/* Hero Header in Warm Sunset Frosted Card */}
-                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-[#FFF5EF] to-[#FFF0E6] dark:from-[#11151F] dark:to-[#161B28] backdrop-blur-2xl border border-[#FFD5C2] dark:border-[#1F2636] shadow-2xl overflow-hidden">
-                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
+                {/* Hero Header in Warm Sunset Coral Card */}
+                <div className="relative text-center space-y-6 max-w-4xl mx-auto p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-[#FFEBDD] via-[#FFE3D1] to-[#FFD8C2] dark:from-[#11151F] dark:to-[#161B28] backdrop-blur-2xl border-2 border-[#FFB899] dark:border-[#1F2636] shadow-2xl overflow-hidden">
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/30 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/50 text-xs font-black uppercase tracking-widest shadow-xs relative z-10">
                         Trust, Transparency & Safety
                     </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1A140D] dark:text-white relative z-10">
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#2B170B] dark:text-white relative z-10">
                         Privacy Policy & Data Covenant
                     </h1>
-                    <p className="text-base sm:text-xl text-[#4A3B30] dark:text-[#9DA3B4] leading-relaxed font-bold max-w-2xl mx-auto relative z-10">
+                    <p className="text-base sm:text-xl text-[#5E3821] dark:text-[#9DA3B4] leading-relaxed font-bold max-w-2xl mx-auto relative z-10">
                         Last Updated: August 2026 • Version 2.4.0 • Effective for all registered and visiting members globally.
                     </p>
                 </div>
 
-                {/* Core Privacy Highlights Cards */}
+                {/* Core Privacy Highlights Cards - Non-White Sunset Coral Surface */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div className="p-6 sm:p-7 rounded-3xl border border-[#E8DCC8] dark:border-[#1F232C] bg-[#FFFBF7]/95 dark:bg-[#12151C] shadow-xl backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/30">
+                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#FFC8B3] dark:border-[#1F232C] bg-gradient-to-b from-[#FFF0E6] to-[#FFE7D6] dark:bg-[#12151C] shadow-xl backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/40">
                             <HiOutlineEyeSlash className="stroke-[2.2]" />
                         </div>
-                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#1A140D] dark:text-white">No Behavioral Tracking</h3>
-                        <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#8A8F9C] leading-relaxed font-semibold">
+                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#2B170B] dark:text-white">No Behavioral Tracking</h3>
+                        <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             We never install cross-site advertising pixels or track your reading habits across the web.
                         </p>
                     </div>
 
-                    <div className="p-6 sm:p-7 rounded-3xl border border-[#E8DCC8] dark:border-[#1F232C] bg-[#FFFBF7]/95 dark:bg-[#12151C] shadow-xl backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/30">
+                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#FFC8B3] dark:border-[#1F232C] bg-gradient-to-b from-[#FFF0E6] to-[#FFE7D6] dark:bg-[#12151C] shadow-xl backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/40">
                             <HiOutlineLockClosed className="stroke-[2.2]" />
                         </div>
-                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#1A140D] dark:text-white">Cryptographic Security</h3>
-                        <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#8A8F9C] leading-relaxed font-semibold">
+                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#2B170B] dark:text-white">Cryptographic Security</h3>
+                        <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             All passwords use 10-round salted bcrypt hashes, and socket streams communicate over TLS/WSS.
                         </p>
                     </div>
 
-                    <div className="p-6 sm:p-7 rounded-3xl border border-[#E8DCC8] dark:border-[#1F232C] bg-[#FFFBF7]/95 dark:bg-[#12151C] shadow-xl backdrop-blur-xl space-y-3">
-                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/30">
+                    <div className="p-6 sm:p-7 rounded-3xl border-2 border-[#FFC8B3] dark:border-[#1F232C] bg-gradient-to-b from-[#FFF0E6] to-[#FFE7D6] dark:bg-[#12151C] shadow-xl backdrop-blur-xl space-y-3">
+                        <div className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-2xl w-fit flex items-center justify-center border border-[#FF8F6B]/40">
                             <HiOutlineTrash className="stroke-[2.2]" />
                         </div>
-                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#1A140D] dark:text-white">True Right to Erasure</h3>
-                        <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#8A8F9C] leading-relaxed font-semibold">
+                        <h3 className="font-['Fraunces'] font-bold text-lg text-[#2B170B] dark:text-white">True Right to Erasure</h3>
+                        <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#8A8F9C] leading-relaxed font-bold">
                             When you delete a post or account, it is permanently purged from our primary database immediately.
                         </p>
                     </div>
@@ -288,9 +288,9 @@ export default function Privacy() {
                 {/* Main Content Layout with Sticky Navigation */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 
-                    {/* Table of Contents Sidebar */}
-                    <div className="hidden lg:block sticky top-24 rounded-3xl border border-[#E8DCC8] dark:border-[#1F232C] bg-[#FFF9F2]/95 dark:bg-[#12151C]/90 p-5 shadow-xl backdrop-blur-xl space-y-2">
-                        <span className="text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-[#FF8F6B] block mb-3 px-2">
+                    {/* Table of Contents Sidebar - Non-White Sunset Coral Surface */}
+                    <div className="hidden lg:block sticky top-24 rounded-3xl border-2 border-[#FFC8B3] dark:border-[#1F232C] bg-[#FFF0E6] dark:bg-[#12151C]/90 p-5 shadow-xl backdrop-blur-xl space-y-2">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-[#802200] dark:text-[#FF8F6B] block mb-3 px-2">
                             Policy Navigation
                         </span>
                         {SECTIONS.map((sec) => {
@@ -302,7 +302,7 @@ export default function Privacy() {
                                     className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-between ${
                                         isCurrent
                                             ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold shadow-md'
-                                            : 'text-[#4A3B30] dark:text-[#A0A5B2] font-bold hover:bg-[#FF8F6B]/15 dark:hover:bg-[#181C26] hover:text-[#9E3610]'
+                                            : 'text-[#5E3821] dark:text-[#A0A5B2] font-bold hover:bg-[#FFE3D1] hover:text-[#802200]'
                                     }`}
                                 >
                                     <span className="truncate">{sec.title}</span>
@@ -312,56 +312,56 @@ export default function Privacy() {
                         })}
                     </div>
 
-                    {/* Detailed Legal Content Card */}
-                    <div className="lg:col-span-3 rounded-3xl border border-[#E8DCC8] dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl backdrop-blur-xl space-y-12 leading-relaxed text-[#2C2219] dark:text-[#C5C9D3] text-sm sm:text-base">
+                    {/* Detailed Legal Content Card - Non-White Sunset Warm Surface */}
+                    <div className="lg:col-span-3 rounded-3xl border-2 border-[#FFD0BD] dark:border-[#1F232C] bg-[#FFF5ED] dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-2xl backdrop-blur-xl space-y-12 leading-relaxed text-[#3B2213] dark:text-[#C5C9D3] text-sm sm:text-base">
 
                         {/* 1. Executive Summary */}
                         <section id="pledge" className="space-y-4">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineShieldCheck className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     1. Executive Summary & Zero-Tracker Pledge
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 At Zephyra, privacy is not a compliance checkbox - it is the architectural foundation of our entire social platform. We created Zephyra as an intentional alternative to conventional ad-funded networks that monetize human attention, emotional volatility, and personal communication.
                             </p>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
-                                <strong className="text-[#1A140D] dark:text-white">Our Core Pledge:</strong> We will never sell, rent, monetize, or trade your personal data, profile insights, reading habits, or message history to any advertising network, third-party broker, or commercial AI training consortium.
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
+                                <strong className="text-[#2B170B] dark:text-white">Our Core Pledge:</strong> We will never sell, rent, monetize, or trade your personal data, profile insights, reading habits, or message history to any advertising network, third-party broker, or commercial AI training consortium.
                             </p>
                         </section>
 
                         {/* 2. Collection Breakdown */}
-                        <section id="collection" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="collection" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineDocumentText className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     2. Information We Collect & Why
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 We collect only the minimum data strictly required to deliver a responsive, real-time social networking experience:
                             </p>
                             <div className="space-y-3.5">
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border border-[#FFE2D4] dark:border-[#252A36] space-y-1 shadow-xs">
-                                    <h3 className="font-extrabold text-[#1A140D] dark:text-white text-sm">Account & Identity Information</h3>
-                                    <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#9DA3B4] font-semibold">
+                                <div className="p-4.5 rounded-2xl bg-[#FFEADE] dark:bg-[#181C26] border-2 border-[#FFC0A8] dark:border-[#252A36] space-y-1 shadow-xs">
+                                    <h3 className="font-black text-[#2B170B] dark:text-white text-sm">Account & Identity Information</h3>
+                                    <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#9DA3B4] font-bold">
                                         Your chosen display name, unique username, email address, and cryptographically salted password hash. We use this to authenticate your sessions and ensure account security.
                                     </p>
                                 </div>
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border border-[#FFE2D4] dark:border-[#252A36] space-y-1 shadow-xs">
-                                    <h3 className="font-extrabold text-[#1A140D] dark:text-white text-sm">Content, Media & Interactions</h3>
-                                    <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#9DA3B4] font-semibold">
+                                <div className="p-4.5 rounded-2xl bg-[#FFEADE] dark:bg-[#181C26] border-2 border-[#FFC0A8] dark:border-[#252A36] space-y-1 shadow-xs">
+                                    <h3 className="font-black text-[#2B170B] dark:text-white text-sm">Content, Media & Interactions</h3>
+                                    <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#9DA3B4] font-bold">
                                         Stories you publish, photos you upload, comments you post, and reactions you give. These are stored on our encrypted clusters to display in the chronological timeline.
                                     </p>
                                 </div>
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border border-[#FFE2D4] dark:border-[#252A36] space-y-1 shadow-xs">
-                                    <h3 className="font-extrabold text-[#1A140D] dark:text-white text-sm">Technical Diagnostics</h3>
-                                    <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#9DA3B4] font-semibold">
+                                <div className="p-4.5 rounded-2xl bg-[#FFEADE] dark:bg-[#181C26] border-2 border-[#FFC0A8] dark:border-[#252A36] space-y-1 shadow-xs">
+                                    <h3 className="font-black text-[#2B170B] dark:text-white text-sm">Technical Diagnostics</h3>
+                                    <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#9DA3B4] font-bold">
                                         IP address, user-agent string, and server error logs maintained for up to 14 days solely for rate-limiting, denial-of-service prevention, and bot mitigation.
                                     </p>
                                 </div>
@@ -369,50 +369,50 @@ export default function Privacy() {
                         </section>
 
                         {/* 3. Direct Messaging Privacy */}
-                        <section id="messaging" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="messaging" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineLockClosed className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     3. Direct Messaging & Real-Time Privacy
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 Private conversations between members are transmitted using secure WebSocket connections (WSS) over encrypted TLS channels.
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
-                                <li><strong className="text-[#1A140D] dark:text-white">Isolation:</strong> Only authenticated participants in a conversation thread have cryptographic query permissions to retrieve or read message histories.</li>
-                                <li><strong className="text-[#1A140D] dark:text-white">Zero Content Scanning:</strong> We do not parse or scan the text of private messages for ad targeting, interest profiling, or keyword mining.</li>
-                                <li><strong className="text-[#1A140D] dark:text-white">Seen Receipts:</strong> Real-time status indicators (Sent and Seen) are exchanged strictly between the conversation participants.</li>
+                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
+                                <li><strong className="text-[#2B170B] dark:text-white">Isolation:</strong> Only authenticated participants in a conversation thread have cryptographic query permissions to retrieve or read message histories.</li>
+                                <li><strong className="text-[#2B170B] dark:text-white">Zero Content Scanning:</strong> We do not parse or scan the text of private messages for ad targeting, interest profiling, or keyword mining.</li>
+                                <li><strong className="text-[#2B170B] dark:text-white">Seen Receipts:</strong> Real-time status indicators (Sent and Seen) are exchanged strictly between the conversation participants.</li>
                             </ul>
                         </section>
 
                         {/* 4. Non-Commercialization Guarantee */}
-                        <section id="non-commercial" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="non-commercial" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineEyeSlash className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     4. Non-Commercialization Guarantee
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 Unlike traditional social media monopolies, Zephyra's economic model does not rely on surveillance capitalism:
                             </p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div className="p-4.5 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-900/50 space-y-1.5 shadow-xs">
+                                <div className="p-4.5 rounded-2xl bg-emerald-200/80 dark:bg-emerald-950/30 border-2 border-emerald-400 dark:border-emerald-900/50 space-y-1.5 shadow-xs">
                                     <h4 className="font-black text-emerald-950 dark:text-emerald-300 text-xs uppercase tracking-wider">What We Guarantee</h4>
-                                    <p className="text-xs sm:text-sm text-emerald-950 dark:text-[#A0A5B2] font-bold leading-relaxed">
+                                    <p className="text-xs sm:text-sm text-emerald-950 dark:text-[#A0A5B2] font-black leading-relaxed">
                                         • 0 third-party advertising SDKs<br />
                                         • 0 data broker syndication<br />
                                         • 0 behavioral profiling algorithms
                                     </p>
                                 </div>
-                                <div className="p-4.5 rounded-2xl bg-rose-100/70 dark:bg-rose-950/30 border border-rose-300 dark:border-rose-900/50 space-y-1.5 shadow-xs">
+                                <div className="p-4.5 rounded-2xl bg-rose-200/80 dark:bg-rose-950/30 border-2 border-rose-400 dark:border-rose-900/50 space-y-1.5 shadow-xs">
                                     <h4 className="font-black text-rose-950 dark:text-rose-300 text-xs uppercase tracking-wider">What We Never Do</h4>
-                                    <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-bold leading-relaxed">
+                                    <p className="text-xs sm:text-sm text-rose-950 dark:text-[#A0A5B2] font-black leading-relaxed">
                                         • Sell your email or reading trends<br />
                                         • Share message logs with advertisers<br />
                                         • Feed private drafts to public AI models
@@ -422,67 +422,67 @@ export default function Privacy() {
                         </section>
 
                         {/* 5. Storage & Encryption */}
-                        <section id="infrastructure" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="infrastructure" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineServer className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     5. Storage, Cloud & Encryption Standards
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 We partner with leading cloud infrastructure providers that maintain strict SOC 2, ISO 27001, and GDPR compliance certifications:
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
-                                <li><strong className="text-[#1A140D] dark:text-white">Database Layer:</strong> High-availability MongoDB Atlas clusters featuring AES-256 encryption at rest and isolated network VPC peering.</li>
-                                <li><strong className="text-[#1A140D] dark:text-white">Media Storage:</strong> Cloudinary secure CDN storage with optimized delivery and signed access tokens.</li>
-                                <li><strong className="text-[#1A140D] dark:text-white">In-Transit Protection:</strong> End-to-end TLS 1.3 encryption across all HTTP REST endpoints and WebSocket channels.</li>
+                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
+                                <li><strong className="text-[#2B170B] dark:text-white">Database Layer:</strong> High-availability MongoDB Atlas clusters featuring AES-256 encryption at rest and isolated network VPC peering.</li>
+                                <li><strong className="text-[#2B170B] dark:text-white">Media Storage:</strong> Cloudinary secure CDN storage with optimized delivery and signed access tokens.</li>
+                                <li><strong className="text-[#2B170B] dark:text-white">In-Transit Protection:</strong> End-to-end TLS 1.3 encryption across all HTTP REST endpoints and WebSocket channels.</li>
                             </ul>
                         </section>
 
                         {/* 6. Data Retention */}
-                        <section id="retention" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="retention" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineTrash className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     6. Data Retention & Automatic Purging
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 We maintain data only for as long as your account remains active or until you explicitly delete specific content:
                             </p>
                             <div className="overflow-x-auto">
-                                <table className="w-full text-left text-xs border border-[#E8DCC8] dark:border-[#252A36] rounded-2xl overflow-hidden shadow-xs">
-                                    <thead className="bg-[#FFEAD8] dark:bg-[#181C26] text-[#852C0C] dark:text-white font-black">
+                                <table className="w-full text-left text-xs border-2 border-[#FFC8B3] dark:border-[#252A36] rounded-2xl overflow-hidden shadow-xs">
+                                    <thead className="bg-[#FFD6C2] dark:bg-[#181C26] text-[#7A2406] dark:text-white font-black">
                                         <tr>
                                             <th className="p-3.5">Data Category</th>
                                             <th className="p-3.5">Retention Period</th>
                                             <th className="p-3.5">Deletion Mechanism</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-[#E8DCC8] dark:divide-[#252A36] bg-[#FFFBF7] dark:bg-[#12151C]">
+                                    <tbody className="divide-y-2 divide-[#FFD8C7] dark:divide-[#252A36] bg-[#FFEFE5] dark:bg-[#12151C]">
                                         <tr>
-                                            <td className="p-3.5 font-extrabold text-[#1A140D] dark:text-white">User Profile & Account</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Until Account Deletion</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Instant purge via Settings</td>
+                                            <td className="p-3.5 font-black text-[#2B170B] dark:text-white">User Profile & Account</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Until Account Deletion</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Instant purge via Settings</td>
                                         </tr>
                                         <tr>
-                                            <td className="p-3.5 font-extrabold text-[#1A140D] dark:text-white">Published Stories & Posts</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Until User Deletion</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Immediate hard-delete</td>
+                                            <td className="p-3.5 font-black text-[#2B170B] dark:text-white">Published Stories & Posts</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Until User Deletion</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Immediate hard-delete</td>
                                         </tr>
                                         <tr>
-                                            <td className="p-3.5 font-extrabold text-[#1A140D] dark:text-white">Direct Message History</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Until Thread Deletion</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Cascade delete on request</td>
+                                            <td className="p-3.5 font-black text-[#2B170B] dark:text-white">Direct Message History</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Until Thread Deletion</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Cascade delete on request</td>
                                         </tr>
                                         <tr>
-                                            <td className="p-3.5 font-extrabold text-[#1A140D] dark:text-white">Server Diagnostic Logs</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">14 Days Maximum</td>
-                                            <td className="p-3.5 font-semibold text-[#4A3B30] dark:text-[#CBD5E1]">Automated cron rollover</td>
+                                            <td className="p-3.5 font-black text-[#2B170B] dark:text-white">Server Diagnostic Logs</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">14 Days Maximum</td>
+                                            <td className="p-3.5 font-bold text-[#5E3821] dark:text-[#CBD5E1]">Automated cron rollover</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -490,32 +490,32 @@ export default function Privacy() {
                         </section>
 
                         {/* 7. User Rights */}
-                        <section id="rights" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="rights" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineGlobeAlt className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     7. Your Rights (GDPR, CCPA & Global Protections)
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 Regardless of your physical country or legal jurisdiction, Zephyra grants all registered members global data sovereignty rights:
                             </p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border border-[#FFE2D4] dark:border-[#252A36] space-y-1.5 shadow-xs">
-                                    <h4 className="font-bold text-[#1A140D] dark:text-white flex items-center gap-2">
-                                        <HiOutlineArrowDownTray className="text-[#9E3610] dark:text-[#FF8F6B] text-base stroke-[2.2]" /> Right to Access & Export
+                                <div className="p-4.5 rounded-2xl bg-[#FFEADE] dark:bg-[#181C26] border-2 border-[#FFC0A8] dark:border-[#252A36] space-y-1.5 shadow-xs">
+                                    <h4 className="font-bold text-[#2B170B] dark:text-white flex items-center gap-2">
+                                        <HiOutlineArrowDownTray className="text-[#802200] dark:text-[#FF8F6B] text-base stroke-[2.2]" /> Right to Access & Export
                                     </h4>
-                                    <p className="text-[#4A3B30] dark:text-[#9DA3B4] font-semibold">
+                                    <p className="text-[#5E3821] dark:text-[#9DA3B4] font-bold">
                                         Request a complete JSON archive of all your posts, interactions, profile metadata, and followers.
                                     </p>
                                 </div>
-                                <div className="p-4.5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border border-[#FFE2D4] dark:border-[#252A36] space-y-1.5 shadow-xs">
-                                    <h4 className="font-bold text-[#1A140D] dark:text-white flex items-center gap-2">
+                                <div className="p-4.5 rounded-2xl bg-[#FFEADE] dark:bg-[#181C26] border-2 border-[#FFC0A8] dark:border-[#252A36] space-y-1.5 shadow-xs">
+                                    <h4 className="font-bold text-[#2B170B] dark:text-white flex items-center gap-2">
                                         <HiOutlineTrash className="text-rose-600 dark:text-rose-400 text-base stroke-[2.2]" /> Right to Total Erasure
                                     </h4>
-                                    <p className="text-[#4A3B30] dark:text-[#9DA3B4] font-semibold">
+                                    <p className="text-[#5E3821] dark:text-[#9DA3B4] font-bold">
                                         Permanently erase your identity, media assets, direct chats, and comments with zero residual traces.
                                     </p>
                                 </div>
@@ -523,50 +523,50 @@ export default function Privacy() {
                         </section>
 
                         {/* 8. Cookies */}
-                        <section id="cookies" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="cookies" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineShieldCheck className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     8. Local Storage & Minimal Cookies
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 We do not use third-party marketing or profiling cookies. We use minimal browser Local Storage solely for:
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
-                                <li><strong className="text-[#1A140D] dark:text-white">`zephyra_token`:</strong> Secure JSON Web Token (JWT) used to keep your authenticated session active.</li>
-                                <li><strong className="text-[#1A140D] dark:text-white">`zephyra_theme`:</strong> Remembers your preferred interface appearance (Obsidian Dark vs Warm Terracotta Light).</li>
+                            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
+                                <li><strong className="text-[#2B170B] dark:text-white">`zephyra_token`:</strong> Secure JSON Web Token (JWT) used to keep your authenticated session active.</li>
+                                <li><strong className="text-[#2B170B] dark:text-white">`zephyra_theme`:</strong> Remembers your preferred interface appearance (Obsidian Dark vs Warm Terracotta Light).</li>
                             </ul>
-                            <p className="pt-2 font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="pt-2 font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 You can configure or clear your cookie preferences at any time on our{' '}
-                                <Link to="/cookies" className="text-[#9E3610] dark:text-[#F5C36B] font-extrabold hover:underline">
+                                <Link to="/cookies" className="text-[#802200] dark:text-[#F5C36B] font-black hover:underline">
                                     Cookie Preferences Page
                                 </Link>.
                             </p>
                         </section>
 
                         {/* 9. Contact */}
-                        <section id="contact" className="space-y-4 pt-8 border-t border-[#F0E4D4] dark:border-[#1F232C]">
+                        <section id="contact" className="space-y-4 pt-8 border-t-2 border-[#FFDEC6] dark:border-[#1F232C]">
                             <div className="flex items-center gap-3.5">
-                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-xl shrink-0 flex items-center justify-center">
+                                <span className="p-3 rounded-2xl bg-[#FF8F6B]/25 text-[#802200] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/40 text-xl shrink-0 flex items-center justify-center">
                                     <HiOutlineEnvelope className="stroke-[2.2]" />
                                 </span>
-                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1A140D] dark:text-white">
+                                <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#2B170B] dark:text-white">
                                     9. Data Protection Officer Contact
                                 </h2>
                             </div>
-                            <p className="font-semibold text-[#3A2E24] dark:text-[#CBD5E1]">
+                            <p className="font-bold text-[#4A2D1B] dark:text-[#CBD5E1]">
                                 If you have questions about our privacy practices, wish to submit a data subject access request, or have compliance inquiries, please contact our Data Governance team:
                             </p>
-                            <div className="p-6 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26] border border-[#FFE2D4] dark:border-[#252A36] space-y-2 shadow-xs">
-                                <p className="font-extrabold text-[#1A140D] dark:text-white">Zephyra Privacy & Data Protection Office</p>
-                                <p className="text-xs text-[#5C4A3C] dark:text-[#8A8F9C] font-semibold">Direct Privacy Inquiries:</p>
-                                <a href="mailto:privacy@zephyra.app" className="text-sm font-extrabold text-[#9E3610] dark:text-[#F5C36B] hover:underline block">
+                            <div className="p-6 rounded-2xl bg-[#FFEADE] dark:bg-[#181C26] border-2 border-[#FFC0A8] dark:border-[#252A36] space-y-2 shadow-xs">
+                                <p className="font-black text-[#2B170B] dark:text-white">Zephyra Privacy & Data Protection Office</p>
+                                <p className="text-xs text-[#5E3821] dark:text-[#8A8F9C] font-bold">Direct Privacy Inquiries:</p>
+                                <a href="mailto:privacy@zephyra.app" className="text-sm font-black text-[#802200] dark:text-[#F5C36B] hover:underline block">
                                     privacy@zephyra.app
                                 </a>
-                                <p className="text-xs text-[#786657] font-medium">Response time: Within 24 business hours.</p>
+                                <p className="text-xs text-[#734A30] font-bold">Response time: Within 24 business hours.</p>
                             </div>
                         </section>
 
@@ -574,9 +574,9 @@ export default function Privacy() {
                 </div>
 
                 {/* Bottom Call to Action */}
-                <div className="rounded-3xl border border-[#FF8F6B]/40 dark:border-[#FF8F6B]/40 bg-gradient-to-r from-[#FFF5EF] via-white to-[#FAF0E6] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl backdrop-blur-xl text-center space-y-4">
-                    <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#1A140D] dark:text-white">Your privacy is guaranteed by design</h2>
-                    <p className="text-xs sm:text-sm text-[#4A3B30] dark:text-[#9DA3B4] max-w-lg mx-auto font-semibold">
+                <div className="rounded-3xl border-2 border-[#FFAF8E] dark:border-[#FF8F6B]/40 bg-gradient-to-r from-[#FFE5D4] via-[#FFDAC4] to-[#FFE5D4] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl backdrop-blur-xl text-center space-y-4">
+                    <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#2B170B] dark:text-white">Your privacy is guaranteed by design</h2>
+                    <p className="text-xs sm:text-sm text-[#5E3821] dark:text-[#9DA3B4] max-w-lg mx-auto font-bold">
                         Enjoy genuine conversations, serene chronological feeds, and total peace of mind.
                     </p>
                     <div className="pt-2">
