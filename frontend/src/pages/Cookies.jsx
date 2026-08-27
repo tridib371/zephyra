@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     HiOutlineShieldCheck,
     HiOutlineLockClosed,
@@ -12,6 +13,56 @@ import {
     HiOutlineInformationCircle,
 } from 'react-icons/hi2';
 import ConfirmDialog from '../components/ConfirmDialog';
+
+// Animated wind gust SVG lines for smooth motion
+const WindBreeze = () => (
+    <svg
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+        <defs>
+            <linearGradient id="cookieGust" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
+                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
+            </linearGradient>
+        </defs>
+        <motion.path
+            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+            fill="none"
+            stroke="url(#cookieGust)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
+                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+                ],
+                opacity: [0.3, 0.7, 0.3]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.path
+            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+            fill="none"
+            stroke="url(#cookieGust)"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
+                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+                ],
+                opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+    </svg>
+);
 
 export default function Cookies() {
     const [themePref, setThemePref] = useState(true);
@@ -100,76 +151,106 @@ export default function Cookies() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
-            <div className="max-w-4xl mx-auto space-y-12">
+        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+            <div className="relative max-w-4xl mx-auto space-y-12 z-10">
 
-                {/* Hero Header */}
-                <div className="text-center space-y-4 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xs font-bold uppercase tracking-widest">
+                {/* Hero Header Card with Entrance Animation & Solid Black Border in Day Mode */}
+                <motion.div
+                    initial={{ opacity: 0, y: 35, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative text-center space-y-6 max-w-3xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/92 dark:bg-[#11151F]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl overflow-hidden"
+                >
+                    <WindBreeze />
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10"
+                    >
                         Storage & Privacy Control
-                    </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight">
+                    </motion.span>
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1C1008] dark:text-white relative z-10">
                         Cookie & Storage Preferences
                     </h1>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                    <p className="text-base sm:text-xl text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold max-w-xl mx-auto relative z-10">
                         Take full control of how Zephyra stores authentication tokens and interface preferences on your device.
                     </p>
-                </div>
+                </motion.div>
 
-                {/* Privacy Pledge Banner */}
-                <div className="p-6 sm:p-8 rounded-3xl border border-emerald-200/80 dark:border-emerald-900/40 bg-emerald-50/60 dark:bg-emerald-950/20 shadow-xs flex items-start gap-4">
-                    <div className="p-3 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-2xl shrink-0">
+                {/* Privacy Pledge Banner with Spring Scroll Motion & Black Border in Day Mode */}
+                <motion.div
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    whileHover={{ scale: 1.01 }}
+                    className="p-6 sm:p-8 rounded-3xl border-2 border-black dark:border-emerald-900/50 bg-emerald-100/70 dark:bg-emerald-950/30 shadow-xl backdrop-blur-xl flex items-start gap-4 cursor-pointer"
+                >
+                    <div className="p-3 rounded-2xl bg-emerald-200 dark:bg-emerald-900/60 text-emerald-950 dark:text-emerald-300 text-2xl shrink-0 border border-black dark:border-emerald-700">
                         <HiOutlineShieldCheck />
                     </div>
-                    <div className="space-y-1 text-xs sm:text-sm text-gray-700 dark:text-[#C5C9D3]">
-                        <h3 className="font-bold font-['Fraunces'] text-base text-gray-900 dark:text-white">
+                    <div className="space-y-1 text-xs sm:text-sm text-emerald-950 dark:text-[#C5C9D3]">
+                        <h3 className="font-extrabold font-['Fraunces'] text-lg text-emerald-950 dark:text-white">
                             Zero Third-Party Advertising Pixels
                         </h3>
-                        <p className="leading-relaxed">
+                        <p className="leading-relaxed font-bold">
                             Zephyra does not use cross-site tracking cookies, Meta Pixel, Google AdSense tags, or behavioral profiling trackers. We use local browser storage strictly for core platform functionality.
                         </p>
                     </div>
-                </div>
+                </motion.div>
 
-                {/* Interactive Preference Control Center */}
-                <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-sm backdrop-blur-xl space-y-8">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-[#1F232C] pb-4">
+                {/* Interactive Preference Control Center with Black Borders & Spring Toggles */}
+                <motion.div
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8"
+                >
+                    <div className="flex items-center justify-between border-b-2 border-black dark:border-[#1F232C] pb-4">
                         <div>
-                            <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                            <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-black text-[#1C1008] dark:text-white">
                                 Granular Storage Preferences
                             </h2>
-                            <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">Toggle individual client-side storage permissions below.</p>
+                            <p className="text-xs text-[#5E3821] dark:text-[#8A8F9C] font-bold">Toggle individual client-side storage permissions below.</p>
                         </div>
                     </div>
 
                     <div className="space-y-4">
                         {/* 1. Essential Authentication */}
-                        <div className="p-5 rounded-2xl bg-gray-50/80 dark:bg-[#181C26]/80 border border-gray-200/60 dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <motion.div
+                            whileHover={{ scale: 1.01 }}
+                            className="p-5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26]/80 border-2 border-black dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs cursor-pointer"
+                        >
                             <div className="flex items-start gap-3.5">
-                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-700 dark:text-gray-300 text-lg shrink-0 mt-0.5">
+                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-900 dark:text-gray-300 text-lg shrink-0 mt-0.5 border border-black dark:border-gray-700">
                                     <HiOutlineLockClosed />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">Strictly Necessary Authentication</h3>
-                                    <p className="text-xs text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                                    <h3 className="text-sm font-black text-[#1C1008] dark:text-white">Strictly Necessary Authentication</h3>
+                                    <p className="text-xs text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold">
                                         Required for logging in, routing real-time WebSockets, and securing API endpoints. Cannot be deactivated.
                                     </p>
                                 </div>
                             </div>
-                            <span className="px-3.5 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 shrink-0 self-start sm:self-center">
+                            <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-200 text-emerald-950 dark:bg-emerald-950/60 dark:text-emerald-300 border border-black dark:border-emerald-700 shrink-0 self-start sm:self-center">
                                 Always Active
                             </span>
-                        </div>
+                        </motion.div>
 
                         {/* 2. Theme & Display */}
-                        <div className="p-5 rounded-2xl bg-gray-50/80 dark:bg-[#181C26]/80 border border-gray-200/60 dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <motion.div
+                            whileHover={{ scale: 1.01 }}
+                            className="p-5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26]/80 border-2 border-black dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs cursor-pointer"
+                        >
                             <div className="flex items-start gap-3.5">
-                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-700 dark:text-gray-300 text-lg shrink-0 mt-0.5">
+                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-900 dark:text-gray-300 text-lg shrink-0 mt-0.5 border border-black dark:border-gray-700">
                                     <HiOutlinePaintBrush />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">Theme & Visual Experience</h3>
-                                    <p className="text-xs text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                                    <h3 className="text-sm font-black text-[#1C1008] dark:text-white">Theme & Visual Experience</h3>
+                                    <p className="text-xs text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold">
                                         Remembers your theme (Light or Dark mode) and interface animation settings across sessions.
                                     </p>
                                 </div>
@@ -177,25 +258,32 @@ export default function Cookies() {
                             <button
                                 type="button"
                                 onClick={() => setThemePref(!themePref)}
-                                className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 self-start sm:self-center ${
+                                className={`w-14 h-7 flex items-center rounded-full p-1 border-2 border-black transition-colors cursor-pointer shrink-0 self-start sm:self-center ${
                                     themePref ? 'bg-[#D97B4F]' : 'bg-gray-300 dark:bg-gray-700'
                                 }`}
                             >
-                                <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                                    themePref ? 'translate-x-6' : 'translate-x-0'
-                                }`} />
+                                <motion.div
+                                    layout
+                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    className={`bg-white w-4.5 h-4.5 rounded-full shadow-md border border-black ${
+                                        themePref ? 'translate-x-6.5' : 'translate-x-0'
+                                    }`}
+                                />
                             </button>
-                        </div>
+                        </motion.div>
 
                         {/* 3. Real-Time Socket Cache */}
-                        <div className="p-5 rounded-2xl bg-gray-50/80 dark:bg-[#181C26]/80 border border-gray-200/60 dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <motion.div
+                            whileHover={{ scale: 1.01 }}
+                            className="p-5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26]/80 border-2 border-black dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs cursor-pointer"
+                        >
                             <div className="flex items-start gap-3.5">
-                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-700 dark:text-gray-300 text-lg shrink-0 mt-0.5">
+                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-900 dark:text-gray-300 text-lg shrink-0 mt-0.5 border border-black dark:border-gray-700">
                                     <HiOutlineArrowPath />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">Real-Time Socket Reconnection Cache</h3>
-                                    <p className="text-xs text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                                    <h3 className="text-sm font-black text-[#1C1008] dark:text-white">Real-Time Socket Reconnection Cache</h3>
+                                    <p className="text-xs text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold">
                                         Temporarily preserves unread counts and conversation channels to resume seamlessly after network drops.
                                     </p>
                                 </div>
@@ -203,25 +291,32 @@ export default function Cookies() {
                             <button
                                 type="button"
                                 onClick={() => setSocketCachePref(!socketCachePref)}
-                                className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 self-start sm:self-center ${
+                                className={`w-14 h-7 flex items-center rounded-full p-1 border-2 border-black transition-colors cursor-pointer shrink-0 self-start sm:self-center ${
                                     socketCachePref ? 'bg-[#D97B4F]' : 'bg-gray-300 dark:bg-gray-700'
                                 }`}
                             >
-                                <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                                    socketCachePref ? 'translate-x-6' : 'translate-x-0'
-                                }`} />
+                                <motion.div
+                                    layout
+                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    className={`bg-white w-4.5 h-4.5 rounded-full shadow-md border border-black ${
+                                        socketCachePref ? 'translate-x-6.5' : 'translate-x-0'
+                                    }`}
+                                />
                             </button>
-                        </div>
+                        </motion.div>
 
                         {/* 4. Anonymous Diagnostics */}
-                        <div className="p-5 rounded-2xl bg-gray-50/80 dark:bg-[#181C26]/80 border border-gray-200/60 dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <motion.div
+                            whileHover={{ scale: 1.01 }}
+                            className="p-5 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26]/80 border-2 border-black dark:border-[#252A36] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs cursor-pointer"
+                        >
                             <div className="flex items-start gap-3.5">
-                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-700 dark:text-gray-300 text-lg shrink-0 mt-0.5">
+                                <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-[#202532] text-gray-900 dark:text-gray-300 text-lg shrink-0 mt-0.5 border border-black dark:border-gray-700">
                                     <HiOutlineChartBar />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">Anonymous Error & Latency Diagnostics</h3>
-                                    <p className="text-xs text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                                    <h3 className="text-sm font-black text-[#1C1008] dark:text-white">Anonymous Error & Latency Diagnostics</h3>
+                                    <p className="text-xs text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold">
                                         Sends non-identifying telemetry (e.g. failed image render times) to help our team optimize platform speed.
                                     </p>
                                 </div>
@@ -229,93 +324,115 @@ export default function Cookies() {
                             <button
                                 type="button"
                                 onClick={() => setAnalyticsPref(!analyticsPref)}
-                                className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 self-start sm:self-center ${
+                                className={`w-14 h-7 flex items-center rounded-full p-1 border-2 border-black transition-colors cursor-pointer shrink-0 self-start sm:self-center ${
                                     analyticsPref ? 'bg-[#D97B4F]' : 'bg-gray-300 dark:bg-gray-700'
                                 }`}
                             >
-                                <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                                    analyticsPref ? 'translate-x-6' : 'translate-x-0'
-                                }`} />
+                                <motion.div
+                                    layout
+                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    className={`bg-white w-4.5 h-4.5 rounded-full shadow-md border border-black ${
+                                        analyticsPref ? 'translate-x-6.5' : 'translate-x-0'
+                                    }`}
+                                />
                             </button>
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Action Bar */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-4 border-t border-gray-100 dark:border-[#1F232C] w-full">
-                        <button
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-4 border-t-2 border-black dark:border-[#1F232C] w-full">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.97 }}
                             onClick={handleSavePreferences}
-                            className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm cursor-pointer whitespace-nowrap"
+                            className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black text-xs sm:text-sm font-black transition-all shadow-md cursor-pointer whitespace-nowrap"
                         >
-                            <HiOutlineCheck className="text-base shrink-0" />
+                            <HiOutlineCheck className="text-base shrink-0 stroke-[2.5]" />
                             <span>{savedNotice ? 'Preferences Saved!' : 'Save Preferences'}</span>
-                        </button>
+                        </motion.button>
 
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
                             onClick={handleResetDefaults}
-                            className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-full border border-gray-200 dark:border-[#2A303C] text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#181C26] transition-all cursor-pointer text-center whitespace-nowrap"
+                            className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-full border-2 border-black dark:border-[#2A303C] text-xs sm:text-sm font-black text-[#1C1008] dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#181C26] transition-all cursor-pointer text-center whitespace-nowrap"
                         >
                             Reset to Defaults
-                        </button>
+                        </motion.button>
 
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
                             type="button"
                             onClick={() => setShowClearModal(true)}
-                            className="flex items-center justify-center gap-1.5 w-full sm:w-auto sm:ml-auto px-5 py-2.5 sm:py-3 rounded-full border border-rose-200 dark:border-rose-900/40 text-xs sm:text-sm font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all cursor-pointer whitespace-nowrap"
+                            className="flex items-center justify-center gap-1.5 w-full sm:w-auto sm:ml-auto px-5 py-2.5 sm:py-3 rounded-full border-2 border-black dark:border-rose-900/40 bg-rose-100/80 dark:bg-rose-950/30 text-xs sm:text-sm font-black text-rose-950 dark:text-rose-400 hover:bg-rose-200 dark:hover:bg-rose-950/50 transition-all cursor-pointer whitespace-nowrap"
                         >
-                            <HiOutlineTrash className="shrink-0" />
+                            <HiOutlineTrash className="shrink-0 stroke-[2.2]" />
                             <span>{clearedNotice ? 'Cleared! Reloading...' : 'Clear Session Data'}</span>
-                        </button>
+                        </motion.button>
                     </div>
-                </div>
+                </motion.div>
 
-                {/* Storage Matrix Table */}
-                <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white/95 dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-sm backdrop-blur-xl space-y-6">
+                {/* Storage Matrix Table with Black Border & Motion Entrance */}
+                <motion.div
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="rounded-3xl border-2 border-black dark:border-[#1F232C] bg-white/92 dark:bg-[#12151C]/95 p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-6"
+                >
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-[#FF8F6B]/15 text-[#D97B4F] dark:text-[#F5C36B] text-xl">
-                            <HiOutlineDocumentText />
+                        <div className="p-2.5 rounded-xl bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] text-xl border-2 border-black dark:border-[#FF8F6B]/40">
+                            <HiOutlineDocumentText className="stroke-[2.2]" />
                         </div>
                         <div>
-                            <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                            <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-black text-[#1C1008] dark:text-white">
                                 Complete Local Storage Key Matrix
                             </h2>
-                            <p className="text-xs text-gray-500 dark:text-[#8A8F9C]">Exact keys stored in your browser's window.localStorage</p>
+                            <p className="text-xs text-[#5E3821] dark:text-[#8A8F9C] font-bold">Exact keys stored in your browser's window.localStorage</p>
                         </div>
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs border border-gray-200 dark:border-[#252A36] rounded-2xl overflow-hidden">
-                            <thead className="bg-gray-50 dark:bg-[#181C26] text-gray-700 dark:text-gray-300 font-bold">
+                        <table className="w-full text-left text-xs border-2 border-black dark:border-[#252A36] rounded-2xl overflow-hidden shadow-xs">
+                            <thead className="bg-[#FFF0E6] dark:bg-[#181C26] text-[#9E3610] dark:text-white font-black border-b-2 border-black dark:border-[#252A36]">
                                 <tr>
-                                    <th className="p-3">Key Name</th>
-                                    <th className="p-3">Category</th>
-                                    <th className="p-3">Purpose & Description</th>
-                                    <th className="p-3">Lifespan</th>
+                                    <th className="p-3.5">Key Name</th>
+                                    <th className="p-3.5">Category</th>
+                                    <th className="p-3.5">Purpose & Description</th>
+                                    <th className="p-3.5">Lifespan</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100 dark:divide-[#252A36]">
+                            <tbody className="divide-y-2 divide-black dark:divide-[#252A36] bg-[#FFF6EF] dark:bg-[#12151C]">
                                 {COOKIE_MATRIX.map((row) => (
-                                    <tr key={row.key} className="hover:bg-gray-50/50 dark:hover:bg-[#181C26]/50">
-                                        <td className="p-3 font-mono font-bold text-[#D97B4F] dark:text-[#F5C36B]">{row.key}</td>
-                                        <td className="p-3 font-medium text-gray-700 dark:text-gray-300">{row.category}</td>
-                                        <td className="p-3 text-gray-600 dark:text-[#9DA3B4] max-w-xs">{row.purpose}</td>
-                                        <td className="p-3 text-gray-500 dark:text-gray-400">{row.lifespan}</td>
+                                    <tr key={row.key} className="hover:bg-[#FF8F6B]/15 transition-colors">
+                                        <td className="p-3.5 font-mono font-black text-[#9E3610] dark:text-[#F5C36B]">{row.key}</td>
+                                        <td className="p-3.5 font-black text-[#1C1008] dark:text-gray-300">{row.category}</td>
+                                        <td className="p-3.5 text-[#4D3222] dark:text-[#9DA3B4] font-bold max-w-xs">{row.purpose}</td>
+                                        <td className="p-3.5 text-[#5E3821] dark:text-gray-400 font-bold">{row.lifespan}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </motion.div>
 
-                {/* Browser Management Guide */}
-                <div className="rounded-3xl border border-gray-200/80 dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 sm:p-8 shadow-xs space-y-4">
-                    <div className="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-sm">
-                        <HiOutlineInformationCircle className="text-lg text-[#D97B4F]" />
+                {/* Browser Management Guide Card with Black Border */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="rounded-3xl border-2 border-black dark:border-[#1F232C] bg-white/92 dark:bg-[#12151C] p-6 sm:p-8 shadow-xl space-y-4"
+                >
+                    <div className="flex items-center gap-2 text-[#1C1008] dark:text-white font-black text-sm">
+                        <HiOutlineInformationCircle className="text-xl text-[#9E3610] dark:text-[#FF8F6B] stroke-[2.2]" />
                         <span>Managing Storage in Your Web Browser</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-[#9DA3B4] leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold">
                         You can also manage or block local storage directly in your browser settings (Chrome, Firefox, Safari, Edge, Brave) under <em>Settings &gt; Privacy & Security &gt; Cookies and Site Data</em>. Note that blocking essential storage will prevent you from signing in to Zephyra.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Custom Elegant Confirmation Modal */}
                 <ConfirmDialog
