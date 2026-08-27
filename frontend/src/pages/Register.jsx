@@ -14,6 +14,8 @@ import {
     HiOutlineAtSymbol,
     HiOutlineEnvelope,
     HiOutlineLockClosed,
+    HiOutlineEye,
+    HiOutlineEyeSlash,
     HiOutlineArrowPath,
     HiOutlinePencilSquare,
     HiStar,
@@ -28,6 +30,7 @@ const Register = () => {
         email: '',
         password: '',
     });
+    const [showPassword, setShowPassword] = useState(false);
     const [otpValues, setOtpValues] = useState(['', '', '', '', '', '']);
     const [isLoading, setIsLoading] = useState(false);
     const [isResending, setIsResending] = useState(false);
@@ -458,12 +461,12 @@ const Register = () => {
                                             <div className="relative">
                                                 <HiOutlineLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" />
                                                 <input
-                                                    type="password"
+                                                    type={showPassword ? 'text' : 'password'}
                                                     name="password"
                                                     required
                                                     value={formData.password}
                                                     onChange={handleChange}
-                                                    className={`w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs ${formData.password.length > 0 && !isPasswordValid
+                                                    className={`w-full pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-[#0E1116]/85 border rounded-2xl text-[#0F172A] dark:text-[#EDEBE6] placeholder:text-[#64748B] dark:placeholder:text-[#64748B] focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope] text-sm font-extrabold shadow-xs ${formData.password.length > 0 && !isPasswordValid
                                                         ? 'border-rose-500 dark:border-rose-500'
                                                         : formData.password.length > 0 && isPasswordValid
                                                             ? 'border-emerald-500 dark:border-emerald-500'
@@ -471,6 +474,14 @@ const Register = () => {
                                                         }`}
                                                     placeholder="Enter a strong password"
                                                 />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPassword((prev) => !prev)}
+                                                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#64748B] dark:text-[#8A8F9C] hover:text-[#0F172A] dark:hover:text-white transition-colors cursor-pointer p-1"
+                                                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                                >
+                                                    {showPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
+                                                </button>
                                             </div>
 
                                             {/* Password Strength Checklist */}
