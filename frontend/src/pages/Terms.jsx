@@ -110,20 +110,20 @@ export default function Terms() {
 
     return (
         <div className="relative min-h-screen bg-[#F5EFE6] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Realistic Law Library Background Wallpapers with Subtle Blur */}
+            {/* Realistic Law Library Background Wallpapers - Clear & Sharp */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <img
                     src={termsBgLight}
                     alt="Law Library Light Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[2.5px] scale-105 transition-opacity duration-700 dark:hidden"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
                 />
                 <img
                     src={termsBgDark}
                     alt="Law Library Dark Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[2.5px] scale-105 transition-opacity duration-700 hidden dark:block"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                 />
-                {/* Overlay Tint Gradients for Contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#F5EFE6]/70 via-[#F5EFE6]/50 to-[#F5EFE6]/80 dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
+                {/* Overlay Tint Gradients for High Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#F5EFE6]/60 via-[#F5EFE6]/40 to-[#F5EFE6]/70 dark:from-[#0E1116]/70 dark:via-[#0E1116]/65 dark:to-[#0E1116]/80" />
             </div>
 
             {/* Floating SVG Wind Animation */}
