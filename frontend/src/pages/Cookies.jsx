@@ -241,18 +241,18 @@ export default function Cookies() {
                     </div>
 
                     {/* Action Bar */}
-                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-gray-100 dark:border-[#1F232C]">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-4 border-t border-gray-100 dark:border-[#1F232C] w-full">
                         <button
                             onClick={handleSavePreferences}
-                            className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm cursor-pointer"
+                            className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm cursor-pointer whitespace-nowrap"
                         >
-                            <HiOutlineCheck className="text-base" />
+                            <HiOutlineCheck className="text-base shrink-0" />
                             <span>{savedNotice ? 'Preferences Saved!' : 'Save Preferences'}</span>
                         </button>
 
                         <button
                             onClick={handleResetDefaults}
-                            className="px-5 py-3 rounded-full border border-gray-200 dark:border-[#2A303C] text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#181C26] transition-all cursor-pointer"
+                            className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-full border border-gray-200 dark:border-[#2A303C] text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#181C26] transition-all cursor-pointer text-center whitespace-nowrap"
                         >
                             Reset to Defaults
                         </button>
@@ -260,9 +260,9 @@ export default function Cookies() {
                         <button
                             type="button"
                             onClick={() => setShowClearModal(true)}
-                            className="flex items-center gap-1.5 px-5 py-3 rounded-full border border-rose-200 dark:border-rose-900/40 text-xs sm:text-sm font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all cursor-pointer ml-auto"
+                            className="flex items-center justify-center gap-1.5 w-full sm:w-auto sm:ml-auto px-5 py-2.5 sm:py-3 rounded-full border border-rose-200 dark:border-rose-900/40 text-xs sm:text-sm font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all cursor-pointer whitespace-nowrap"
                         >
-                            <HiOutlineTrash />
+                            <HiOutlineTrash className="shrink-0" />
                             <span>{clearedNotice ? 'Cleared! Reloading...' : 'Clear Session Data'}</span>
                         </button>
                     </div>
