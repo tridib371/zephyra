@@ -415,12 +415,22 @@ const Settings = () => {
                             </label>
 
                             {/* Profile Picture Upload & URL */}
-                            <div className="space-y-2 sm:col-span-2 p-3.5 sm:p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
-                                <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
-                                    <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
-                                        <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" /> Profile Avatar
+                            <div className="space-y-2.5 sm:col-span-2 p-3.5 sm:p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
+                                <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
+                                    <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" /> Profile Avatar
+                                </span>
+                                <input
+                                    name="profilePicture"
+                                    value={formData.profilePicture}
+                                    onChange={handleChange}
+                                    placeholder="Paste profile image URL (https://...)"
+                                    className="w-full rounded-xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-3.5 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
+                                />
+                                <div className="flex items-center justify-between pt-1">
+                                    <span className="text-[10px] font-bold text-[#5C361E]/80 dark:text-[#8A8F9C]">
+                                        Or upload directly from your device:
                                     </span>
-                                    <label className="self-start xs:self-auto px-3.5 sm:px-4 py-2 rounded-full bg-[#FF8F6B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <label className="px-4 py-2 rounded-full bg-[#FF8F6B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap">
                                         <HiOutlineArrowUpTray className="text-sm stroke-[2.5]" />
                                         <span>{uploadingAvatar ? 'Uploading...' : 'Upload Image'}</span>
                                         <input
@@ -432,22 +442,25 @@ const Settings = () => {
                                         />
                                     </label>
                                 </div>
-                                <input
-                                    name="profilePicture"
-                                    value={formData.profilePicture}
-                                    onChange={handleChange}
-                                    placeholder="Or paste profile image URL (https://...)"
-                                    className="w-full rounded-xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-3.5 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
-                                />
                             </div>
 
                             {/* Cover Photo Upload & URL */}
-                            <div className="space-y-2 sm:col-span-2 p-3.5 sm:p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
-                                <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
-                                    <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
-                                        <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" /> Profile Cover Banner
+                            <div className="space-y-2.5 sm:col-span-2 p-3.5 sm:p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
+                                <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
+                                    <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" /> Profile Cover Banner
+                                </span>
+                                <input
+                                    name="coverPhoto"
+                                    value={formData.coverPhoto}
+                                    onChange={handleChange}
+                                    placeholder="Paste banner image URL (https://...)"
+                                    className="w-full rounded-xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-3.5 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
+                                />
+                                <div className="flex items-center justify-between pt-1">
+                                    <span className="text-[10px] font-bold text-[#5C361E]/80 dark:text-[#8A8F9C]">
+                                        Or upload directly from your device:
                                     </span>
-                                    <label className="self-start xs:self-auto px-3.5 sm:px-4 py-2 rounded-full bg-[#F5C36B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <label className="px-4 py-2 rounded-full bg-[#F5C36B] text-[#1A140D] border-2 border-black text-xs font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap">
                                         <HiOutlineArrowUpTray className="text-sm stroke-[2.5]" />
                                         <span>{uploadingCover ? 'Uploading...' : 'Upload Cover'}</span>
                                         <input
@@ -459,13 +472,6 @@ const Settings = () => {
                                         />
                                     </label>
                                 </div>
-                                <input
-                                    name="coverPhoto"
-                                    value={formData.coverPhoto}
-                                    onChange={handleChange}
-                                    placeholder="Or paste banner image URL (https://...)"
-                                    className="w-full rounded-xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-3.5 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
-                                />
                             </div>
                         </div>
 
