@@ -184,7 +184,7 @@ export default function Guidelines() {
 
                 {/* Hero Header */}
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-xs font-extrabold uppercase tracking-widest">
+                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs">
                         Community Trust, Safety & Ethics
                     </span>
                     <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#101828] dark:text-white">
@@ -197,8 +197,8 @@ export default function Guidelines() {
 
                 {/* Philosophy Manifesto Banner */}
                 <div className="p-8 sm:p-10 rounded-3xl border border-[#EAECF0] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#F8F9FA] via-white to-[#F2F4F7] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] shadow-xs flex flex-col sm:flex-row items-center gap-6">
-                    <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] text-3xl shrink-0">
-                        <HiOutlineUserGroup />
+                    <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-3xl shrink-0 shadow-md">
+                        <HiOutlineUserGroup className="stroke-[2.2]" />
                     </div>
                     <div className="space-y-2 text-center sm:text-left">
                         <h3 className="font-['Fraunces'] font-bold text-xl sm:text-2xl text-[#101828] dark:text-white">
@@ -239,11 +239,11 @@ export default function Guidelines() {
                                 {/* Header of the Card */}
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#EAECF0] dark:border-[#1F232C] pb-6">
                                     <div className="flex items-start sm:items-center gap-4">
-                                        <div className="p-3.5 rounded-2xl bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] text-2xl shrink-0">
-                                            <IconComponent />
+                                        <div className="p-3.5 rounded-2xl bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 text-2xl shrink-0 flex items-center justify-center">
+                                            <IconComponent className="stroke-[2.2]" />
                                         </div>
                                         <div>
-                                            <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B] block">
+                                            <span className="text-[11px] font-black uppercase tracking-widest text-[#C2410C] dark:text-[#F5C36B] block">
                                                 Principle {item.number}
                                             </span>
                                             <h2 className="font-['Fraunces'] text-xl sm:text-2xl font-bold text-[#101828] dark:text-white">
@@ -251,7 +251,7 @@ export default function Guidelines() {
                                             </h2>
                                         </div>
                                     </div>
-                                    <span className="text-xs text-[#667085] dark:text-gray-500 font-semibold italic">
+                                    <span className="text-xs text-[#667085] dark:text-gray-400 font-semibold italic">
                                         {item.tagline}
                                     </span>
                                 </div>
@@ -307,7 +307,7 @@ export default function Guidelines() {
                 {/* 4-Step Moderation & Enforcement Ladder */}
                 <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/95 p-8 sm:p-12 shadow-xs space-y-8">
                     <div className="text-center space-y-2 max-w-2xl mx-auto">
-                        <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#B85323] dark:text-[#F5C36B]">
+                        <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#C2410C] dark:text-[#F5C36B]">
                             Fair & Transparent Governance
                         </span>
                         <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#101828] dark:text-white">
@@ -324,7 +324,7 @@ export default function Guidelines() {
                                 key={m.step}
                                 className="p-6 rounded-2xl bg-[#F8F9FA] dark:bg-[#181C26] border border-[#EAECF0] dark:border-[#252A36] space-y-3 relative"
                             >
-                                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B] font-extrabold text-xs">
+                                <span className="flex items-center justify-center w-9 h-9 rounded-2xl bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30 font-black text-xs">
                                     {m.step}
                                 </span>
                                 <h3 className="font-['Fraunces'] font-bold text-base text-[#101828] dark:text-white">
