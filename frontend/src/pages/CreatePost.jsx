@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
-import { HiOutlinePhoto } from 'react-icons/hi2';
+import { HiOutlinePhoto, HiOutlineVideoCamera } from 'react-icons/hi2';
 
 // ===== UNIQUE CELESTIAL DRAFTING ASTROLABE & CREATIVE SPARKS BACKGROUND =====
 const CreateBackgroundAnimation = () => {
@@ -50,24 +50,20 @@ const CreateBackgroundAnimation = () => {
             <div className="absolute -bottom-24 -left-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tr from-[#F5C36B]/25 via-[#EA580C]/15 to-transparent blur-3xl" />
             <div className="absolute -bottom-24 -right-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tl from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl" />
 
-            {/* 2. Celestial Drafting Astrolabe / Polyhedral Compass (Centered Behind Canvas) */}
+            {/* 2. Celestial Drafting Astrolabe / Polyhedral Compass */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] sm:w-[720px] h-[480px] sm:h-[720px] opacity-35 dark:opacity-25">
-                {/* Outer Drafting Astrolabe Ring */}
                 <svg viewBox="0 0 500 500" className="w-full h-full animate-astrolabe-main">
                     <circle cx="250" cy="250" r="235" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="8 8" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
                     <circle cx="250" cy="250" r="215" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#F5C36B] dark:text-[#F5C36B]" />
-                    {/* 8-Pointed Star Astrolabe Polygon */}
                     <polygon points="250,20 310,190 480,250 310,310 250,480 190,310 20,250 190,190" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-[#E2774C] dark:text-[#FF8F6B]" />
                     <polygon points="250,55 388,112 445,250 388,388 250,445 112,388 55,250 112,112" fill="none" stroke="currentColor" strokeWidth="0.8" className="text-[#F5C36B]/60 dark:text-[#F5C36B]/50" />
                 </svg>
 
-                {/* Inner Counter-Rotating Drafting Rose */}
                 <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full animate-astrolabe-inner">
                     <circle cx="250" cy="250" r="160" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 5" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
                     <circle cx="250" cy="250" r="110" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#F5C36B] dark:text-[#F5C36B]" />
                     <line x1="140" y1="140" x2="360" y2="360" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" className="text-[#D97B4F]/60 dark:text-[#FF8F6B]/50" />
                     <line x1="140" y1="360" x2="360" y2="140" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" className="text-[#D97B4F]/60 dark:text-[#FF8F6B]/50" />
-                    {/* Orbiting focal markers */}
                     <circle cx="250" cy="90" r="4.5" fill="#FF8F6B" />
                     <circle cx="410" cy="250" r="5" fill="#F5C36B" />
                     <circle cx="250" cy="410" r="4.5" fill="#EA580C" />
@@ -91,13 +87,8 @@ const CreateBackgroundAnimation = () => {
                     <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
             </div>
-            <div className="absolute bottom-[30%] right-[15%] animate-spark-1 opacity-65" style={{ animationDelay: '-2s' }}>
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-[#F5C36B] dark:text-[#F5C36B]">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                </svg>
-            </div>
 
-            {/* 4. Ambient Floating Drafting Feather / Quill Badge */}
+            {/* 4. Ambient Floating Badges */}
             <div className="absolute top-[14%] right-[22%] animate-quill opacity-40 dark:opacity-30">
                 <div className="px-3 py-1 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
                     ✨ Inspiration
@@ -105,7 +96,7 @@ const CreateBackgroundAnimation = () => {
             </div>
             <div className="absolute bottom-[16%] left-[24%] animate-quill opacity-40 dark:opacity-30" style={{ animationDelay: '-3.5s' }}>
                 <div className="px-3 py-1 rounded-full bg-[#F5C36B]/25 text-[#9E3610] dark:text-[#F5C36B] border border-black/20 dark:border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase">
-                    🪶 Quill Craft
+                    🎬 Media Studio
                 </div>
             </div>
         </div>
@@ -114,48 +105,75 @@ const CreateBackgroundAnimation = () => {
 
 const CreatePost = () => {
     const [content, setContent] = useState('');
-    const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
+    const [media, setMedia] = useState(null);
+    const [mediaPreview, setMediaPreview] = useState(null);
+    const [mediaType, setMediaType] = useState(null); // 'image' | 'video'
     const [loading, setLoading] = useState(false);
-    const [uploadingImage, setUploadingImage] = useState(false);
+    const [uploadingMedia, setUploadingMedia] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState('');
     const [error, setError] = useState('');
     const { user } = useAuth();
     const navigate = useNavigate();
-    const fileInputRef = useRef(null);
+    const imageInputRef = useRef(null);
+    const videoInputRef = useRef(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            if (file.size > 5 * 1024 * 1024) {
-                setError('Image size should be less than 5MB');
+            if (file.size > 10 * 1024 * 1024) {
+                setError('Image size should be less than 10MB');
                 return;
             }
             if (!file.type.startsWith('image/')) {
-                setError('Please select an image file');
+                setError('Please select a valid image file (JPG, PNG, GIF, WebP)');
                 return;
             }
             const reader = new FileReader();
             reader.onloadend = () => {
-                setImage(reader.result);
-                setImagePreview(reader.result);
+                setMedia(reader.result);
+                setMediaPreview(reader.result);
+                setMediaType('image');
             };
             reader.readAsDataURL(file);
             setError('');
         }
     };
 
-    const handleRemoveImage = () => {
-        setImage(null);
-        setImagePreview(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+    const handleVideoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Check video size (max 30MB)
+            if (file.size > 30 * 1024 * 1024) {
+                setError('Video size must be less than 30MB');
+                return;
+            }
+            if (!file.type.startsWith('video/')) {
+                setError('Please select a valid video file (MP4, WebM, MOV)');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setMedia(reader.result);
+                setMediaPreview(reader.result);
+                setMediaType('video');
+            };
+            reader.readAsDataURL(file);
+            setError('');
         }
+    };
+
+    const handleRemoveMedia = () => {
+        setMedia(null);
+        setMediaPreview(null);
+        setMediaType(null);
+        if (imageInputRef.current) imageInputRef.current.value = '';
+        if (videoInputRef.current) videoInputRef.current.value = '';
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!content.trim() && !image) {
-            setError('Please write something or add an image.');
+        if (!content.trim() && !media) {
+            setError('Please write something or attach an image / video.');
             return;
         }
 
@@ -163,22 +181,26 @@ const CreatePost = () => {
         setError('');
 
         try {
-            let imageUrl = '';
+            let mediaUrl = '';
 
-            if (image) {
-                setUploadingImage(true);
-                const uploadRes = await api.post('/upload', { image });
-                imageUrl = uploadRes.data.url;
-                setUploadingImage(false);
+            // Upload media if present
+            if (media) {
+                setUploadingMedia(true);
+                setUploadStatus(mediaType === 'video' ? 'Uploading & optimizing video...' : 'Uploading photo...');
+                const uploadRes = await api.post('/upload', { image: media });
+                mediaUrl = uploadRes.data.url;
+                setUploadingMedia(false);
             }
 
-            await api.post('/posts', { content, image: imageUrl });
+            setUploadStatus('Publishing your post...');
+            await api.post('/posts', { content, image: mediaUrl });
             navigate('/feed');
         } catch (err) {
             console.error('Create post error:', err);
             setError(err.response?.data?.message || 'Failed to create post. Please try again.');
             setLoading(false);
-            setUploadingImage(false);
+            setUploadingMedia(false);
+            setUploadStatus('');
         }
     };
 
@@ -210,7 +232,7 @@ const CreatePost = () => {
                                     Compose Post
                                 </h2>
                                 <p className="text-xs text-[#5C361E] dark:text-[#8A8F9C] font-bold">
-                                    Craft your words and broadcast your voice across Zephyra
+                                    Broadcast stories, photos, and videos across Zephyra
                                 </p>
                             </div>
                         </div>
@@ -230,24 +252,40 @@ const CreatePost = () => {
                             <textarea
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
-                                placeholder="What thoughts or ideas do you want to share today?"
+                                placeholder="What thoughts, videos, or ideas do you want to share today?"
                                 rows={5}
                                 className="w-full p-4 bg-[#E2B293] dark:bg-[#0E1116] border-2 border-black dark:border-[#3A3F4B] rounded-2xl text-[#1A0F08] dark:text-[#E7E6E3] placeholder-[#5C361E] dark:placeholder-[#6E7280] font-bold focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition outline-none resize-none text-sm sm:text-base leading-relaxed shadow-inner"
                             />
                         </div>
 
-                        {/* Image Preview */}
-                        {imagePreview && (
-                            <div className="relative rounded-2xl overflow-hidden border-2 border-black dark:border-[#1F232C] shadow-sm">
-                                <img
-                                    src={imagePreview}
-                                    alt="Post preview"
-                                    className="w-full max-h-80 object-contain bg-[#D59E7C] dark:bg-[#0E1116]"
-                                />
+                        {/* Media Preview (Photo or Video) */}
+                        {mediaPreview && (
+                            <div className="relative rounded-2xl overflow-hidden border-2 border-black dark:border-[#1F232C] shadow-sm bg-[#D59E7C] dark:bg-[#0E1116]">
+                                {mediaType === 'video' ? (
+                                    <video
+                                        src={mediaPreview}
+                                        controls
+                                        autoPlay
+                                        muted
+                                        className="w-full max-h-80 object-contain rounded-2xl"
+                                    />
+                                ) : (
+                                    <img
+                                        src={mediaPreview}
+                                        alt="Post preview"
+                                        className="w-full max-h-80 object-contain"
+                                    />
+                                )}
+
+                                <div className="absolute top-2.5 left-2.5 px-3 py-1 bg-black/80 text-white rounded-full text-[10px] font-black uppercase tracking-wider border border-white/30">
+                                    {mediaType === 'video' ? '🎬 Video Attached' : '📸 Photo Attached'}
+                                </div>
+
                                 <button
                                     type="button"
-                                    onClick={handleRemoveImage}
+                                    onClick={handleRemoveMedia}
                                     className="absolute top-2.5 right-2.5 p-1.5 bg-black/80 hover:bg-black text-white rounded-full transition-colors cursor-pointer border border-white/40"
+                                    title="Remove attachment"
                                 >
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-4 w-4">
                                         <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
@@ -256,25 +294,65 @@ const CreatePost = () => {
                             </div>
                         )}
 
+                        {/* Upload Status Banner */}
+                        {uploadStatus && (
+                            <div className="p-3 bg-[#E2B293] dark:bg-[#1A1E27] border-2 border-black rounded-2xl flex items-center gap-3 text-xs font-black text-[#1A0F08] dark:text-white">
+                                <div className="h-4 w-4 border-2 border-[#9E3610] dark:border-[#FF8F6B] border-t-transparent rounded-full animate-spin" />
+                                <span>{uploadStatus}</span>
+                            </div>
+                        )}
+
                         <div className="flex flex-wrap justify-between items-center pt-2 gap-3 border-t-2 border-black/15 dark:border-[#1F232C]">
-                            <div className="flex gap-2">
+                            <div className="flex flex-wrap gap-2">
+                                {/* Photo button */}
                                 <button
                                     type="button"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className="flex items-center gap-2 px-4 py-2 bg-[#E2B293] dark:bg-[#181C26] hover:bg-[#D59E7C] dark:hover:bg-[#252A36] rounded-2xl border-2 border-black dark:border-[#2A2E3B] transition-all text-xs font-black text-[#1A0F08] dark:text-[#EDEBE6] cursor-pointer shadow-xs"
+                                    onClick={() => imageInputRef.current?.click()}
+                                    className={`flex items-center gap-2 px-3.5 py-2 rounded-2xl border-2 border-black dark:border-[#2A2E3B] transition-all text-xs font-black cursor-pointer shadow-xs ${
+                                        mediaType === 'image'
+                                            ? 'bg-[#D59E7C] dark:bg-[#2A2E3B] text-[#1A0F08] dark:text-white'
+                                            : 'bg-[#E2B293] dark:bg-[#181C26] hover:bg-[#D59E7C] dark:hover:bg-[#252A36] text-[#1A0F08] dark:text-[#EDEBE6]'
+                                    }`}
                                 >
                                     <HiOutlinePhoto className="text-base text-[#9E3610] dark:text-[#FF8F6B]" />
-                                    <span>{image ? 'Change Photo' : 'Attach Photo'}</span>
+                                    <span>{mediaType === 'image' ? 'Change Photo' : 'Photo'}</span>
                                 </button>
-                                <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    ref={imageInputRef}
+                                    onChange={handleImageChange}
+                                    className="hidden"
+                                />
+
+                                {/* Video button */}
+                                <button
+                                    type="button"
+                                    onClick={() => videoInputRef.current?.click()}
+                                    className={`flex items-center gap-2 px-3.5 py-2 rounded-2xl border-2 border-black dark:border-[#2A2E3B] transition-all text-xs font-black cursor-pointer shadow-xs ${
+                                        mediaType === 'video'
+                                            ? 'bg-[#D59E7C] dark:bg-[#2A2E3B] text-[#1A0F08] dark:text-white'
+                                            : 'bg-[#E2B293] dark:bg-[#181C26] hover:bg-[#D59E7C] dark:hover:bg-[#252A36] text-[#1A0F08] dark:text-[#EDEBE6]'
+                                    }`}
+                                >
+                                    <HiOutlineVideoCamera className="text-base text-blue-800 dark:text-blue-400" />
+                                    <span>{mediaType === 'video' ? 'Change Video' : 'Video'}</span>
+                                </button>
+                                <input
+                                    type="file"
+                                    accept="video/mp4,video/webm,video/quicktime,video/mov"
+                                    ref={videoInputRef}
+                                    onChange={handleVideoChange}
+                                    className="hidden"
+                                />
                             </div>
 
                             <button
                                 type="submit"
-                                disabled={loading || uploadingImage}
+                                disabled={loading || uploadingMedia}
                                 className="px-7 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-105 active:scale-95 transition-all border-2 border-black shadow-xs disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm uppercase tracking-wider cursor-pointer"
                             >
-                                {loading || uploadingImage ? 'Publishing...' : 'Publish Post →'}
+                                {loading || uploadingMedia ? (uploadStatus || 'Publishing...') : 'Publish Post →'}
                             </button>
                         </div>
                     </form>

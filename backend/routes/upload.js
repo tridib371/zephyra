@@ -4,56 +4,63 @@ const { protect } = require('../middleware/auth');
 const router = express.Router();
 
 // @route   POST /api/upload
-// @desc    Upload an image to Cloudinary
+// @desc    Upload an image or video to Cloudinary
 // @access  Private
 router.post('/', protect, async (req, res) => {
     try {
-        const { image } = req.body;
+        const media = req.body.image || req.body.video || req.body.media;
 
-        console.log('📸 Upload request received');
-        console.log('  Image present:', !!image);
-        console.log('  Image length:', image ? image.length : 0);
+        console.log('📸/🎬 Upload request received');
+        console.log('  Media present:', !!media);
+        console.log('  Media length:', media ? media.length : 0);
 
-        if (!image) {
-            console.log('❌ No image provided');
+        if (!media) {
+            console.log('❌ No media provided');
             return res.status(400).json({
                 success: false,
-                message: 'No image provided',
+                message: 'No image or video file provided',
             });
         }
 
-        // Check if image is a valid base64 string
-        if (!image.startsWith('data:image')) {
-            console.log('❌ Invalid image format (not base64)');
+        const isImage = media.startsWith('data:image');
+        const isVideo = media.startsWith('data:video');
+
+        if (!isImage && !isVideo) {
+            console.log('❌ Invalid media format (must be data:image or data:video)');
             return res.status(400).json({
                 success: false,
-                message: 'Invalid image format. Please try again.',
+                message: 'Invalid file format. Please upload a valid image or video.',
             });
         }
 
-        console.log('⏳ Uploading to Cloudinary...');
+        console.log(`⏳ Uploading ${isVideo ? 'video' : 'image'} to Cloudinary...`);
 
-        // Upload image to Cloudinary
-        const result = await cloudinary.uploader.upload(image, {
+        const uploadOptions = {
             folder: 'zephyra/posts',
-            transformation: [
+            resource_type: isVideo ? 'video' : 'image',
+        };
+
+        if (isImage) {
+            uploadOptions.transformation = [
                 { width: 1200, height: 1200, crop: 'limit' },
                 { quality: 'auto' },
                 { fetch_format: 'auto' },
-            ],
-        });
+            ];
+        }
 
-        console.log('✅ Upload successful! Public ID:', result.public_id);
+        const result = await cloudinary.uploader.upload(media, uploadOptions);
+
+        console.log('✅ Upload successful! Public ID:', result.public_id, 'Resource Type:', result.resource_type);
 
         res.status(200).json({
             success: true,
             url: result.secure_url,
             publicId: result.public_id,
+            resourceType: result.resource_type || (isVideo ? 'video' : 'image'),
         });
     } catch (error) {
         console.error('❌ Upload error:', error);
         console.error('  Error message:', error.message);
-        console.error('  Error stack:', error.stack);
 
         // Check for specific Cloudinary errors
         if (error.message && error.message.includes('invalid api key')) {
@@ -66,13 +73,13 @@ router.post('/', protect, async (req, res) => {
         if (error.message && error.message.includes('File size too large')) {
             return res.status(413).json({
                 success: false,
-                message: 'Image file is too large. Please use an image under 5MB.',
+                message: 'Media file is too large. Please use a smaller file under 30MB.',
             });
         }
 
         res.status(500).json({
             success: false,
-            message: 'Failed to upload image. Please try again.',
+            message: error.message || 'Failed to upload media. Please try again.',
         });
     }
 });

@@ -510,14 +510,30 @@ navigate(`/post/${postId}`);
                                         {post.content}
                                     </p>
 
-                                    {/* Post Image */}
+                                    {/* Post Media (Image or Video) */}
                                     {post.image && (
-                                        <div className="mt-3 rounded-2xl overflow-hidden border-2 border-black dark:border-[#252A36] shadow-xs">
-                                            <img
-                                                src={post.image}
-                                                alt="Post media"
-                                                className="w-full max-h-96 object-cover hover:scale-101 transition-transform duration-300"
-                                            />
+                                        <div className="mt-3 rounded-2xl overflow-hidden border-2 border-black dark:border-[#252A36] shadow-xs bg-black/5 dark:bg-black/30">
+                                            {(() => {
+                                                const lower = (post.image || '').toLowerCase();
+                                                const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
+                                                if (isVideo) {
+                                                    return (
+                                                        <video
+                                                            src={post.image}
+                                                            controls
+                                                            playsInline
+                                                            className="w-full max-h-96 object-contain rounded-2xl bg-black"
+                                                        />
+                                                    );
+                                                }
+                                                return (
+                                                    <img
+                                                        src={post.image}
+                                                        alt="Post media"
+                                                        className="w-full max-h-96 object-cover hover:scale-101 transition-transform duration-300"
+                                                    />
+                                                );
+                                            })()}
                                         </div>
                                     )}
                                 </div>

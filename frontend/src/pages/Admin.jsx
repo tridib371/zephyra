@@ -1036,9 +1036,28 @@ export default function Admin() {
                                                 {p.content}
                                             </p>
 
-                                            {p.mediaUrl && (
-                                                <img src={p.mediaUrl} alt="" className="h-32 w-full object-cover rounded-2xl border-2 border-black" />
-                                            )}
+                                            {(p.image || p.mediaUrl) && (() => {
+                                                const mediaSrc = p.image || p.mediaUrl;
+                                                const lower = mediaSrc.toLowerCase();
+                                                const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
+                                                if (isVideo) {
+                                                    return (
+                                                        <video
+                                                            src={mediaSrc}
+                                                            controls
+                                                            playsInline
+                                                            className="h-40 w-full object-contain rounded-2xl border-2 border-black bg-black"
+                                                        />
+                                                    );
+                                                }
+                                                return (
+                                                    <img
+                                                        src={mediaSrc}
+                                                        alt="Post media"
+                                                        className="h-36 w-full object-cover rounded-2xl border-2 border-black"
+                                                    />
+                                                );
+                                            })()}
                                         </div>
 
                                         <div className="pt-3 border-t-2 border-black dark:border-[#1F232C] flex items-center justify-between">

@@ -263,15 +263,31 @@ const PostDetail = () => {
                                 {post.content}
                             </p>
                             {post.image && (
-                                <div className="mt-4 rounded-xl overflow-hidden border border-[#EAECF0] dark:border-[#1F232C]">
-                                    <img
-                                        src={post.image}
-                                        alt="Post"
-                                        className="w-full max-h-[500px] object-contain bg-[#F8F9FA] dark:bg-[#0E1116]"
-                                        onError={(e) => {
-                                            e.target.style.display = 'none';
-                                        }}
-                                    />
+                                <div className="mt-4 rounded-2xl overflow-hidden border-2 border-black dark:border-[#1F232C] bg-black/5 dark:bg-black/30">
+                                    {(() => {
+                                        const lower = (post.image || '').toLowerCase();
+                                        const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
+                                        if (isVideo) {
+                                            return (
+                                                <video
+                                                    src={post.image}
+                                                    controls
+                                                    playsInline
+                                                    className="w-full max-h-[500px] object-contain bg-black rounded-2xl"
+                                                />
+                                            );
+                                        }
+                                        return (
+                                            <img
+                                                src={post.image}
+                                                alt="Post"
+                                                className="w-full max-h-[500px] object-contain bg-[#F8F9FA] dark:bg-[#0E1116]"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                }}
+                                            />
+                                        );
+                                    })()}
                                 </div>
                             )}
                         </div>
