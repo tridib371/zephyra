@@ -14,6 +14,9 @@ import {
 } from 'react-icons/hi2';
 import ConfirmDialog from '../components/ConfirmDialog';
 
+import cookiesBgLight from '../assets/cookies-bg-light.jpg';
+import cookiesBgDark from '../assets/cookies-bg-dark.jpg';
+
 // Animated wind gust SVG lines for smooth motion
 const WindBreeze = () => (
     <svg
@@ -152,6 +155,22 @@ export default function Cookies() {
 
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+            {/* Realistic Data Storage & Security Photography Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={cookiesBgLight}
+                    alt="Data Storage & Key Security Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={cookiesBgDark}
+                    alt="Encrypted Server & Cyber Security Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Overlay Tint Gradients for High Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/65 via-[#FAF7F2]/45 to-[#FAF7F2]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
+
             <div className="relative max-w-4xl mx-auto space-y-12 z-10">
 
                 {/* Hero Header Card with Entrance Animation & Solid Black Border in Day Mode */}
@@ -185,7 +204,7 @@ export default function Cookies() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                     whileHover={{ scale: 1.01 }}
-                    className="p-6 sm:p-8 rounded-3xl border-2 border-black dark:border-emerald-900/50 bg-emerald-100/70 dark:bg-emerald-950/30 shadow-xl backdrop-blur-xl flex items-start gap-4 cursor-pointer"
+                    className="p-6 sm:p-8 rounded-3xl border-2 border-black dark:border-emerald-900/50 bg-emerald-100/80 dark:bg-emerald-950/40 shadow-xl backdrop-blur-xl flex items-start gap-4 cursor-pointer"
                 >
                     <div className="p-3 rounded-2xl bg-emerald-200 dark:bg-emerald-900/60 text-emerald-950 dark:text-emerald-300 text-2xl shrink-0 border border-black dark:border-emerald-700">
                         <HiOutlineShieldCheck />
