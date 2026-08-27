@@ -255,22 +255,17 @@ const Settings = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSaving(true);
-        setStatus('');
+        setProfileStatus('');
 
         try {
-            const payload = {
-                ...formData,
-                username: formData.username.trim().toLowerCase(),
-            };
-
-            const res = await api.put('/users/me', payload);
+            const res = await api.put('/users/me', formData);
             updateUser(res.data.user);
-            setStatusType('success');
-            setStatus('Profile settings updated successfully.');
+            setProfileStatusType('success');
+            setProfileStatus('Profile and preferences updated successfully.');
         } catch (error) {
             console.error('Update profile error:', error);
-            setStatusType('error');
-            setStatus(error.response?.data?.message || 'Failed to save changes.');
+            setProfileStatusType('error');
+            setProfileStatus(error.response?.data?.message || 'Failed to save changes.');
         } finally {
             setSaving(false);
         }
@@ -279,24 +274,38 @@ const Settings = () => {
     const handlePasswordChange = async (event) => {
         event.preventDefault();
         setSaving(true);
-        setStatus('');
+        setPasswordStatus('');
+
+        if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) {
+            setPasswordStatusType('error');
+            setPasswordStatus('Please fill in all password fields.');
+            setSaving(false);
+            return;
+        }
+
+        if (passwordData.newPassword.length < 6) {
+            setPasswordStatusType('error');
+            setPasswordStatus('New password must be at least 6 characters long.');
+            setSaving(false);
+            return;
+        }
+
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            setPasswordStatusType('error');
+            setPasswordStatus('New password and confirm password do not match.');
+            setSaving(false);
+            return;
+        }
 
         try {
-            if (passwordData.newPassword !== passwordData.confirmPassword) {
-                setStatusType('error');
-                setStatus('New password and confirm password do not match.');
-                setSaving(false);
-                return;
-            }
-
             await api.put('/users/me/password', passwordData);
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-            setStatusType('success');
-            setStatus('Password updated successfully.');
+            setPasswordStatusType('success');
+            setPasswordStatus('Password updated successfully.');
         } catch (error) {
             console.error('Password update error:', error);
-            setStatusType('error');
-            setStatus(error.response?.data?.message || 'Failed to update password.');
+            setPasswordStatusType('error');
+            setPasswordStatus(error.response?.data?.message || 'Failed to update password.');
         } finally {
             setSaving(false);
         }
@@ -330,17 +339,6 @@ const Settings = () => {
                             </p>
                         </div>
                     </div>
-
-                    {status && (
-                        <div className={`mt-5 rounded-2xl border-2 border-black px-4 py-3 text-xs font-black flex items-center gap-2 shadow-xs ${
-                            statusType === 'success'
-                                ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-300'
-                                : 'bg-red-100 dark:bg-red-950/60 text-red-950 dark:text-red-300'
-                        }`}>
-                            <HiOutlineCheck className="text-base shrink-0" />
-                            <span>{status}</span>
-                        </div>
-                    )}
                 </motion.section>
 
                 <div className="grid gap-6 lg:grid-cols-12">
@@ -550,6 +548,17 @@ const Settings = () => {
                             </div>
                         </div>
 
+                        {profileStatus && (
+                            <div className={`rounded-2xl border-2 border-black px-4 py-3 text-xs font-black flex items-center gap-2 shadow-xs ${
+                                profileStatusType === 'success'
+                                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-300'
+                                    : 'bg-red-100 dark:bg-red-950/60 text-red-950 dark:text-red-300'
+                            }`}>
+                                <HiOutlineCheck className="text-base shrink-0" />
+                                <span>{profileStatus}</span>
+                            </div>
+                        )}
+
                         <div className="pt-2">
                             <button
                                 type="submit"
@@ -649,6 +658,17 @@ const Settings = () => {
                                 onChange={(e) => setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
                                 className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
                             />
+
+                            {passwordStatus && (
+                                <div className={`rounded-2xl border-2 border-black px-3.5 py-2.5 text-[11px] font-black flex items-start gap-2 shadow-xs ${
+                                    passwordStatusType === 'success'
+                                        ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-300'
+                                        : 'bg-red-100 dark:bg-red-950/60 text-red-950 dark:text-red-300'
+                                }`}>
+                                    <HiOutlineCheck className="text-sm shrink-0 mt-0.5" />
+                                    <span>{passwordStatus}</span>
+                                </div>
+                            )}
 
                             <button
                                 type="submit"
