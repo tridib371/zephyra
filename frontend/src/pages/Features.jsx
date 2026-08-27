@@ -13,8 +13,8 @@ import {
     HiArrowRight,
     HiOutlineCheck,
 } from 'react-icons/hi2';
-import aboutBgLight from '../assets/about-bg-light.jpg';
-import aboutBgDark from '../assets/about-bg-dark.jpg';
+import featuresBgLight from '../assets/features-bg-light.jpg';
+import featuresBgDark from '../assets/features-bg-dark.jpg';
 
 // Animated wind gust SVG lines for smooth motion
 const WindBreeze = () => (
@@ -134,12 +134,12 @@ export default function Features() {
             {/* Realistic Photography Background Wallpaper - Light Mode */}
             <div
                 className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${aboutBgLight})` }}
+                style={{ backgroundImage: `url(${featuresBgLight})` }}
             />
             {/* Realistic Photography Background Wallpaper - Dark Mode */}
             <div
                 className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${aboutBgDark})` }}
+                style={{ backgroundImage: `url(${featuresBgDark})` }}
             />
 
             <div className="relative max-w-5xl mx-auto space-y-16 z-10">
