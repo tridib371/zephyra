@@ -364,20 +364,20 @@ export default function Admin() {
     if (!isAdminAuthenticated) {
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden">
-                {/* Realistic High-Tech Server Room & Command Center Photography Wallpapers - Clear & Sharp */}
+                {/* Realistic Human System Administrator Photography Wallpapers - Clear & Sharp */}
                 <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                     <img
-                        src={adminBgDark}
-                        alt="High-Tech Server Room & Command Center Light Mode Wallpaper"
-                        className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden brightness-110 contrast-105"
+                        src={adminBgLight}
+                        alt="Human System Administrator Light Mode Wallpaper"
+                        className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                     />
                     <img
                         src={adminBgDark}
-                        alt="High-Tech Server Room & Cybersecurity Command Center Dark Wallpaper"
+                        alt="Human Cybersecurity Administrator Dark Mode Wallpaper"
                         className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                     />
                     {/* Clear Light Overlay & Dark Tint Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/15 to-white/40 dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
                 </div>
 
                 <div className="relative z-10 w-full max-w-md">
@@ -500,20 +500,20 @@ export default function Admin() {
     // =========================================================
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Realistic High-Tech Server Room & Command Center Photography Wallpapers - Clear & Sharp */}
+            {/* Realistic Human System Administrator Photography Wallpapers - Clear & Sharp */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <img
-                    src={adminBgDark}
-                    alt="High-Tech Server Room & Command Center Light Mode Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden brightness-110 contrast-105"
+                    src={adminBgLight}
+                    alt="Human System Administrator Light Mode Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                 />
                 <img
                     src={adminBgDark}
-                    alt="High-Tech Server Room & Cybersecurity Command Center Dark Wallpaper"
+                    alt="Human Cybersecurity Administrator Dark Mode Wallpaper"
                     className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                 />
                 {/* Clear Light Overlay & Dark Tint Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/15 to-white/40 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
             </div>
 
             <div className="relative max-w-7xl mx-auto space-y-6 z-10">
