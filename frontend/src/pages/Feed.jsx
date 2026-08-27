@@ -379,7 +379,7 @@ navigate(`/post/${postId}`);
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
                 <FeedBackgroundAnimation />
-                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl">
+                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-[#FFF4EB]/95 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#EA580C] dark:border-[#FF8F6B]"></div>
                     <p className="text-xs font-black uppercase tracking-widest text-[#9E3610] dark:text-[#FF8F6B]">
                         Loading Streamlines...
@@ -393,7 +393,7 @@ navigate(`/post/${postId}`);
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
                 <FeedBackgroundAnimation />
-                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-white/90 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl text-center space-y-4">
+                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-[#FFF4EB]/95 dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl text-center space-y-4">
                     <p className="text-sm font-bold text-[#C2410C] dark:text-[#FF8F6B]">
                         {error}
                     </p>
@@ -419,7 +419,7 @@ navigate(`/post/${postId}`);
                     initial={{ opacity: 0, y: -20, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden"
+                    className="bg-[#FFF4EB]/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden"
                 >
                     <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40 text-[10px] font-black uppercase tracking-widest mb-3">
                         ⚡ Chronological Stream
@@ -437,7 +437,7 @@ navigate(`/post/${postId}`);
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4"
+                        className="bg-[#FFF4EB]/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4"
                     >
                         <div className="flex justify-center text-[#D97B4F] dark:text-[#F5C36B]">
                             <FeatherMark />
@@ -465,7 +465,7 @@ navigate(`/post/${postId}`);
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.06, duration: 0.5 }}
                                 whileHover={{ y: -3 }}
-                                className="bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-300 cursor-pointer"
+                                className="bg-[#FFF4EB]/95 dark:bg-[#12151C]/92 hover:bg-[#FFEFE3] dark:hover:bg-[#161B24] backdrop-blur-xl rounded-3xl shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-300 cursor-pointer"
                                 onClick={() => goToPost(post._id)}
                             >
                                 {/* Author Info - Clicking this navigates to the author's profile */}
@@ -581,7 +581,7 @@ navigate(`/post/${postId}`);
                                                     onChange={(e) => handleCommentChange(post._id, e.target.value)}
                                                     onKeyDown={(e) => { if (e.key === 'Enter') handleCommentSubmit(post._id, e); }}
                                                     placeholder="Write a comment..."
-                                                    className="flex-1 rounded-full border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-4 py-2 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
+                                                    className="flex-1 rounded-full border-2 border-black dark:border-[#252A36] bg-[#FFE9DA] dark:bg-[#181C26] px-4 py-2 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
                                                 />
                                                 <button
                                                     onClick={(e) => handleCommentSubmit(post._id, e)}
@@ -603,7 +603,7 @@ navigate(`/post/${postId}`);
                                                         return (
                                                             <div
                                                                 key={comment._id}
-                                                                className="flex items-start justify-between gap-2 p-3 rounded-2xl bg-[#FFF6EF] dark:bg-[#181C26]/80 border border-black/15 dark:border-[#252A36]"
+                                                                className="flex items-start justify-between gap-2 p-3 rounded-2xl bg-[#FFE9DA] dark:bg-[#181C26]/80 border border-black/15 dark:border-[#252A36]"
                                                             >
                                                                 <div className="flex-1 min-w-0">
                                                                     <div className="flex items-center gap-2 flex-wrap">
