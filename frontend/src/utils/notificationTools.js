@@ -68,14 +68,22 @@ export const getNotificationDetail = (notification) => {
 };
 
 export const getNotificationTarget = (notification) => {
+    if (!notification) return '/notifications';
+
+    if (notification.type === 'announcement') {
+        return '/notifications';
+    }
+
     if (notification.type === 'follow') {
-        return notification.sender?._id ? `/profile/${notification.sender._id}` : '/feed';
+        const senderId = notification.sender?._id || (typeof notification.sender === 'string' ? notification.sender : null);
+        return senderId ? `/profile/${senderId}` : '/feed';
     }
 
-    if ((notification.type === 'like' || notification.type === 'comment') && notification.post?._id) {
+    const postId = notification.post?._id || (typeof notification.post === 'string' ? notification.post : null);
+    if ((notification.type === 'like' || notification.type === 'comment') && postId) {
         const commentId = notification.commentId || notification.comment;
-        return commentId ? `/post/${notification.post._id}?commentId=${commentId}` : `/post/${notification.post._id}`;
+        return commentId ? `/post/${postId}?commentId=${commentId}` : `/post/${postId}`;
     }
 
-    return '/feed';
+    return '/notifications';
 };
