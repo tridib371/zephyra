@@ -46,7 +46,7 @@ router.post('/send-register-otp', async (req, res) => {
 
         // Generate a cryptographically random 6-digit OTP
         const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+        const expiresAt = new Date(Date.now() + 1 * 60 * 1000); // 1 minute from now
 
         // Remove any old OTP records for this email
         await Otp.deleteMany({ email: normalizedEmail });

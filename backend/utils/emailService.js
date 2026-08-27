@@ -71,7 +71,7 @@ const sendOtpEmail = async (toEmail, otp) => {
                             </table>
 
                             <p style="margin:0 0 25px; font-size:12px; font-weight:bold; color:#C2410C;">
-                                ⏱️ This code will expire in 10 minutes.
+                                ⏱️ This code will expire in 1 minute.
                             </p>
 
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:14px;">
@@ -99,14 +99,14 @@ const sendOtpEmail = async (toEmail, otp) => {
 </html>
     `;
 
-    const plainText = `Zephyra Verification Code\n\nYour 6-digit email verification code is: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this verification code, please ignore this email.\n\n— The Zephyra Team`;
+    const plainText = `Zephyra Verification Code\n\nYour 6-digit email verification code is: ${otp}\n\nThis code will expire in 1 minute.\n\nIf you did not request this verification code, please ignore this email.\n\n— The Zephyra Team`;
 
     console.log(`\n========================================`);
     console.log(`📨 [ZEPHYRA OTP VERIFICATION]`);
     console.log(`To      : ${toEmail}`);
     console.log(`OTP Code: ${otp}`);
     console.log(`Time    : ${new Date().toLocaleTimeString()}`);
-    console.log(`Expires : In 10 minutes`);
+    console.log(`Expires : In 1 minute`);
     console.log(`========================================\n`);
 
     if (!transporter) {
