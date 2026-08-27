@@ -399,17 +399,17 @@ const Settings = () => {
                                     name="location"
                                     value={formData.location}
                                     onChange={handleChange}
-                                    placeholder="City, Country"
+                                    placeholder="e.g. Dhaka, Bangladesh"
                                     className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-3 text-xs sm:text-sm font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
                                 />
                             </label>
                             <label className="space-y-1.5">
-                                <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3]">Website</span>
+                                <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3]">Social / Portfolio Link</span>
                                 <input
                                     name="website"
                                     value={formData.website}
                                     onChange={handleChange}
-                                    placeholder="https://"
+                                    placeholder="e.g. instagram.com/username or github.com"
                                     className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-3 text-xs sm:text-sm font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
                                 />
                             </label>

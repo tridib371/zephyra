@@ -375,6 +375,26 @@ const Profile = () => {
                                     {profileUser.bio || 'No bio yet.'}
                                 </p>
 
+                                {(profileUser.location || profileUser.website) && (
+                                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3.5 mt-2.5 text-xs font-black text-[#5C361E] dark:text-[#A0A6B6]">
+                                        {profileUser.location && (
+                                            <span className="inline-flex items-center gap-1">
+                                                📍 {profileUser.location}
+                                            </span>
+                                        )}
+                                        {profileUser.website && (
+                                            <a
+                                                href={profileUser.website.startsWith('http') ? profileUser.website : `https://${profileUser.website}`}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="inline-flex items-center gap-1 text-[#9E3610] dark:text-[#FF8F6B] hover:underline"
+                                            >
+                                                🔗 {profileUser.website.replace(/^https?:\/\//, '')}
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+
                                 <div className="flex justify-center sm:justify-start gap-6 mt-4 text-xs sm:text-sm text-[#5C361E] dark:text-[#8A8F9C] font-black">
                                     <button
                                         onClick={() => openModal('following')}
