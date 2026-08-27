@@ -2,7 +2,15 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
-import { HiOutlineUser, HiOutlineLockClosed, HiOutlineAdjustmentsHorizontal, HiOutlineShieldCheck, HiOutlineCheck } from 'react-icons/hi2';
+import {
+    HiOutlineUser,
+    HiOutlineLockClosed,
+    HiOutlineAdjustmentsHorizontal,
+    HiOutlineShieldCheck,
+    HiOutlineCheck,
+    HiOutlinePhoto,
+    HiOutlineArrowUpTray
+} from 'react-icons/hi2';
 
 // ===== UNIQUE GEAR & CALIBRATION DIAL BACKGROUND ANIMATION =====
 const SettingsBackgroundAnimation = () => {
@@ -39,12 +47,12 @@ const SettingsBackgroundAnimation = () => {
                 .animate-calib-pulse { animation: calibrationPulse 8s ease-in-out infinite; }
             `}</style>
 
-            {/* 1. Ambient Radial Calibration Glow Flares */}
+            {/* Ambient Radial Calibration Glow Flares */}
             <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[480px] sm:w-[750px] h-[480px] sm:h-[750px] rounded-full bg-gradient-to-b from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl animate-calib-pulse" />
             <div className="absolute -bottom-28 -left-28 w-80 sm:w-[500px] h-80 sm:h-[500px] rounded-full bg-gradient-to-tr from-[#F5C36B]/20 via-[#EA580C]/15 to-transparent blur-3xl" />
             <div className="absolute -bottom-28 -right-28 w-80 sm:w-[500px] h-80 sm:h-[500px] rounded-full bg-gradient-to-tl from-[#FF8F6B]/20 via-[#D97B4F]/15 to-transparent blur-3xl" />
 
-            {/* 2. Interlocking Precision Mechanical Calibration Gears */}
+            {/* Interlocking Precision Mechanical Calibration Gears */}
             <div className="absolute -top-12 -right-12 w-[380px] sm:w-[600px] h-[380px] sm:h-[600px] opacity-35 dark:opacity-20">
                 <svg viewBox="0 0 400 400" className="w-full h-full animate-gear-main text-[#D97B4F] dark:text-[#FF8F6B]">
                     <circle cx="200" cy="200" r="170" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="14 10" />
@@ -99,7 +107,7 @@ const SettingsBackgroundAnimation = () => {
                 </svg>
             </div>
 
-            {/* 3. Floating Security & Calibration Badges */}
+            {/* Floating Security & Calibration Badges */}
             <div className="absolute top-[22%] left-[10%] animate-slider-1">
                 <div className="px-3.5 py-1.5 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
                     ⚙️ Calibration Hub
@@ -116,7 +124,7 @@ const SettingsBackgroundAnimation = () => {
                 </div>
             </div>
 
-            {/* 4. Precision Crosshairs */}
+            {/* Precision Crosshairs */}
             <div className="absolute top-[15%] left-[30%] opacity-40 dark:opacity-30 text-[#D97B4F] dark:text-[#FF8F6B] text-xs font-black">
                 + [0x7E : CALIB]
             </div>
@@ -130,6 +138,8 @@ const SettingsBackgroundAnimation = () => {
 const Settings = () => {
     const { user, updateUser } = useAuth();
     const [saving, setSaving] = useState(false);
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
+    const [uploadingCover, setUploadingCover] = useState(false);
     const [status, setStatus] = useState('');
     const [statusType, setStatusType] = useState('success');
     const [formData, setFormData] = useState({
@@ -175,6 +185,54 @@ const Settings = () => {
             },
         });
     }, [user]);
+
+    const handleFileUpload = (type) => async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            setStatusType('error');
+            setStatus('Please select a valid image file (PNG, JPG, WebP).');
+            return;
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+            setStatusType('error');
+            setStatus('Image size should be under 10MB.');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async () => {
+            const base64 = reader.result;
+            try {
+                if (type === 'avatar') setUploadingAvatar(true);
+                if (type === 'cover') setUploadingCover(true);
+                setStatus('');
+
+                const res = await api.post('/upload', { image: base64 });
+                const uploadedUrl = res.data.url;
+
+                if (type === 'avatar') {
+                    setFormData((prev) => ({ ...prev, profilePicture: uploadedUrl }));
+                    setStatusType('success');
+                    setStatus('Profile avatar uploaded! Click "Save Settings" to save.');
+                } else {
+                    setFormData((prev) => ({ ...prev, coverPhoto: uploadedUrl }));
+                    setStatusType('success');
+                    setStatus('Cover banner uploaded! Click "Save Settings" to save.');
+                }
+            } catch (err) {
+                console.error('File upload error:', err);
+                setStatusType('error');
+                setStatus('Failed to upload image. Please try again.');
+            } finally {
+                if (type === 'avatar') setUploadingAvatar(false);
+                if (type === 'cover') setUploadingCover(false);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -268,7 +326,7 @@ const Settings = () => {
                                 Edit Profile & Preferences
                             </h1>
                             <p className="mt-1 text-xs sm:text-sm font-extrabold text-[#5C361E] dark:text-[#A0A6B6]">
-                                Calibrate your public identity, privacy access controls, and notification preferences.
+                                Calibrate your public identity, upload profile/cover images, and adjust privacy controls.
                             </p>
                         </div>
                     </div>
@@ -298,11 +356,11 @@ const Settings = () => {
                             <div className="flex items-center gap-2">
                                 <HiOutlineUser className="text-xl text-[#9E3610] dark:text-[#FF8F6B]" />
                                 <h2 className="text-lg font-black text-[#1A0F08] dark:text-white font-['Fraunces'] italic">
-                                    Public Identity
+                                    Public Identity & Media
                                 </h2>
                             </div>
                             <p className="text-xs font-bold text-[#5C361E] dark:text-[#8A8F9C] mt-0.5">
-                                This information is visible to the entire Zephyra community.
+                                This information and media are displayed publicly on your Zephyra profile.
                             </p>
                         </div>
 
@@ -355,16 +413,60 @@ const Settings = () => {
                                     className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-3 text-xs sm:text-sm font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
                                 />
                             </label>
-                            <label className="space-y-1.5 sm:col-span-2">
-                                <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3]">Profile Picture URL</span>
+
+                            {/* Profile Picture Upload & URL */}
+                            <div className="space-y-2 sm:col-span-2 p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
+                                        <HiOutlinePhoto className="text-base" /> Profile Avatar
+                                    </span>
+                                    <label className="px-3 py-1.5 rounded-full bg-[#FF8F6B] text-[#1A140D] border-2 border-black text-[11px] font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center gap-1">
+                                        <HiOutlineArrowUpTray className="text-sm stroke-[2.5]" />
+                                        <span>{uploadingAvatar ? 'Uploading...' : 'Upload Image'}</span>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleFileUpload('avatar')}
+                                            disabled={uploadingAvatar}
+                                            className="hidden"
+                                        />
+                                    </label>
+                                </div>
                                 <input
                                     name="profilePicture"
                                     value={formData.profilePicture}
                                     onChange={handleChange}
-                                    placeholder="https://..."
-                                    className="w-full rounded-2xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-4 py-3 text-xs sm:text-sm font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
+                                    placeholder="Or paste profile image URL (https://...)"
+                                    className="w-full rounded-xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-3.5 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
                                 />
-                            </label>
+                            </div>
+
+                            {/* Cover Photo Upload & URL */}
+                            <div className="space-y-2 sm:col-span-2 p-4 rounded-2xl border-2 border-black/20 dark:border-white/10 bg-[#E2B293]/50 dark:bg-white/5">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#E7E6E3] flex items-center gap-1.5">
+                                        <HiOutlinePhoto className="text-base" /> Profile Cover Banner
+                                    </span>
+                                    <label className="px-3 py-1.5 rounded-full bg-[#F5C36B] text-[#1A140D] border-2 border-black text-[11px] font-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xs flex items-center gap-1">
+                                        <HiOutlineArrowUpTray className="text-sm stroke-[2.5]" />
+                                        <span>{uploadingCover ? 'Uploading...' : 'Upload Cover'}</span>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleFileUpload('cover')}
+                                            disabled={uploadingCover}
+                                            className="hidden"
+                                        />
+                                    </label>
+                                </div>
+                                <input
+                                    name="coverPhoto"
+                                    value={formData.coverPhoto}
+                                    onChange={handleChange}
+                                    placeholder="Or paste banner image URL (https://...)"
+                                    className="w-full rounded-xl border-2 border-black dark:border-white/10 bg-[#E2B293] dark:bg-[#0E1116] px-3.5 py-2.5 text-xs font-bold outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#F5C36B] text-[#1A0F08] dark:text-[#EDEBE6] placeholder-[#5C361E]/70 shadow-inner"
+                                />
+                            </div>
                         </div>
 
                         {/* Preferences Section */}

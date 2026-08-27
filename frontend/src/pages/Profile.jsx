@@ -328,20 +328,35 @@ const Profile = () => {
                 <ProfileBackgroundAnimation />
 
                 <div className="relative z-10 max-w-4xl mx-auto space-y-6">
-                    <div className="bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-[6px_6px_0px_#000000] dark:shadow-2xl p-6 sm:p-9 border-2 border-black dark:border-[#FF8F6B]/35 transition-colors duration-300">
-                        {/* Profile Header */}
-                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                            <div className="relative">
+                    <div className="bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-[6px_6px_0px_#000000] dark:shadow-2xl border-2 border-black dark:border-[#FF8F6B]/35 transition-colors duration-300 overflow-hidden">
+                        {/* Profile Cover Banner */}
+                        <div className="h-32 sm:h-44 w-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] border-b-2 border-black relative overflow-hidden">
+                            {profileUser.coverPhoto && (
                                 <img
-                                    src={profileUser.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
-                                    alt="Profile"
-                                    className="w-28 h-28 rounded-full object-cover border-2 border-black dark:border-[#FF8F6B]/70 shadow-md"
-                                    onError={(e) => {
-                                        e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                    }}
+                                    src={profileUser.coverPhoto}
+                                    alt="Cover Banner"
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => { e.target.style.display = 'none'; }}
                                 />
-                                <span className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-[#10B981] border-2 border-black" />
-                            </div>
+                            )}
+                        </div>
+
+                        {/* Profile Header Body */}
+                        <div className="p-6 sm:p-9 pt-3 sm:pt-3">
+                            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 -mt-14 sm:-mt-16">
+                                <div className="relative z-10">
+                                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-black ring-4 ring-[#F0C9AE] dark:ring-[#12151C] shadow-lg overflow-hidden bg-[#FAF7F2] dark:bg-[#181C26]">
+                                        <img
+                                            src={profileUser.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileUser.name || 'User')}&background=D97B4F&color=fff&bold=true`}
+                                            alt="Profile"
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profileUser.name || 'User')}&background=D97B4F&color=fff&bold=true`;
+                                            }}
+                                        />
+                                    </div>
+                                    <span className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-[#10B981] border-2 border-black z-20" />
+                                </div>
 
                             <div className="flex-1 text-center sm:text-left">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -529,16 +544,17 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+        </div>
 
-            <FollowListModal
-                isOpen={modalOpen}
-                onClose={closeModal}
-                users={modalUsers}
-                title={modalType === 'followers' ? 'Followers' : 'Following'}
-                onFollowToggle={handleFollowToggleFromModal}
-            />
-        </>
-    );
+        <FollowListModal
+            isOpen={modalOpen}
+            onClose={closeModal}
+            users={modalUsers}
+            title={modalType === 'followers' ? 'Followers' : 'Following'}
+            onFollowToggle={handleFollowToggleFromModal}
+        />
+    </>
+);
 };
 
 export default Profile;
