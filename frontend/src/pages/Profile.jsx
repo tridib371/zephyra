@@ -466,7 +466,7 @@ const Profile = () => {
                                             to="/create"
                                             className="inline-block mt-3 px-6 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black text-xs uppercase tracking-wider rounded-full hover:scale-105 transition-all border-2 border-black shadow-xs"
                                         >
-                                            Create Your First Story →
+                                            Create Your First Post →
                                         </Link>
                                     )}
                                 </div>

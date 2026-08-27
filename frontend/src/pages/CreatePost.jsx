@@ -207,7 +207,7 @@ const CreatePost = () => {
                             />
                             <div>
                                 <h2 className="text-xl sm:text-2xl font-extrabold text-[#1A0F08] dark:text-[#EDEBE6] font-['Fraunces'] italic tracking-tight">
-                                    Compose Story
+                                    Compose Post
                                 </h2>
                                 <p className="text-xs text-[#5C361E] dark:text-[#8A8F9C] font-bold">
                                     Craft your words and broadcast your voice across Zephyra
@@ -230,7 +230,7 @@ const CreatePost = () => {
                             <textarea
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
-                                placeholder="What thoughts, stories, or ideas do you want to share today?"
+                                placeholder="What thoughts or ideas do you want to share today?"
                                 rows={5}
                                 className="w-full p-4 bg-[#E2B293] dark:bg-[#0E1116] border-2 border-black dark:border-[#3A3F4B] rounded-2xl text-[#1A0F08] dark:text-[#E7E6E3] placeholder-[#5C361E] dark:placeholder-[#6E7280] font-bold focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 transition outline-none resize-none text-sm sm:text-base leading-relaxed shadow-inner"
                             />
@@ -274,7 +274,7 @@ const CreatePost = () => {
                                 disabled={loading || uploadingImage}
                                 className="px-7 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-black rounded-full hover:scale-105 active:scale-95 transition-all border-2 border-black shadow-xs disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm uppercase tracking-wider cursor-pointer"
                             >
-                                {loading || uploadingImage ? 'Publishing...' : 'Publish Story →'}
+                                {loading || uploadingImage ? 'Publishing...' : 'Publish Post →'}
                             </button>
                         </div>
                     </form>
