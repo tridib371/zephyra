@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
@@ -9,20 +9,117 @@ import {
     HiOutlineMegaphone,
     HiOutlineBell,
     HiOutlineXMark,
+    HiOutlineCheckCircle,
+    HiOutlineArrowPath
 } from 'react-icons/hi2';
 import { useNotifications } from '../context/NotificationContext';
 import { useAuth } from '../context/AuthContext';
 import { getNotificationDetail, getNotificationMeta, getNotificationMessage, getNotificationTarget } from '../utils/notificationTools';
 
+// ===== UNIQUE SIGNAL BEACON & PULSE WAVE BACKGROUND ANIMATION =====
+const NotificationsBackgroundAnimation = () => {
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <style>{`
+                @keyframes beaconExpand {
+                    0% { transform: scale(0.6); opacity: 0.8; }
+                    50% { opacity: 0.4; }
+                    100% { transform: scale(2.6); opacity: 0; }
+                }
+                @keyframes pulseFloat {
+                    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.35; }
+                    50% { transform: translateY(-22px) rotate(6deg); opacity: 0.85; }
+                }
+                @keyframes bellWiggle {
+                    0%, 100% { transform: rotate(0deg); }
+                    15% { transform: rotate(14deg); }
+                    30% { transform: rotate(-12deg); }
+                    45% { transform: rotate(8deg); }
+                    60% { transform: rotate(0deg); }
+                }
+                @keyframes ambientPulse {
+                    0%, 100% { transform: scale(1); opacity: 0.3; }
+                    50% { transform: scale(1.15); opacity: 0.65; }
+                }
+                .animate-beacon-1 { animation: beaconExpand 5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+                .animate-beacon-2 { animation: beaconExpand 5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 1.6s; }
+                .animate-beacon-3 { animation: beaconExpand 5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 3.2s; }
+                .animate-pulse-1 { animation: pulseFloat 7s ease-in-out infinite; }
+                .animate-pulse-2 { animation: pulseFloat 9s ease-in-out infinite 2s; }
+                .animate-pulse-3 { animation: pulseFloat 8s ease-in-out infinite 4s; }
+                .animate-ambient-glow { animation: ambientPulse 8s ease-in-out infinite; }
+            `}</style>
+
+            {/* 1. Luminescent Ambient Glow Flares */}
+            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[450px] sm:w-[700px] h-[450px] sm:h-[700px] rounded-full bg-gradient-to-b from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl animate-ambient-glow" />
+            <div className="absolute -bottom-24 -left-24 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tr from-[#F5C36B]/20 via-[#EA580C]/15 to-transparent blur-3xl" />
+            <div className="absolute -bottom-24 -right-24 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tl from-[#FF8F6B]/20 via-[#D97B4F]/15 to-transparent blur-3xl" />
+
+            {/* 2. Concentric Signal Radar Pulse Waves (Top Right) */}
+            <div className="absolute -top-10 -right-10 w-[360px] sm:w-[560px] h-[360px] sm:h-[560px] flex items-center justify-center opacity-40 dark:opacity-25">
+                <div className="absolute w-40 h-40 rounded-full border-2 border-[#D97B4F] dark:border-[#FF8F6B] animate-beacon-1" />
+                <div className="absolute w-40 h-40 rounded-full border-2 border-[#F5C36B] dark:border-[#F5C36B] animate-beacon-2" />
+                <div className="absolute w-40 h-40 rounded-full border-2 border-[#EA580C] dark:border-[#FF8F6B] animate-beacon-3" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] border-2 border-black dark:border-white/20 shadow-lg" />
+            </div>
+
+            {/* 3. Secondary Signal Pulse Transmitter (Bottom Left) */}
+            <div className="absolute -bottom-12 -left-12 w-[280px] sm:w-[440px] h-[280px] sm:h-[440px] flex items-center justify-center opacity-40 dark:opacity-25">
+                <div className="absolute w-32 h-32 rounded-full border-2 border-[#F5C36B] animate-beacon-1" />
+                <div className="absolute w-32 h-32 rounded-full border-2 border-[#D97B4F] animate-beacon-2" />
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#F5C36B] to-[#EA580C] border-2 border-black dark:border-white/20 shadow-lg" />
+            </div>
+
+            {/* 4. Floating Interaction & Signal Glyphs */}
+            <div className="absolute top-[22%] left-[8%] animate-pulse-1">
+                <div className="px-3.5 py-1.5 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase flex items-center gap-1.5 shadow-xs">
+                    <span className="w-2 h-2 rounded-full bg-[#EA580C] animate-ping" />
+                    🔔 Live Broadcast
+                </div>
+            </div>
+            <div className="absolute top-[38%] right-[10%] animate-pulse-2">
+                <div className="px-3.5 py-1.5 rounded-full bg-[#F5C36B]/25 text-[#9E3610] dark:text-[#F5C36B] border border-black/20 dark:border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase flex items-center gap-1.5 shadow-xs">
+                    ❤️ Social Signal
+                </div>
+            </div>
+            <div className="absolute bottom-[28%] left-[14%] animate-pulse-3">
+                <div className="px-3.5 py-1.5 rounded-full bg-[#EA580C]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase flex items-center gap-1.5 shadow-xs">
+                    💬 Engagement Wave
+                </div>
+            </div>
+
+            {/* 5. Telemetry Vector Coordinates */}
+            <div className="absolute top-[14%] left-[28%] opacity-40 dark:opacity-30 text-[#D97B4F] dark:text-[#FF8F6B] text-xs font-black">
+                + [TX_BEACON : SYNCED]
+            </div>
+            <div className="absolute bottom-[16%] right-[25%] opacity-40 dark:opacity-30 text-[#F5C36B] dark:text-[#F5C36B] text-xs font-black">
+                + [STREAM_ID : 0xFE24]
+            </div>
+        </div>
+    );
+};
+
 const Notifications = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { notifications, unreadCount, loading, markAsRead, markAllAsRead, deleteNotification, fetchNotifications } = useNotifications();
+    const [activeFilter, setActiveFilter] = useState('all');
 
     const unreadNotifications = useMemo(
         () => notifications.filter(notification => !notification.read),
         [notifications]
     );
+
+    const readNotifications = useMemo(
+        () => notifications.filter(notification => notification.read),
+        [notifications]
+    );
+
+    const filteredNotifications = useMemo(() => {
+        if (activeFilter === 'unread') return unreadNotifications;
+        if (activeFilter === 'read') return readNotifications;
+        return notifications;
+    }, [activeFilter, notifications, unreadNotifications, readNotifications]);
 
     const handleOpenNotification = async (notification) => {
         await markAsRead(notification._id);
@@ -30,98 +127,106 @@ const Notifications = () => {
     };
 
     const filters = [
-        { key: 'all', label: 'All', count: notifications.length },
+        { key: 'all', label: 'All Signals', count: notifications.length },
         { key: 'unread', label: 'Unread', count: unreadNotifications.length },
-        { key: 'read', label: 'Read', count: Math.max(notifications.length - unreadNotifications.length, 0) },
+        { key: 'read', label: 'Archived', count: readNotifications.length },
     ];
 
-    const activeNotifications = notifications;
-
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(255,143,107,0.14),_transparent_38%),linear-gradient(180deg,_#FAF7F2_0%,_#F5EFE6_100%)] dark:bg-[radial-gradient(circle_at_top,_rgba(245,195,107,0.12),_transparent_34%),linear-gradient(180deg,_#0E1116_0%,_#0B0E13_100%)] px-4 sm:px-6 py-8 transition-colors duration-300">
-            <div className="max-w-5xl mx-auto space-y-6">
+        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] px-4 sm:px-6 py-10 font-[Manrope] transition-colors duration-300 overflow-x-hidden">
+            {/* Unique Signal Beacon Background Animation */}
+            <NotificationsBackgroundAnimation />
+
+            <div className="relative z-10 max-w-5xl mx-auto space-y-6">
+                {/* Header Banner */}
                 <motion.section
-                    initial={{ opacity: 0, y: 18 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="relative overflow-hidden rounded-[2rem] border border-[#EAE2D5] dark:border-white/8 bg-white/90 dark:bg-[#11151D]/80 backdrop-blur-xl shadow-sm px-6 sm:px-8 py-7"
+                    className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl shadow-[6px_6px_0px_#000000] dark:shadow-2xl p-6 sm:p-9"
                 >
-                    <div className="absolute inset-0 bg-linear-to-r from-[#FF8F6B]/10 via-transparent to-[#F5C36B]/10 pointer-events-none" />
-                    <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
                         <div>
-                            <p className="inline-flex items-center gap-2 rounded-full bg-[#FFF1EA] dark:bg-white/5 px-3 py-1 text-xs font-semibold tracking-[0.18em] uppercase text-[#B5652F] dark:text-[#F5C36B]">
-                                Inbox
-                            </p>
-                            <h1 className="mt-3 text-3xl sm:text-4xl font-['Fraunces'] italic text-stone-900 dark:text-white">
-                                Your notification stream
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF8F6B]/30 dark:bg-white/5 px-3.5 py-1 text-[10px] font-black uppercase tracking-widest text-[#6B2207] dark:text-[#F5C36B] border border-black dark:border-[#FF8F6B]/40">
+                                🔔 Live Notification Stream
+                            </span>
+                            <h1 className="mt-2.5 text-2xl sm:text-4xl font-extrabold font-['Fraunces'] italic tracking-tight text-[#1A0F08] dark:text-white">
+                                Activity & Signal Stream
                             </h1>
-                            <p className="mt-2 max-w-2xl text-xs sm:text-sm text-stone-600 dark:text-[#A0A6B6]">
-                                One place for follows, likes, and comments with fast read, delete, and deep-link navigation.
+                            <p className="mt-1 text-xs sm:text-sm font-extrabold text-[#5C361E] dark:text-[#A0A6B6]">
+                                Real-time interaction pulses, likes, comments, and community connections.
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap items-center gap-2.5">
                             <button
                                 onClick={markAllAsRead}
                                 disabled={unreadCount === 0}
-                                className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs font-extrabold shadow-sm hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs font-black uppercase tracking-wider border-2 border-black shadow-xs hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
                             >
-                                Mark all read
+                                <HiOutlineCheckCircle className="text-sm stroke-[2.5]" />
+                                <span>Mark All Read</span>
                             </button>
                             <button
                                 onClick={fetchNotifications}
-                                className="px-4 py-2 rounded-full border border-[#EAE2D5] dark:border-white/10 bg-white/80 dark:bg-white/5 text-xs font-bold text-stone-700 dark:text-[#E7E6E3] hover:bg-[#FAF7F2] dark:hover:bg-white/10 transition-colors cursor-pointer"
+                                className="px-4 py-2 rounded-full border-2 border-black bg-[#E2B293] dark:bg-white/5 text-[#1A0F08] dark:text-[#EDEBE6] text-xs font-black uppercase tracking-wider hover:bg-[#D59E7C] transition-all cursor-pointer shadow-xs flex items-center gap-1.5"
                             >
-                                Refresh
+                                <HiOutlineArrowPath className="text-sm stroke-[2.5]" />
+                                <span>Refresh</span>
                             </button>
                         </div>
                     </div>
 
-                    <div className="relative mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {filters.map(filter => (
-                            <div key={filter.key} className="rounded-2xl border border-[#EAE2D5] dark:border-white/10 bg-white/85 dark:bg-white/5 px-4 py-3">
-                                <p className="text-xs uppercase tracking-[0.2em] text-stone-500 dark:text-[#8A8F9C] font-bold">{filter.label}</p>
-                                <p className="mt-1 text-2xl font-bold text-stone-900 dark:text-white font-['Fraunces'] italic">{filter.count}</p>
-                            </div>
+                    {/* Filter Metric Cards */}
+                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {filters.map((filter) => (
+                            <button
+                                key={filter.key}
+                                onClick={() => setActiveFilter(filter.key)}
+                                className={`rounded-2xl border-2 border-black p-4 text-left transition-all cursor-pointer shadow-xs ${
+                                    activeFilter === filter.key
+                                        ? 'bg-[#1A0F08] text-white dark:bg-white dark:text-[#1A140D] scale-102'
+                                        : 'bg-[#E2B293] dark:bg-[#0E1116] hover:bg-[#D59E7C] text-[#1A0F08] dark:text-white'
+                                }`}
+                            >
+                                <p className={`text-[10px] font-black uppercase tracking-widest ${
+                                    activeFilter === filter.key ? 'text-[#F5C36B] dark:text-[#D97B4F]' : 'text-[#5C361E] dark:text-[#8A8F9C]'
+                                }`}>
+                                    {filter.label}
+                                </p>
+                                <p className="mt-1 text-2xl font-black font-['Fraunces'] italic">{filter.count}</p>
+                            </button>
                         ))}
                     </div>
                 </motion.section>
 
-                <section className="flex flex-wrap gap-2">
-                    {['all', 'unread', 'read'].map((key) => {
-                        const label = key.charAt(0).toUpperCase() + key.slice(1);
-                        return (
-                            <button
-                                key={key}
-                                className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors ${key === 'all' ? 'bg-gray-900 text-white dark:bg-white dark:text-[#11151D] border-transparent' : 'bg-white/70 dark:bg-white/5 text-gray-700 dark:text-[#E7E6E3] border-gray-200 dark:border-white/10 hover:bg-white dark:hover:bg-white/10'}`}
-                            >
-                                {label}
-                            </button>
-                        );
-                    })}
-                </section>
-
+                {/* Stream Content */}
                 <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
                     {loading ? (
-                        <div className="rounded-[1.75rem] border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-[#11151D]/80 p-8 text-center text-gray-500 dark:text-[#A0A6B6]">
-                            Loading notifications...
+                        <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 p-10 text-center text-xs font-black uppercase tracking-wider text-[#5C361E] dark:text-[#A0A6B6] shadow-[6px_6px_0px_#000000] flex items-center justify-center gap-3">
+                            <div className="w-5 h-5 rounded-full border-2 border-t-transparent border-black dark:border-[#FF8F6B] animate-spin" />
+                            <span>Loading live signals...</span>
                         </div>
-                    ) : activeNotifications.length === 0 ? (
-                        <div className="rounded-[1.75rem] border border-[#EAE2D5] dark:border-white/10 bg-white/90 dark:bg-[#11151D]/80 p-10 text-center">
-                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-[#FF8F6B]/15 to-[#F5C36B]/15 text-2xl text-[#D97B4F]">
-                                <HiOutlineBell className="text-3xl" />
+                    ) : filteredNotifications.length === 0 ? (
+                        <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-[#F0C9AE] dark:bg-[#12151C]/92 p-10 text-center shadow-[6px_6px_0px_#000000] dark:shadow-2xl">
+                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E2B293] dark:bg-[#181C26] border-2 border-black text-[#9E3610] dark:text-[#FF8F6B] shadow-md">
+                                <HiOutlineBell className="text-3xl stroke-[2.2]" />
                             </div>
-                            <h2 className="mt-4 text-xl font-semibold text-stone-900 dark:text-white">No notifications yet</h2>
-                            <p className="mt-2 text-sm text-stone-500 dark:text-[#A0A6B6]">When people like, comment, or follow you, they will appear here.</p>
+                            <h2 className="mt-4 text-xl font-extrabold text-[#1A0F08] dark:text-white font-['Fraunces'] italic">
+                                {activeFilter === 'unread' ? 'No unread notifications' : 'No notifications in this stream'}
+                            </h2>
+                            <p className="mt-1 text-xs font-bold text-[#5C361E] dark:text-[#A0A6B6]">
+                                When people like your posts, comment, or follow your profile, their signals appear right here.
+                            </p>
                             <Link
                                 to={user ? '/feed' : '/login'}
-                                className="mt-5 inline-flex rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] px-5 py-2.5 text-xs font-extrabold text-[#1A140D]"
+                                className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] px-6 py-2.5 text-xs font-black uppercase tracking-wider text-[#1A140D] border-2 border-black shadow-xs hover:scale-105 transition-all"
                             >
-                                Go to feed
+                                Explore Community Feed →
                             </Link>
                         </div>
                     ) : (
                         <AnimatePresence>
-                            {activeNotifications.map((notification, index) => {
+                            {filteredNotifications.map((notification, index) => {
                                 const meta = getNotificationMeta(notification);
                                 const detail = getNotificationDetail(notification);
                                 const unread = !notification.read;
@@ -134,76 +239,84 @@ const Notifications = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, scale: 0.98 }}
                                         transition={{ duration: 0.18, delay: Math.min(index * 0.02, 0.12) }}
-                                        className={`group rounded-[1.75rem] border p-4 sm:p-5 shadow-xs cursor-pointer ${unread ? 'border-[#FF8F6B]/30 bg-[#FFF8F4] dark:bg-white/6' : 'border-[#EAE2D5] dark:border-white/10 bg-white/90 dark:bg-[#11151D]/80'}`}
+                                        className={`group rounded-3xl border-2 border-black p-4 sm:p-5 shadow-[4px_4px_0px_#000000] cursor-pointer transition-all hover:scale-[1.01] ${
+                                            unread
+                                                ? 'bg-[#FFE2D1] dark:bg-[#1A1E29] dark:border-[#FF8F6B]/60'
+                                                : 'bg-[#F0C9AE] dark:bg-[#12151C]/92 dark:border-white/10'
+                                        }`}
                                         onClick={() => handleOpenNotification(notification)}
                                     >
                                         <div className="flex items-start gap-4">
+                                            {/* Avatar Frame */}
                                             <div className="relative shrink-0">
                                                 <img
-                                                    src={notification.sender?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
+                                                    src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff&bold=true`}
                                                     alt={notification.sender?.name || 'Sender'}
-                                                    className="h-12 w-12 rounded-2xl object-cover ring-2 ring-white dark:ring-[#0E1116]"
-                                                    onError={(e) => { e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'; }}
+                                                    className="h-12 w-12 rounded-full object-cover border-2 border-black shadow-md bg-[#FAF7F2] dark:bg-[#181C26]"
+                                                    onError={(e) => {
+                                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff&bold=true`;
+                                                    }}
                                                 />
-                                                <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full border border-white dark:border-[#0E1116] bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[10px] text-[#1A140D]">
-                                                    {notification.type === 'like' && <HiOutlineHeart className="text-xs" />}
-                                                    {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight className="text-xs" />}
-                                                    {notification.type === 'follow' && <HiOutlineUserPlus className="text-xs" />}
-                                                    {notification.type === 'announcement' && <HiOutlineMegaphone className="text-xs" />}
-                                                    {!['like', 'comment', 'follow', 'announcement'].includes(notification.type) && <HiOutlineBell className="text-xs" />}
+                                                <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full border-2 border-black bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[10px] text-[#1A140D] shadow-xs">
+                                                    {notification.type === 'like' && <HiOutlineHeart className="text-xs stroke-[2.5]" />}
+                                                    {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight className="text-xs stroke-[2.5]" />}
+                                                    {notification.type === 'follow' && <HiOutlineUserPlus className="text-xs stroke-[2.5]" />}
+                                                    {notification.type === 'announcement' && <HiOutlineMegaphone className="text-xs stroke-[2.5]" />}
+                                                    {!['like', 'comment', 'follow', 'announcement'].includes(notification.type) && <HiOutlineBell className="text-xs stroke-[2.5]" />}
                                                 </span>
                                             </div>
 
+                                            {/* Body */}
                                             <div className="min-w-0 flex-1">
                                                 <div className="flex flex-wrap items-start justify-between gap-3">
                                                     <div className="min-w-0">
-                                                        <p className={`text-sm sm:text-base ${unread ? 'font-semibold text-stone-900 dark:text-white' : 'text-stone-600 dark:text-[#C4CAD7]'}`}>
+                                                        <p className={`text-xs sm:text-sm font-extrabold ${unread ? 'text-[#1A0F08] dark:text-white' : 'text-[#402414] dark:text-[#C4CAD7]'}`}>
                                                             {getNotificationMessage(notification)}
                                                         </p>
                                                         {detail && (
-                                                            <p className="mt-1 text-xs sm:text-sm text-stone-600 dark:text-[#A0A6B6] line-clamp-2">
+                                                            <p className="mt-1 text-xs font-bold text-[#5C361E] dark:text-[#A0A6B6] line-clamp-2 leading-relaxed">
                                                                 {detail}
                                                             </p>
                                                         )}
                                                     </div>
 
-                                                    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-gradient-to-r ${meta.accent} bg-white/80 dark:bg-white/5`}>
-                                                        {notification.type === 'like' && <HiOutlineHeart />}
-                                                        {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight />}
-                                                        {notification.type === 'follow' && <HiOutlineUserPlus />}
-                                                        {notification.type === 'announcement' && <HiOutlineMegaphone />}
-                                                        {!['like', 'comment', 'follow', 'announcement'].includes(notification.type) && <HiOutlineBell />}
+                                                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-black bg-[#E2B293] dark:bg-white/5 text-[#1A0F08] dark:text-[#EDEBE6]">
+                                                        {notification.type === 'like' && <HiOutlineHeart className="text-rose-600" />}
+                                                        {notification.type === 'comment' && <HiOutlineChatBubbleLeftRight className="text-amber-600" />}
+                                                        {notification.type === 'follow' && <HiOutlineUserPlus className="text-emerald-600" />}
+                                                        {notification.type === 'announcement' && <HiOutlineMegaphone className="text-orange-600" />}
                                                         <span>{meta.label}</span>
                                                     </span>
                                                 </div>
 
-                                                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-stone-500 dark:text-[#8A8F9C]">
+                                                <div className="mt-3 flex flex-wrap items-center gap-2.5 text-[11px] font-extrabold text-[#5C361E] dark:text-[#8A8F9C]">
                                                     <span>{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}</span>
                                                     {notification.post?.content && (
-                                                        <span className="rounded-full bg-stone-100 dark:bg-white/5 px-2.5 py-0.5">Linked post</span>
+                                                        <span className="rounded-full bg-[#E2B293] dark:bg-white/5 px-2.5 py-0.5 border border-black/20 text-[#1A0F08] dark:text-[#EDEBE6]">Linked post</span>
                                                     )}
                                                     {unread && (
-                                                        <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-emerald-600 dark:text-emerald-300 font-bold">Unread</span>
+                                                        <span className="rounded-full bg-emerald-200 dark:bg-emerald-950/80 px-2.5 py-0.5 text-emerald-950 dark:text-emerald-300 font-black border border-black">New</span>
                                                     )}
                                                 </div>
                                             </div>
 
+                                            {/* Action / Thumbnail */}
                                             <div className="flex shrink-0 flex-col items-end gap-2">
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         deleteNotification(notification._id);
                                                     }}
-                                                    className="rounded-full p-2 text-stone-400 transition hover:bg-rose-50 hover:text-rose-500 dark:hover:bg-rose-500/10 cursor-pointer"
+                                                    className="rounded-full p-1.5 text-[#5C361E] dark:text-gray-400 hover:bg-rose-200 hover:text-rose-950 dark:hover:bg-rose-950 transition-all border border-transparent hover:border-black cursor-pointer"
                                                     aria-label="Delete notification"
                                                 >
-                                                    <HiOutlineXMark className="h-4 w-4" />
+                                                    <HiOutlineXMark className="h-4 w-4 stroke-[2.5]" />
                                                 </button>
                                                 {notification.post?.image && (
                                                     <img
                                                         src={notification.post.image}
                                                         alt="Related media"
-                                                        className="hidden sm:block h-16 w-16 rounded-2xl object-cover ring-1 ring-gray-200 dark:ring-white/10"
+                                                        className="hidden sm:block h-14 w-14 rounded-2xl object-cover border-2 border-black shadow-xs"
                                                         onError={(e) => { e.target.style.display = 'none'; }}
                                                     />
                                                 )}
