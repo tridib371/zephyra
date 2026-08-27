@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     HiOutlineShieldCheck,
     HiOutlineExclamationCircle,
@@ -23,6 +24,59 @@ import {
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
+
+import adminBgLight from '../assets/admin-bg-light.jpg';
+import adminBgDark from '../assets/admin-bg-dark.jpg';
+
+// Animated wind gust SVG lines for smooth motion
+const WindBreeze = () => (
+    <svg
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+        <defs>
+            <linearGradient id="adminGust" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
+                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
+            </linearGradient>
+        </defs>
+        <motion.path
+            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+            fill="none"
+            stroke="url(#adminGust)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
+                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+                ],
+                opacity: [0.3, 0.7, 0.3]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.path
+            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+            fill="none"
+            stroke="url(#adminGust)"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
+                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+                ],
+                opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+    </svg>
+);
 
 const safeFormatDate = (d, options = {}) => {
     try {
@@ -309,75 +363,98 @@ export default function Admin() {
     // =========================================================
     if (!isAdminAuthenticated) {
         return (
-            <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_rgba(255,143,107,0.14),_transparent_55%),linear-gradient(180deg,_#F8F9FA_0%,_#F2F4F7_100%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(245,195,107,0.14),_transparent_50%),linear-gradient(180deg,_#0B0E13_0%,_#080A0E_100%)] px-4 py-12 transition-colors duration-300">
-                <div className="w-full max-w-md">
+            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden">
+                {/* Realistic Master Admin Control Center Photography Wallpapers - Clear & Sharp */}
+                <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                    <img
+                        src={adminBgLight}
+                        alt="Master Admin Control Center Analytics Light Wallpaper"
+                        className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                    />
+                    <img
+                        src={adminBgDark}
+                        alt="High-Tech Server Room & Cybersecurity Command Center Dark Wallpaper"
+                        className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                    />
+                    {/* Clear Light Overlay & Dark Tint Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
+                </div>
 
-                    {/* Outer Glow Card */}
-                    <div className="rounded-[2.5rem] border border-[#EAECF0] dark:border-white/10 bg-white/95 dark:bg-[#12151D]/90 p-8 sm:p-10 backdrop-blur-2xl shadow-[0_30px_90px_-25px_rgba(217,123,79,0.18)] dark:shadow-[0_30px_90px_-25px_rgba(0,0,0,0.8)] space-y-7">
+                <div className="relative z-10 w-full max-w-md">
+
+                    {/* Outer Glow Card with Solid Black Border in Day Mode */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 35, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                        className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151D]/90 p-8 sm:p-10 backdrop-blur-2xl shadow-2xl space-y-7 overflow-hidden relative"
+                    >
+                        <WindBreeze />
 
                         {/* Top Security Badge */}
-                        <div className="text-center space-y-3">
-                            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-[0_10px_30px_-5px_rgba(217,123,79,0.4)] ring-4 ring-[#FF8F6B]/30">
-                                <HiOutlineShieldCheck className="h-8 w-8 text-[#1A140D]" />
+                        <div className="text-center space-y-3 relative z-10">
+                            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-md border-2 border-black dark:border-[#FF8F6B]/40">
+                                <HiOutlineLockClosed className="h-8 w-8 stroke-[2.2]" />
                             </div>
-                            <h1 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                                Admin Access Gate
-                            </h1>
-                            <p className="text-xs sm:text-sm text-gray-500 dark:text-[#9DA3B4] max-w-xs mx-auto">
-                                Restricted portal. Enter authorized administrator credentials to unlock platform controls.
-                            </p>
+                            <div>
+                                <h2 className="font-['Fraunces'] italic text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white">
+                                    Control Gate
+                                </h2>
+                                <p className="text-xs font-bold text-[#4D3222] dark:text-gray-400 mt-1">
+                                    Super Administrator Authentication Required
+                                </p>
+                            </div>
                         </div>
 
                         {/* Error Alert */}
                         {authError && (
-                            <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-2.5">
-                                <HiOutlineExclamationCircle className="text-base shrink-0" />
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="rounded-2xl bg-rose-100/90 dark:bg-rose-950/40 border-2 border-black dark:border-rose-800/50 p-3.5 text-xs text-rose-950 dark:text-rose-300 font-black flex items-start gap-2.5 shadow-xs"
+                            >
+                                <HiOutlineExclamationCircle className="h-4 w-4 shrink-0 text-rose-600 mt-0.5 stroke-[2.2]" />
                                 <span>{authError}</span>
-                            </div>
+                            </motion.div>
                         )}
 
                         {/* Login Form */}
-                        <form onSubmit={handleAdminLogin} className="space-y-4">
-                            <div>
-                                <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1.5 font-[Manrope]">
-                                    Admin Email / Username
+                        <form onSubmit={handleAdminLogin} className="space-y-4 relative z-10">
+                            <div className="space-y-1">
+                                <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
+                                    Admin Identifier / Email
                                 </label>
                                 <div className="relative">
+                                    <HiOutlineUser className="absolute left-3.5 top-3.5 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
                                     <input
                                         type="text"
-                                        placeholder="Enter admin email or username..."
+                                        required
                                         value={adminInputId}
                                         onChange={(e) => setAdminInputId(e.target.value)}
-                                        className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-4 py-3 pl-10 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 focus:border-[#D97B4F] transition-all"
-                                        required
-                                        autoFocus
+                                        placeholder="admin@zephyra.app"
+                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold transition-all"
                                     />
-                                    <span className="absolute left-3.5 top-3.5 text-stone-400 text-sm">
-                                        <HiOutlineUser className="h-4 w-4" />
-                                    </span>
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1.5 font-[Manrope]">
-                                    Master Password
+                            <div className="space-y-1">
+                                <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
+                                    Admin Security Key / Password
                                 </label>
                                 <div className="relative">
+                                    <HiOutlineKey className="absolute left-3.5 top-3.5 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
-                                        placeholder="••••••••••••"
+                                        required
                                         value={adminInputPassword}
                                         onChange={(e) => setAdminInputPassword(e.target.value)}
-                                        className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-4 py-3 pl-10 pr-11 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 focus:border-[#D97B4F] transition-all"
-                                        required
+                                        placeholder="••••••••••••"
+                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-12 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold transition-all"
                                     />
-                                    <span className="absolute left-3.5 top-3.5 text-stone-400 text-sm">
-                                        <HiOutlineKey className="h-4 w-4" />
-                                    </span>
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3.5 top-3 text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-bold p-0.5"
+                                        className="absolute right-3.5 top-3 text-xs text-[#5E3821] hover:text-[#1C1008] dark:hover:text-gray-200 font-black p-0.5"
                                         tabIndex={-1}
                                     >
                                         {showPassword ? 'Hide' : 'Show'}
@@ -385,31 +462,33 @@ export default function Admin() {
                                 </div>
                             </div>
 
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.97 }}
                                 type="submit"
                                 disabled={authLoading || !adminInputId.trim() || !adminInputPassword}
-                                className="w-full mt-2 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_25px_-5px_rgba(217,123,79,0.5)] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                                className="w-full mt-2 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-sm hover:brightness-105 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                             >
                                 {authLoading ? (
                                     <div className="h-5 w-5 border-2 border-[#1A140D] border-t-transparent rounded-full animate-spin" />
                                 ) : (
                                     <>
                                         <span>Unlock Control Center</span>
-                                        <HiOutlineShieldCheck className="h-4 w-4" />
+                                        <HiOutlineShieldCheck className="h-4 w-4 stroke-[2.2]" />
                                     </>
                                 )}
-                            </button>
+                            </motion.button>
                         </form>
 
-                        <div className="pt-2 text-center border-t border-[#EAECF0] dark:border-[#1F232C]">
+                        <div className="pt-2 text-center border-t-2 border-black dark:border-[#1F232C] relative z-10">
                             <Link
                                 to="/feed"
-                                className="text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-[#D97B4F] transition-colors inline-flex items-center gap-1"
+                                className="text-xs font-black text-[#9E3610] dark:text-gray-400 hover:underline inline-flex items-center gap-1"
                             >
                                 ← Return to Community Feed
                             </Link>
                         </div>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>
@@ -420,55 +499,80 @@ export default function Admin() {
     // ⚡ SCREEN 2: UNLOCKED ADMIN CONTROL CENTER
     // =========================================================
     return (
-        <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] text-[#101828] dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto space-y-6">
+        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+            {/* Realistic Master Admin Control Center Photography Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={adminBgLight}
+                    alt="Master Admin Control Center Analytics Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={adminBgDark}
+                    alt="High-Tech Server Room & Cybersecurity Command Center Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
+
+            <div className="relative max-w-7xl mx-auto space-y-6 z-10">
 
                 {/* Toast Notification */}
                 {toastMessage && (
-                    <div className="fixed bottom-6 right-6 z-50 rounded-2xl bg-[#101828] dark:bg-white text-white dark:text-[#101828] px-5 py-3 text-sm font-semibold shadow-2xl flex items-center gap-2.5 animate-bounce">
-                        <HiOutlineCheckCircle className="h-5 w-5 text-[#FF8F6B]" />
+                    <div className="fixed bottom-6 right-6 z-50 rounded-2xl bg-[#1A140D] dark:bg-white text-white dark:text-[#1A140D] border-2 border-black px-5 py-3 text-sm font-black shadow-2xl flex items-center gap-2.5 animate-bounce">
+                        <HiOutlineCheckCircle className="h-5 w-5 text-[#FF8F6B] stroke-[2.2]" />
                         <span>{toastMessage}</span>
                     </div>
                 )}
 
-                {/* Header Section */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs">
+                {/* Header Section with Black Border in Day Mode */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-6 shadow-2xl backdrop-blur-xl"
+                >
                     <div className="flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] flex items-center justify-center font-bold text-xl shadow-md">
-                            <HiOutlineShieldCheck className="h-6 w-6 text-[#1A140D]" />
+                        <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black flex items-center justify-center font-black text-xl shadow-md">
+                            <HiOutlineShieldCheck className="h-6 w-6 text-[#1A140D] stroke-[2.2]" />
                         </div>
                         <div>
                             <div className="flex items-center gap-2">
-                                <h1 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold tracking-tight">
+                                <h1 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1C1008] dark:text-white">
                                     Control Center
                                 </h1>
-                                <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]">
+                                <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:text-[#F5C36B] border border-black dark:border-[#FF8F6B]/40">
                                     Super Admin
                                 </span>
                             </div>
-                            <p className="text-xs sm:text-sm text-[#475467] dark:text-gray-400 mt-0.5">
+                            <p className="text-xs sm:text-sm text-[#4D3222] dark:text-gray-400 mt-0.5 font-bold">
                                 Platform management, community moderation, and broadcast announcements.
                             </p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-2.5">
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.96 }}
                             onClick={handleLockAdminSession}
-                            className="px-4 py-2 text-xs sm:text-sm font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 rounded-full border border-red-200 dark:border-red-900/50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                            className="px-4 py-2 text-xs sm:text-sm font-black text-rose-950 dark:text-rose-400 bg-rose-200 dark:bg-rose-950/40 hover:bg-rose-300 rounded-full border-2 border-black dark:border-red-900/50 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                         >
-                            <HiOutlineLockClosed className="h-4 w-4" /> Lock Session
-                        </button>
-                        <Link
-                            to="/feed"
-                            className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border border-[#EAECF0] dark:border-[#1F232C] hover:bg-[#F8F9FA] dark:hover:bg-[#181C26] transition-colors"
-                        >
-                            Feed →
-                        </Link>
+                            <HiOutlineLockClosed className="h-4 w-4 stroke-[2.2]" /> Lock Session
+                        </motion.button>
+                        <motion.div whileHover={{ scale: 1.05 }}>
+                            <Link
+                                to="/feed"
+                                className="px-4 py-2 text-xs sm:text-sm font-black rounded-full border-2 border-black bg-white dark:bg-[#181C26] hover:bg-[#FFF6EF] transition-colors inline-block shadow-xs"
+                            >
+                                Feed →
+                            </Link>
+                        </motion.div>
                     </div>
-                </div>
+                </motion.div>
 
-                {/* Navigation Tabs */}
+                {/* Navigation Tabs with Black Borders in Day Mode */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     {[
                         { id: 'overview', label: 'Analytics', icon: HiOutlineChartBar },
@@ -478,17 +582,20 @@ export default function Admin() {
                     ].map((tab) => {
                         const TabIcon = tab.icon;
                         return (
-                            <button
+                            <motion.button
                                 key={tab.id}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${activeTab === tab.id
-                                    ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-md scale-102'
-                                    : 'bg-white dark:bg-[#12151C] border border-[#EAECF0] dark:border-[#1F232C] text-[#344054] dark:text-gray-300 hover:border-[#D97B4F]'
-                                    }`}
+                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-black transition-all cursor-pointer whitespace-nowrap border-2 ${
+                                    activeTab === tab.id
+                                        ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] border-black dark:border-white shadow-md'
+                                        : 'bg-white dark:bg-[#12151C] border-black dark:border-[#1F232C] text-[#1C1008] dark:text-gray-300 hover:bg-[#FFF6EF]'
+                                }`}
                             >
-                                <TabIcon className="h-4 w-4" />
+                                <TabIcon className="h-4 w-4 stroke-[2.2]" />
                                 <span>{tab.label}</span>
-                            </button>
+                            </motion.button>
                         );
                     })}
                 </div>
@@ -497,9 +604,14 @@ export default function Admin() {
                 {/* 1. OVERVIEW TAB */}
                 {/* ========================================== */}
                 {activeTab === 'overview' && (
-                    <div className="space-y-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-6"
+                    >
                         {statsLoading ? (
-                            <div className="py-20 text-center text-sm text-gray-400 dark:text-gray-500">
+                            <div className="py-20 text-center text-sm font-bold text-gray-500 dark:text-gray-400">
                                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#D97B4F] border-t-transparent mb-2" />
                                 <p>Loading analytics...</p>
                             </div>
@@ -507,77 +619,77 @@ export default function Admin() {
                             <>
                                 {/* Stat Cards Grid */}
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
+                                    <motion.div whileHover={{ y: -5, scale: 1.02 }} className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Users</span>
-                                            <span className="h-8 w-8 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 grid place-items-center text-sm">
-                                                <HiOutlineUsers className="h-4 w-4" />
+                                            <span className="text-xs font-black text-[#9E3610] dark:text-gray-400 uppercase tracking-wider">Total Users</span>
+                                            <span className="h-8 w-8 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-950 dark:text-blue-300 grid place-items-center text-sm border border-black font-black">
+                                                <HiOutlineUsers className="h-4 w-4 stroke-[2.2]" />
                                             </span>
                                         </div>
-                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{stats.totalUsers.toLocaleString()}</div>
-                                        <div className="mt-1 text-[11px] text-gray-400">Total registered members</div>
-                                    </div>
+                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-black text-[#1C1008] dark:text-white">{stats.totalUsers.toLocaleString()}</div>
+                                        <div className="mt-1 text-[11px] text-[#5E3821] dark:text-gray-400 font-bold">Total registered members</div>
+                                    </motion.div>
 
-                                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
+                                    <motion.div whileHover={{ y: -5, scale: 1.02 }} className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Published Posts</span>
-                                            <span className="h-8 w-8 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 grid place-items-center text-sm">
-                                                <HiOutlineDocumentText className="h-4 w-4" />
+                                            <span className="text-xs font-black text-[#9E3610] dark:text-gray-400 uppercase tracking-wider">Published Posts</span>
+                                            <span className="h-8 w-8 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-950 dark:text-amber-300 grid place-items-center text-sm border border-black font-black">
+                                                <HiOutlineDocumentText className="h-4 w-4 stroke-[2.2]" />
                                             </span>
                                         </div>
-                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{stats.totalPosts.toLocaleString()}</div>
-                                        <div className="mt-1 text-[11px] text-gray-400">Total community stories</div>
-                                    </div>
+                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-black text-[#1C1008] dark:text-white">{stats.totalPosts.toLocaleString()}</div>
+                                        <div className="mt-1 text-[11px] text-[#5E3821] dark:text-gray-400 font-bold">Total community stories</div>
+                                    </motion.div>
 
-                                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
+                                    <motion.div whileHover={{ y: -5, scale: 1.02 }} className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Interactions</span>
-                                            <span className="h-8 w-8 rounded-xl bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 grid place-items-center text-sm">
-                                                <HiOutlineHeart className="h-4 w-4" />
+                                            <span className="text-xs font-black text-[#9E3610] dark:text-gray-400 uppercase tracking-wider">Interactions</span>
+                                            <span className="h-8 w-8 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-950 dark:text-rose-300 grid place-items-center text-sm border border-black font-black">
+                                                <HiOutlineHeart className="h-4 w-4 stroke-[2.2]" />
                                             </span>
                                         </div>
-                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold">{(stats.totalLikes + stats.totalComments).toLocaleString()}</div>
-                                        <div className="mt-1 text-[11px] text-gray-400">{stats.totalLikes} Likes • {stats.totalComments} Comments</div>
-                                    </div>
+                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-black text-[#1C1008] dark:text-white">{(stats.totalLikes + stats.totalComments).toLocaleString()}</div>
+                                        <div className="mt-1 text-[11px] text-[#5E3821] dark:text-gray-400 font-bold">{stats.totalLikes} Likes • {stats.totalComments} Comments</div>
+                                    </motion.div>
 
-                                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs">
+                                    <motion.div whileHover={{ y: -5, scale: 1.02 }} className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Suspended</span>
-                                            <span className="h-8 w-8 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 grid place-items-center text-sm">
-                                                <HiOutlineNoSymbol className="h-4 w-4" />
+                                            <span className="text-xs font-black text-rose-700 dark:text-rose-400 uppercase tracking-wider">Suspended</span>
+                                            <span className="h-8 w-8 rounded-xl bg-rose-200 dark:bg-red-900/40 text-rose-950 dark:text-red-400 grid place-items-center text-sm border border-black font-black">
+                                                <HiOutlineNoSymbol className="h-4 w-4 stroke-[2.2]" />
                                             </span>
                                         </div>
-                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-red-600 dark:text-red-400">{stats.bannedUsers}</div>
-                                        <div className="mt-1 text-[11px] text-gray-400">Banned user accounts</div>
-                                    </div>
+                                        <div className="mt-3 font-['Fraunces'] text-2xl sm:text-3xl font-black text-rose-700 dark:text-red-400">{stats.bannedUsers}</div>
+                                        <div className="mt-1 text-[11px] text-rose-800 dark:text-gray-400 font-bold">Banned user accounts</div>
+                                    </motion.div>
                                 </div>
 
                                 {/* 7-Day User Growth Bar Chart */}
-                                <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs">
+                                <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-6 shadow-2xl backdrop-blur-xl">
                                     <div className="flex items-center justify-between mb-6">
                                         <div>
-                                            <h3 className="font-['Fraunces'] text-lg font-bold">New Registrations (Last 7 Days)</h3>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">Daily signups velocity</p>
+                                            <h3 className="font-['Fraunces'] text-lg font-bold text-[#1C1008] dark:text-white">New Registrations (Last 7 Days)</h3>
+                                            <p className="text-xs text-[#4D3222] dark:text-gray-400 font-bold">Daily signups velocity</p>
                                         </div>
-                                        <span className="text-xs font-bold text-[#D97B4F] dark:text-[#F5C36B] bg-[#FF8F6B]/15 px-3 py-1 rounded-full">
+                                        <span className="text-xs font-black text-[#9E3610] dark:text-[#F5C36B] bg-[#FF8F6B]/20 px-3 py-1 rounded-full border border-black dark:border-[#FF8F6B]/40">
                                             Active Growth
                                         </span>
                                     </div>
 
-                                    <div className="grid grid-cols-7 gap-2 sm:gap-4 items-end h-40 pt-4 border-b border-[#EAECF0] dark:border-[#1F232C]">
+                                    <div className="grid grid-cols-7 gap-2 sm:gap-4 items-end h-40 pt-4 border-b-2 border-black dark:border-[#1F232C]">
                                         {stats.growthDays.map((d, i) => {
                                             const maxCount = Math.max(...stats.growthDays.map((x) => x.count), 5);
                                             const heightPct = Math.max((d.count / maxCount) * 100, 8);
                                             return (
                                                 <div key={i} className="flex flex-col items-center gap-2 h-full justify-end group">
-                                                    <span className="text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+                                                    <span className="text-[10px] sm:text-xs font-black text-[#1C1008] dark:text-gray-300 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform">
                                                         {d.count}
                                                     </span>
                                                     <div
                                                         style={{ height: `${heightPct}%` }}
-                                                        className="w-full max-w-[36px] rounded-t-xl bg-gradient-to-t from-[#D97B4F] to-[#FF8F6B] group-hover:brightness-110 transition-all shadow-xs"
+                                                        className="w-full max-w-[36px] rounded-t-xl bg-gradient-to-t from-[#D97B4F] to-[#FF8F6B] border-t-2 border-x-2 border-black group-hover:brightness-110 transition-all shadow-xs"
                                                     />
-                                                    <span className="text-[10px] sm:text-xs text-gray-400 uppercase font-medium">{d.day}</span>
+                                                    <span className="text-[10px] sm:text-xs text-[#5E3821] dark:text-gray-400 uppercase font-black">{d.day}</span>
                                                 </div>
                                             );
                                         })}
@@ -587,9 +699,9 @@ export default function Admin() {
                                 {/* Recent Registrations & Posts */}
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                     {/* Latest Users */}
-                                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs">
-                                        <h3 className="font-['Fraunces'] text-lg font-bold mb-4">Latest Registered Users</h3>
-                                        <div className="divide-y divide-[#EAECF0] dark:divide-[#1F232C]">
+                                    <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-6 shadow-2xl backdrop-blur-xl">
+                                        <h3 className="font-['Fraunces'] text-lg font-bold mb-4 text-[#1C1008] dark:text-white">Latest Registered Users</h3>
+                                        <div className="divide-y-2 divide-black dark:divide-[#1F232C]">
                                             {stats.recentUsers.map((u) => (
                                                 <div key={u._id} className="py-3 flex items-center justify-between gap-3">
                                                     <div className="flex items-center gap-3 min-w-0">
@@ -597,14 +709,14 @@ export default function Admin() {
                                                             src={u.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=D97B4F&color=fff`}
                                                             alt=""
                                                             referrerPolicy="no-referrer"
-                                                            className="h-10 w-10 rounded-2xl object-cover border border-[#EAECF0] dark:border-[#1F232C]"
+                                                            className="h-10 w-10 rounded-2xl object-cover border-2 border-black dark:border-[#1F232C]"
                                                         />
                                                         <div className="min-w-0">
-                                                            <div className="font-semibold text-sm truncate">{u.name}</div>
-                                                            <div className="text-xs text-gray-400 truncate">@{u.username}</div>
+                                                            <p className="text-sm font-black truncate text-[#1C1008] dark:text-white">{u.name}</p>
+                                                            <p className="text-xs text-[#5E3821] dark:text-gray-400 font-bold truncate">@{u.username}</p>
                                                         </div>
                                                     </div>
-                                                    <span className="text-[10px] text-gray-400 shrink-0">
+                                                    <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-[#FFF6EF] dark:bg-[#181C26] text-[#9E3610] dark:text-[#F5C36B] border border-black">
                                                         {safeFormatDate(u.createdAt, { addSuffix: true })}
                                                     </span>
                                                 </div>
@@ -612,17 +724,17 @@ export default function Admin() {
                                         </div>
                                     </div>
 
-                                    {/* Latest Posts */}
-                                    <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs">
-                                        <h3 className="font-['Fraunces'] text-lg font-bold mb-4">Latest Published Stories</h3>
-                                        <div className="divide-y divide-[#EAECF0] dark:divide-[#1F232C]">
+                                    {/* Latest Stories */}
+                                    <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-6 shadow-2xl backdrop-blur-xl">
+                                        <h3 className="font-['Fraunces'] text-lg font-bold mb-4 text-[#1C1008] dark:text-white">Recent Published Stories</h3>
+                                        <div className="divide-y-2 divide-black dark:divide-[#1F232C]">
                                             {stats.recentPosts.map((p) => (
                                                 <div key={p._id} className="py-3 flex items-center justify-between gap-3">
-                                                    <div className="min-w-0 flex-1">
-                                                        <p className="text-sm font-medium line-clamp-1">{p.content}</p>
-                                                        <p className="text-xs text-gray-400 mt-0.5">by @{p.author?.username || 'user'}</p>
+                                                    <div className="min-w-0">
+                                                        <p className="text-sm font-black truncate text-[#1C1008] dark:text-white">{p.title || p.content?.slice(0, 40) || 'Untitled Post'}</p>
+                                                        <p className="text-xs text-[#5E3821] dark:text-gray-400 font-bold truncate">by @{p.author?.username || 'unknown'}</p>
                                                     </div>
-                                                    <span className="text-[10px] text-gray-400 shrink-0">
+                                                    <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-[#FFF6EF] dark:bg-[#181C26] text-[#9E3610] dark:text-[#F5C36B] border border-black shrink-0">
                                                         {safeFormatDate(p.createdAt, { addSuffix: true })}
                                                     </span>
                                                 </div>
@@ -632,30 +744,33 @@ export default function Admin() {
                                 </div>
                             </>
                         ) : null}
-                    </div>
+                    </motion.div>
                 )}
 
                 {/* ========================================== */}
-                {/* 2. USERS MANAGEMENT TAB */}
+                {/* 2. USERS TAB */}
                 {/* ========================================== */}
                 {activeTab === 'users' && (
-                    <div className="space-y-4">
-                        {/* Search & Filter Bar */}
-                        <div className="flex flex-col sm:flex-row gap-3 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-4 shadow-xs">
-                            <div className="relative flex-1">
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-6"
+                    >
+                        {/* User Filters */}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl">
+                            <div className="relative grow max-w-md">
+                                <HiOutlineMagnifyingGlass className="absolute left-3.5 top-3.5 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
                                 <input
                                     type="text"
-                                    placeholder="Search users by name, username, or email..."
                                     value={userSearch}
                                     onChange={(e) => {
                                         setUserSearch(e.target.value);
                                         setUsersPage(1);
                                     }}
-                                    className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-4 py-2.5 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 focus:border-[#D97B4F]"
+                                    placeholder="Search by name, username, or email..."
+                                    className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
                                 />
-                                <span className="absolute left-3.5 top-3 text-stone-400 text-sm">
-                                    <HiOutlineMagnifyingGlass className="h-4 w-4" />
-                                </span>
                             </div>
 
                             <div className="flex items-center gap-2">
@@ -665,11 +780,11 @@ export default function Admin() {
                                         setUserRoleFilter(e.target.value);
                                         setUsersPage(1);
                                     }}
-                                    className="rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-3.5 py-2.5 text-xs sm:text-sm font-semibold focus:outline-none"
+                                    className="rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-3 py-2.5 text-xs font-black text-[#1C1008] dark:text-white focus:outline-none"
                                 >
                                     <option value="">All Roles</option>
-                                    <option value="admin">Admins</option>
-                                    <option value="user">Regular Users</option>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
                                 </select>
 
                                 <select
@@ -678,111 +793,103 @@ export default function Admin() {
                                         setUserStatusFilter(e.target.value);
                                         setUsersPage(1);
                                     }}
-                                    className="rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-3.5 py-2.5 text-xs sm:text-sm font-semibold focus:outline-none"
+                                    className="rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-3 py-2.5 text-xs font-black text-[#1C1008] dark:text-white focus:outline-none"
                                 >
                                     <option value="">All Statuses</option>
                                     <option value="active">Active Only</option>
-                                    <option value="banned">Suspended Only</option>
+                                    <option value="banned">Banned Only</option>
                                 </select>
                             </div>
                         </div>
 
                         {/* Users Table */}
-                        <div className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] overflow-hidden shadow-xs">
+                        <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 overflow-hidden shadow-2xl backdrop-blur-xl">
                             {usersLoading ? (
-                                <div className="py-20 text-center text-sm text-gray-400">
+                                <div className="py-20 text-center text-sm font-bold text-gray-500">
                                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#D97B4F] border-t-transparent mb-2" />
-                                    <p>Loading user directory...</p>
+                                    <p>Loading member directory...</p>
                                 </div>
                             ) : users.length === 0 ? (
-                                <div className="py-16 text-center text-sm text-gray-500">
-                                    No users found matching your criteria.
+                                <div className="p-12 text-center text-sm text-gray-500 font-bold">
+                                    No users found matching query.
                                 </div>
                             ) : (
                                 <div className="overflow-x-auto">
-                                    <table className="w-full text-left text-sm">
-                                        <thead className="bg-[#F8F9FA] dark:bg-[#181C26]/80 text-[11px] uppercase tracking-wider text-[#475467] dark:text-gray-400 border-b border-[#EAECF0] dark:border-[#1F232C]">
+                                    <table className="w-full text-left text-xs sm:text-sm">
+                                        <thead className="bg-[#FFF0E6] dark:bg-[#181C26] text-[#9E3610] dark:text-white font-black border-b-2 border-black dark:border-[#252A36]">
                                             <tr>
-                                                <th className="px-5 py-3.5 font-bold">User</th>
-                                                <th className="px-5 py-3.5 font-bold">Role</th>
-                                                <th className="px-5 py-3.5 font-bold">Status</th>
-                                                <th className="px-5 py-3.5 font-bold">Stories</th>
-                                                <th className="px-5 py-3.5 font-bold">Joined</th>
-                                                <th className="px-5 py-3.5 font-bold text-right">Actions</th>
+                                                <th className="p-4">User</th>
+                                                <th className="p-4">Role</th>
+                                                <th className="p-4">Status</th>
+                                                <th className="p-4">Joined</th>
+                                                <th className="p-4 text-right">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-[#EAECF0] dark:divide-[#1F232C]">
+                                        <tbody className="divide-y-2 divide-black dark:divide-[#1F232C]">
                                             {users.map((u) => (
-                                                <tr key={u._id} className="hover:bg-[#F8F9FA]/60 dark:hover:bg-[#181C26]/40 transition-colors">
-                                                    <td className="px-5 py-4">
+                                                <tr key={u._id} className="hover:bg-[#FFF6EF] dark:hover:bg-[#161B26] transition-colors">
+                                                    <td className="p-4">
                                                         <div className="flex items-center gap-3">
                                                             <img
                                                                 src={u.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=D97B4F&color=fff`}
                                                                 alt=""
-                                                                referrerPolicy="no-referrer"
-                                                                className="h-10 w-10 rounded-2xl object-cover border border-[#EAECF0] dark:border-[#1F232C] shrink-0"
+                                                                className="h-9 w-9 rounded-2xl object-cover border-2 border-black"
                                                             />
-                                                            <div className="min-w-0">
-                                                                <div className="font-bold text-sm truncate flex items-center gap-1.5">
-                                                                    <span>{u.name}</span>
-                                                                    {u.role === 'admin' && (
-                                                                        <span className="text-[9px] bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B] font-extrabold px-1.5 py-0.2 rounded-full">ADMIN</span>
-                                                                    )}
-                                                                </div>
-                                                                <div className="text-xs text-gray-400 truncate">@{u.username} • {u.email}</div>
+                                                            <div>
+                                                                <div className="font-black text-[#1C1008] dark:text-white">{u.name}</div>
+                                                                <div className="text-xs text-[#5E3821] dark:text-gray-400 font-bold">@{u.username} • {u.email}</div>
                                                             </div>
                                                         </div>
                                                     </td>
-
-                                                    <td className="px-5 py-4">
-                                                        <span className={`text-[11px] font-black uppercase px-2.5 py-1 rounded-full ${u.role === 'admin' ? 'bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B]' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`}>
-                                                            {u.role || 'user'}
-                                                        </span>
+                                                    <td className="p-4">
+                                                        <select
+                                                            value={u.role || 'user'}
+                                                            onChange={(e) => handleRoleChange(u, e.target.value)}
+                                                            className="rounded-xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-2.5 py-1 text-xs font-black text-[#1C1008] dark:text-white focus:outline-none"
+                                                        >
+                                                            <option value="user">User</option>
+                                                            <option value="admin">Admin</option>
+                                                        </select>
                                                     </td>
-
-                                                    <td className="px-5 py-4">
+                                                    <td className="p-4">
                                                         {u.isBanned ? (
-                                                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30 px-2.5 py-0.5 rounded-full">
-                                                                <HiOutlineNoSymbol className="h-3 w-3" /> Suspended
+                                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-200 text-rose-950 dark:bg-rose-950/60 dark:text-rose-300 text-[10px] font-black border border-black">
+                                                                <HiOutlineNoSymbol className="h-3 w-3 stroke-[2.5]" /> Banned
                                                             </span>
                                                         ) : (
-                                                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-0.5 rounded-full">
-                                                                <HiOutlineCheck className="h-3 w-3" /> Active
+                                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-200 text-emerald-950 dark:bg-emerald-950/60 dark:text-emerald-300 text-[10px] font-black border border-black">
+                                                                <HiOutlineCheck className="h-3 w-3 stroke-[2.5]" /> Active
                                                             </span>
                                                         )}
                                                     </td>
-
-                                                    <td className="px-5 py-4 font-semibold text-xs text-gray-500">
-                                                        {u.postCount || 0} posts
-                                                    </td>
-
-                                                    <td className="px-5 py-4 text-xs text-gray-400">
+                                                    <td className="p-4 text-xs text-[#5E3821] dark:text-gray-400 font-bold">
                                                         {safeFormatDate(u.createdAt, { addSuffix: true })}
                                                     </td>
-
-                                                    <td className="px-5 py-4 text-right">
-                                                        <div className="flex items-center justify-end gap-1.5">
-                                                            {u.role !== 'admin' && (
-                                                                <button
-                                                                    onClick={() => {
-                                                                        setBanModalUser(u);
-                                                                        setBanReason(u.bannedReason || '');
-                                                                    }}
-                                                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${u.isBanned ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/20 dark:hover:bg-emerald-900/30' : 'bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30'}`}
-                                                                >
-                                                                    {u.isBanned ? 'Lift Ban' : 'Suspend'}
-                                                                </button>
-                                                            )}
-
-                                                            {u.role !== 'admin' && (
-                                                                <button
-                                                                    onClick={() => setDeleteUserConfirm(u._id)}
-                                                                    className="p-1.5 text-stone-400 hover:text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
-                                                                    title="Permanently Delete User"
-                                                                >
-                                                                    <HiOutlineTrash className="h-4 w-4" />
-                                                                </button>
-                                                            )}
+                                                    <td className="p-4 text-right">
+                                                        <div className="flex items-center justify-end gap-2">
+                                                            <motion.button
+                                                                whileHover={{ scale: 1.05 }}
+                                                                whileTap={{ scale: 0.96 }}
+                                                                onClick={() => {
+                                                                    setBanModalUser(u);
+                                                                    setBanReason(u.bannedReason || '');
+                                                                }}
+                                                                className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-black cursor-pointer shadow-xs ${
+                                                                    u.isBanned
+                                                                        ? 'bg-emerald-200 text-emerald-950 hover:bg-emerald-300'
+                                                                        : 'bg-amber-200 text-amber-950 hover:bg-amber-300'
+                                                                }`}
+                                                            >
+                                                                {u.isBanned ? 'Unban' : 'Ban'}
+                                                            </motion.button>
+                                                            <motion.button
+                                                                whileHover={{ scale: 1.05 }}
+                                                                whileTap={{ scale: 0.96 }}
+                                                                onClick={() => setDeleteUserConfirm(u)}
+                                                                className="p-1.5 rounded-xl bg-rose-200 text-rose-950 hover:bg-rose-300 border-2 border-black cursor-pointer shadow-xs"
+                                                            >
+                                                                <HiOutlineTrash className="h-4 w-4 stroke-[2.2]" />
+                                                            </motion.button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -792,22 +899,23 @@ export default function Admin() {
                                 </div>
                             )}
 
-                            {/* Pagination Controls */}
+                            {/* Pagination */}
                             {usersTotalPages > 1 && (
-                                <div className="px-5 py-3.5 border-t border-gray-100 dark:border-[#1F232C] flex items-center justify-between text-xs text-gray-500">
-                                    <span>Showing page {usersPage} of {usersTotalPages} ({usersTotal} total)</span>
+                                <div className="p-4 border-t-2 border-black dark:border-[#1F232C] flex items-center justify-between text-xs font-black">
+                                    <span className="text-[#5E3821] dark:text-gray-400">Total: {usersTotal} members</span>
                                     <div className="flex items-center gap-2">
                                         <button
                                             disabled={usersPage <= 1}
-                                            onClick={() => setUsersPage((p) => Math.max(p - 1, 1))}
-                                            className="px-3 py-1.5 rounded-xl border border-gray-200 dark:border-[#252A36] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-[#181C26]"
+                                            onClick={() => setUsersPage((p) => p - 1)}
+                                            className="px-3 py-1 rounded-xl border-2 border-black bg-white dark:bg-[#181C26] disabled:opacity-40"
                                         >
-                                            Previous
+                                            Prev
                                         </button>
+                                        <span>Page {usersPage} of {usersTotalPages}</span>
                                         <button
                                             disabled={usersPage >= usersTotalPages}
                                             onClick={() => setUsersPage((p) => p + 1)}
-                                            className="px-3 py-1.5 rounded-xl border border-gray-200 dark:border-[#252A36] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-[#181C26]"
+                                            className="px-3 py-1 rounded-xl border-2 border-black bg-white dark:bg-[#181C26] disabled:opacity-40"
                                         >
                                             Next
                                         </button>
@@ -815,309 +923,223 @@ export default function Admin() {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </motion.div>
                 )}
 
                 {/* ========================================== */}
-                {/* 3. POST MODERATION TAB */}
+                {/* 3. MODERATION POSTS TAB */}
                 {/* ========================================== */}
                 {activeTab === 'posts' && (
-                    <div className="space-y-4">
-                        {/* Search Bar */}
-                        <div className="flex gap-3 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-4 shadow-xs">
-                            <div className="relative flex-1">
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-6"
+                    >
+                        {/* Search Filter */}
+                        <div className="flex items-center gap-4 rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl">
+                            <div className="relative grow max-w-md">
+                                <HiOutlineMagnifyingGlass className="absolute left-3.5 top-3.5 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
                                 <input
                                     type="text"
-                                    placeholder="Search stories by content or keyword..."
                                     value={postSearch}
                                     onChange={(e) => {
                                         setPostSearch(e.target.value);
                                         setPostsPage(1);
                                     }}
-                                    className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-4 py-2.5 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 focus:border-[#D97B4F]"
+                                    placeholder="Search stories by content or author..."
+                                    className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
                                 />
-                                <span className="absolute left-3.5 top-3 text-stone-400 text-sm">
-                                    <HiOutlineMagnifyingGlass className="h-4 w-4" />
-                                </span>
                             </div>
                         </div>
 
                         {/* Posts Grid */}
                         {postsLoading ? (
-                            <div className="py-20 text-center text-sm text-gray-400">
+                            <div className="py-20 text-center text-sm font-bold text-gray-500">
                                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#D97B4F] border-t-transparent mb-2" />
-                                <p>Loading posts stream...</p>
+                                <p>Loading community posts...</p>
                             </div>
                         ) : posts.length === 0 ? (
-                            <div className="py-16 text-center text-sm text-gray-500 rounded-3xl bg-white dark:bg-[#12151C] border border-[#EAECF0] dark:border-[#1F232C]">
-                                No posts found.
+                            <div className="p-12 text-center text-sm text-gray-500 font-bold">
+                                No posts match query.
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                                 {posts.map((p) => (
-                                    <div key={p._id} className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-5 shadow-xs flex flex-col justify-between">
-                                        <div>
-                                            <div className="flex items-center justify-between gap-3 mb-3">
-                                                <div className="flex items-center gap-2.5 min-w-0">
+                                    <motion.div
+                                        key={p._id}
+                                        whileHover={{ y: -5, scale: 1.01 }}
+                                        className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-5 shadow-2xl backdrop-blur-xl flex flex-col justify-between space-y-4"
+                                    >
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2.5">
                                                     <img
                                                         src={p.author?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.author?.name || 'User')}&background=D97B4F&color=fff`}
                                                         alt=""
-                                                        referrerPolicy="no-referrer"
-                                                        className="h-8 w-8 rounded-full object-cover border border-[#EAECF0] dark:border-[#1F232C]"
+                                                        className="h-8 w-8 rounded-xl object-cover border-2 border-black"
                                                     />
-                                                    <div className="min-w-0">
-                                                        <div className="font-bold text-xs truncate">{p.author?.name}</div>
-                                                        <div className="text-[10px] text-gray-400 truncate">@{p.author?.username}</div>
+                                                    <div>
+                                                        <p className="text-xs font-black truncate text-[#1C1008] dark:text-white">{p.author?.name}</p>
+                                                        <p className="text-[10px] text-[#5E3821] dark:text-gray-400 font-bold">@{p.author?.username}</p>
                                                     </div>
                                                 </div>
-                                                <span className="text-[10px] text-gray-400 shrink-0">
+                                                <span className="text-[10px] text-[#5E3821] dark:text-gray-400 font-bold">
                                                     {safeFormatDate(p.createdAt, { addSuffix: true })}
                                                 </span>
                                             </div>
 
-                                            <p className="text-sm text-gray-800 dark:text-[#E7E6E3] line-clamp-3 leading-relaxed whitespace-pre-wrap">
+                                            {p.title && <h4 className="font-['Fraunces'] font-bold text-base text-[#1C1008] dark:text-white">{p.title}</h4>}
+                                            <p className="text-xs text-[#3D2517] dark:text-gray-300 line-clamp-4 leading-relaxed font-bold">
                                                 {p.content}
                                             </p>
 
-                                            {p.image && (
-                                                <div className="mt-3 rounded-2xl overflow-hidden h-36 bg-[#F8F9FA] dark:bg-black/30">
-                                                    <img src={p.image} alt="" className="h-full w-full object-cover" />
-                                                </div>
+                                            {p.mediaUrl && (
+                                                <img src={p.mediaUrl} alt="" className="h-32 w-full object-cover rounded-2xl border-2 border-black" />
                                             )}
                                         </div>
 
-                                        <div className="mt-4 pt-3 border-t border-[#EAECF0] dark:border-[#1F232C] flex items-center justify-between">
-                                            <div className="flex items-center gap-3 text-xs text-gray-400 font-bold">
-                                                <span className="flex items-center gap-1">
-                                                    <HiOutlineHeart className="h-3.5 w-3.5 text-rose-500" />
-                                                    {p.likes?.length || 0}
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <HiOutlineChatBubbleLeftRight className="h-3.5 w-3.5 text-amber-500" />
-                                                    {p.comments?.length || 0}
-                                                </span>
-                                            </div>
-
-                                            <button
-                                                onClick={() => setDeletePostConfirm(p._id)}
-                                                className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
+                                        <div className="pt-3 border-t-2 border-black dark:border-[#1F232C] flex items-center justify-between">
+                                            <span className="text-[10px] font-black text-[#9E3610] dark:text-gray-400">
+                                                {p.likesCount || 0} Likes • {p.commentsCount || 0} Comments
+                                            </span>
+                                            <motion.button
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.96 }}
+                                                onClick={() => setDeletePostConfirm(p)}
+                                                className="px-3 py-1.5 rounded-xl bg-rose-200 text-rose-950 hover:bg-rose-300 border-2 border-black text-xs font-black cursor-pointer shadow-xs flex items-center gap-1"
                                             >
-                                                <HiOutlineTrash className="h-3.5 w-3.5" />
-                                                <span>Delete Story</span>
-                                            </button>
+                                                <HiOutlineTrash className="h-3.5 w-3.5 stroke-[2.2]" /> Delete
+                                            </motion.button>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         )}
-
-                        {/* Pagination */}
-                        {postsTotalPages > 1 && (
-                            <div className="px-5 py-3.5 rounded-2xl bg-white dark:bg-[#12151C] border border-[#EAECF0] dark:border-[#1F232C] flex items-center justify-between text-xs text-gray-500">
-                                <span>Showing page {postsPage} of {postsTotalPages} ({postsTotal} total)</span>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        disabled={postsPage <= 1}
-                                        onClick={() => setPostsPage((p) => Math.max(p - 1, 1))}
-                                        className="px-3 py-1.5 rounded-xl border border-[#EAECF0] dark:border-[#252A36] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#F8F9FA] dark:hover:bg-[#181C26]"
-                                    >
-                                        Previous
-                                    </button>
-                                    <button
-                                        disabled={postsPage >= postsTotalPages}
-                                        onClick={() => setPostsPage((p) => p + 1)}
-                                        className="px-3 py-1.5 rounded-xl border border-[#EAECF0] dark:border-[#252A36] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#F8F9FA] dark:hover:bg-[#181C26]"
-                                    >
-                                        Next
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    </motion.div>
                 )}
 
                 {/* ========================================== */}
                 {/* 4. ANNOUNCEMENTS TAB */}
                 {/* ========================================== */}
                 {activeTab === 'announcements' && (
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        {/* Compose Form */}
-                        <div className="lg:col-span-7 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs">
-                            <div className="flex items-center gap-3 mb-5">
-                                <span className="h-10 w-10 rounded-2xl bg-[#FF8F6B]/20 text-[#D97B4F] dark:text-[#F5C36B] grid place-items-center text-xl font-bold">
-                                    <HiOutlineMegaphone className="h-5 w-5" />
-                                </span>
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="max-w-2xl mx-auto space-y-6"
+                    >
+                        <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-8 shadow-2xl backdrop-blur-xl space-y-6">
+                            <div className="flex items-center gap-3">
+                                <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] border-2 border-black text-2xl">
+                                    <HiOutlineMegaphone className="stroke-[2.2]" />
+                                </div>
                                 <div>
-                                    <h3 className="font-['Fraunces'] text-xl font-bold">Broadcast Announcement</h3>
-                                    <p className="text-xs text-gray-400">Send an instant notification alert to all active platform users</p>
+                                    <h3 className="font-['Fraunces'] text-xl font-extrabold text-[#1C1008] dark:text-white">Broadcast System Announcement</h3>
+                                    <p className="text-xs text-[#4D3222] dark:text-gray-400 font-bold">Push a high-priority banner notification to all connected platform users in real-time.</p>
                                 </div>
                             </div>
 
                             {announcementSuccess && (
-                                <div className="mb-5 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-semibold flex items-center gap-2">
-                                    <HiOutlineCheckCircle className="h-5 w-5 text-emerald-600" />
-                                    <span>{announcementSuccess}</span>
+                                <div className="p-4 rounded-2xl bg-emerald-100 text-emerald-950 border-2 border-black text-xs font-black">
+                                    ✓ {announcementSuccess}
                                 </div>
                             )}
 
                             <form onSubmit={handleBroadcastAnnouncement} className="space-y-4">
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1.5">
-                                        Announcement Title
+                                <div className="space-y-1">
+                                    <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
+                                        Announcement Title *
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="e.g., Welcome to Zephyra 2.0 or Scheduled Maintenance"
+                                        required
                                         value={announcementTitle}
                                         onChange={(e) => setAnnouncementTitle(e.target.value)}
-                                        className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 focus:border-[#D97B4F]"
-                                        required
+                                        placeholder="e.g. Scheduled System Maintenance Notice"
+                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black font-bold"
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1.5">
-                                        Message Details
+                                <div className="space-y-1">
+                                    <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
+                                        Broadcast Message *
                                     </label>
                                     <textarea
-                                        rows={5}
-                                        placeholder="Write your announcement content here. All users will receive this as an official notification alert..."
+                                        rows={4}
+                                        required
                                         value={announcementMessage}
                                         onChange={(e) => setAnnouncementMessage(e.target.value)}
-                                        className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF8F6B]/50 focus:border-[#D97B4F] resize-none"
-                                        required
+                                        placeholder="Write clear announcement details for all platform members..."
+                                        className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] p-4 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black resize-none font-bold"
                                     />
                                 </div>
 
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.97 }}
                                     type="submit"
                                     disabled={announcementSending || !announcementTitle.trim() || !announcementMessage.trim()}
-                                    className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-sm hover:brightness-105 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                                    className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-sm transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
                                 >
-                                    {announcementSending ? (
-                                        <div className="h-5 w-5 border-2 border-[#1A140D] border-t-transparent rounded-full animate-spin" />
-                                    ) : (
-                                        <>
-                                            <span>Broadcast to All Users</span>
-                                            <HiOutlinePaperAirplane className="h-4 w-4" />
-                                        </>
-                                    )}
-                                </button>
+                                    <HiOutlinePaperAirplane className="stroke-[2.2]" />
+                                    <span>{announcementSending ? 'Broadcasting Push...' : 'Broadcast to All Users'}</span>
+                                </motion.button>
                             </form>
                         </div>
-
-                        {/* Live Preview Card */}
-                        <div className="lg:col-span-5 rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-xs flex flex-col justify-between">
-                            <div>
-                                <span className="text-xs uppercase tracking-wider font-bold text-gray-400 mb-3 block">
-                                    Recipient Notification Preview
-                                </span>
-
-                                <div className="rounded-2xl border border-[#D97B4F]/30 bg-[#FFF8F4] dark:bg-[#181C26] p-4 shadow-sm space-y-2">
-                                    <div className="flex items-center gap-2 text-xs font-bold text-[#D97B4F] dark:text-[#F5C36B]">
-                                        <HiOutlineMegaphone className="h-3.5 w-3.5" />
-                                        <span>OFFICIAL ANNOUNCEMENT</span>
-                                    </div>
-                                    <h4 className="font-['Fraunces'] font-bold text-base text-gray-900 dark:text-white">
-                                        {announcementTitle || 'Announcement Title Preview'}
-                                    </h4>
-                                    <p className="text-xs text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
-                                        {announcementMessage || 'Your message will appear here in the user notification drawer and live popups.'}
-                                    </p>
-                                    <div className="text-[10px] text-gray-400 pt-2 border-t border-[#EAECF0] dark:border-[#252A36]">
-                                        Just now • Sent by Zephyra Administration
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 p-4 rounded-2xl bg-[#F8F9FA] dark:bg-[#181C26] border border-[#EAECF0] dark:border-[#252A36] text-xs text-gray-500 space-y-1">
-                                <p className="font-bold text-gray-700 dark:text-gray-300">Broadcast Note</p>
-                                <p>Announcements trigger a high-priority notification in the notification badge and drawer for every member of Zephyra.</p>
-                            </div>
-                        </div>
-                    </div>
+                    </motion.div>
                 )}
 
             </div>
 
-            {/* Ban / Suspension Modal */}
+            {/* Ban Modal */}
             {banModalUser && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="w-full max-w-md rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] p-6 shadow-2xl space-y-4">
-                        <div className="flex items-center gap-3">
-                            <span className="h-10 w-10 rounded-2xl bg-red-50 dark:bg-red-900/30 text-red-600 grid place-items-center text-xl">
-                                <HiOutlineNoSymbol className="h-5 w-5" />
-                            </span>
-                            <div>
-                                <h3 className="font-['Fraunces'] text-lg font-bold">
-                                    {banModalUser.isBanned ? 'Lift Account Suspension' : 'Suspend User Account'}
-                                </h3>
-                                <p className="text-xs text-gray-400">@{banModalUser.username} ({banModalUser.name})</p>
-                            </div>
-                        </div>
-
-                        {!banModalUser.isBanned && (
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1">
-                                    Reason for Suspension
-                                </label>
-                                <textarea
-                                    rows={3}
-                                    placeholder="Explain why this account is being suspended (visible to user)..."
-                                    value={banReason}
-                                    onChange={(e) => setBanReason(e.target.value)}
-                                    className="w-full rounded-2xl border border-[#EAECF0] dark:border-[#252A36] bg-[#F8F9FA] dark:bg-[#181C26] p-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/50"
-                                />
-                            </div>
-                        )}
-
-                        <p className="text-xs text-gray-500">
-                            {banModalUser.isBanned
-                                ? 'Lifting this suspension will restore the user’s ability to post, message, and interact on the platform.'
-                                : 'Suspending this user will immediately revoke their posting, commenting, and direct messaging privileges.'}
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+                    <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="max-w-md w-full rounded-3xl border-2 border-black bg-white dark:bg-[#12151C] p-6 space-y-4 shadow-2xl">
+                        <h3 className="font-['Fraunces'] text-xl font-extrabold text-[#1C1008] dark:text-white">
+                            {banModalUser.isBanned ? 'Unban Account' : 'Ban User Account'}
+                        </h3>
+                        <p className="text-xs font-bold text-[#4D3222] dark:text-gray-400">
+                            {banModalUser.isBanned ? `Lift suspension for @${banModalUser.username}?` : `Specify a reason for banning @${banModalUser.username}:`}
                         </p>
-
-                        <div className="flex items-center justify-end gap-2 pt-2">
-                            <button
-                                onClick={() => setBanModalUser(null)}
-                                className="px-4 py-2 rounded-xl text-xs font-bold border border-[#EAECF0] dark:border-[#252A36] hover:bg-[#F8F9FA] dark:hover:bg-[#181C26] cursor-pointer"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleBanSubmit}
-                                disabled={banActionLoading}
-                                className={`px-5 py-2 rounded-xl text-xs font-bold text-white transition-colors cursor-pointer ${banModalUser.isBanned ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-red-600 hover:bg-red-700'}`}
-                            >
-                                {banActionLoading ? 'Saving...' : banModalUser.isBanned ? 'Lift Suspension' : 'Confirm Suspension'}
+                        {!banModalUser.isBanned && (
+                            <textarea
+                                rows={3}
+                                value={banReason}
+                                onChange={(e) => setBanReason(e.target.value)}
+                                placeholder="Enter violation reason..."
+                                className="w-full rounded-2xl border-2 border-black bg-[#FFF6EF] dark:bg-[#181C26] p-3 text-xs font-bold text-[#1C1008] dark:text-white"
+                            />
+                        )}
+                        <div className="flex justify-end gap-2">
+                            <button onClick={() => setBanModalUser(null)} className="px-4 py-2 rounded-full border-2 border-black text-xs font-black">Cancel</button>
+                            <button onClick={handleBanSubmit} disabled={banActionLoading} className="px-4 py-2 rounded-full bg-[#FF8F6B] text-[#1A140D] border-2 border-black text-xs font-black">
+                                {banActionLoading ? 'Updating...' : 'Confirm'}
                             </button>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             )}
 
-            {/* Delete User Confirmation */}
+            {/* Confirm Dialogs */}
             {deleteUserConfirm && (
                 <ConfirmDialog
                     isOpen={Boolean(deleteUserConfirm)}
-                    title="Permanently Delete User"
-                    message="Are you sure you want to permanently delete this user account? All their stories and interactions will be removed forever."
-                    confirmText="Delete Account"
-                    confirmVariant="danger"
-                    onConfirm={() => handleDeleteUser(deleteUserConfirm)}
+                    title="Delete User Account"
+                    message={`Are you sure you want to permanently delete @${deleteUserConfirm.username}? This action is irreversible.`}
+                    confirmLabel="Delete User"
+                    onConfirm={() => handleDeleteUser(deleteUserConfirm._id)}
                     onCancel={() => setDeleteUserConfirm(null)}
                 />
             )}
 
-            {/* Delete Post Confirmation */}
             {deletePostConfirm && (
                 <ConfirmDialog
                     isOpen={Boolean(deletePostConfirm)}
-                    title="Delete Community Story"
-                    message="Are you sure you want to remove this story? As an administrator, this content will be removed immediately from Zephyra."
-                    confirmText="Delete Story"
-                    confirmVariant="danger"
-                    onConfirm={() => handleDeletePost(deletePostConfirm)}
+                    title="Delete Community Post"
+                    message="Are you sure you want to remove this post from global feeds?"
+                    confirmLabel="Delete Post"
+                    onConfirm={() => handleDeletePost(deletePostConfirm._id)}
                     onCancel={() => setDeletePostConfirm(null)}
                 />
             )}
