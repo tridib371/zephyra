@@ -115,15 +115,15 @@ export default function Terms() {
                 <img
                     src={termsBgLight}
                     alt="Law Library Light Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                 />
                 <img
                     src={termsBgDark}
                     alt="Law Library Dark Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                 />
-                {/* Overlay Tint Gradients for High Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#F5EFE6]/60 via-[#F5EFE6]/40 to-[#F5EFE6]/70 dark:from-[#0E1116]/70 dark:via-[#0E1116]/65 dark:to-[#0E1116]/80" />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
             </div>
 
             {/* Floating SVG Wind Animation */}

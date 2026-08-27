@@ -168,16 +168,21 @@ export default function About() {
     return (
         <div className="relative min-h-screen overflow-hidden bg-[#FAF7F2] dark:bg-[#090B0F] text-[#0F172A] dark:text-[#EDEBE6] transition-colors duration-300 font-[Manrope]">
 
-            {/* Wallpaper Background - Light Mode */}
-            <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat dark:hidden opacity-90 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${aboutBgLight})` }}
-            />
-            {/* Wallpaper Background - Dark Mode */}
-            <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden dark:block opacity-75 blur-[2.5px] scale-105 transition-all duration-500 pointer-events-none z-0"
-                style={{ backgroundImage: `url(${aboutBgDark})` }}
-            />
+            {/* Realistic Photography Background Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={aboutBgLight}
+                    alt="Zephyra Creative Studio Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={aboutBgDark}
+                    alt="Zephyra Creative Studio Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#090B0F]/75 dark:via-[#090B0F]/70 dark:to-[#090B0F]/85" />
+            </div>
 
             {/* Glowing Atmospheric Orbs */}
             <motion.div

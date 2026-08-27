@@ -354,15 +354,15 @@ export default function Support() {
                 <img
                     src={supportBgLight}
                     alt="Help Center & Customer Support Workstation Light Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                 />
                 <img
                     src={supportBgDark}
                     alt="High-Tech 24/7 Support Center Workstation Dark Wallpaper"
                     className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                 />
-                {/* Overlay Tint Gradients for High Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/65 via-[#FAF7F2]/45 to-[#FAF7F2]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
             </div>
 
             <div className="relative max-w-5xl mx-auto space-y-16 z-10">

@@ -41,24 +41,21 @@ const Login = () => {
             {/* ============================================
                DEDICATED DAY & NIGHT MODE BACKGROUND WALLPAPERS
                ============================================ */}
-            {/* Day Mode Wallpaper (Bright, Luminous Golden & Sky-Blue) */}
-            <motion.div
-                animate={{ scale: [1, 1.04, 1] }}
-                transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-95 dark:hidden"
-                style={{ backgroundImage: `url(${loginBgLight})` }}
-            />
-
-            {/* Night Mode Wallpaper (Cosmic Ethereal Violet Waves) */}
-            <motion.div
-                animate={{ scale: [1, 1.04, 1] }}
-                transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-85 hidden dark:block"
-                style={{ backgroundImage: `url(${loginBgDark})` }}
-            />
-
-            {/* Mode-Adaptive Glass & Gradient Overlays */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FFF9F5]/45 via-white/20 to-[#FFF0E6]/45 dark:from-[#090C12]/75 dark:via-[#0E1116]/65 dark:to-[#121620]/75 backdrop-blur-xs transition-colors duration-500" />
+            {/* Realistic Photography Background Wallpapers - Clear & Sharp */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={loginBgLight}
+                    alt="Login Sanctuary Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={loginBgDark}
+                    alt="Login Sanctuary Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#090C12]/75 dark:via-[#0E1116]/65 dark:to-[#121620]/75" />
+            </div>
 
             {/* Floating Ambient Glowing Beams */}
             <div className="absolute top-1/3 left-12 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/25 to-[#F5C36B]/20 dark:from-[#8B5CF6]/30 dark:to-[#EC4899]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />

@@ -121,15 +121,15 @@ export default function Privacy() {
                 <img
                     src={privacyBgLight}
                     alt="Privacy Shield Covenant & Data Protection Journal Light Wallpaper"
-                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                 />
                 <img
                     src={privacyBgDark}
                     alt="Cryptographic Data Vault & Cyber Privacy Dark Wallpaper"
                     className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                 />
-                {/* Overlay Tint Gradients for High Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#EBE0D5]/65 via-[#EBE0D5]/45 to-[#EBE0D5]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
             </div>
 
             {/* Dynamic Animated Ambient Color Ribbon Waves Canvas */}
