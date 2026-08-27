@@ -360,7 +360,7 @@ export default function Support() {
                     </div>
                 </div>
 
-                {/* Top Category Glass Cards with Natural Dynamic Counts */}
+                {/* Top Category Glass Cards with High-Contrast Icons */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                     {HELP_CARDS.map((card) => {
                         const Icon = card.icon;
@@ -372,23 +372,43 @@ export default function Support() {
                                 onClick={() => handleCategorySelect(card.category)}
                                 className={`p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
                                     isSelected
-                                        ? 'bg-[#F2F4F7] dark:bg-[#181C26] border-[#D97B4F] dark:border-[#FF8F6B] shadow-sm scale-[1.02]'
-                                        : 'bg-white dark:bg-[#12151C]/80 border-[#EAECF0] dark:border-[#1F232C] hover:border-[#D97B4F]/50 shadow-xs'
+                                        ? 'bg-[#FFF6F3] dark:bg-[#1E2638] border-[#FF8F6B] dark:border-[#FF8F6B] ring-2 ring-[#FF8F6B]/40 shadow-lg scale-[1.02]'
+                                        : 'bg-white dark:bg-[#161B26] border-gray-200 dark:border-[#2D3748] hover:border-[#FF8F6B]/60 dark:hover:border-[#FF8F6B]/60 shadow-sm'
                                 }`}
                             >
-                                <div className="space-y-2.5">
-                                    <span className={`p-2.5 rounded-2xl text-xl inline-block ${isSelected ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D]' : 'bg-[#FFE8D6] text-[#B85323] dark:text-[#F5C36B]'}`}>
-                                        <Icon />
-                                    </span>
-                                    <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-[#101828] dark:text-white">
-                                        {card.title}
-                                    </h3>
-                                    <p className="text-xs text-[#475467] dark:text-[#8A8F9C] leading-relaxed font-medium">
-                                        {card.desc}
-                                    </p>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <span
+                                            className={`p-3 rounded-2xl text-xl inline-flex items-center justify-center transition-all ${
+                                                isSelected
+                                                    ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-md ring-2 ring-[#FF8F6B]/40'
+                                                    : 'bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30'
+                                            }`}
+                                        >
+                                            <Icon className="stroke-[2.2]" />
+                                        </span>
+                                        <span
+                                            className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                                                isSelected
+                                                    ? 'bg-[#FF8F6B] text-[#1A140D]'
+                                                    : 'bg-gray-100 dark:bg-[#202736] text-[#C2410C] dark:text-[#F5C36B]'
+                                            }`}
+                                        >
+                                            {count} {count === 1 ? 'Guide' : 'Guides'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-[#0F172A] dark:text-white">
+                                            {card.title}
+                                        </h3>
+                                        <p className="text-xs text-gray-600 dark:text-[#94A3B8] leading-relaxed font-medium mt-1">
+                                            {card.desc}
+                                        </p>
+                                    </div>
                                 </div>
-                                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#B85323] dark:text-[#F5C36B]">
-                                    {count} {count === 1 ? 'Guide' : 'Guides'} →
+                                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#C2410C] dark:text-[#F5C36B] flex items-center gap-1">
+                                    <span>Explore Guides</span>
+                                    <span>→</span>
                                 </span>
                             </div>
                         );
@@ -454,15 +474,32 @@ export default function Support() {
                                 return (
                                     <div
                                         key={faq.id || faq.q}
-                                        className="rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C]/95 overflow-hidden transition-all shadow-xs hover:border-[#D97B4F]/40"
+                                        className={`rounded-3xl border transition-all duration-300 overflow-hidden ${
+                                            isOpen
+                                                ? 'border-[#FF8F6B] dark:border-[#FF8F6B] bg-[#FFF7F4] dark:bg-[#1B2232] ring-2 ring-[#FF8F6B]/30 shadow-md'
+                                                : 'border-gray-200 dark:border-[#252E42] bg-white dark:bg-[#141824] hover:border-[#FF8F6B]/50'
+                                        }`}
                                     >
                                         <button
                                             type="button"
                                             onClick={() => toggleFaq(idx)}
-                                            className="w-full text-left p-6 sm:p-7 flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-[#101828] dark:text-white cursor-pointer hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors"
+                                            className={`w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-bold text-sm sm:text-base transition-colors cursor-pointer ${
+                                                isOpen
+                                                    ? 'text-[#C2410C] dark:text-[#F5C36B]'
+                                                    : 'text-[#0F172A] dark:text-white hover:text-[#FF8F6B] dark:hover:text-[#FF8F6B]'
+                                            }`}
                                         >
-                                            <span className="font-['Fraunces'] text-base sm:text-lg">{faq.q}</span>
-                                            <span className="p-2 rounded-xl bg-[#F8F9FA] dark:bg-[#181C26] text-[#667085] dark:text-gray-400 text-sm shrink-0 transition-transform">
+                                            <span className="font-['Fraunces'] text-base sm:text-lg flex items-center gap-3">
+                                                <span className={`h-2 w-2 rounded-full shrink-0 ${isOpen ? 'bg-[#FF8F6B] animate-pulse' : 'bg-gray-300 dark:bg-gray-600'}`} />
+                                                <span>{faq.q}</span>
+                                            </span>
+                                            <span
+                                                className={`p-2 rounded-xl text-sm shrink-0 transition-all ${
+                                                    isOpen
+                                                        ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-xs'
+                                                        : 'bg-gray-100 dark:bg-[#1E2638] text-gray-500 dark:text-gray-400'
+                                                }`}
+                                            >
                                                 {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
                                             </span>
                                         </button>
@@ -476,7 +513,7 @@ export default function Support() {
                                                     transition={{ duration: 0.25 }}
                                                     className="overflow-hidden"
                                                 >
-                                                    <div className="px-6 sm:px-7 pb-6 text-xs sm:text-sm text-[#475467] dark:text-[#B5B9C5] leading-relaxed border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 font-medium">
+                                                    <div className="px-6 sm:px-7 pb-6 text-xs sm:text-sm text-gray-700 dark:text-[#CBD5E1] leading-relaxed border-t border-[#FF8F6B]/20 dark:border-[#2D3748] pt-4 font-medium">
                                                         {faq.a}
                                                     </div>
                                                 </motion.div>
