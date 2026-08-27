@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -30,12 +31,24 @@ import { NotificationProvider } from './context/NotificationContext';
 
 import ErrorBoundary from './components/ErrorBoundary';
 
+// Helper component that automatically scrolls window to the top on every route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function AppShell() {
   const location = useLocation();
   const hideFooter = location.pathname === '/messages';
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F6EFE6] dark:bg-[#0E1116] text-[#1F1710] dark:text-[#EDEBE6] transition-colors duration-300">
+      <ScrollToTop />
       <Navbar />
       <main className="grow">
         <ErrorBoundary>

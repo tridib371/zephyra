@@ -136,6 +136,9 @@ const Footer = () => {
                                             <li key={link.label}>
                                                 <Link
                                                     to={link.to}
+                                                    onClick={function handleFooterClick() {
+                                                        window.scrollTo(0, 0);
+                                                    }}
                                                     className="text-sm text-[#CBD5E1] dark:text-[#CBD5E1] hover:text-[#FF8F6B] dark:hover:text-[#FF8F6B] font-medium transition-colors"
                                                 >
                                                     {link.label}
@@ -153,7 +156,13 @@ const Footer = () => {
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm font-medium">
                         <p>© {new Date().getFullYear()} Zephyra. All rights reserved.</p>
                         <span className="hidden sm:inline">•</span>
-                        <Link to="/admin" className="hover:text-[#FF8F6B] dark:hover:text-[#F5C36B] transition-colors font-bold">
+                        <Link
+                            to="/admin"
+                            onClick={function handleAdminClick() {
+                                window.scrollTo(0, 0);
+                            }}
+                            className="hover:text-[#FF8F6B] dark:hover:text-[#F5C36B] transition-colors font-bold"
+                        >
                             Admin Portal
                         </Link>
                     </div>
