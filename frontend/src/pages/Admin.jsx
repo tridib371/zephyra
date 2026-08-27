@@ -25,77 +25,13 @@ import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
 
-import adminBgDark from '../assets/admin-bg-dark.jpg';
-
-// Animated wind gust SVG lines for smooth motion
-const WindBreeze = () => (
-    <svg
-        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-    >
-        <defs>
-            <linearGradient id="adminGust" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
-                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
-            </linearGradient>
-        </defs>
-        <motion.path
-            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
-            fill="none"
-            stroke="url(#adminGust)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            animate={{
-                d: [
-                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
-                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
-                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
-                ],
-                opacity: [0.3, 0.7, 0.3]
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.path
-            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
-            fill="none"
-            stroke="url(#adminGust)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            animate={{
-                d: [
-                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
-                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
-                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
-                ],
-                opacity: [0.2, 0.6, 0.2]
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-    </svg>
-);
-
-// High-Tech Admin Background - Deep Animated Matrix for Day Mode & Original Perfect Wallpaper for Night Mode
+// Animated High-Tech Admin Cyber Matrix Background - Pure Animated Cyber Graphics (No Image Files)
 const AnimatedAdminBackground = () => (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* ========================================== */}
-        {/* 🌙 NIGHT MODE: Original Perfect Realistic Server Room Wallpaper */}
-        {/* ========================================== */}
-        <img
-            src={adminBgDark}
-            alt="High-Tech Cybersecurity Server Data Center Night Wallpaper"
-            className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
-        />
-        <div className="absolute inset-0 hidden dark:block bg-gradient-to-b dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
+        {/* Animated Cyber Grid Matrix */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000045_2px,transparent_2px),linear-gradient(to_bottom,#00000045_2px,transparent_2px)] dark:bg-[linear-gradient(to_right,#ffffff0f_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0f_1px,transparent_1px)] bg-[size:3.2rem_3.2rem]" />
 
-        {/* ========================================== */}
-        {/* ☀️ DAY MODE: Deep High-Contrast Animated Cyber Matrix */}
-        {/* ========================================== */}
-        <div className="absolute inset-0 dark:hidden bg-[linear-gradient(to_right,#00000045_2px,transparent_2px),linear-gradient(to_bottom,#00000045_2px,transparent_2px)] bg-[size:3.2rem_3.2rem]" />
-
-        {/* Deep Ambient Glowing Orbs for Day Mode */}
+        {/* Ambient Glowing Orbs & Beams */}
         <motion.div
             animate={{
                 scale: [1, 1.15, 1],
@@ -104,7 +40,7 @@ const AnimatedAdminBackground = () => (
                 y: [0, -25, 0]
             }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-32 -left-40 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#C2410C]/75 via-[#9A3412]/55 to-transparent dark:hidden blur-xl"
+            className="absolute -top-32 -left-40 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#C2410C]/75 via-[#9A3412]/55 to-transparent dark:from-[#FF8F6B]/35 dark:via-[#D97B4F]/25 blur-xl"
         />
 
         <motion.div
@@ -115,7 +51,7 @@ const AnimatedAdminBackground = () => (
                 y: [0, 35, 0]
             }}
             transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-            className="absolute top-1/3 -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#D97706]/75 via-[#C2410C]/55 to-transparent dark:hidden blur-xl"
+            className="absolute top-1/3 -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#D97706]/75 via-[#C2410C]/55 to-transparent dark:from-[#F5C36B]/35 dark:via-[#FF8F6B]/25 blur-xl"
         />
 
         <motion.div
@@ -124,34 +60,34 @@ const AnimatedAdminBackground = () => (
                 opacity: [0.65, 0.85, 0.65]
             }}
             transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            className="absolute -bottom-32 left-1/3 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#9A3412]/65 via-[#7C2D12]/45 to-transparent dark:hidden blur-xl"
+            className="absolute -bottom-32 left-1/3 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#9A3412]/65 via-[#7C2D12]/45 to-transparent dark:from-[#3B82F6]/25 dark:via-[#8B5CF6]/20 blur-xl"
         />
 
-        {/* Deep Floating Animated Security Pulse Nodes for Day Mode */}
-        <div className="absolute inset-0 dark:hidden">
+        {/* Floating Animated Security Pulse Nodes */}
+        <div className="absolute inset-0">
             <motion.div
                 animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute top-1/4 left-1/5 w-5 h-5 rounded-full bg-[#B91C1C] border-2 border-black shadow-[0_0_25px_#B91C1C]"
+                className="absolute top-1/4 left-1/5 w-5 h-5 rounded-full bg-[#B91C1C] dark:bg-[#F5C36B] border-2 border-black dark:border-none shadow-[0_0_25px_#B91C1C]"
             />
             <motion.div
                 animate={{ y: [0, 45, 0], x: [0, -25, 0], opacity: [0.75, 1, 0.75] }}
                 transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-                className="absolute top-2/3 right-1/4 w-5 h-5 rounded-full bg-[#9A3412] border-2 border-black shadow-[0_0_30px_#9A3412]"
+                className="absolute top-2/3 right-1/4 w-5 h-5 rounded-full bg-[#9A3412] dark:bg-[#8B5CF6] border-2 border-black dark:border-none shadow-[0_0_30px_#9A3412]"
             />
             <motion.div
                 animate={{ y: [0, -25, 0], x: [0, -15, 0], opacity: [0.75, 1, 0.75] }}
                 transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-                className="absolute bottom-1/4 left-1/3 w-4 h-4 rounded-full bg-[#1D4ED8] border-2 border-black shadow-[0_0_25px_#1D4ED8]"
+                className="absolute bottom-1/4 left-1/3 w-4 h-4 rounded-full bg-[#1D4ED8] dark:bg-[#3B82F6] border-2 border-black dark:border-none shadow-[0_0_25px_#1D4ED8]"
             />
         </div>
 
-        {/* Deep Animated Cyber Radar Pulse Line for Day Mode */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] rounded-full border-3 border-black/55 dark:hidden flex items-center justify-center pointer-events-none">
+        {/* Animated Cyber Radar Pulse Line */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] rounded-full border-3 border-black/55 dark:border-white/10 flex items-center justify-center pointer-events-none">
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                className="w-full h-full rounded-full border-3 border-dashed border-[#9A3412]"
+                className="w-full h-full rounded-full border-3 dark:border border-dashed border-[#9A3412] dark:border-[#FF8F6B]/30"
             />
         </div>
 
