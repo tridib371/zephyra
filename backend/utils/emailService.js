@@ -165,6 +165,11 @@ const sendOtpEmail = async (toEmail, otp) => {
         </style>
     </head>
     <body>
+        <!-- Hidden Preheader for Inbox Preview & Spam Filter Compliance -->
+        <div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+            Your Zephyra verification code is ${otp}. Valid for 10 minutes.
+        </div>
+
         <div class="wrapper">
             <!-- Header -->
             <div class="header-banner">
@@ -221,12 +226,20 @@ const sendOtpEmail = async (toEmail, otp) => {
     }
 
     try {
+        const emailUser = process.env.EMAIL_USER;
         const info = await transporter.sendMail({
-            from: `"Zephyra" <${process.env.EMAIL_USER}>`,
+            from: `"Zephyra Security" <${emailUser}>`,
             to: toEmail,
-            subject: `${otp} is your Zephyra verification code`,
-            text: `Your Zephyra verification code is: ${otp}. This code is valid for 10 minutes.`,
+            replyTo: emailUser,
+            subject: `Zephyra verification code: ${otp}`,
+            text: `Welcome to Zephyra!\n\nYour 6-digit email verification code is: ${otp}\n\nThis code is valid for 10 minutes. If you did not request this, you can safely ignore this message.\n\n— The Zephyra Team`,
             html: htmlContent,
+            headers: {
+                'X-Priority': '3 (Normal)',
+                'Importance': 'Normal',
+                'X-Mailer': 'Zephyra Core Mailer v2.0',
+                'X-Entity-Ref-ID': `zephyra-otp-${Date.now()}-${otp}`,
+            },
         });
 
         console.log(`✅ Email delivered to ${toEmail}! MessageId: ${info.messageId}`);
