@@ -14,6 +14,59 @@ import {
     HiOutlineSignal,
 } from 'react-icons/hi2';
 
+import supportBgLight from '../assets/support-bg-light.jpg';
+import supportBgDark from '../assets/support-bg-dark.jpg';
+
+// Animated wind gust SVG lines for smooth motion
+const WindBreeze = () => (
+    <svg
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+        <defs>
+            <linearGradient id="supportGust" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
+                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
+            </linearGradient>
+        </defs>
+        <motion.path
+            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+            fill="none"
+            stroke="url(#supportGust)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
+                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+                ],
+                opacity: [0.3, 0.7, 0.3]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.path
+            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+            fill="none"
+            stroke="url(#supportGust)"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
+                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+                ],
+                opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+    </svg>
+);
+
 const CATEGORIES = [
     { id: 'all', label: 'All Topics' },
     { id: 'account', label: 'Account & Login' },
@@ -57,7 +110,7 @@ const HELP_CARDS = [
 ];
 
 const FAQS = [
-    // 1. Account & Profile Setup (5 Guides)
+    // 1. Account & Profile Setup
     {
         id: 'acc-1',
         category: 'account',
@@ -89,7 +142,7 @@ const FAQS = [
         a: 'Yes, in your profile edit view you can link personal websites, GitHub, or portfolio URLs to display directly below your bio.',
     },
 
-    // 2. Direct Messaging & Sockets (6 Guides)
+    // 2. Direct Messaging & Sockets
     {
         id: 'msg-1',
         category: 'messaging',
@@ -127,7 +180,7 @@ const FAQS = [
         a: 'Yes! If you have the browser tab open in the background, incoming messages trigger an ambient audio ping and update your unread message badge count in the navigation bar in real-time.',
     },
 
-    // 3. Stories & Feeds (4 Guides)
+    // 3. Stories & Feeds
     {
         id: 'feed-1',
         category: 'content',
@@ -153,7 +206,7 @@ const FAQS = [
         a: 'Yes! Open your post detail page and click the options menu to permanently delete your post. Deleting a post immediately removes it and all associated comments from global feeds.',
     },
 
-    // 4. Privacy & Security (7 Guides)
+    // 4. Privacy & Security
     {
         id: 'priv-1',
         category: 'privacy',
@@ -197,7 +250,7 @@ const FAQS = [
         a: 'Images and media assets are hosted on encrypted Cloudinary CDN buckets with HTTPS TLS delivery, while database records are stored on dedicated MongoDB Atlas clusters with AES-256 encryption at rest.',
     },
 
-    // 5. Trust & Moderation (3 Guides)
+    // 5. Trust & Moderation
     {
         id: 'safe-1',
         category: 'safety',
@@ -226,7 +279,6 @@ export default function Support() {
 
     const faqSectionRef = useRef(null);
 
-    // Calculate dynamic guide count for each category
     const getCategoryCount = (catId) => {
         if (catId === 'all') return FAQS.length;
         return FAQS.filter((f) => f.category === catId).length;
@@ -246,7 +298,6 @@ export default function Support() {
         }, 50);
     };
 
-    // User submits search via Search button or Enter key
     const handleSearchSubmit = (e) => {
         if (e) e.preventDefault();
         const trimmed = inputText.trim();
@@ -278,7 +329,6 @@ export default function Support() {
             const matchesCategory = selectedCategory === 'all' || faq.category === selectedCategory;
             if (!query) return matchesCategory;
 
-            // Search matches question, answer, or category
             const matchesQ = faq.q.toLowerCase().includes(query);
             const matchesA = faq.a.toLowerCase().includes(query);
             const matchesCat = faq.category.toLowerCase().includes(query);
@@ -287,7 +337,6 @@ export default function Support() {
         });
     }, [searchQuery, selectedCategory]);
 
-    // Automatically expand the first item when a search is executed
     useEffect(() => {
         if (searchQuery.trim().length > 0 && filteredFaqs.length > 0) {
             setOpenIndex(0);
@@ -299,117 +348,150 @@ export default function Support() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] text-[#101828] dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope]">
-            <div className="max-w-5xl mx-auto space-y-16">
+        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
+            {/* Realistic Customer Support & Knowledge Hub Photography Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={supportBgLight}
+                    alt="Help Center & Customer Support Workstation Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-95 blur-[0.5px] scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={supportBgDark}
+                    alt="High-Tech 24/7 Support Center Workstation Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Overlay Tint Gradients for High Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/65 via-[#FAF7F2]/45 to-[#FAF7F2]/75 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
 
-                {/* Hero Search Section */}
-                <div className="text-center space-y-6 max-w-3xl mx-auto">
-                    <span className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/35 text-xs font-black uppercase tracking-widest shadow-xs">
+            <div className="relative max-w-5xl mx-auto space-y-16 z-10">
+
+                {/* Hero Search Section with Entrance Motion & Solid Black Border in Day Mode */}
+                <motion.div
+                    initial={{ opacity: 0, y: 35, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative text-center space-y-6 max-w-3xl mx-auto p-8 sm:p-14 rounded-3xl bg-white/92 dark:bg-[#11151F]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-2xl overflow-hidden"
+                >
+                    <WindBreeze />
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-xs font-black uppercase tracking-widest shadow-xs relative z-10"
+                    >
                         Help Center & Knowledge Hub
-                    </span>
-                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#101828] dark:text-white">
+                    </motion.span>
+                    <h1 className="font-['Fraunces'] italic text-4xl sm:text-6xl font-extrabold tracking-tight text-[#1C1008] dark:text-white relative z-10">
                         How can we assist you?
                     </h1>
-                    <p className="text-base sm:text-xl text-[#475467] dark:text-[#9DA3B4] leading-relaxed font-medium">
+                    <p className="text-base sm:text-xl text-[#4D3222] dark:text-[#9DA3B4] leading-relaxed font-bold max-w-xl mx-auto relative z-10">
                         Search our knowledge base for guides on real-time messaging, privacy controls, and account management.
                     </p>
 
                     {/* Interactive Search Bar Form with Search Button */}
-                    <form onSubmit={handleSearchSubmit} className="relative max-w-2xl mx-auto pt-2">
-                        <div className="relative flex items-center bg-white dark:bg-[#181C26] rounded-2xl border border-[#EAECF0] dark:border-[#252A36] shadow-xs p-1.5 focus-within:ring-2 focus-within:ring-[#FF8F6B]/50 transition-all">
-                            <HiOutlineMagnifyingGlass className="ml-3 text-[#B85323] text-xl pointer-events-none shrink-0" />
+                    <form onSubmit={handleSearchSubmit} className="relative max-w-2xl mx-auto pt-2 z-10">
+                        <div className="relative flex items-center bg-[#FFF6EF] dark:bg-[#181C26] rounded-2xl border-2 border-black dark:border-[#252A36] shadow-md p-1.5 focus-within:ring-2 focus-within:ring-black dark:focus-within:ring-[#FF8F6B]/50 transition-all">
+                            <HiOutlineMagnifyingGlass className="ml-3 text-[#9E3610] text-xl pointer-events-none shrink-0 stroke-[2.2]" />
                             <input
                                 type="text"
                                 value={inputText}
                                 onChange={(e) => setInputText(e.target.value)}
                                 placeholder="Search questions, password, messaging, privacy, delete..."
-                                className="w-full bg-transparent px-3 py-3 text-sm text-[#101828] dark:text-white placeholder-[#667085] dark:placeholder-gray-400 focus:outline-none font-medium"
+                                className="w-full bg-transparent px-3 py-3 text-sm text-[#1C1008] dark:text-white placeholder-[#5E3821] dark:placeholder-gray-400 focus:outline-none font-bold"
                             />
                             {inputText && (
                                 <button
                                     type="button"
                                     onClick={handleClearSearch}
-                                    className="px-2.5 py-1.5 text-xs font-bold text-[#667085] hover:text-[#101828] dark:hover:text-white cursor-pointer mr-1.5 rounded-lg hover:bg-[#F2F4F7] dark:hover:bg-[#202532] transition-colors shrink-0"
+                                    className="px-2.5 py-1.5 text-xs font-black text-[#5E3821] hover:text-[#1C1008] dark:hover:text-white cursor-pointer mr-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-[#202532] transition-colors shrink-0 border border-black dark:border-gray-700"
                                 >
                                     Clear
                                 </button>
                             )}
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.96 }}
                                 type="submit"
-                                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold text-xs sm:text-sm hover:scale-105 transition-all shadow-xs shrink-0 cursor-pointer"
+                                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-xs sm:text-sm shadow-sm shrink-0 cursor-pointer"
                             >
-                                <HiOutlineMagnifyingGlass className="text-base" />
+                                <HiOutlineMagnifyingGlass className="text-base stroke-[2.2]" />
                                 <span>Search</span>
-                            </button>
+                            </motion.button>
                         </div>
                         {searchQuery && (
-                            <p className="text-xs text-left text-gray-500 dark:text-gray-400 mt-2 px-2">
+                            <p className="text-xs text-left text-[#5E3821] dark:text-gray-400 mt-2 px-2 font-bold">
                                 Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'result' : 'results'} for "{searchQuery}"
                             </p>
                         )}
                     </form>
 
-                    {/* System Live Status Pill (Green Dot Removed) */}
-                    <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-900/40 bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
+                    {/* System Live Status Pill */}
+                    <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border-2 border-black dark:border-emerald-900/40 bg-emerald-100/80 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-300 text-xs font-black shadow-xs relative z-10">
                         <span className="flex items-center gap-1.5">
-                            <HiOutlineSignal />
+                            <HiOutlineSignal className="stroke-[2.2]" />
                             <span>All Systems Operational</span>
-                            <span className="text-emerald-600/70 dark:text-emerald-400/70 font-normal">• WebSocket Clusters Online (&lt; 15ms)</span>
+                            <span className="text-emerald-800 dark:text-emerald-400 font-bold">• WebSocket Clusters Online (&lt; 15ms)</span>
                         </span>
                     </div>
-                </div>
+                </motion.div>
 
-                {/* Top Category Glass Cards with High-Contrast Icons */}
+                {/* Top Category Glass Cards with Staggered Entrance & Black Borders in Day Mode */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                    {HELP_CARDS.map((card) => {
+                    {HELP_CARDS.map((card, idx) => {
                         const Icon = card.icon;
                         const isSelected = selectedCategory === card.category;
                         const count = getCategoryCount(card.category);
                         return (
-                            <div
+                            <motion.div
                                 key={card.title}
+                                initial={{ opacity: 0, y: 25 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                whileHover={{ y: -6, scale: 1.02 }}
                                 onClick={() => handleCategorySelect(card.category)}
-                                className={`p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
+                                className={`p-5 rounded-3xl border-2 text-left transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 ${
                                     isSelected
-                                        ? 'bg-[#FFF6F3] dark:bg-[#1E2638] border-[#FF8F6B] dark:border-[#FF8F6B] ring-2 ring-[#FF8F6B]/40 shadow-lg scale-[1.02]'
-                                        : 'bg-white dark:bg-[#161B26] border-gray-200 dark:border-[#2D3748] hover:border-[#FF8F6B]/60 dark:hover:border-[#FF8F6B]/60 shadow-sm'
+                                        ? 'bg-[#FFF7F4] dark:bg-[#1E2638] border-black dark:border-[#FF8F6B] ring-2 ring-black dark:ring-[#FF8F6B]/40 shadow-xl scale-[1.02]'
+                                        : 'bg-white/90 dark:bg-[#161B26] border-black dark:border-[#2D3748] hover:border-black dark:hover:border-[#FF8F6B]/60 shadow-md'
                                 }`}
                             >
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
                                         <span
-                                            className={`p-3 rounded-2xl text-xl inline-flex items-center justify-center transition-all ${
+                                            className={`p-3 rounded-2xl text-xl inline-flex items-center justify-center border-2 border-black transition-all ${
                                                 isSelected
-                                                    ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-md ring-2 ring-[#FF8F6B]/40'
-                                                    : 'bg-[#FF8F6B]/15 text-[#C2410C] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-[#FF8F6B]/30'
+                                                    ? 'bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] shadow-md'
+                                                    : 'bg-[#FF8F6B]/20 text-[#9E3610] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] dark:border-[#FF8F6B]/40'
                                             }`}
                                         >
                                             <Icon className="stroke-[2.2]" />
                                         </span>
                                         <span
-                                            className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                                            className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border border-black ${
                                                 isSelected
                                                     ? 'bg-[#FF8F6B] text-[#1A140D]'
-                                                    : 'bg-gray-100 dark:bg-[#202736] text-[#C2410C] dark:text-[#F5C36B]'
+                                                    : 'bg-[#FFF6EF] dark:bg-[#202736] text-[#9E3610] dark:text-[#F5C36B] dark:border-gray-700'
                                             }`}
                                         >
                                             {count} {count === 1 ? 'Guide' : 'Guides'}
                                         </span>
                                     </div>
                                     <div>
-                                        <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-[#0F172A] dark:text-white">
+                                        <h3 className="font-['Fraunces'] font-bold text-sm sm:text-base text-[#1C1008] dark:text-white">
                                             {card.title}
                                         </h3>
-                                        <p className="text-xs text-gray-600 dark:text-[#94A3B8] leading-relaxed font-medium mt-1">
+                                        <p className="text-xs text-[#4D3222] dark:text-[#94A3B8] leading-relaxed font-bold mt-1">
                                             {card.desc}
                                         </p>
                                     </div>
                                 </div>
-                                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#C2410C] dark:text-[#F5C36B] flex items-center gap-1">
+                                <span className="text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-[#F5C36B] flex items-center gap-1">
                                     <span>Explore Guides</span>
                                     <span>→</span>
                                 </span>
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>
@@ -418,88 +500,100 @@ export default function Support() {
                 <div ref={faqSectionRef} id="faq-results" className="space-y-6 pt-4">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
-                            <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#101828] dark:text-white">
+                            <h2 className="font-['Fraunces'] text-2xl sm:text-3xl font-bold text-[#1C1008] dark:text-white">
                                 {searchQuery ? `Search Results for "${searchQuery}"` : 'Frequently Asked Questions'}
                             </h2>
-                            <p className="text-xs sm:text-sm text-[#475467] dark:text-[#8A8F9C] mt-1 font-medium">
+                            <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#8A8F9C] mt-1 font-bold">
                                 Showing {filteredFaqs.length} {filteredFaqs.length === 1 ? 'question' : 'questions'}
                             </p>
                         </div>
 
-                        {/* Category Filter Pills */}
+                        {/* Category Filter Pills with Motion & Black Borders */}
                         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar whitespace-nowrap shrink-0 max-w-full sm:flex-wrap">
                             {CATEGORIES.map((cat) => {
                                 const catCount = getCategoryCount(cat.id);
                                 return (
-                                    <button
+                                    <motion.button
                                         key={cat.id}
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.96 }}
                                         onClick={() => handleCategorySelect(cat.id)}
-                                        className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
+                                        className={`px-4 py-2 rounded-full text-xs font-black transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap border-2 ${
                                             selectedCategory === cat.id
-                                                ? 'bg-[#101828] text-white dark:bg-white dark:text-[#1A140D] shadow-sm scale-[1.02]'
-                                                : 'bg-white dark:bg-[#181C26] border border-[#EAECF0] dark:border-[#252A36] text-[#344054] dark:text-[#A0A5B2] hover:bg-[#F2F4F7]'
+                                                ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] border-black dark:border-white shadow-md'
+                                                : 'bg-white dark:bg-[#181C26] border-black dark:border-[#252A36] text-[#1C1008] dark:text-[#A0A5B2] hover:bg-[#FFF6EF]'
                                         }`}
                                     >
                                         <span>{cat.label}</span>
-                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D]' : 'bg-[#F2F4F7] dark:bg-[#202532] text-[#475467]'}`}>
+                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-black border ${selectedCategory === cat.id ? 'bg-white/20 text-white dark:bg-[#1A140D]/20 dark:text-[#1A140D] border-white/40' : 'bg-gray-200 dark:bg-[#202532] text-[#1C1008] dark:text-gray-300 border-black dark:border-gray-700'}`}>
                                             {catCount}
                                         </span>
-                                    </button>
+                                    </motion.button>
                                 );
                             })}
                         </div>
                     </div>
 
-                    {/* Accordion FAQ List */}
+                    {/* Accordion FAQ List with Framer Motion Layout Animations */}
                     <div className="space-y-3.5">
                         {filteredFaqs.length === 0 ? (
-                            <div className="p-12 text-center rounded-3xl border border-[#EAECF0] dark:border-[#1F232C] bg-white dark:bg-[#12151C] space-y-3">
-                                <p className="text-sm font-bold text-[#101828] dark:text-gray-300">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="p-12 text-center rounded-3xl border-2 border-black dark:border-[#1F232C] bg-white/92 dark:bg-[#12151C] space-y-3 shadow-xl"
+                            >
+                                <p className="text-sm font-black text-[#1C1008] dark:text-gray-300">
                                     No questions found matching "{searchQuery}"
                                 </p>
-                                <p className="text-xs text-[#667085] dark:text-[#8A8F9C]">
+                                <p className="text-xs text-[#5E3821] dark:text-[#8A8F9C] font-bold">
                                     Try searching for different keywords or click "All Topics" above.
                                 </p>
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.96 }}
                                     onClick={handleClearSearch}
-                                    className="px-4 py-2 rounded-full bg-[#D97B4F] text-[#1A140D] font-extrabold text-xs hover:brightness-105 transition-all cursor-pointer"
+                                    className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-black text-xs transition-all cursor-pointer shadow-sm"
                                 >
                                     Reset Filters
-                                </button>
-                            </div>
+                                </motion.button>
+                            </motion.div>
                         ) : (
                             filteredFaqs.map((faq, idx) => {
                                 const isOpen = openIndex === idx;
                                 return (
-                                    <div
+                                    <motion.div
                                         key={faq.id || faq.q}
-                                        className={`rounded-3xl border transition-all duration-300 overflow-hidden ${
+                                        initial={{ opacity: 0, y: 15 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.4, delay: idx * 0.05 }}
+                                        className={`rounded-3xl border-2 transition-all duration-300 overflow-hidden ${
                                             isOpen
-                                                ? 'border-[#FF8F6B] dark:border-[#FF8F6B] bg-[#FFF7F4] dark:bg-[#1B2232] ring-2 ring-[#FF8F6B]/30 shadow-md'
-                                                : 'border-gray-200 dark:border-[#252E42] bg-white dark:bg-[#141824] hover:border-[#FF8F6B]/50'
+                                                ? 'border-black dark:border-[#FF8F6B] bg-[#FFF7F4] dark:bg-[#1B2232] ring-2 ring-black dark:ring-[#FF8F6B]/30 shadow-xl'
+                                                : 'border-black dark:border-[#252E42] bg-white/92 dark:bg-[#141824] hover:border-black dark:hover:border-[#FF8F6B]/50 shadow-md'
                                         }`}
                                     >
                                         <button
                                             type="button"
                                             onClick={() => toggleFaq(idx)}
-                                            className={`w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-bold text-sm sm:text-base transition-colors cursor-pointer ${
+                                            className={`w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-black text-sm sm:text-base transition-colors cursor-pointer ${
                                                 isOpen
-                                                    ? 'text-[#C2410C] dark:text-[#F5C36B]'
-                                                    : 'text-[#0F172A] dark:text-white hover:text-[#FF8F6B] dark:hover:text-[#FF8F6B]'
+                                                    ? 'text-[#9E3610] dark:text-[#F5C36B]'
+                                                    : 'text-[#1C1008] dark:text-white hover:text-[#9E3610] dark:hover:text-[#FF8F6B]'
                                             }`}
                                         >
                                             <span className="font-['Fraunces'] text-base sm:text-lg flex items-center gap-3">
-                                                <span className={`h-2 w-2 rounded-full shrink-0 ${isOpen ? 'bg-[#FF8F6B] animate-pulse' : 'bg-gray-300 dark:bg-gray-600'}`} />
+                                                <span className={`h-2.5 w-2.5 rounded-full shrink-0 border border-black ${isOpen ? 'bg-[#FF8F6B] animate-pulse' : 'bg-gray-400 dark:bg-gray-600'}`} />
                                                 <span>{faq.q}</span>
                                             </span>
                                             <span
-                                                className={`p-2 rounded-xl text-sm shrink-0 transition-all ${
+                                                className={`p-2 rounded-xl text-sm shrink-0 border-2 border-black transition-all ${
                                                     isOpen
                                                         ? 'bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] text-[#1A140D] shadow-xs'
-                                                        : 'bg-gray-100 dark:bg-[#1E2638] text-gray-500 dark:text-gray-400'
+                                                        : 'bg-gray-100 dark:bg-[#1E2638] text-gray-800 dark:text-gray-400 dark:border-gray-700'
                                                 }`}
                                             >
-                                                {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+                                                {isOpen ? <HiOutlineChevronUp className="stroke-[2.5]" /> : <HiOutlineChevronDown className="stroke-[2.5]" />}
                                             </span>
                                         </button>
 
@@ -512,37 +606,45 @@ export default function Support() {
                                                     transition={{ duration: 0.25 }}
                                                     className="overflow-hidden"
                                                 >
-                                                    <div className="px-6 sm:px-7 pb-6 text-xs sm:text-sm text-gray-700 dark:text-[#CBD5E1] leading-relaxed border-t border-[#FF8F6B]/20 dark:border-[#2D3748] pt-4 font-medium">
+                                                    <div className="px-6 sm:px-7 pb-6 text-xs sm:text-sm text-[#3D2517] dark:text-[#CBD5E1] leading-relaxed border-t-2 border-black dark:border-[#2D3748] pt-4 font-bold">
                                                         {faq.a}
                                                     </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
-                                    </div>
+                                    </motion.div>
                                 );
                             })
                         )}
                     </div>
                 </div>
 
-                {/* Direct Help Banner */}
-                <div className="rounded-3xl border border-[#EAECF0] dark:border-[#FF8F6B]/30 bg-gradient-to-r from-[#F8F9FA] via-white to-[#F2F4F7] dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6">
+                {/* Direct Help Banner with Black Border & Button Motion */}
+                <motion.div
+                    initial={{ opacity: 0, y: 35, scale: 0.97 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/40 bg-white/92 dark:bg-gradient-to-r dark:from-[#181C26] dark:via-[#12151C] dark:to-[#181C26] p-8 sm:p-12 shadow-2xl backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6"
+                >
                     <div className="space-y-2 text-center sm:text-left">
-                        <h3 className="font-['Fraunces'] text-2xl font-bold text-[#101828] dark:text-white">
+                        <h3 className="font-['Fraunces'] text-2xl sm:text-3xl font-extrabold text-[#1C1008] dark:text-white">
                             Cannot find what you are looking for?
                         </h3>
-                        <p className="text-xs sm:text-sm text-[#475467] dark:text-[#9DA3B4] max-w-md font-medium">
+                        <p className="text-xs sm:text-sm text-[#4D3222] dark:text-[#9DA3B4] max-w-md font-bold">
                             Our support and safety team is available to assist you with any questions or account inquiries.
                         </p>
                     </div>
-                    <Link
-                        to="/contact"
-                        className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] text-xs sm:text-sm font-extrabold hover:scale-105 transition-all shadow-sm shrink-0"
-                    >
-                        <span>Contact Support Team</span>
-                        <HiArrowRight className="text-base" />
-                    </Link>
-                </div>
+                    <motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }} className="shrink-0">
+                        <Link
+                            to="/contact"
+                            className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black text-xs sm:text-sm font-extrabold transition-all shadow-md cursor-pointer"
+                        >
+                            <span>Contact Support Team</span>
+                            <HiArrowRight className="text-base stroke-[2.2]" />
+                        </Link>
+                    </motion.div>
+                </motion.div>
 
             </div>
         </div>
