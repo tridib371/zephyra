@@ -62,11 +62,6 @@ export const AdminAvatar = ({ className = "h-12 w-12", size = 48 }) => {
                     filter="url(#glow)"
                 />
             </svg>
-
-            {/* Micro Badge for Admin status */}
-            <span className="absolute -bottom-0.5 right-0.5 bg-[#EA580C] text-[#FFE599] text-[7px] font-black uppercase tracking-tighter px-1 rounded-sm border border-black z-20 shadow-xs">
-                HQ
-            </span>
         </div>
     );
 };
