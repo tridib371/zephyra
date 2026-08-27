@@ -364,16 +364,16 @@ export default function Admin() {
     if (!isAdminAuthenticated) {
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden">
-                {/* Realistic Human System Administrator Photography Wallpapers - Clear & Sharp */}
+                {/* Single Male Animated System Administrator Artwork Wallpapers - Clear & Sharp */}
                 <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                     <img
                         src={adminBgLight}
-                        alt="Human System Administrator Light Mode Wallpaper"
+                        alt="Single Male Animated System Administrator Light Mode Artwork"
                         className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                     />
                     <img
                         src={adminBgDark}
-                        alt="Human Cybersecurity Administrator Dark Mode Wallpaper"
+                        alt="Single Male Animated System Administrator Dark Mode Artwork"
                         className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                     />
                     {/* Clear Light Overlay & Dark Tint Overlay */}
@@ -500,16 +500,16 @@ export default function Admin() {
     // =========================================================
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* Realistic Human System Administrator Photography Wallpapers - Clear & Sharp */}
+            {/* Single Male Animated System Administrator Artwork Wallpapers - Clear & Sharp */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <img
                     src={adminBgLight}
-                    alt="Human System Administrator Light Mode Wallpaper"
+                    alt="Single Male Animated System Administrator Light Mode Artwork"
                     className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
                 />
                 <img
                     src={adminBgDark}
-                    alt="Human Cybersecurity Administrator Dark Mode Wallpaper"
+                    alt="Single Male Animated System Administrator Dark Mode Artwork"
                     className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
                 />
                 {/* Clear Light Overlay & Dark Tint Overlay */}
