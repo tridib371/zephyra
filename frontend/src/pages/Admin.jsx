@@ -25,6 +25,56 @@ import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
 
+// Animated wind gust SVG lines for smooth motion
+const WindBreeze = () => (
+    <svg
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+        <defs>
+            <linearGradient id="adminGust" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
+                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
+            </linearGradient>
+        </defs>
+        <motion.path
+            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+            fill="none"
+            stroke="url(#adminGust)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220",
+                    "M -100 240 C 250 140, 480 260, 800 240 S 1100 60, 1350 180",
+                    "M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
+                ],
+                opacity: [0.3, 0.7, 0.3]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.path
+            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+            fill="none"
+            stroke="url(#adminGust)"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            animate={{
+                d: [
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500",
+                    "M -100 460 C 220 540, 680 460, 900 480 S 1120 580, 1350 520",
+                    "M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
+                ],
+                opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+    </svg>
+);
+
 // Animated High-Tech Admin Cyber Matrix Background - Pure Animated Cyber Graphics (No Image Files)
 const AnimatedAdminBackground = () => (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
