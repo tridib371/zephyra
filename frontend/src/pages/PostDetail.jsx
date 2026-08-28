@@ -5,6 +5,7 @@ import api from '../api/axios';
 import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import ConfirmDialog from '../components/ConfirmDialog';
+import ShareModal from '../components/ShareModal';
 
 // ===== Icons =====
 const HeartIcon = ({ filled = false }) => (
@@ -60,6 +61,7 @@ const PostDetail = () => {
     const [deleteModal, setDeleteModal] = useState({ isOpen: false, commentId: null });
     const [deletePostModalOpen, setDeletePostModalOpen] = useState(false);
     const [highlightedCommentId, setHighlightedCommentId] = useState(null);
+    const [isShareOpen, setIsShareOpen] = useState(false);
     const commentRefs = useRef({});
 
     const fetchPost = async () => {
@@ -326,7 +328,10 @@ const PostDetail = () => {
                                 <BookmarkIcon />
                                 <span>Save</span>
                             </button>
-                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer">
+                            <button
+                                onClick={() => setIsShareOpen(true)}
+                                className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer"
+                            >
                                 <ShareIcon />
                                 <span>Share</span>
                             </button>
@@ -351,7 +356,7 @@ const PostDetail = () => {
                                         if (e.key === 'Enter') handleCommentSubmit();
                                     }}
                                     placeholder="Write a comment..."
-                                    className="flex-1 px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-full text-sm text-[#101828] dark:text-[#E7E6E3] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                    className="flex-1 px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-full text-sm text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                 />
                                 <button
                                     onClick={handleCommentSubmit}
@@ -447,6 +452,13 @@ const PostDetail = () => {
                 message="Are you sure you want to delete this post? It will be permanently removed from all feeds."
                 confirmText="Delete Post"
                 cancelText="Cancel"
+            />
+
+            {/* Share Modal */}
+            <ShareModal
+                isOpen={isShareOpen}
+                onClose={() => setIsShareOpen(false)}
+                post={post}
             />
         </>
     );

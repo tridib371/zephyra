@@ -5,6 +5,7 @@ import api from '../api/axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import ConfirmDialog from '../components/ConfirmDialog';
+import ShareModal from '../components/ShareModal';
 
 // ===== Icons =====
 const HeartIcon = ({ filled = false }) => (
@@ -221,6 +222,7 @@ const Feed = () => {
     const [openComments, setOpenComments] = useState({});
     const [submittingComment, setSubmittingComment] = useState({});
     const [deleteModal, setDeleteModal] = useState({ isOpen: false, postId: null, commentId: null });
+    const [shareModalPost, setShareModalPost] = useState(null);
 
     const fetchPosts = async () => {
         try {
@@ -570,7 +572,11 @@ navigate(`/post/${postId}`);
 
                                         {/* Share Button */}
                                         <button
-                                            className="flex items-center space-x-1.5 text-xs sm:text-sm font-black hover:text-[#9E3610] dark:hover:text-[#F5C36B] transition-colors"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setShareModalPost(post);
+                                            }}
+                                            className="flex items-center space-x-1.5 text-xs sm:text-sm font-black hover:text-[#9E3610] dark:hover:text-[#F5C36B] transition-colors cursor-pointer"
                                         >
                                             <ShareIcon />
                                             <span className="hidden sm:inline">Share</span>
@@ -594,58 +600,68 @@ navigate(`/post/${postId}`);
                                                 <input
                                                     type="text"
                                                     value={commentTexts[post._id] || ''}
-                                                    onChange={(e) => handleCommentChange(post._id, e.target.value)}
-                                                    onKeyDown={(e) => { if (e.key === 'Enter') handleCommentSubmit(post._id, e); }}
+                                                    onChange={(e) =>
+                                                        setCommentTexts((prev) => ({
+                                                            ...prev,
+                                                            [post._id]: e.target.value,
+                                                        }))
+                                                    }
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') handleAddComment(post._id);
+                                                    }}
                                                     placeholder="Write a comment..."
-                                                    className="flex-1 rounded-full border-2 border-black dark:border-[#252A36] bg-[#E2B293] dark:bg-[#181C26] px-4 py-2 text-xs sm:text-sm text-[#1A0F08] dark:text-white placeholder:text-[#5C361E] dark:placeholder:text-[#8A8F9C] focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-[#FF8F6B]/50 font-bold"
+                                                    className="flex-1 px-4 py-2 text-xs sm:text-sm font-bold bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#2D3546] rounded-xl outline-none focus:border-[#D97B4F] dark:focus:border-[#F5C36B] text-[#1A140D] dark:text-white placeholder-[#5E3821] dark:placeholder-gray-400 font-[Manrope]"
                                                 />
                                                 <button
-                                                    onClick={(e) => handleCommentSubmit(post._id, e)}
-                                                    disabled={!(commentTexts[post._id] || '').trim() || submittingComment[post._id]}
-                                                    className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-black text-xs hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xs"
+                                                    onClick={() => handleAddComment(post._id)}
+                                                    disabled={submittingComment[post._id] || !commentTexts[post._id]?.trim()}
+                                                    className="px-4 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-black text-xs rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xs cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                                 >
-                                                    {submittingComment[post._id] ? '...' : 'Reply'}
+                                                    {submittingComment[post._id] ? 'Posting...' : 'Post'}
                                                 </button>
                                             </div>
 
-                                            {/* Comment List */}
+                                            {/* Comments List */}
                                             {post.comments && post.comments.length > 0 && (
-                                                <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+                                                <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
                                                     {post.comments.map((comment) => {
-                                                        const isAuthor = comment.user?._id === user?._id;
-                                                        const isPostAuthor = post.author?._id === user?._id;
-                                                        const canDelete = isAuthor || isPostAuthor;
+                                                        const commentAuthor = comment.author || comment.user;
+                                                        const commentAuthorName = commentAuthor?.name || 'Anonymous';
+                                                        const commentAuthorUsername = commentAuthor?.username || 'user';
+                                                        const commentAuthorPic = commentAuthor?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
+                                                        const isCommentOwner = user && (commentAuthor?._id === user._id || commentAuthor?.id === user.id);
 
                                                         return (
                                                             <div
                                                                 key={comment._id}
-                                                                className="flex items-start justify-between gap-2 p-3 rounded-2xl bg-[#E2B293] dark:bg-[#181C26]/80 border-2 border-black/25 dark:border-[#252A36]"
+                                                                className="flex items-start justify-between bg-[#FFF6EF]/60 dark:bg-[#181C26]/60 border border-black/15 dark:border-[#2D3546] rounded-xl p-2.5 text-xs font-[Manrope]"
                                                             >
-                                                                <div className="flex-1 min-w-0">
-                                                                    <div className="flex items-center gap-2 flex-wrap">
-                                                                        <Link
-                                                                            to={`/profile/${comment.user?._id}`}
-                                                                            className="text-xs sm:text-sm font-black text-[#1A0F08] dark:text-[#EDEBE6] hover:text-[#9E3610] dark:hover:text-[#F5C36B] transition-colors"
-                                                                            onClick={(e) => e.stopPropagation()}
-                                                                        >
-                                                                            {comment.user?.name}
-                                                                        </Link>
-                                                                        <span className="text-[11px] text-[#5C361E] dark:text-[#8A8F9C] font-extrabold">
-                                                                            @{comment.user?.username}
-                                                                        </span>
-                                                                        <span className="text-[11px] text-[#5C361E] dark:text-[#8A8F9C] font-bold">
-                                                                            • {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-                                                                        </span>
+                                                                <div className="flex items-start gap-2.5">
+                                                                    <img
+                                                                        src={commentAuthorPic}
+                                                                        alt={commentAuthorName}
+                                                                        className="w-6 h-6 rounded-full object-cover border border-black/20 mt-0.5 shrink-0"
+                                                                    />
+                                                                    <div>
+                                                                        <div className="flex items-center gap-1.5">
+                                                                            <span className="font-black text-[#1A140D] dark:text-white">
+                                                                                {commentAuthorName}
+                                                                            </span>
+                                                                            <span className="text-[10px] font-bold text-[#5E3821] dark:text-gray-400">
+                                                                                @{commentAuthorUsername}
+                                                                            </span>
+                                                                        </div>
+                                                                        <p className="text-[#2C190E] dark:text-gray-200 font-bold mt-0.5">
+                                                                            {comment.text}
+                                                                        </p>
                                                                     </div>
-                                                                    <p className="text-xs sm:text-sm text-[#1A0F08] dark:text-[#D9D3E6] font-extrabold break-words mt-0.5">
-                                                                        {comment.text}
-                                                                    </p>
                                                                 </div>
-                                                                {canDelete && (
+
+                                                                {isCommentOwner && (
                                                                     <button
-                                                                        onClick={() => handleDeleteComment(post._id, comment._id)}
-                                                                        className="text-[#6B2207] dark:text-[#6E7280] hover:text-red-600 dark:hover:text-red-400 transition flex-shrink-0 mt-1"
-                                                                        aria-label="Delete comment"
+                                                                        onClick={() => handleDeleteCommentClick(post._id, comment._id)}
+                                                                        className="text-gray-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
+                                                                        title="Delete comment"
                                                                     >
                                                                         <TrashIcon />
                                                                     </button>
@@ -672,6 +688,13 @@ navigate(`/post/${postId}`);
                     message="This action cannot be undone. Are you sure you want to delete this comment?"
                     confirmText="Delete"
                     cancelText="Cancel"
+                />
+
+                {/* ===== SHARE MODAL ===== */}
+                <ShareModal
+                    isOpen={!!shareModalPost}
+                    onClose={() => setShareModalPost(null)}
+                    post={shareModalPost}
                 />
             </div>
         </div>
