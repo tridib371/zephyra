@@ -124,6 +124,8 @@ const Navbar = () => {
 
     const profileRef = useRef(null);
     const notificationRef = useRef(null);
+    const mobileNotificationRef = useRef(null);
+    const dropdownRef = useRef(null);
 
     const handleLogout = () => {
         logout();
@@ -137,7 +139,12 @@ const Navbar = () => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {
                 setIsProfileMenuOpen(false);
             }
-            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+            const isNotifClick =
+                (notificationRef.current && notificationRef.current.contains(event.target)) ||
+                (mobileNotificationRef.current && mobileNotificationRef.current.contains(event.target)) ||
+                (dropdownRef.current && dropdownRef.current.contains(event.target));
+
+            if (!isNotifClick) {
                 setIsNotificationOpen(false);
             }
         };
@@ -241,96 +248,6 @@ const Navbar = () => {
                                             </span>
                                         )}
                                     </button>
-
-                                    {/* Notification Dropdown Drawer */}
-                                    <AnimatePresence>
-                                        {isNotificationOpen && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: 12, scale: 0.95 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                                                transition={{ duration: 0.2 }}
-                                                className="absolute right-0 mt-3 w-88 rounded-3xl border border-[#252E42] dark:border-[#2D3748] bg-[#141824] dark:bg-[#161B26] backdrop-blur-2xl shadow-2xl overflow-hidden z-50 text-[#E2E8F0]"
-                                            >
-                                                <div className="flex items-center justify-between px-5 py-4 border-b border-[#252E42] dark:border-[#2D3748] bg-[#1B2130] dark:bg-[#1E2638]">
-                                                    <div>
-                                                        <p className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#F5C36B]">Realtime Inbox</p>
-                                                        <h4 className="font-['Fraunces'] italic text-lg font-bold text-white">Notifications</h4>
-                                                    </div>
-                                                    {unreadCount > 0 && (
-                                                        <button onClick={markAllAsRead} className="text-xs font-bold text-[#F5C36B] hover:underline cursor-pointer">
-                                                            Mark all read
-                                                        </button>
-                                                    )}
-                                                </div>
-
-                                                <div className="max-h-96 overflow-y-auto divide-y divide-[#252E42] dark:divide-[#2D3748]">
-                                                    {notifications.length === 0 ? (
-                                                        <div className="px-5 py-10 text-center text-xs font-semibold text-[#94A3B8]">
-                                                            No notifications yet.
-                                                        </div>
-                                                    ) : (
-                                                        notifications.map((notification) => {
-                                                            const unread = !notification.read;
-                                                            const detail = getNotificationDetail(notification);
-
-                                                            return (
-                                                                <div
-                                                                    key={notification._id}
-                                                                    onClick={() => handleNotificationClick(notification)}
-                                                                    className={`flex items-start gap-3 px-5 py-4 transition-colors cursor-pointer ${unread
-                                                                            ? 'bg-[#1E273A] dark:bg-[#202838] hover:bg-[#253046] dark:hover:bg-[#283348]'
-                                                                            : 'hover:bg-[#1B2130] dark:hover:bg-[#1E2638]'
-                                                                        }`}
-                                                                >
-                                                                    {notification.type === 'announcement' ? (
-                                                                        <AdminAvatar className="h-10 w-10 shrink-0" size={40} />
-                                                                    ) : (
-                                                                        <img
-                                                                            src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`}
-                                                                            alt={notification.sender?.name || 'Sender'}
-                                                                            className="h-10 w-10 rounded-2xl object-cover shrink-0 ring-2 ring-[#FF8F6B]/40"
-                                                                            onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`; }}
-                                                                        />
-                                                                    )}
-                                                                    <div className="min-w-0 flex-1">
-                                                                        <p className={`text-xs sm:text-sm ${unread ? 'font-bold text-white' : 'text-[#CBD5E1]'}`}>
-                                                                            {getNotificationMessage(notification)}
-                                                                        </p>
-                                                                        {detail && (
-                                                                            <p className="mt-1 text-xs text-[#94A3B8] line-clamp-2 font-medium">
-                                                                                {detail}
-                                                                            </p>
-                                                                        )}
-                                                                        <p className="mt-1 text-[10px] font-semibold text-[#64748B]">
-                                                                            {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
-                                                                        </p>
-                                                                    </div>
-                                                                    <button
-                                                                        onClick={(event) => handleDeleteNotification(event, notification)}
-                                                                        className="text-gray-400 hover:text-rose-400 transition-colors p-1 cursor-pointer"
-                                                                        aria-label="Delete notification"
-                                                                    >
-                                                                        <TrashIcon />
-                                                                    </button>
-                                                                </div>
-                                                            );
-                                                        })
-                                                    )}
-                                                </div>
-
-                                                <div className="border-t border-[#252E42] dark:border-[#2D3748] px-5 py-3 bg-[#1B2130] dark:bg-[#1E2638]">
-                                                    <Link
-                                                        to="/notifications"
-                                                        onClick={() => setIsNotificationOpen(false)}
-                                                        className="block rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] px-4 py-2 text-center text-xs font-extrabold text-[#1A140D] hover:brightness-110 transition-all shadow-xs"
-                                                    >
-                                                        View all notifications →
-                                                    </Link>
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
                                 </div>
                             </>
                         ) : null}
@@ -446,13 +363,21 @@ const Navbar = () => {
                         </button>
 
                         {isAuthenticated && (
-                            <button
-                                onClick={() => setIsNotificationOpen(prev => !prev)}
-                                className={iconBtnClasses}
-                                aria-label="Notifications"
-                            >
-                                <BellIcon hasUnread={unreadCount > 0} />
-                            </button>
+                            <div className="relative" ref={mobileNotificationRef}>
+                                <button
+                                    onClick={() => setIsNotificationOpen(prev => !prev)}
+                                    className={iconBtnClasses}
+                                    aria-label="Notifications"
+                                    title="Notifications"
+                                >
+                                    <BellIcon hasUnread={unreadCount > 0} />
+                                    {unreadCount > 0 && (
+                                        <span className="absolute -top-0.5 -right-0.5 grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-rose-500 px-1 text-[10px] font-extrabold leading-none text-white shadow-xs">
+                                            {unreadCount > 99 ? '99+' : unreadCount}
+                                        </span>
+                                    )}
+                                </button>
+                            </div>
                         )}
 
                         <button
@@ -464,6 +389,97 @@ const Navbar = () => {
                         </button>
                     </div>
                 </div>
+
+                {/* Shared Notification Dropdown Drawer (Mobile & Desktop) */}
+                <AnimatePresence>
+                    {isNotificationOpen && (
+                        <motion.div
+                            ref={dropdownRef}
+                            initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute right-3 sm:right-6 md:right-24 top-16 w-[calc(100vw-1.5rem)] max-w-sm sm:w-88 rounded-3xl border border-[#252E42] dark:border-[#2D3748] bg-[#141824] dark:bg-[#161B26] backdrop-blur-2xl shadow-2xl overflow-hidden z-50 text-[#E2E8F0]"
+                        >
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-[#252E42] dark:border-[#2D3748] bg-[#1B2130] dark:bg-[#1E2638]">
+                                <div>
+                                    <p className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#F5C36B]">Realtime Inbox</p>
+                                    <h4 className="font-['Fraunces'] italic text-lg font-bold text-white">Notifications</h4>
+                                </div>
+                                {unreadCount > 0 && (
+                                    <button onClick={markAllAsRead} className="text-xs font-bold text-[#F5C36B] hover:underline cursor-pointer">
+                                        Mark all read
+                                    </button>
+                                )}
+                            </div>
+
+                            <div className="max-h-96 overflow-y-auto divide-y divide-[#252E42] dark:divide-[#2D3748]">
+                                {notifications.length === 0 ? (
+                                    <div className="px-5 py-10 text-center text-xs font-semibold text-[#94A3B8]">
+                                        No notifications yet.
+                                    </div>
+                                ) : (
+                                    notifications.map((notification) => {
+                                        const unread = !notification.read;
+                                        const detail = getNotificationDetail(notification);
+
+                                        return (
+                                            <div
+                                                key={notification._id}
+                                                onClick={() => handleNotificationClick(notification)}
+                                                className={`flex items-start gap-3 px-5 py-4 transition-colors cursor-pointer ${unread
+                                                    ? 'bg-[#1E273A] dark:bg-[#202838] hover:bg-[#253046] dark:hover:bg-[#283348]'
+                                                    : 'hover:bg-[#1B2130] dark:hover:bg-[#1E2638]'
+                                                    }`}
+                                            >
+                                                {notification.type === 'announcement' ? (
+                                                    <AdminAvatar className="h-10 w-10 shrink-0" size={40} />
+                                                ) : (
+                                                    <img
+                                                        src={notification.sender?.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`}
+                                                        alt={notification.sender?.name || 'Sender'}
+                                                        className="h-10 w-10 rounded-2xl object-cover shrink-0 ring-2 ring-[#FF8F6B]/40"
+                                                        onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.sender?.name || 'User')}&background=D97B4F&color=fff`; }}
+                                                    />
+                                                )}
+                                                <div className="min-w-0 flex-1">
+                                                    <p className={`text-xs sm:text-sm ${unread ? 'font-bold text-white' : 'text-[#CBD5E1]'}`}>
+                                                        {getNotificationMessage(notification)}
+                                                    </p>
+                                                    {detail && (
+                                                        <p className="mt-1 text-xs text-[#94A3B8] line-clamp-2 font-medium">
+                                                            {detail}
+                                                        </p>
+                                                    )}
+                                                    <p className="mt-1 text-[10px] font-semibold text-[#64748B]">
+                                                        {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
+                                                    </p>
+                                                </div>
+                                                <button
+                                                    onClick={(event) => handleDeleteNotification(event, notification)}
+                                                    className="text-gray-400 hover:text-rose-400 transition-colors p-1 cursor-pointer"
+                                                    aria-label="Delete notification"
+                                                >
+                                                    <TrashIcon />
+                                                </button>
+                                            </div>
+                                        );
+                                    })
+                                )}
+                            </div>
+
+                            <div className="border-t border-[#252E42] dark:border-[#2D3748] px-5 py-3 bg-[#1B2130] dark:bg-[#1E2638]">
+                                <Link
+                                    to="/notifications"
+                                    onClick={() => setIsNotificationOpen(false)}
+                                    className="block rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] px-4 py-2 text-center text-xs font-extrabold text-[#1A140D] hover:brightness-110 transition-all shadow-xs"
+                                >
+                                    View all notifications →
+                                </Link>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Mobile Menu Drawer */}
                 {isMobileMenuOpen && (
