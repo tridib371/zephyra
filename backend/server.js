@@ -111,14 +111,18 @@ async function findFreePort(startPort, maxAttempts) {
     throw new Error(`No free port found in range ${startPort}..${startPort + maxAttempts - 1}`);
 }
 
-(async () => {
-    try {
-        const port = await findFreePort(START_PORT, MAX_PORT_ATTEMPTS);
-        server.listen(port, () => {
-            console.log(`🚀 Zephyra backend running on http://localhost:${port}`);
-        });
-    } catch (err) {
-        console.error(err.message || err);
-        process.exit(1);
-    }
-})();
+if (require.main === module) {
+    (async () => {
+        try {
+            const port = await findFreePort(START_PORT, MAX_PORT_ATTEMPTS);
+            server.listen(port, () => {
+                console.log(`🚀 Zephyra backend running on http://localhost:${port}`);
+            });
+        } catch (err) {
+            console.error(err.message || err);
+            process.exit(1);
+        }
+    })();
+}
+
+module.exports = app;
