@@ -23,6 +23,7 @@ import {
     HiOutlinePaperAirplane,
     HiOutlineEye,
     HiOutlineEyeSlash,
+    HiOutlineXMark,
 } from 'react-icons/hi2';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
@@ -204,6 +205,11 @@ export default function Admin() {
     // Announcements
     const [announcementTitle, setAnnouncementTitle] = useState('');
     const [announcementMessage, setAnnouncementMessage] = useState('');
+    const [announcementTargetType, setAnnouncementTargetType] = useState('all'); // 'all' | 'individual'
+    const [selectedRecipient, setSelectedRecipient] = useState(null); // { _id, name, username, profilePicture, email }
+    const [recipientSearch, setRecipientSearch] = useState('');
+    const [recipientSearchResults, setRecipientSearchResults] = useState([]);
+    const [searchingRecipients, setSearchingRecipients] = useState(false);
     const [announcementSending, setAnnouncementSending] = useState(false);
     const [announcementSuccess, setAnnouncementSuccess] = useState('');
 
@@ -405,23 +411,65 @@ export default function Admin() {
         }
     };
 
-    // Broadcast Announcement
+    // Search users for individual announcement
+    useEffect(() => {
+        if (announcementTargetType !== 'individual' || !recipientSearch.trim()) {
+            setRecipientSearchResults([]);
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            try {
+                setSearchingRecipients(true);
+                const res = await api.get(`/admin/users?q=${encodeURIComponent(recipientSearch.trim())}&limit=5`, getAdminHeaders());
+                setRecipientSearchResults(res.data.users || []);
+            } catch (err) {
+                console.error('Error searching users for announcement:', err);
+            } finally {
+                setSearchingRecipients(false);
+            }
+        }, 250);
+
+        return () => clearTimeout(timer);
+    }, [recipientSearch, announcementTargetType]);
+
+    // Quick direct announcement to a specific user from the table
+    const handleDirectAnnounceToUser = (userObj) => {
+        setSelectedRecipient(userObj);
+        setAnnouncementTargetType('individual');
+        setAnnouncementSuccess('');
+        setRecipientSearch('');
+        setRecipientSearchResults([]);
+        setActiveTab('announcements');
+        showToast(`Preparing announcement for @${userObj.username}`);
+    };
+
+    // Broadcast or Direct Announcement Submit
     const handleBroadcastAnnouncement = async (e) => {
         e.preventDefault();
         if (!announcementTitle.trim() || !announcementMessage.trim() || announcementSending) return;
+
+        if (announcementTargetType === 'individual' && !selectedRecipient) {
+            showToast('Please select a recipient user');
+            return;
+        }
 
         setAnnouncementSending(true);
         setAnnouncementSuccess('');
 
         try {
-            const res = await api.post('/admin/announcements', {
+            const payload = {
                 title: announcementTitle.trim(),
                 message: announcementMessage.trim(),
-            }, getAdminHeaders());
-            setAnnouncementSuccess(res.data.message || 'Announcement broadcasted successfully!');
+                targetType: announcementTargetType,
+                ...(announcementTargetType === 'individual' && { recipientId: selectedRecipient._id }),
+            };
+
+            const res = await api.post('/admin/announcements', payload, getAdminHeaders());
+            setAnnouncementSuccess(res.data.message || 'Announcement sent successfully!');
             setAnnouncementTitle('');
             setAnnouncementMessage('');
-            showToast('Announcement sent to all users!');
+            showToast(res.data.message || 'Announcement sent successfully!');
         } catch (err) {
             showToast(err.response?.data?.message || 'Failed to send announcement');
         } finally {
@@ -915,6 +963,16 @@ export default function Admin() {
                                                             <motion.button
                                                                 whileHover={{ scale: 1.05 }}
                                                                 whileTap={{ scale: 0.96 }}
+                                                                onClick={() => handleDirectAnnounceToUser(u)}
+                                                                title={`Send direct announcement to @${u.username}`}
+                                                                className="px-2.5 py-1.5 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-950 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-900/60 border-2 border-black dark:border-blue-700/50 text-xs font-black cursor-pointer shadow-xs flex items-center gap-1"
+                                                            >
+                                                                <HiOutlineMegaphone className="h-3.5 w-3.5 stroke-[2.2]" />
+                                                                <span className="hidden xl:inline">Notice</span>
+                                                            </motion.button>
+                                                            <motion.button
+                                                                whileHover={{ scale: 1.05 }}
+                                                                whileTap={{ scale: 0.96 }}
                                                                 onClick={() => {
                                                                     setBanModalUser(u);
                                                                     setBanReason(u.bannedReason || '');
@@ -1091,21 +1149,173 @@ export default function Admin() {
                         transition={{ duration: 0.5 }}
                         className="max-w-2xl mx-auto space-y-6"
                     >
-                        <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-8 shadow-2xl backdrop-blur-xl space-y-6">
+                        <div className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151C]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
                             <div className="flex items-center gap-3">
-                                <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] border-2 border-black text-2xl">
+                                <div className="p-3 rounded-2xl bg-[#FF8F6B]/20 text-[#9E3610] dark:text-[#FF8F6B] border-2 border-black dark:border-[#FF8F6B]/40 text-2xl">
                                     <HiOutlineMegaphone className="stroke-[2.2]" />
                                 </div>
                                 <div>
-                                    <h3 className="font-['Fraunces'] text-xl font-extrabold text-[#1C1008] dark:text-white">Broadcast System Announcement</h3>
-                                    <p className="text-xs text-[#4D3222] dark:text-gray-400 font-bold">Push a high-priority banner notification to all connected platform users in real-time.</p>
+                                    <h3 className="font-['Fraunces'] text-xl font-extrabold text-[#1C1008] dark:text-white">
+                                        System Announcements & Notices
+                                    </h3>
+                                    <p className="text-xs text-[#4D3222] dark:text-gray-400 font-bold">
+                                        Deliver high-priority announcements in real-time across Zephyra.
+                                    </p>
                                 </div>
                             </div>
 
-                            {announcementSuccess && (
-                                <div className="p-4 rounded-2xl bg-emerald-100 text-emerald-950 border-2 border-black text-xs font-black">
-                                    ✓ {announcementSuccess}
+                            {/* Target Selection Switcher */}
+                            <div className="space-y-1.5">
+                                <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
+                                    Announcement Target *
+                                </label>
+                                <div className="grid grid-cols-2 gap-2 p-1 bg-[#FFF6EF] dark:bg-[#181C26] rounded-2xl border-2 border-black dark:border-[#252A36]">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setAnnouncementTargetType('all');
+                                            setAnnouncementSuccess('');
+                                        }}
+                                        className={`py-2.5 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                                            announcementTargetType === 'all'
+                                                ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-sm'
+                                                : 'text-[#5E3821] dark:text-gray-400 hover:text-[#1C1008]'
+                                        }`}
+                                    >
+                                        <HiOutlineUsers className="h-4 w-4 stroke-[2.2]" />
+                                        <span>All Users (Broadcast)</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setAnnouncementTargetType('individual');
+                                            setAnnouncementSuccess('');
+                                        }}
+                                        className={`py-2.5 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                                            announcementTargetType === 'individual'
+                                                ? 'bg-[#1A140D] text-white dark:bg-white dark:text-[#1A140D] shadow-sm'
+                                                : 'text-[#5E3821] dark:text-gray-400 hover:text-[#1C1008]'
+                                        }`}
+                                    >
+                                        <HiOutlineUser className="h-4 w-4 stroke-[2.2]" />
+                                        <span>Individual User</span>
+                                    </button>
                                 </div>
+                            </div>
+
+                            {/* Individual Recipient Selector */}
+                            {announcementTargetType === 'individual' && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="space-y-2"
+                                >
+                                    <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
+                                        Select Recipient User *
+                                    </label>
+
+                                    {selectedRecipient ? (
+                                        <div className="flex items-center justify-between p-3 rounded-2xl border-2 border-black dark:border-[#FF8F6B]/40 bg-[#FFF6EF] dark:bg-[#181C26]">
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={selectedRecipient.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedRecipient.name || selectedRecipient.username)}&background=D97B4F&color=fff`}
+                                                    alt=""
+                                                    className="h-10 w-10 rounded-2xl object-cover border-2 border-black"
+                                                />
+                                                <div>
+                                                    <div className="font-black text-sm text-[#1C1008] dark:text-white flex items-center gap-2">
+                                                        <span>{selectedRecipient.name}</span>
+                                                        <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-[#FF8F6B]/20 text-[#9E3610] dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40">
+                                                            {selectedRecipient.role || 'user'}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-xs text-[#5E3821] dark:text-gray-400 font-bold">
+                                                        @{selectedRecipient.username} • {selectedRecipient.email}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => setSelectedRecipient(null)}
+                                                className="p-1.5 rounded-xl bg-rose-200 text-rose-950 hover:bg-rose-300 border-2 border-black text-xs font-black cursor-pointer"
+                                                title="Change recipient"
+                                            >
+                                                <HiOutlineXMark className="h-4 w-4 stroke-[2.5]" />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="relative">
+                                            <div className="relative">
+                                                <HiOutlineMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9E3610] dark:text-gray-400 stroke-[2.2]" />
+                                                <input
+                                                    type="text"
+                                                    value={recipientSearch}
+                                                    onChange={(e) => setRecipientSearch(e.target.value)}
+                                                    placeholder="Type username, name, or email to search..."
+                                                    className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] pl-10 pr-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black font-bold"
+                                                />
+                                                {searchingRecipients && (
+                                                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 border-2 border-[#D97B4F] border-t-transparent rounded-full animate-spin" />
+                                                )}
+                                            </div>
+
+                                            {/* Search dropdown results */}
+                                            {recipientSearchResults.length > 0 && (
+                                                <div className="absolute left-0 right-0 top-full mt-2 z-30 rounded-2xl border-2 border-black dark:border-[#252A36] bg-white dark:bg-[#12151C] shadow-2xl overflow-hidden divide-y-2 divide-black/10 dark:divide-[#252A36]">
+                                                    {recipientSearchResults.map((usr) => (
+                                                        <button
+                                                            key={usr._id}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setSelectedRecipient(usr);
+                                                                setRecipientSearch('');
+                                                                setRecipientSearchResults([]);
+                                                            }}
+                                                            className="w-full p-3 flex items-center gap-3 hover:bg-[#FFF6EF] dark:hover:bg-[#181C26] text-left transition-colors cursor-pointer"
+                                                        >
+                                                            <img
+                                                                src={usr.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(usr.name || usr.username)}&background=D97B4F&color=fff`}
+                                                                alt=""
+                                                                className="h-8 w-8 rounded-xl object-cover border border-black"
+                                                            />
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="font-black text-xs text-[#1C1008] dark:text-white truncate">
+                                                                    {usr.name}
+                                                                </div>
+                                                                <div className="text-[11px] text-[#5E3821] dark:text-gray-400 font-bold truncate">
+                                                                    @{usr.username} • {usr.email}
+                                                                </div>
+                                                            </div>
+                                                            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-950 dark:text-blue-200 border border-black">
+                                                                Select →
+                                                            </span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {recipientSearch.trim().length >= 2 && recipientSearchResults.length === 0 && !searchingRecipients && (
+                                                <div className="absolute left-0 right-0 top-full mt-2 z-30 p-4 rounded-2xl border-2 border-black bg-white dark:bg-[#12151C] text-xs font-bold text-center text-gray-500">
+                                                    No users found matching "{recipientSearch}"
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </motion.div>
+                            )}
+
+                            {announcementSuccess && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="p-4 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-300 border-2 border-black dark:border-emerald-700/60 text-xs font-black flex items-center gap-2"
+                                >
+                                    <HiOutlineCheckCircle className="h-5 w-5 text-emerald-700 dark:text-emerald-400 shrink-0" />
+                                    <span>{announcementSuccess}</span>
+                                </motion.div>
                             )}
 
                             <form onSubmit={handleBroadcastAnnouncement} className="space-y-4">
@@ -1118,21 +1328,21 @@ export default function Admin() {
                                         required
                                         value={announcementTitle}
                                         onChange={(e) => setAnnouncementTitle(e.target.value)}
-                                        placeholder=""
+                                        placeholder={announcementTargetType === 'individual' ? "e.g., Important Notice Regarding Your Account" : "e.g., Scheduled Platform Maintenance Tonight"}
                                         className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] px-4 py-3 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black font-bold"
                                     />
                                 </div>
 
                                 <div className="space-y-1">
                                     <label className="block text-[11px] font-black uppercase tracking-wider text-[#9E3610] dark:text-gray-400">
-                                        Broadcast Message *
+                                        Announcement Message *
                                     </label>
                                     <textarea
                                         rows={4}
                                         required
                                         value={announcementMessage}
                                         onChange={(e) => setAnnouncementMessage(e.target.value)}
-                                        placeholder=""
+                                        placeholder={announcementTargetType === 'individual' ? "Write your direct administrative message or notification here..." : "Write your platform-wide announcement message here..."}
                                         className="w-full rounded-2xl border-2 border-black dark:border-[#252A36] bg-[#FFF6EF] dark:bg-[#181C26] p-4 text-sm text-[#1C1008] dark:text-white focus:outline-none focus:ring-2 focus:ring-black resize-none font-bold"
                                     />
                                 </div>
@@ -1141,11 +1351,22 @@ export default function Admin() {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.97 }}
                                     type="submit"
-                                    disabled={announcementSending || !announcementTitle.trim() || !announcementMessage.trim()}
-                                    className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-sm transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                                    disabled={
+                                        announcementSending ||
+                                        !announcementTitle.trim() ||
+                                        !announcementMessage.trim() ||
+                                        (announcementTargetType === 'individual' && !selectedRecipient)
+                                    }
+                                    className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-sm transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <HiOutlinePaperAirplane className="stroke-[2.2]" />
-                                    <span>{announcementSending ? 'Broadcasting Push...' : 'Broadcast to All Users'}</span>
+                                    <HiOutlinePaperAirplane className="h-4 w-4 stroke-[2.2]" />
+                                    <span>
+                                        {announcementSending
+                                            ? 'Sending Announcement...'
+                                            : announcementTargetType === 'individual'
+                                            ? `Send to @${selectedRecipient?.username || 'Selected User'}`
+                                            : `Broadcast to All Users (${stats?.totalUsers || 'All'})`}
+                                    </span>
                                 </motion.button>
                             </form>
                         </div>

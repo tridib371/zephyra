@@ -425,27 +425,92 @@ router.delete('/posts/:id', protect, requireAdmin, async (req, res) => {
     }
 });
 
-// ==========================================
-// 4. PLATFORM ANNOUNCEMENTS
-// ==========================================
 // @route   POST /api/admin/announcements
-// @desc    Broadcast platform announcement to all users
+// @desc    Broadcast platform announcement to all users or send to a specific individual user
 // @access  Private (Admin Only)
 router.post('/announcements', protect, requireAdmin, async (req, res) => {
     try {
-        const { title, message } = req.body;
+        const { title, message, targetType = 'all', recipientId } = req.body;
         if (!title || !title.trim() || !message || !message.trim()) {
             return res.status(400).json({ success: false, message: 'Announcement title and message are required' });
         }
 
         const cleanTitle = title.trim();
         const cleanMessage = message.trim();
+        const io = req.app.get('io');
 
-        // Get all active users
+        // 1. INDIVIDUAL USER TARGET
+        if (targetType === 'individual') {
+            if (!recipientId) {
+                return res.status(400).json({ success: false, message: 'Please select a recipient user for the individual announcement' });
+            }
+
+            // Find recipient user by ID or username
+            const query = mongoose.Types.ObjectId.isValid(recipientId)
+                ? { _id: recipientId }
+                : { username: recipientId.toLowerCase().trim() };
+
+            const targetUser = await User.findOne(query);
+            if (!targetUser) {
+                return res.status(404).json({ success: false, message: 'Target recipient user not found' });
+            }
+
+            const newNotification = await Notification.create({
+                recipient: targetUser._id,
+                sender: req.user._id,
+                type: 'announcement',
+                title: cleanTitle,
+                message: cleanMessage,
+                read: false,
+            });
+
+            const populatedNotification = await Notification.findById(newNotification._id).populate(
+                'sender',
+                'name username profilePicture'
+            );
+
+            // Emit real-time notification directly to the individual user
+            if (io) {
+                const unreadCount = await Notification.countDocuments({
+                    recipient: targetUser._id,
+                    read: false,
+                });
+
+                io.to(`user_${targetUser._id}`).emit('notification:new', {
+                    notification: populatedNotification,
+                    unreadCount,
+                });
+
+                io.to(`user_${targetUser._id}`).emit('announcement:new', {
+                    title: cleanTitle,
+                    message: cleanMessage,
+                    isDirect: true,
+                    sender: {
+                        _id: req.user._id,
+                        name: req.user.name,
+                        username: req.user.username,
+                        profilePicture: req.user.profilePicture,
+                    },
+                    createdAt: new Date(),
+                });
+            }
+
+            return res.status(201).json({
+                success: true,
+                message: `Direct announcement sent to @${targetUser.username} successfully!`,
+                recipient: {
+                    _id: targetUser._id,
+                    name: targetUser.name,
+                    username: targetUser.username,
+                },
+            });
+        }
+
+        // 2. BROADCAST TO ALL ACTIVE USERS
         const users = await User.find({ isBanned: { $ne: true } }).select('_id');
 
         if (users.length === 0) {
-            return res.status(200).json({ success: true, message: 'No recipients found' });
+            return res.status(200).json({ success: true, message: 'No active recipients found' });
         }
 
         // Create notifications for all users in bulk
@@ -460,12 +525,12 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
 
         await Notification.insertMany(notificationsData);
 
-        // Emit real-time announcement to all sockets
-        const io = req.app.get('io');
+        // Emit real-time announcement to all connected sockets
         if (io) {
             io.emit('announcement:new', {
                 title: cleanTitle,
                 message: cleanMessage,
+                isDirect: false,
                 sender: {
                     _id: req.user._id,
                     name: req.user.name,
@@ -478,12 +543,12 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: `Announcement broadcasted to ${users.length} users successfully!`,
+            message: `Announcement broadcasted to all ${users.length} users successfully!`,
             count: users.length,
         });
     } catch (error) {
-        console.error('Announcement broadcast error:', error);
-        res.status(500).json({ success: false, message: 'Server error broadcasting announcement' });
+        console.error('Announcement send error:', error);
+        res.status(500).json({ success: false, message: 'Server error processing announcement' });
     }
 });
 
