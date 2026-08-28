@@ -563,7 +563,10 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
         });
     } catch (error) {
         console.error('Announcement send error:', error);
-        res.status(500).json({ success: false, message: 'Server error processing announcement' });
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Server error processing announcement',
+        });
     }
 });
 

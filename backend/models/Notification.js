@@ -11,9 +11,7 @@ const NotificationSchema = new mongoose.Schema(
         sender: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            required: function () {
-                return this.type !== 'announcement';
-            },
+            required: false,
             index: true,
         },
         type: {
