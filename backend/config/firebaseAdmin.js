@@ -1,44 +1,58 @@
-const { initializeApp, cert } = require('firebase-admin/app');
-const { getAuth } = require('firebase-admin/auth');
 const path = require('path');
 const fs = require('fs');
 
 let adminAuth = null;
 
+// Wrap firebase-admin imports in try/catch because the 'jose' dependency
+// is ESM-only and crashes with require() in Vercel's serverless environment.
+// When this fails, the Google TokenInfo API fallback below handles verification.
+let initializeApp, cert, getAuth;
 try {
-    let serviceAccount = null;
+    ({ initializeApp, cert } = require('firebase-admin/app'));
+    ({ getAuth } = require('firebase-admin/auth'));
+} catch (e) {
+    console.warn('⚠️ firebase-admin could not be loaded (ESM issue on serverless):', e.message);
+    console.log('ℹ️ Will use Google TokenInfo API fallback for token verification.');
+}
 
-    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-        try {
-            serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-            console.log('✅ Loaded Firebase service account from process.env.FIREBASE_SERVICE_ACCOUNT');
-        } catch (e) {
-            console.warn('⚠️ Could not parse process.env.FIREBASE_SERVICE_ACCOUNT JSON:', e.message);
-        }
-    }
-
-    const serviceAccountPath = path.join(__dirname, '../firebase-service-account.json');
-    if (!serviceAccount && fs.existsSync(serviceAccountPath)) {
-        try {
-            serviceAccount = require(serviceAccountPath);
-            console.log('✅ Loaded Firebase service account from file');
-        } catch (e) {
-            console.warn('⚠️ Could not read firebase-service-account.json file:', e.message);
-        }
-    }
-
-    if (serviceAccount) {
-        let app;
-        if (!global._firebaseApp) {
-            app = initializeApp({ credential: cert(serviceAccount) });
-            global._firebaseApp = app;
-        } else {
-            app = global._firebaseApp;
-        }
-        adminAuth = getAuth(app);
-        console.log('✅ Firebase Admin SDK initialized successfully');
+try {
+    if (!initializeApp) {
+        console.log('ℹ️ Firebase Admin SDK not available; using TokenInfo fallback.');
     } else {
-        console.log('ℹ️ No Firebase Service Account found; using Google TokenInfo verification fallback for cloud deployment.');
+        let serviceAccount = null;
+
+        if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+            try {
+                serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+                console.log('✅ Loaded Firebase service account from process.env.FIREBASE_SERVICE_ACCOUNT');
+            } catch (e) {
+                console.warn('⚠️ Could not parse process.env.FIREBASE_SERVICE_ACCOUNT JSON:', e.message);
+            }
+        }
+
+        const serviceAccountPath = path.join(__dirname, '../firebase-service-account.json');
+        if (!serviceAccount && fs.existsSync(serviceAccountPath)) {
+            try {
+                serviceAccount = require(serviceAccountPath);
+                console.log('✅ Loaded Firebase service account from file');
+            } catch (e) {
+                console.warn('⚠️ Could not read firebase-service-account.json file:', e.message);
+            }
+        }
+
+        if (serviceAccount) {
+            let app;
+            if (!global._firebaseApp) {
+                app = initializeApp({ credential: cert(serviceAccount) });
+                global._firebaseApp = app;
+            } else {
+                app = global._firebaseApp;
+            }
+            adminAuth = getAuth(app);
+            console.log('✅ Firebase Admin SDK initialized successfully');
+        } else {
+            console.log('ℹ️ No Firebase Service Account found; using Google TokenInfo verification fallback for cloud deployment.');
+        }
     }
 } catch (error) {
     console.warn('⚠️ Firebase Admin SDK initialization skipped:', error.message);
