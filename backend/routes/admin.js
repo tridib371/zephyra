@@ -439,6 +439,18 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
         const cleanMessage = message.trim();
         const io = req.app.get('io');
 
+        // Safely resolve sender ObjectId (or null if using admin_super_user virtual ID)
+        let senderId = null;
+        if (req.user?._id && mongoose.Types.ObjectId.isValid(req.user._id)) {
+            senderId = req.user._id;
+        } else {
+            // Find any registered admin user to link as sender
+            const realAdmin = await User.findOne({ role: 'admin' });
+            if (realAdmin && realAdmin._id) {
+                senderId = realAdmin._id;
+            }
+        }
+
         // 1. INDIVIDUAL USER TARGET
         if (targetType === 'individual') {
             if (!recipientId) {
@@ -457,17 +469,20 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
 
             const newNotification = await Notification.create({
                 recipient: targetUser._id,
-                sender: req.user._id,
+                ...(senderId && { sender: senderId }),
                 type: 'announcement',
                 title: cleanTitle,
                 message: cleanMessage,
                 read: false,
             });
 
-            const populatedNotification = await Notification.findById(newNotification._id).populate(
-                'sender',
-                'name username profilePicture'
-            );
+            let populatedNotification = newNotification;
+            if (senderId) {
+                populatedNotification = await Notification.findById(newNotification._id).populate(
+                    'sender',
+                    'name username profilePicture'
+                );
+            }
 
             // Emit real-time notification directly to the individual user
             if (io) {
@@ -486,10 +501,10 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
                     message: cleanMessage,
                     isDirect: true,
                     sender: {
-                        _id: req.user._id,
-                        name: req.user.name,
-                        username: req.user.username,
-                        profilePicture: req.user.profilePicture,
+                        _id: req.user?._id || 'admin',
+                        name: req.user?.name || 'Administrator',
+                        username: req.user?.username || 'admin',
+                        profilePicture: req.user?.profilePicture || '',
                     },
                     createdAt: new Date(),
                 });
@@ -516,7 +531,7 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
         // Create notifications for all users in bulk
         const notificationsData = users.map((u) => ({
             recipient: u._id,
-            sender: req.user._id,
+            ...(senderId && { sender: senderId }),
             type: 'announcement',
             title: cleanTitle,
             message: cleanMessage,
@@ -532,10 +547,10 @@ router.post('/announcements', protect, requireAdmin, async (req, res) => {
                 message: cleanMessage,
                 isDirect: false,
                 sender: {
-                    _id: req.user._id,
-                    name: req.user.name,
-                    username: req.user.username,
-                    profilePicture: req.user.profilePicture,
+                    _id: req.user?._id || 'admin',
+                    name: req.user?.name || 'Administrator',
+                    username: req.user?.username || 'admin',
+                    profilePicture: req.user?.profilePicture || '',
                 },
                 createdAt: new Date(),
             });
