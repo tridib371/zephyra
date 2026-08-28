@@ -84,7 +84,9 @@ export const AuthProvider = ({ children }) => {
             setUser(user);
             return { success: true };
         } catch (err) {
-            const message = err.response?.data?.message || 'Google login failed. Please try again.';
+            console.error('Google backend auth error:', err);
+            const serverMsg = err.response?.data?.message;
+            const message = serverMsg || err.message || 'Google login failed. Please try again.';
             setError(message);
             return { success: false, message };
         }

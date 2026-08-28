@@ -57,14 +57,35 @@ const verifyIdToken = async (idToken) => {
 
     // 2. Universal Fallback: Verify ID token using Google TokenInfo API
     try {
-        const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-        const res = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`);
-        if (!res.ok) {
-            throw new Error(`Token verification failed with status ${res.status}`);
+        const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`;
+        let data;
+
+        if (typeof fetch === 'function' || typeof globalThis.fetch === 'function') {
+            const httpFetch = globalThis.fetch || fetch;
+            const res = await httpFetch(url);
+            if (!res.ok) {
+                throw new Error(`Token verification failed with status ${res.status}`);
+            }
+            data = await res.json();
+        } else {
+            const https = require('https');
+            data = await new Promise((resolve, reject) => {
+                https.get(url, (res) => {
+                    let body = '';
+                    res.on('data', (chunk) => (body += chunk));
+                    res.on('end', () => {
+                        try {
+                            resolve(JSON.parse(body));
+                        } catch (e) {
+                            reject(e);
+                        }
+                    });
+                }).on('error', reject);
+            });
         }
-        const data = await res.json();
+
         if (!data || !data.email) {
-            throw new Error('Token does not contain email');
+            throw new Error(data?.error_description || 'Token does not contain valid email');
         }
         return {
             uid: data.sub || data.user_id,
@@ -74,7 +95,7 @@ const verifyIdToken = async (idToken) => {
         };
     } catch (error) {
         console.error('❌ TokenInfo verification error:', error.message);
-        throw new Error('Invalid Firebase / Google token');
+        throw new Error('Invalid Firebase / Google token: ' + error.message);
     }
 };
 
