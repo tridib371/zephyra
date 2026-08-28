@@ -393,31 +393,32 @@ export default function Support() {
                     {/* Interactive Search Bar Form with Search Button */}
                     <form onSubmit={handleSearchSubmit} className="relative max-w-2xl mx-auto pt-2 z-10">
                         <div className="relative flex items-center bg-[#FFF6EF] dark:bg-[#181C26] rounded-2xl border-2 border-black dark:border-[#252A36] shadow-md p-1.5 focus-within:ring-2 focus-within:ring-black dark:focus-within:ring-[#FF8F6B]/50 transition-all">
-                            <HiOutlineMagnifyingGlass className="ml-3 text-[#9E3610] text-xl pointer-events-none shrink-0 stroke-[2.2]" />
+                            <HiOutlineMagnifyingGlass className="ml-2.5 sm:ml-3 text-[#9E3610] text-lg sm:text-xl pointer-events-none shrink-0 stroke-[2.2]" />
                             <input
                                 type="text"
                                 value={inputText}
                                 onChange={(e) => setInputText(e.target.value)}
-                                placeholder="Search questions, password, messaging, privacy, delete..."
-                                className="w-full bg-transparent px-3 py-3 text-sm text-[#1C1008] dark:text-white placeholder-[#5E3821] dark:placeholder-gray-400 focus:outline-none font-bold"
+                                placeholder="Search help topics, FAQs, guides..."
+                                className="w-full min-w-0 bg-transparent px-2 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm text-[#1C1008] dark:text-white placeholder-[#5E3821] dark:placeholder-gray-400 focus:outline-none font-bold"
                             />
                             {inputText && (
                                 <button
                                     type="button"
                                     onClick={handleClearSearch}
-                                    className="px-2.5 py-1.5 text-xs font-black text-[#5E3821] hover:text-[#1C1008] dark:hover:text-white cursor-pointer mr-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-[#202532] transition-colors shrink-0 border border-black dark:border-gray-700"
+                                    className="px-2 py-1 sm:px-2.5 sm:py-1.5 text-[11px] sm:text-xs font-black text-[#5E3821] hover:text-[#1C1008] dark:text-gray-300 dark:hover:text-white cursor-pointer mr-1 sm:mr-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-[#202532] transition-colors shrink-0 border border-black dark:border-gray-700"
                                 >
                                     Clear
                                 </button>
                             )}
                             <motion.button
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.96 }}
                                 type="submit"
-                                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-xs sm:text-sm shadow-sm shrink-0 cursor-pointer"
+                                aria-label="Search"
+                                className="flex items-center justify-center gap-1 sm:gap-1.5 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-extrabold text-xs sm:text-sm shadow-sm shrink-0 cursor-pointer"
                             >
-                                <HiOutlineMagnifyingGlass className="text-base stroke-[2.2]" />
-                                <span>Search</span>
+                                <HiOutlineMagnifyingGlass className="text-base stroke-[2.5]" />
+                                <span className="hidden sm:inline">Search</span>
                             </motion.button>
                         </div>
                         {searchQuery && (
