@@ -31,7 +31,13 @@ const GoogleButton = ({ text = 'Continue with Google' }) => {
             }
         } catch (err) {
             console.error('Google sign-in error:', err);
-            setError(err.message || 'Google sign-in failed. Please try again.');
+            if (err.code === 'auth/unauthorized-domain') {
+                setError('Domain not authorized in Firebase. Please add "zephyra-psi.vercel.app" to Authorized Domains in Firebase Console > Authentication > Settings.');
+            } else if (err.code === 'auth/popup-blocked') {
+                setError('Popup blocked by browser. Please allow popups for this site and try again.');
+            } else {
+                setError(err.message || 'Google sign-in failed. Please try again.');
+            }
         } finally {
             setIsLoading(false);
         }

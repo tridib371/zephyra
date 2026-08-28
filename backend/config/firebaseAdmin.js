@@ -3,51 +3,79 @@ const { getAuth } = require('firebase-admin/auth');
 const path = require('path');
 const fs = require('fs');
 
-// Check if service account file exists
-const serviceAccountPath = path.join(__dirname, '../firebase-service-account.json');
-
-console.log('🔍 Looking for service account at:', serviceAccountPath);
-
-if (!fs.existsSync(serviceAccountPath)) {
-    console.error('❌ firebase-service-account.json not found in backend folder!');
-    console.error('📁 Contents of backend folder:', fs.readdirSync(path.join(__dirname, '..')));
-    process.exit(1);
-}
-
-console.log('✅ Service account file found!');
+let adminAuth = null;
 
 try {
-    const serviceAccount = require(serviceAccountPath);
-    console.log('✅ Service account loaded successfully');
+    let serviceAccount = null;
 
-    // Initialize Firebase Admin SDK using the new modular approach
-    let app;
-    if (!global._firebaseApp) {
-        app = initializeApp({
-            credential: cert(serviceAccount),
-        });
-        global._firebaseApp = app;
-        console.log('✅ Firebase Admin SDK initialized successfully');
-    } else {
-        app = global._firebaseApp;
-        console.log('✅ Firebase Admin SDK already initialized');
+    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        try {
+            serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+            console.log('✅ Loaded Firebase service account from process.env.FIREBASE_SERVICE_ACCOUNT');
+        } catch (e) {
+            console.warn('⚠️ Could not parse process.env.FIREBASE_SERVICE_ACCOUNT JSON:', e.message);
+        }
     }
 
-    const auth = getAuth(app);
-
-    const verifyIdToken = async (idToken) => {
+    const serviceAccountPath = path.join(__dirname, '../firebase-service-account.json');
+    if (!serviceAccount && fs.existsSync(serviceAccountPath)) {
         try {
-            const decodedToken = await auth.verifyIdToken(idToken);
+            serviceAccount = require(serviceAccountPath);
+            console.log('✅ Loaded Firebase service account from file');
+        } catch (e) {
+            console.warn('⚠️ Could not read firebase-service-account.json file:', e.message);
+        }
+    }
+
+    if (serviceAccount) {
+        let app;
+        if (!global._firebaseApp) {
+            app = initializeApp({ credential: cert(serviceAccount) });
+            global._firebaseApp = app;
+        } else {
+            app = global._firebaseApp;
+        }
+        adminAuth = getAuth(app);
+        console.log('✅ Firebase Admin SDK initialized successfully');
+    } else {
+        console.log('ℹ️ No Firebase Service Account found; using Google TokenInfo verification fallback for cloud deployment.');
+    }
+} catch (error) {
+    console.warn('⚠️ Firebase Admin SDK initialization skipped:', error.message);
+}
+
+const verifyIdToken = async (idToken) => {
+    // 1. Try Firebase Admin SDK if available
+    if (adminAuth) {
+        try {
+            const decodedToken = await adminAuth.verifyIdToken(idToken);
             return decodedToken;
         } catch (error) {
-            console.error('❌ Firebase token verification error:', error);
-            throw new Error('Invalid Firebase token');
+            console.warn('Firebase Admin token verification failed, attempting Google TokenInfo API fallback:', error.message);
         }
-    };
+    }
 
-    module.exports = { verifyIdToken };
-} catch (error) {
-    console.error('❌ Error loading Firebase Admin SDK:', error.message);
-    console.error('Error stack:', error.stack);
-    process.exit(1);
-}
+    // 2. Universal Fallback: Verify ID token using Google TokenInfo API
+    try {
+        const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+        const res = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`);
+        if (!res.ok) {
+            throw new Error(`Token verification failed with status ${res.status}`);
+        }
+        const data = await res.json();
+        if (!data || !data.email) {
+            throw new Error('Token does not contain email');
+        }
+        return {
+            uid: data.sub || data.user_id,
+            email: data.email,
+            name: data.name || data.email.split('@')[0],
+            picture: data.picture || '',
+        };
+    } catch (error) {
+        console.error('❌ TokenInfo verification error:', error.message);
+        throw new Error('Invalid Firebase / Google token');
+    }
+};
+
+module.exports = { verifyIdToken };
