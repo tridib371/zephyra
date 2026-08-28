@@ -24,8 +24,8 @@ const protect = async (req, res, next) => {
                     _id: 'admin_super_user',
                     id: 'admin_super_user',
                     name: 'Super Admin',
-                    username: decoded.username || 'sarkartridib813',
-                    email: 'sarkartridib813@gmail.com',
+                    username: decoded.username || 'admin',
+                    email: 'admin@zephyra.com',
                     role: 'admin',
                     isBanned: false,
                 };

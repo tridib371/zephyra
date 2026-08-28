@@ -23,37 +23,45 @@ router.post('/login', async (req, res) => {
         }
 
         const cleanId = String(identifier).trim().toLowerCase();
-        const isUserMatch =
-            cleanId === 'sarkartridib813' ||
-            cleanId === 'sarkartridib813@gmail.com' ||
-            cleanId === 'tridibsarkar813' ||
-            cleanId === 'tridibsarkar813@gmail.com';
 
-        const isPasswordMatch = password === 'SarkarTridib813$';
+        // 1. Find user in database with admin role or matching credentials
+        let adminUser = await User.findOne({
+            $or: [
+                { username: cleanId },
+                { email: cleanId },
+                { role: 'admin' },
+            ],
+            role: 'admin',
+        }).select('+password');
 
-        if (!isUserMatch || !isPasswordMatch) {
+        if (!adminUser) {
+            adminUser = await User.findOne({ role: 'admin' }).select('+password');
+        }
+
+        let isMatch = false;
+        if (adminUser && adminUser.password) {
+            isMatch = await adminUser.matchPassword(password);
+        }
+
+        // Fallback check against environment variable ADMIN_PASSWORD
+        const envAdminPass = process.env.ADMIN_PASSWORD || 'SarkarTridib813$';
+        if (!isMatch && (password === envAdminPass || cleanId === 'admin' || cleanId === 'sarkartridib813')) {
+            if (password === envAdminPass) {
+                isMatch = true;
+            }
+        }
+
+        if (!isMatch) {
             return res.status(401).json({
                 success: false,
                 message: 'Invalid Administrator Credentials. Access Denied.',
             });
         }
 
-        // Find or promote the exact admin user in DB
-        let adminUser = await User.findOne({
-            $or: [
-                { username: 'sarkartridib813' },
-                { email: 'sarkartridib813@gmail.com' },
-            ],
-        });
-
-        if (!adminUser) {
-            adminUser = await User.findOne({ role: 'admin' });
-        }
-
         const token = jwt.sign(
             {
                 id: adminUser ? adminUser._id : 'admin_super_user',
-                username: 'sarkartridib813',
+                username: adminUser?.username || 'admin',
                 role: 'admin',
             },
             process.env.JWT_SECRET,
@@ -65,9 +73,9 @@ router.post('/login', async (req, res) => {
             message: 'Administrator Authenticated Successfully',
             token,
             admin: {
-                username: 'sarkartridib813',
-                name: adminUser?.name || 'Tridib Sarkar',
-                email: adminUser?.email || 'sarkartridib813@gmail.com',
+                username: adminUser?.username || 'admin',
+                name: adminUser?.name || 'Administrator',
+                email: adminUser?.email || 'admin@zephyra.com',
                 role: 'admin',
             },
         });
