@@ -186,11 +186,16 @@ Add the following environment variables to `backend/.env`:
 ```env
 PORT=5000
 MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/zephyra?retryWrites=true&w=majority
-JWT_SECRET=your_super_secret_jwt_key_zephyra_2026
-EMAIL_USER=your_gmail_address@gmail.com
-EMAIL_PASS=your_gmail_app_password
-GOOGLE_CLIENT_ID=your_google_oauth_client_id
+JWT_SECRET=your_jwt_secret_key
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_email_app_password
+GOOGLE_CLIENT_ID=your_google_client_id
+ADMIN_PASSWORD=your_secure_admin_password
+ADMIN_EMAIL=admin@example.com
 ```
+
+> [!NOTE]
+> 🔒 **Security Notice**: Admin login credentials, database URIs, and email SMTP keys are strictly managed via private environment variables (`.env`) and are never hardcoded or exposed in source control.
 
 Run the backend development server:
 ```bash
@@ -237,6 +242,8 @@ npm run dev
 | `EMAIL_USER` | Backend | Sender email address for Nodemailer OTP delivery |
 | `EMAIL_PASS` | Backend | App password generated from Google Account Security |
 | `GOOGLE_CLIENT_ID` | Backend | Client ID used to verify Google OAuth ID tokens |
+| `ADMIN_PASSWORD` | Backend | Custom secret password for Administrator access |
+| `ADMIN_EMAIL` | Backend | Designated email address for Administrator account |
 | `VITE_API_BASE_URL` | Frontend | Base REST API URL (`http://localhost:5000/api`) |
 | `VITE_GOOGLE_CLIENT_ID` | Frontend | Google OAuth Client ID for Google Button component |
 
