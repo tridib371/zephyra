@@ -25,6 +25,7 @@ import Cookies from './pages/Cookies';
 import Support from './pages/Support';
 import Guidelines from './pages/Guidelines';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import { NotificationProvider } from './context/NotificationContext';
@@ -85,6 +86,9 @@ function AppShell() {
 
             {/* Admin Portal (Protected by dedicated Admin Login Gate) */}
             <Route path="/admin" element={<Admin />} />
+
+            {/* 404 Catch-All Route for Irrelevant / Invalid Paths */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>
       </main>
