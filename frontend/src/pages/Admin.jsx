@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
+import AutoPauseVideo from '../components/AutoPauseVideo';
 import {
     HiOutlineShieldCheck,
     HiOutlineExclamationCircle,
@@ -1044,10 +1045,8 @@ export default function Admin() {
                                                 const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
                                                 if (isVideo) {
                                                     return (
-                                                        <video
+                                                        <AutoPauseVideo
                                                             src={mediaSrc}
-                                                            controls
-                                                            playsInline
                                                             className="h-40 w-full object-contain rounded-2xl border-2 border-black bg-black"
                                                         />
                                                     );

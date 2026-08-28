@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import ConfirmDialog from '../components/ConfirmDialog';
 import ShareModal from '../components/ShareModal';
+import AutoPauseVideo from '../components/AutoPauseVideo';
 
 // ===== Icons =====
 const HeartIcon = ({ filled = false }) => (
@@ -271,10 +272,8 @@ const PostDetail = () => {
                                         const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
                                         if (isVideo) {
                                             return (
-                                                <video
+                                                <AutoPauseVideo
                                                     src={post.image}
-                                                    controls
-                                                    playsInline
                                                     className="w-full max-h-[500px] object-contain bg-black rounded-2xl"
                                                 />
                                             );

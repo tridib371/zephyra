@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import ConfirmDialog from '../components/ConfirmDialog';
 import ShareModal from '../components/ShareModal';
+import AutoPauseVideo from '../components/AutoPauseVideo';
 
 // ===== Icons =====
 const HeartIcon = ({ filled = false }) => (
@@ -520,10 +521,8 @@ navigate(`/post/${postId}`);
                                                 const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
                                                 if (isVideo) {
                                                     return (
-                                                        <video
+                                                        <AutoPauseVideo
                                                             src={post.image}
-                                                            controls
-                                                            playsInline
                                                             className="w-full max-h-96 object-contain rounded-2xl bg-black"
                                                         />
                                                     );
