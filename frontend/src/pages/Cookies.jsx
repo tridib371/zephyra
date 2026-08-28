@@ -153,7 +153,7 @@ export default function Cookies() {
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
             {/* Realistic Data Storage & Security Photography Wallpapers - Clear & Sharp */}
-            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#0E1116] dark:via-[#121620] dark:to-[#0A0D12]" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
             </div>

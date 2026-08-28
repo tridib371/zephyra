@@ -45,162 +45,48 @@ const TrashIcon = () => (
 // ===== Animated Background Component for Day & Night Modes =====
 const FeedBackgroundAnimation = () => {
     return (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden transform-gpu" aria-hidden="true">
             {/* Ambient Background Gradient Base */}
             <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-[#0E1116] transition-colors duration-500" />
 
-            {/* Glowing Amber/Terracotta Radial Orbs (Day & Night) */}
-            <motion.div
-                animate={{
-                    scale: [1, 1.25, 1],
-                    x: [0, 50, 0],
-                    y: [0, 30, 0],
-                    opacity: [0.45, 0.7, 0.45],
-                }}
-                transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/25 to-transparent dark:from-[#FF8F6B]/20 dark:via-[#9E3610]/15 dark:to-transparent blur-3xl"
-            />
+            {/* Glowing Amber/Terracotta Radial Orbs (GPU Accelerated & Stable) */}
+            <div className="absolute -top-32 -left-32 w-[350px] sm:w-[550px] h-[350px] sm:h-[550px] rounded-full bg-gradient-to-br from-[#FF8F6B]/30 via-[#D97B4F]/20 to-transparent dark:from-[#FF8F6B]/15 dark:via-[#9E3610]/10 dark:to-transparent blur-2xl transform-gpu" />
 
-            <motion.div
-                animate={{
-                    scale: [1.1, 0.9, 1.1],
-                    x: [0, -40, 0],
-                    y: [0, 60, 0],
-                    opacity: [0.4, 0.65, 0.4],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-                className="absolute top-1/3 -right-36 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-[#F5C36B]/35 via-[#E2774C]/25 to-transparent dark:from-[#F5C36B]/15 dark:via-[#D97B4F]/10 dark:to-transparent blur-3xl"
-            />
+            <div className="absolute top-1/3 -right-36 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] rounded-full bg-gradient-to-bl from-[#F5C36B]/30 via-[#E2774C]/20 to-transparent dark:from-[#F5C36B]/10 dark:via-[#D97B4F]/10 dark:to-transparent blur-2xl transform-gpu" />
 
-            <motion.div
-                animate={{
-                    scale: [0.95, 1.2, 0.95],
-                    x: [0, 35, 0],
-                    y: [0, -45, 0],
-                    opacity: [0.35, 0.6, 0.35],
-                }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-                className="absolute -bottom-40 left-1/4 w-[580px] h-[580px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/30 via-[#F5C36B]/20 to-transparent dark:from-[#E2774C]/15 dark:via-[#7A2B0E]/15 dark:to-transparent blur-3xl"
-            />
+            <div className="absolute -bottom-40 left-1/4 w-[350px] sm:w-[580px] h-[350px] sm:h-[580px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/25 via-[#F5C36B]/15 to-transparent dark:from-[#E2774C]/10 dark:via-[#7A2B0E]/10 dark:to-transparent blur-2xl transform-gpu" />
 
             {/* Subtle Cyber Dot Matrix Grid (Light & Dark) */}
             <div
-                className="absolute inset-0 opacity-[0.35] dark:opacity-[0.2]"
+                className="absolute inset-0 opacity-[0.3] dark:opacity-[0.18]"
                 style={{
-                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(217, 123, 79, 0.4) 1.2px, transparent 0)`,
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(217, 123, 79, 0.35) 1.2px, transparent 0)`,
                     backgroundSize: '36px 36px',
                 }}
             />
 
-            {/* Multi-Layered Animated Wind Breeze Wave Currents */}
+            {/* Multi-Layered Wind Breeze Wave Currents (Desktop Only & GPU Accelerated) */}
             <svg
-                className="absolute inset-0 h-full w-full opacity-65 dark:opacity-40"
+                className="hidden md:block absolute inset-0 h-full w-full opacity-40 dark:opacity-25 transform-gpu"
                 viewBox="0 0 1400 900"
                 preserveAspectRatio="none"
             >
                 <defs>
                     <linearGradient id="feedGustA" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
-                        <stop offset="25%" stopColor="#FF8F6B" stopOpacity="0.8" />
-                        <stop offset="70%" stopColor="#E2774C" stopOpacity="0.9" />
+                        <stop offset="25%" stopColor="#FF8F6B" stopOpacity="0.6" />
+                        <stop offset="70%" stopColor="#E2774C" stopOpacity="0.7" />
                         <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
                     </linearGradient>
-                    <linearGradient id="feedGustB" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#F5C36B" stopOpacity="0" />
-                        <stop offset="35%" stopColor="#D97B4F" stopOpacity="0.75" />
-                        <stop offset="80%" stopColor="#FF8F6B" stopOpacity="0.85" />
-                        <stop offset="100%" stopColor="#E2774C" stopOpacity="0" />
-                    </linearGradient>
                 </defs>
-
-                {/* Primary undulating wave */}
-                <motion.path
+                <path
                     d="M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200"
-                    fill="none"
-                    stroke="url(#feedGustA)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    animate={{
-                        d: [
-                            "M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200",
-                            "M -150 220 C 280 150, 490 240, 820 230 S 1140 50, 1550 160",
-                            "M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200"
-                        ],
-                        opacity: [0.35, 0.75, 0.35]
-                    }}
-                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-                />
-
-                {/* Secondary harmonic wave */}
-                <motion.path
-                    d="M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490"
-                    fill="none"
-                    stroke="url(#feedGustB)"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    animate={{
-                        d: [
-                            "M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490",
-                            "M -150 440 C 190 520, 710 440, 930 460 S 1160 560, 1550 510",
-                            "M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490"
-                        ],
-                        opacity: [0.25, 0.65, 0.25]
-                    }}
-                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                />
-
-                {/* Third low breeze current */}
-                <motion.path
-                    d="M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760"
                     fill="none"
                     stroke="url(#feedGustA)"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    animate={{
-                        d: [
-                            "M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760",
-                            "M -150 740 C 290 800, 750 780, 970 750 S 1240 830, 1550 780",
-                            "M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760"
-                        ],
-                        opacity: [0.3, 0.65, 0.3]
-                    }}
-                    transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
                 />
             </svg>
-
-            {/* Floating Ambient Feather & Particle Motes */}
-            {[
-                { top: '12%', left: '8%', size: 8, duration: 8, delay: 0 },
-                { top: '22%', left: '88%', size: 12, duration: 10, delay: 1.5 },
-                { top: '42%', left: '15%', size: 6, duration: 7, delay: 3 },
-                { top: '62%', left: '82%', size: 10, duration: 9, delay: 2 },
-                { top: '78%', left: '25%', size: 14, duration: 11, delay: 0.5 },
-                { top: '88%', left: '72%', size: 7, duration: 8.5, delay: 4 },
-                { top: '32%', left: '52%', size: 9, duration: 9.5, delay: 2.2 },
-            ].map((p, idx) => (
-                <motion.div
-                    key={idx}
-                    style={{
-                        top: p.top,
-                        left: p.left,
-                        width: `${p.size}px`,
-                        height: `${p.size}px`,
-                    }}
-                    animate={{
-                        y: [-25, 30, -25],
-                        x: [-15, 20, -15],
-                        opacity: [0.2, 0.8, 0.2],
-                        scale: [0.85, 1.3, 0.85],
-                    }}
-                    transition={{
-                        duration: p.duration,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: p.delay,
-                    }}
-                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] shadow-xs shadow-[#E2774C]/60"
-                />
-            ))}
         </div>
     );
 };
