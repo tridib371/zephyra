@@ -216,36 +216,36 @@ const PostDetail = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] py-8 px-4 sm:px-6 font-[Manrope] transition-colors duration-300"
+                className="min-h-screen bg-[#F8F9FA] dark:bg-[#0E1116] py-4 sm:py-8 px-3 sm:px-6 font-[Manrope] transition-colors duration-300 w-full max-w-full overflow-x-hidden"
             >
                 <div className="max-w-3xl mx-auto">
                     {/* Back Button */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-sm font-bold cursor-pointer"
+                        className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition-colors mb-4 text-xs sm:text-sm font-bold cursor-pointer"
                     >
                         <ArrowLeftIcon />
                         <span>Back to feed</span>
                     </button>
 
                     {/* Post Card */}
-                    <div className="bg-white dark:bg-[#12151C] rounded-3xl shadow-xs p-6 sm:p-8 border border-[#EAECF0] dark:border-[#1F232C]">
+                    <div className="bg-white dark:bg-[#12151C] rounded-2xl sm:rounded-3xl shadow-xs p-4 sm:p-8 border border-[#EAECF0] dark:border-[#1F232C] overflow-hidden">
                         {/* Author Info */}
                         <div className="flex items-start justify-between">
-                            <Link to={`/profile/${post.author?._id}`} className="flex items-center gap-3">
+                            <Link to={`/profile/${post.author?._id}`} className="flex items-center gap-3 min-w-0">
                                 <img
                                     src={post.author?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                     alt={post.author?.name}
-                                    className="w-12 h-12 rounded-full object-cover ring-2 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60"
+                                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-[#D97B4F]/60 dark:ring-[#F5C36B]/60 shrink-0"
                                     onError={(e) => {
                                         e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
                                     }}
                                 />
-                                <div>
-                                    <p className="font-semibold text-[#101828] dark:text-[#EDEBE6]">
+                                <div className="min-w-0">
+                                    <p className="font-semibold text-[#101828] dark:text-[#EDEBE6] text-sm sm:text-base truncate">
                                         {post.author?.name}
                                     </p>
-                                    <p className="text-sm text-[#667085] dark:text-[#6E7280]">
+                                    <p className="text-xs sm:text-sm text-[#667085] dark:text-[#6E7280] truncate">
                                         @{post.author?.username}
                                     </p>
                                 </div>
@@ -253,7 +253,7 @@ const PostDetail = () => {
                             {isOwnPost && (
                                 <button
                                     onClick={handleDeletePost}
-                                    className="text-gray-400 dark:text-[#6E7280] hover:text-red-500 dark:hover:text-red-400 transition"
+                                    className="text-gray-400 dark:text-[#6E7280] hover:text-red-500 dark:hover:text-red-400 transition shrink-0 ml-2"
                                 >
                                     <TrashIcon />
                                 </button>
@@ -262,7 +262,7 @@ const PostDetail = () => {
 
                         {/* Post Content */}
                         <div className="mt-4">
-                            <p className="text-[#101828] dark:text-[#E7E6E3] whitespace-pre-wrap break-words leading-relaxed text-lg">
+                            <p className="text-[#101828] dark:text-[#E7E6E3] whitespace-pre-wrap break-words leading-relaxed text-base sm:text-lg">
                                 {post.content}
                             </p>
                             {post.image && (
@@ -299,7 +299,7 @@ const PostDetail = () => {
                         </p>
 
                         {/* Stats */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 text-xs font-bold text-[#475467] dark:text-[#8A8F9C]">
+                        <div className="mt-4 flex items-center gap-4 sm:gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 text-xs font-bold text-[#475467] dark:text-[#8A8F9C]">
                             <span className="flex items-center gap-1.5">
                                 <HeartIcon filled={isLiked} />
                                 {post.likes?.length || 0} likes
@@ -311,25 +311,25 @@ const PostDetail = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
+                        <div className="mt-4 flex items-center justify-between sm:justify-start gap-1 sm:gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 overflow-x-auto no-scrollbar">
                             <button
                                 onClick={handleLike}
-                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
+                                className={`flex items-center gap-1.5 sm:gap-2 transition text-xs font-bold cursor-pointer shrink-0 ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
                             >
                                 <HeartIcon filled={isLiked} />
                                 <span>Like</span>
                             </button>
-                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0">
                                 <CommentIcon />
                                 <span>Comment</span>
                             </button>
-                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer">
+                            <button className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0">
                                 <BookmarkIcon />
                                 <span>Save</span>
                             </button>
                             <button
                                 onClick={() => setIsShareOpen(true)}
-                                className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition ml-auto text-xs font-bold cursor-pointer"
+                                className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0 sm:ml-auto"
                             >
                                 <ShareIcon />
                                 <span>Share</span>
@@ -338,11 +338,11 @@ const PostDetail = () => {
 
                         {/* Comment Input */}
                         <div className="mt-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 sm:gap-3">
                                 <img
                                     src={user?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg'}
                                     alt="Your avatar"
-                                    className="w-9 h-9 rounded-full object-cover ring-1 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40 flex-shrink-0"
+                                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover ring-1 ring-[#D97B4F]/40 dark:ring-[#F5C36B]/40 shrink-0"
                                     onError={(e) => {
                                         e.target.src = 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
                                     }}
@@ -355,12 +355,12 @@ const PostDetail = () => {
                                         if (e.key === 'Enter') handleCommentSubmit();
                                     }}
                                     placeholder="Write a comment..."
-                                    className="flex-1 px-4 py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-full text-sm text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
+                                    className="flex-1 min-w-0 px-3.5 sm:px-4 py-2 sm:py-2.5 bg-[#F8F9FA] dark:bg-[#0E1116] border border-[#EAECF0] dark:border-[#3A3F4B] rounded-full text-xs sm:text-sm text-[#101828] dark:text-[#EDEBE6] placeholder:text-[#667085] dark:placeholder:text-[#6E7280] focus:ring-2 focus:ring-[#D97B4F] dark:focus:ring-[#F5C36B] focus:border-transparent transition outline-none font-[Manrope]"
                                 />
                                 <button
                                     onClick={handleCommentSubmit}
                                     disabled={submittingComment || !commentText.trim()}
-                                    className="px-5 py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full text-xs hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] cursor-pointer shadow-xs"
+                                    className="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] font-extrabold rounded-full text-xs hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-[Manrope] cursor-pointer shadow-xs shrink-0"
                                 >
                                     {submittingComment ? '...' : 'Post'}
                                 </button>
