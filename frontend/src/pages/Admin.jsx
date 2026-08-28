@@ -28,119 +28,8 @@ import {
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
-
-// Hardware-accelerated smooth Animated wind gust SVG lines (GPU transform only, no CPU path thrashing)
-const WindBreeze = () => (
-    <svg
-        className="absolute inset-0 h-full w-full pointer-events-none opacity-40 dark:opacity-25 z-0 transform-gpu"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-    >
-        <defs>
-            <linearGradient id="adminGust" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FF8F6B" stopOpacity="0" />
-                <stop offset="50%" stopColor="#D97B4F" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#F5C36B" stopOpacity="0" />
-            </linearGradient>
-        </defs>
-        <motion.path
-            d="M -100 200 C 200 80, 500 320, 850 180 S 1150 100, 1350 220"
-            fill="none"
-            stroke="url(#adminGust)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            animate={{
-                x: [-15, 15, -15],
-                opacity: [0.3, 0.7, 0.3]
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.path
-            d="M -100 500 C 300 620, 600 380, 950 540 S 1180 460, 1350 500"
-            fill="none"
-            stroke="url(#adminGust)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            animate={{
-                x: [15, -15, 15],
-                opacity: [0.2, 0.6, 0.2]
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-    </svg>
-);
-
-// Animated High-Tech Admin Cyber Matrix Background - Pure Animated Cyber Graphics (Hardware-Accelerated & Mobile-Optimized)
-const AnimatedAdminBackground = () => (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
-        {/* Animated Cyber Grid Matrix */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000045_2px,transparent_2px),linear-gradient(to_bottom,#00000045_2px,transparent_2px)] dark:bg-[linear-gradient(to_right,#ffffff0f_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0f_1px,transparent_1px)] bg-[size:2.5rem_2.5rem] sm:bg-[size:3.2rem_3.2rem]" />
-
-        {/* Ambient Glowing Orbs & Beams */}
-        <motion.div
-            animate={{
-                scale: [1, 1.12, 1],
-                opacity: [0.75, 0.95, 0.75],
-                x: [0, 20, 0],
-                y: [0, -15, 0]
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-24 -left-28 sm:-top-32 sm:-left-40 w-[340px] h-[340px] sm:w-[650px] sm:h-[650px] rounded-full bg-gradient-to-br from-[#C2410C]/75 via-[#9A3412]/55 to-transparent dark:from-[#FF8F6B]/35 dark:via-[#D97B4F]/25 blur-2xl sm:blur-xl transform-gpu"
-        />
-
-        <motion.div
-            animate={{
-                scale: [1, 1.15, 1],
-                opacity: [0.7, 0.9, 0.7],
-                x: [0, -25, 0],
-                y: [0, 20, 0]
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-            className="absolute top-1/3 -right-28 sm:-right-40 w-[360px] h-[360px] sm:w-[700px] sm:h-[700px] rounded-full bg-gradient-to-tl from-[#D97706]/75 via-[#C2410C]/55 to-transparent dark:from-[#F5C36B]/35 dark:via-[#FF8F6B]/25 blur-2xl sm:blur-xl transform-gpu"
-        />
-
-        <motion.div
-            animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.65, 0.85, 0.65]
-            }}
-            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            className="absolute -bottom-24 left-1/4 sm:-bottom-32 sm:left-1/3 w-[320px] h-[320px] sm:w-[600px] sm:h-[600px] rounded-full bg-gradient-to-tr from-[#9A3412]/65 via-[#7C2D12]/45 to-transparent dark:from-[#3B82F6]/25 dark:via-[#8B5CF6]/20 blur-2xl sm:blur-xl transform-gpu"
-        />
-
-        {/* Floating Animated Security Pulse Nodes */}
-        <div className="absolute inset-0">
-            <motion.div
-                animate={{ y: [0, -25, 0], x: [0, 15, 0], opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute top-1/4 left-1/5 w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-[#B91C1C] dark:bg-[#F5C36B] border-2 border-black dark:border-none shadow-[0_0_25px_#B91C1C]"
-            />
-            <motion.div
-                animate={{ y: [0, 30, 0], x: [0, -20, 0], opacity: [0.75, 1, 0.75] }}
-                transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-                className="absolute top-2/3 right-1/4 w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-[#9A3412] dark:bg-[#8B5CF6] border-2 border-black dark:border-none shadow-[0_0_30px_#9A3412]"
-            />
-            <motion.div
-                animate={{ y: [0, -20, 0], x: [0, -10, 0], opacity: [0.75, 1, 0.75] }}
-                transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-                className="absolute bottom-1/4 left-1/3 w-3.5 sm:w-4 h-3.5 sm:h-4 rounded-full bg-[#1D4ED8] dark:bg-[#3B82F6] border-2 border-black dark:border-none shadow-[0_0_25px_#1D4ED8]"
-            />
-        </div>
-
-        {/* Animated Cyber Radar Pulse Line - Mobile Scaled to Prevent Viewport Thrashing */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] md:w-[850px] md:h-[850px] rounded-full border-2 sm:border-3 border-black/55 dark:border-white/10 flex items-center justify-center pointer-events-none overflow-hidden">
-            <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                className="w-full h-full rounded-full border-2 sm:border-3 dark:border border-dashed border-[#9A3412] dark:border-[#FF8F6B]/30"
-            />
-        </div>
-
-        {/* Real-time Animated Wave Streams */}
-        <WindBreeze />
-    </div>
-);
+import adminBgLight from '../assets/admin-bg-light.jpg';
+import adminBgDark from '../assets/admin-bg-dark.jpg';
 
 const safeFormatDate = (d, options = {}) => {
     try {
@@ -469,14 +358,24 @@ export default function Admin() {
         }
     };
 
-    // =========================================================
-    // 🔒 SCREEN 1: ADMIN LOGIN GATE (WHEN NOT AUTHENTICATED)
-    // =========================================================
     if (!isAdminAuthenticated) {
         return (
             <div className="relative min-h-screen min-h-[100dvh] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden">
-                {/* High-Tech Animated Cyber Matrix Background */}
-                <AnimatedAdminBackground />
+                {/* Master Admin Command Center Wallpapers (Day & Night - Clean, No Humans) */}
+                <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                    <img
+                        src={adminBgLight}
+                        alt="High-Tech Admin Operations Desk Light Mode"
+                        className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                    />
+                    <img
+                        src={adminBgDark}
+                        alt="High-Tech Cybersecurity Server Command Center Dark Mode"
+                        className="absolute inset-0 w-full h-full object-cover opacity-90 blur-none scale-100 transition-opacity duration-700 hidden dark:block"
+                    />
+                    {/* Subtle Overlay to ensure card & text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20 dark:from-[#0E1116]/75 dark:via-[#0E1116]/65 dark:to-[#0E1116]/80" />
+                </div>
 
                 <div className="relative z-10 w-full max-w-md">
 
@@ -597,8 +496,21 @@ export default function Admin() {
     // =========================================================
     return (
         <div className="relative min-h-screen min-h-[100dvh] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* High-Tech Animated Cyber Matrix Background */}
-            <AnimatedAdminBackground />
+            {/* Master Admin Command Center Wallpapers (Day & Night - Clean, No Humans) */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <img
+                    src={adminBgLight}
+                    alt="High-Tech Admin Operations Desk Light Mode"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={adminBgDark}
+                    alt="High-Tech Cybersecurity Server Command Center Dark Mode"
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-none scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Subtle Overlay for readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-white/20 dark:from-[#0E1116]/75 dark:via-[#0E1116]/65 dark:to-[#0E1116]/80" />
+            </div>
 
             <div className="relative max-w-7xl mx-auto space-y-6 z-10">
 
