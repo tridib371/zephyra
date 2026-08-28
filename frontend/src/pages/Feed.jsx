@@ -42,59 +42,30 @@ const TrashIcon = () => (
     </svg>
 );
 
-// ===== Animated Background Component for Day & Night Modes =====
+// ===== High-Performance GPU-Accelerated Feed Background =====
 const FeedBackgroundAnimation = () => {
     return (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
             {/* Ambient Background Gradient Base */}
             <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-[#0E1116] transition-colors duration-500" />
 
-            {/* Glowing Amber/Terracotta Radial Orbs (Day & Night) */}
-            <motion.div
-                animate={{
-                    scale: [1, 1.25, 1],
-                    x: [0, 50, 0],
-                    y: [0, 30, 0],
-                    opacity: [0.45, 0.7, 0.45],
-                }}
-                transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full bg-gradient-to-br from-[#FF8F6B]/35 via-[#D97B4F]/25 to-transparent dark:from-[#FF8F6B]/20 dark:via-[#9E3610]/15 dark:to-transparent blur-3xl"
-            />
-
-            <motion.div
-                animate={{
-                    scale: [1.1, 0.9, 1.1],
-                    x: [0, -40, 0],
-                    y: [0, 60, 0],
-                    opacity: [0.4, 0.65, 0.4],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-                className="absolute top-1/3 -right-36 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-[#F5C36B]/35 via-[#E2774C]/25 to-transparent dark:from-[#F5C36B]/15 dark:via-[#D97B4F]/10 dark:to-transparent blur-3xl"
-            />
-
-            <motion.div
-                animate={{
-                    scale: [0.95, 1.2, 0.95],
-                    x: [0, 35, 0],
-                    y: [0, -45, 0],
-                    opacity: [0.35, 0.6, 0.35],
-                }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-                className="absolute -bottom-40 left-1/4 w-[580px] h-[580px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/30 via-[#F5C36B]/20 to-transparent dark:from-[#E2774C]/15 dark:via-[#7A2B0E]/15 dark:to-transparent blur-3xl"
-            />
+            {/* Hardware-Accelerated Ambient Glows */}
+            <div className="absolute -top-36 -left-36 w-[420px] sm:w-[560px] h-[420px] sm:h-[560px] rounded-full bg-gradient-to-br from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent dark:from-[#FF8F6B]/15 dark:via-[#9E3610]/10 dark:to-transparent blur-3xl transform-gpu pointer-events-none" />
+            <div className="absolute top-1/3 -right-36 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-gradient-to-bl from-[#F5C36B]/20 via-[#E2774C]/15 to-transparent dark:from-[#F5C36B]/10 dark:via-[#D97B4F]/10 dark:to-transparent blur-3xl transform-gpu pointer-events-none" />
+            <div className="absolute -bottom-40 left-1/4 w-[380px] sm:w-[580px] h-[380px] sm:h-[580px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/20 via-[#F5C36B]/15 to-transparent dark:from-[#E2774C]/10 dark:via-[#7A2B0E]/10 dark:to-transparent blur-3xl transform-gpu pointer-events-none" />
 
             {/* Subtle Cyber Dot Matrix Grid (Light & Dark) */}
             <div
-                className="absolute inset-0 opacity-[0.35] dark:opacity-[0.2]"
+                className="absolute inset-0 opacity-[0.25] dark:opacity-[0.15]"
                 style={{
-                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(217, 123, 79, 0.4) 1.2px, transparent 0)`,
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(217, 123, 79, 0.35) 1.2px, transparent 0)`,
                     backgroundSize: '36px 36px',
                 }}
             />
 
-            {/* Multi-Layered Animated Wind Breeze Wave Currents */}
+            {/* Clean Static Vector Breeze Currents */}
             <svg
-                className="absolute inset-0 h-full w-full opacity-65 dark:opacity-40"
+                className="absolute inset-0 h-full w-full opacity-40 dark:opacity-20 pointer-events-none transform-gpu"
                 viewBox="0 0 1400 900"
                 preserveAspectRatio="none"
             >
@@ -112,95 +83,28 @@ const FeedBackgroundAnimation = () => {
                         <stop offset="100%" stopColor="#E2774C" stopOpacity="0" />
                     </linearGradient>
                 </defs>
-
-                {/* Primary undulating wave */}
-                <motion.path
+                <path
                     d="M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200"
                     fill="none"
                     stroke="url(#feedGustA)"
-                    strokeWidth="3"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
-                    animate={{
-                        d: [
-                            "M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200",
-                            "M -150 220 C 280 150, 490 240, 820 230 S 1140 50, 1550 160",
-                            "M -150 180 C 220 60, 520 310, 880 160 S 1200 80, 1550 200"
-                        ],
-                        opacity: [0.35, 0.75, 0.35]
-                    }}
-                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
                 />
-
-                {/* Secondary harmonic wave */}
-                <motion.path
+                <path
                     d="M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490"
                     fill="none"
                     stroke="url(#feedGustB)"
-                    strokeWidth="2.2"
+                    strokeWidth="2"
                     strokeLinecap="round"
-                    animate={{
-                        d: [
-                            "M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490",
-                            "M -150 440 C 190 520, 710 440, 930 460 S 1160 560, 1550 510",
-                            "M -150 480 C 260 600, 620 360, 980 520 S 1220 440, 1550 490"
-                        ],
-                        opacity: [0.25, 0.65, 0.25]
-                    }}
-                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 />
-
-                {/* Third low breeze current */}
-                <motion.path
+                <path
                     d="M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760"
                     fill="none"
                     stroke="url(#feedGustA)"
-                    strokeWidth="2"
+                    strokeWidth="1.8"
                     strokeLinecap="round"
-                    animate={{
-                        d: [
-                            "M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760",
-                            "M -150 740 C 290 800, 750 780, 970 750 S 1240 830, 1550 780",
-                            "M -150 780 C 350 860, 680 720, 1020 810 S 1300 700, 1550 760"
-                        ],
-                        opacity: [0.3, 0.65, 0.3]
-                    }}
-                    transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
                 />
             </svg>
-
-            {/* Floating Ambient Feather & Particle Motes */}
-            {[
-                { top: '12%', left: '8%', size: 8, duration: 8, delay: 0 },
-                { top: '22%', left: '88%', size: 12, duration: 10, delay: 1.5 },
-                { top: '42%', left: '15%', size: 6, duration: 7, delay: 3 },
-                { top: '62%', left: '82%', size: 10, duration: 9, delay: 2 },
-                { top: '78%', left: '25%', size: 14, duration: 11, delay: 0.5 },
-                { top: '88%', left: '72%', size: 7, duration: 8.5, delay: 4 },
-                { top: '32%', left: '52%', size: 9, duration: 9.5, delay: 2.2 },
-            ].map((p, idx) => (
-                <motion.div
-                    key={idx}
-                    style={{
-                        top: p.top,
-                        left: p.left,
-                        width: `${p.size}px`,
-                        height: `${p.size}px`,
-                    }}
-                    animate={{
-                        y: [-25, 30, -25],
-                        x: [-15, 20, -15],
-                        opacity: [0.2, 0.8, 0.2],
-                        scale: [0.85, 1.3, 0.85],
-                    }}
-                    transition={{
-                        duration: p.duration,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: p.delay,
-                    }}
-                    className="absolute rounded-full bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] shadow-xs shadow-[#E2774C]/60"
-                />
-            ))}
         </div>
     );
 };
@@ -374,9 +278,9 @@ navigate(`/post/${postId}`);
 
     if (loading) {
         return (
-            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
+            <div className="relative min-h-screen min-h-[100dvh] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
                 <FeedBackgroundAnimation />
-                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-[#F0C9AE] dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-[5px_5px_0px_#000000] dark:shadow-2xl">
+                <div className="relative z-10 flex flex-col items-center gap-4 p-8 rounded-3xl bg-[#F0C9AE] dark:bg-[#12151C] border-2 border-black dark:border-[#FF8F6B]/35 shadow-[5px_5px_0px_#000000] dark:shadow-2xl">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9E3610] dark:border-[#FF8F6B]"></div>
                     <p className="text-xs font-black uppercase tracking-widest text-[#9E3610] dark:text-[#FF8F6B]">
                         Loading Streamlines...
@@ -388,9 +292,9 @@ navigate(`/post/${postId}`);
 
     if (error) {
         return (
-            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
+            <div className="relative min-h-screen min-h-[100dvh] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-10 px-4 sm:px-6 font-[Manrope] overflow-x-hidden flex justify-center items-center">
                 <FeedBackgroundAnimation />
-                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-[#F0C9AE] dark:bg-[#12151C]/90 backdrop-blur-xl border-2 border-black dark:border-[#FF8F6B]/35 shadow-[5px_5px_0px_#000000] dark:shadow-2xl text-center space-y-4">
+                <div className="relative z-10 max-w-md mx-auto p-8 rounded-3xl bg-[#F0C9AE] dark:bg-[#12151C] border-2 border-black dark:border-[#FF8F6B]/35 shadow-[5px_5px_0px_#000000] dark:shadow-2xl text-center space-y-4">
                     <p className="text-sm font-black text-[#9E3610] dark:text-[#FF8F6B]">
                         {error}
                     </p>
@@ -406,17 +310,17 @@ navigate(`/post/${postId}`);
     }
 
     return (
-        <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-8 px-4 sm:px-6 font-[Manrope] overflow-x-hidden">
+        <div className="relative min-h-screen min-h-[100dvh] bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-8 px-4 sm:px-6 font-[Manrope] overflow-x-hidden">
             {/* Background Animation for Both Day & Night Modes */}
             <FeedBackgroundAnimation />
 
             <div className="relative max-w-3xl mx-auto space-y-6 z-10">
                 {/* Welcome Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: -20, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.6 }}
-                    className="bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden"
+                    initial={{ opacity: 0, y: -15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="bg-[#F0C9AE] dark:bg-[#12151C] rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-6 sm:p-8 border-2 border-black dark:border-[#FF8F6B]/35 relative overflow-hidden transform-gpu"
                 >
                     <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF8F6B]/30 text-[#6B2207] dark:bg-[#FF8F6B]/20 dark:text-[#FF8F6B] border border-black dark:border-[#FF8F6B]/40 text-[10px] font-black uppercase tracking-widest mb-3">
                         ⚡ Chronological Stream
@@ -432,9 +336,10 @@ navigate(`/post/${postId}`);
                 {/* Posts Feed */}
                 {posts.length === 0 ? (
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-[#F0C9AE] dark:bg-[#12151C]/92 backdrop-blur-xl rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4"
+                        transition={{ duration: 0.4 }}
+                        className="bg-[#F0C9AE] dark:bg-[#12151C] rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-10 text-center border-2 border-black dark:border-[#FF8F6B]/35 space-y-4 transform-gpu"
                     >
                         <div className="flex justify-center text-[#9E3610] dark:text-[#F5C36B]">
                             <FeatherMark />
@@ -450,19 +355,15 @@ navigate(`/post/${postId}`);
                         </Link>
                     </motion.div>
                 ) : (
-                    posts.map((post, index) => {
+                    posts.map((post) => {
                         const isLiked = likedPosts.has(post._id);
                         const isCommentsOpen = openComments[post._id] || false;
                         const commentCount = post.comments?.length || 0;
 
                         return (
-                            <motion.div
+                            <div
                                 key={post._id}
-                                initial={{ opacity: 0, y: 25 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.06, duration: 0.5 }}
-                                whileHover={{ y: -3 }}
-                                className="bg-[#F0C9AE] dark:bg-[#12151C]/92 hover:bg-[#E8BC9F] dark:hover:bg-[#161B24] backdrop-blur-xl rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-300 cursor-pointer"
+                                className="bg-[#F0C9AE] dark:bg-[#12151C] hover:bg-[#E8BC9F] dark:hover:bg-[#161B24] rounded-3xl shadow-[5px_5px_0px_#000000] dark:shadow-xl p-6 sm:p-7 border-2 border-black dark:border-[#FF8F6B]/30 hover:border-[#EA580C] dark:hover:border-[#FF8F6B]/70 transition-all duration-200 cursor-pointer transform-gpu will-change-transform"
                                 onClick={() => goToPost(post._id)}
                             >
                                 {/* Author Info - Clicking this navigates to the author's profile */}
@@ -670,7 +571,7 @@ navigate(`/post/${postId}`);
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                            </motion.div>
+                            </div>
                         );
                     })
                 )}
