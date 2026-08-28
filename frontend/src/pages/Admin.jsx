@@ -32,7 +32,7 @@ import ConfirmDialog from '../components/ConfirmDialog';
 // Hardware-Accelerated Stable SVG Wind Breeze
 const WindBreeze = () => (
     <svg
-        className="absolute inset-0 h-full w-full pointer-events-none opacity-30 dark:opacity-20 z-0"
+        className="hidden md:block absolute inset-0 h-full w-full pointer-events-none opacity-30 dark:opacity-20 z-0 transform-gpu"
         viewBox="0 0 1200 800"
         preserveAspectRatio="none"
         aria-hidden="true"
@@ -63,7 +63,7 @@ const WindBreeze = () => (
 
 // High-Tech Mobile-Optimized Flicker-Free Admin Cyber Matrix Background
 const AnimatedAdminBackground = () => (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
         {/* Base Gradient Backdrop */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#0E1116] dark:via-[#121620] dark:to-[#0A0D12]" />
 
@@ -71,9 +71,9 @@ const AnimatedAdminBackground = () => (
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000015_1px,transparent_1px),linear-gradient(to_bottom,#00000015_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:3rem_3rem]" />
 
         {/* Hardware-Accelerated Ambient Glowing Beams (No layout-thrashing animations on mobile) */}
-        <div className="absolute -top-32 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#FF8F6B]/20 via-[#D97B4F]/15 to-transparent dark:from-[#FF8F6B]/15 dark:via-[#D97B4F]/10 blur-3xl transform-gpu" />
-        <div className="absolute top-1/3 -right-40 w-[650px] h-[650px] rounded-full bg-gradient-to-tl from-[#F5C36B]/20 via-[#FF8F6B]/15 to-transparent dark:from-[#F5C36B]/15 dark:via-[#FF8F6B]/10 blur-3xl transform-gpu" />
-        <div className="absolute -bottom-32 left-1/3 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-[#3B82F6]/15 via-[#8B5CF6]/10 to-transparent dark:from-[#3B82F6]/10 dark:via-[#8B5CF6]/5 blur-3xl transform-gpu" />
+        <div className="absolute -top-32 -left-40 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-gradient-to-br from-[#FF8F6B]/20 via-[#D97B4F]/15 to-transparent dark:from-[#FF8F6B]/15 dark:via-[#D97B4F]/10 blur-2xl transform-gpu" />
+        <div className="absolute top-1/3 -right-40 w-[400px] sm:w-[650px] h-[400px] sm:h-[650px] rounded-full bg-gradient-to-tl from-[#F5C36B]/20 via-[#FF8F6B]/15 to-transparent dark:from-[#F5C36B]/15 dark:via-[#FF8F6B]/10 blur-2xl transform-gpu" />
+        <div className="absolute -bottom-32 left-1/3 w-[350px] sm:w-[550px] h-[350px] sm:h-[550px] rounded-full bg-gradient-to-tr from-[#3B82F6]/15 via-[#8B5CF6]/10 to-transparent dark:from-[#3B82F6]/10 dark:via-[#8B5CF6]/5 blur-2xl transform-gpu" />
 
         {/* Ambient Top Light Beam */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
@@ -415,7 +415,7 @@ export default function Admin() {
     // =========================================================
     if (!isAdminAuthenticated) {
         return (
-            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden">
+            <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden transform-gpu">
                 {/* High-Tech Animated Cyber Matrix Background */}
                 <AnimatedAdminBackground />
 
@@ -426,7 +426,7 @@ export default function Admin() {
                         initial={{ opacity: 0, y: 35, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                        className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151D]/90 p-8 sm:p-10 backdrop-blur-2xl shadow-2xl space-y-7 overflow-hidden relative"
+                        className="rounded-3xl border-2 border-black dark:border-[#FF8F6B]/35 bg-white/92 dark:bg-[#12151D]/90 p-8 sm:p-10 backdrop-blur-xl shadow-2xl space-y-7 overflow-hidden relative transform-gpu"
                     >
                         <WindBreeze />
 
