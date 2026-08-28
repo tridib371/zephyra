@@ -11,7 +11,8 @@ router.get('/', protect, async (req, res) => {
     try {
         const users = await User.find({ _id: { $ne: req.user._id } })
             .select('name username profilePicture followers following')
-            .populate('followers', 'name username profilePicture');
+            .populate('followers', 'name username profilePicture')
+            .lean();
         res.status(200).json({ success: true, users });
     } catch (error) {
         console.error('Get users error:', error);
@@ -27,7 +28,8 @@ router.get('/profile/:id', protect, async (req, res) => {
         const user = await User.findById(req.params.id)
             .select('-password')
             .populate('followers', 'name username profilePicture')
-            .populate('following', 'name username profilePicture');
+            .populate('following', 'name username profilePicture')
+            .lean();
 
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });

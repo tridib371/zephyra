@@ -47,7 +47,8 @@ router.get('/', protect, async (req, res) => {
         const posts = await Post.find()
             .populate('author', 'name username profilePicture')
             .populate('comments.user', 'name username profilePicture')
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: -1 })
+            .lean();
 
         res.status(200).json({
             success: true,
@@ -70,7 +71,8 @@ router.get('/:id', protect, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
             .populate('author', 'name username profilePicture')
-            .populate('comments.user', 'name username profilePicture');
+            .populate('comments.user', 'name username profilePicture')
+            .lean();
 
         if (!post) {
             return res.status(404).json({
