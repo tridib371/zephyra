@@ -19,7 +19,7 @@ const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 // ===== UNIQUE ACOUSTIC SIGNAL PULSE & TRANSMISSION WAVE BACKGROUND =====
 const MessagesBackgroundAnimation = () => {
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
             <style>{`
                 @keyframes signalRipple {
                     0% { transform: scale(0.6); opacity: 0.8; }
@@ -39,10 +39,6 @@ const MessagesBackgroundAnimation = () => {
                     50% { opacity: 0.7; }
                     100% { transform: translateY(-70px) scale(1.1); opacity: 0; }
                 }
-                @keyframes waveShift {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
                 .animate-signal-ring {
                     animation: signalRipple 5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
                     transform-origin: center center;
@@ -60,69 +56,40 @@ const MessagesBackgroundAnimation = () => {
                 .animate-packet-3 { animation: floatPacket 7s ease-in-out infinite 4s; }
             `}</style>
 
-            {/* 1. Ambient Dynamic Transmission Glow Orbs */}
-            <div className="absolute -top-24 -left-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-br from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl" />
-            <div className="absolute top-1/2 -right-24 w-80 sm:w-[450px] h-80 sm:h-[450px] rounded-full bg-gradient-to-bl from-[#F5C36B]/20 via-[#E2774C]/15 to-transparent blur-3xl" />
-            <div className="absolute -bottom-20 left-1/3 w-80 sm:w-[460px] h-80 sm:h-[460px] rounded-full bg-gradient-to-tr from-[#EA580C]/20 via-[#FF8F6B]/10 to-transparent blur-3xl" />
+            {/* 1. Ambient Dynamic Transmission Glow Orbs (GPU Accelerated) */}
+            <div className="absolute -top-24 -left-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-br from-[#FF8F6B]/20 via-[#D97B4F]/10 to-transparent blur-2xl transform-gpu" />
+            <div className="absolute top-1/2 -right-24 w-80 sm:w-[450px] h-80 sm:h-[450px] rounded-full bg-gradient-to-bl from-[#F5C36B]/15 via-[#E2774C]/10 to-transparent blur-2xl transform-gpu" />
 
-            {/* 2. Concentric Transmission Relay Rings (Top-Left Hub) */}
-            <div className="absolute top-8 left-8 sm:left-16 w-64 h-64 opacity-40 dark:opacity-30">
-                <div className="absolute inset-0 rounded-full border-2 border-[#D97B4F] dark:border-[#FF8F6B] animate-signal-ring" />
-                <div className="absolute inset-0 rounded-full border-2 border-[#F5C36B] dark:border-[#F5C36B] animate-signal-ring-delay-1" />
-                <div className="absolute inset-0 rounded-full border border-[#EA580C] dark:border-[#FF8F6B] animate-signal-ring-delay-2" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#EA580C] dark:bg-[#FF8F6B] shadow-lg shadow-[#FF8F6B]/50" />
-            </div>
-
-            {/* 3. Concentric Transmission Relay Rings (Bottom-Right Hub) */}
-            <div className="absolute bottom-12 right-10 sm:right-24 w-60 h-60 opacity-35 dark:opacity-25">
-                <div className="absolute inset-0 rounded-full border-2 border-[#F5C36B] dark:border-[#F5C36B] animate-signal-ring" />
-                <div className="absolute inset-0 rounded-full border-2 border-[#D97B4F] dark:border-[#FF8F6B] animate-signal-ring-delay-1" />
-                <div className="absolute inset-0 rounded-full border border-[#E2774C] dark:border-[#F5C36B] animate-signal-ring-delay-2" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#D97B4F] dark:bg-[#F5C36B]" />
-            </div>
-
-            {/* 4. Acoustic Frequency Equalizer Waves (Top Right) */}
-            <div className="absolute top-4 right-12 sm:right-32 flex items-end gap-1.5 opacity-35 dark:opacity-30">
-                {[18, 38, 22, 46, 30, 52, 26, 42, 16, 34, 48, 24, 40, 20].map((h, i) => (
-                    <div
-                        key={i}
-                        className="w-1 sm:w-1.5 rounded-full bg-gradient-to-t from-[#D97B4F] via-[#FF8F6B] to-[#F5C36B]"
-                        style={{
-                            height: `${h}px`,
-                            animation: `${i % 2 === 0 ? 'eqPulse' : 'eqPulseAlt'} ${2 + (i % 3) * 0.5}s ease-in-out infinite ${(i * 0.15)}s`,
-                        }}
-                    />
-                ))}
-            </div>
-
-            {/* 5. Acoustic Frequency Equalizer Waves (Bottom Left) */}
-            <div className="absolute bottom-6 left-10 sm:left-32 flex items-end gap-1.5 opacity-30 dark:opacity-25">
-                {[28, 16, 42, 24, 50, 32, 18, 44, 26, 38, 14, 46, 22].map((h, i) => (
-                    <div
-                        key={i}
-                        className="w-1 sm:w-1.5 rounded-full bg-gradient-to-t from-[#F5C36B] via-[#D97B4F] to-[#EA580C]"
-                        style={{
-                            height: `${h}px`,
-                            animation: `${i % 2 === 0 ? 'eqPulseAlt' : 'eqPulse'} ${2.4 + (i % 3) * 0.4}s ease-in-out infinite ${(i * 0.18)}s`,
-                        }}
-                    />
-                ))}
-            </div>
-
-            {/* 6. Floating Encrypted Dialogue Packets */}
-            <div className="absolute top-[35%] left-[18%] animate-packet-1">
-                <div className="px-2.5 py-1 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
-                    📡 Sync
+            {/* 2. Desktop-Only Signal Rings & Equalizers (Hidden on mobile to eliminate scrolling flicker) */}
+            <div className="hidden md:block transform-gpu">
+                <div className="absolute top-8 left-16 w-64 h-64 opacity-30">
+                    <div className="absolute inset-0 rounded-full border-2 border-[#FF8F6B] animate-signal-ring" />
+                    <div className="absolute inset-0 rounded-full border-2 border-[#F5C36B] animate-signal-ring-delay-1" />
+                    <div className="absolute inset-0 rounded-full border border-[#FF8F6B] animate-signal-ring-delay-2" />
                 </div>
-            </div>
-            <div className="absolute top-[60%] right-[22%] animate-packet-2">
-                <div className="px-2.5 py-1 rounded-full bg-[#F5C36B]/25 text-[#9E3610] dark:text-[#F5C36B] border border-black/20 dark:border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase">
-                    💬 Direct
+
+                <div className="absolute top-4 right-32 flex items-end gap-1.5 opacity-25">
+                    {[18, 38, 22, 46, 30, 52, 26, 42, 16, 34, 48, 24, 40, 20].map((h, i) => (
+                        <div
+                            key={i}
+                            className="w-1.5 rounded-full bg-gradient-to-t from-[#D97B4F] via-[#FF8F6B] to-[#F5C36B]"
+                            style={{
+                                height: `${h}px`,
+                                animation: `${i % 2 === 0 ? 'eqPulse' : 'eqPulseAlt'} ${2 + (i % 3) * 0.5}s ease-in-out infinite ${(i * 0.15)}s`,
+                            }}
+                        />
+                    ))}
                 </div>
-            </div>
-            <div className="absolute top-[75%] left-[45%] animate-packet-3">
-                <div className="px-2.5 py-1 rounded-full bg-[#E2774C]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
-                    ⚡ Live
+
+                <div className="absolute top-[35%] left-[18%] animate-packet-1">
+                    <div className="px-2.5 py-1 rounded-full bg-[#FF8F6B]/25 text-[#FF8F6B] border border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
+                        📡 Sync
+                    </div>
+                </div>
+                <div className="absolute top-[60%] right-[22%] animate-packet-2">
+                    <div className="px-2.5 py-1 rounded-full bg-[#F5C36B]/25 text-[#F5C36B] border border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase">
+                        💬 Direct
+                    </div>
                 </div>
             </div>
         </div>

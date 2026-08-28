@@ -20,7 +20,7 @@ import AdminAvatar from '../components/AdminAvatar';
 // ===== UNIQUE SIGNAL BEACON & PULSE WAVE BACKGROUND ANIMATION =====
 const NotificationsBackgroundAnimation = () => {
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
             <style>{`
                 @keyframes beaconExpand {
                     0% { transform: scale(0.6); opacity: 0.8; }
@@ -28,73 +28,26 @@ const NotificationsBackgroundAnimation = () => {
                     100% { transform: scale(2.6); opacity: 0; }
                 }
                 @keyframes pulseFloat {
-                    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.35; }
-                    50% { transform: translateY(-22px) rotate(6deg); opacity: 0.85; }
-                }
-                @keyframes bellWiggle {
-                    0%, 100% { transform: rotate(0deg); }
-                    15% { transform: rotate(14deg); }
-                    30% { transform: rotate(-12deg); }
-                    45% { transform: rotate(8deg); }
-                    60% { transform: rotate(0deg); }
-                }
-                @keyframes ambientPulse {
-                    0%, 100% { transform: scale(1); opacity: 0.3; }
-                    50% { transform: scale(1.15); opacity: 0.65; }
+                    0%, 100% { transform: translateY(0px); opacity: 0.35; }
+                    50% { transform: translateY(-18px); opacity: 0.85; }
                 }
                 .animate-beacon-1 { animation: beaconExpand 5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
                 .animate-beacon-2 { animation: beaconExpand 5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 1.6s; }
                 .animate-beacon-3 { animation: beaconExpand 5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 3.2s; }
                 .animate-pulse-1 { animation: pulseFloat 7s ease-in-out infinite; }
-                .animate-pulse-2 { animation: pulseFloat 9s ease-in-out infinite 2s; }
-                .animate-pulse-3 { animation: pulseFloat 8s ease-in-out infinite 4s; }
-                .animate-ambient-glow { animation: ambientPulse 8s ease-in-out infinite; }
             `}</style>
 
-            {/* 1. Luminescent Ambient Glow Flares */}
-            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[450px] sm:w-[700px] h-[450px] sm:h-[700px] rounded-full bg-gradient-to-b from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl animate-ambient-glow" />
-            <div className="absolute -bottom-24 -left-24 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tr from-[#F5C36B]/20 via-[#EA580C]/15 to-transparent blur-3xl" />
-            <div className="absolute -bottom-24 -right-24 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tl from-[#FF8F6B]/20 via-[#D97B4F]/15 to-transparent blur-3xl" />
+            {/* 1. Luminescent Ambient Glow Flares (GPU Accelerated) */}
+            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[450px] sm:w-[700px] h-[450px] sm:h-[700px] rounded-full bg-gradient-to-b from-[#FF8F6B]/20 via-[#D97B4F]/10 to-transparent blur-2xl transform-gpu" />
+            <div className="absolute -bottom-24 -left-24 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tr from-[#F5C36B]/15 via-[#EA580C]/10 to-transparent blur-2xl transform-gpu" />
 
-            {/* 2. Concentric Signal Radar Pulse Waves (Top Right) */}
-            <div className="absolute -top-10 -right-10 w-[360px] sm:w-[560px] h-[360px] sm:h-[560px] flex items-center justify-center opacity-40 dark:opacity-25">
-                <div className="absolute w-40 h-40 rounded-full border-2 border-[#D97B4F] dark:border-[#FF8F6B] animate-beacon-1" />
-                <div className="absolute w-40 h-40 rounded-full border-2 border-[#F5C36B] dark:border-[#F5C36B] animate-beacon-2" />
-                <div className="absolute w-40 h-40 rounded-full border-2 border-[#EA580C] dark:border-[#FF8F6B] animate-beacon-3" />
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF8F6B] to-[#F5C36B] border-2 border-black dark:border-white/20 shadow-lg" />
-            </div>
-
-            {/* 3. Secondary Signal Pulse Transmitter (Bottom Left) */}
-            <div className="absolute -bottom-12 -left-12 w-[280px] sm:w-[440px] h-[280px] sm:h-[440px] flex items-center justify-center opacity-40 dark:opacity-25">
-                <div className="absolute w-32 h-32 rounded-full border-2 border-[#F5C36B] animate-beacon-1" />
-                <div className="absolute w-32 h-32 rounded-full border-2 border-[#D97B4F] animate-beacon-2" />
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#F5C36B] to-[#EA580C] border-2 border-black dark:border-white/20 shadow-lg" />
-            </div>
-
-            {/* 4. Floating Interaction & Signal Glyphs */}
-            <div className="absolute top-[22%] left-[8%] animate-pulse-1">
-                <div className="px-3.5 py-1.5 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase flex items-center gap-1.5 shadow-xs">
-                    <span className="w-2 h-2 rounded-full bg-[#EA580C] animate-ping" />
-                    🔔 Live Broadcast
+            {/* 2. Desktop Only Radar Waves (Hidden on mobile for smooth 60fps scroll) */}
+            <div className="hidden md:block transform-gpu">
+                <div className="absolute -top-10 -right-10 w-[560px] h-[560px] flex items-center justify-center opacity-25">
+                    <div className="absolute w-40 h-40 rounded-full border-2 border-[#FF8F6B] animate-beacon-1" />
+                    <div className="absolute w-40 h-40 rounded-full border-2 border-[#F5C36B] animate-beacon-2" />
+                    <div className="absolute w-40 h-40 rounded-full border-2 border-[#FF8F6B] animate-beacon-3" />
                 </div>
-            </div>
-            <div className="absolute top-[38%] right-[10%] animate-pulse-2">
-                <div className="px-3.5 py-1.5 rounded-full bg-[#F5C36B]/25 text-[#9E3610] dark:text-[#F5C36B] border border-black/20 dark:border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase flex items-center gap-1.5 shadow-xs">
-                    ❤️ Social Signal
-                </div>
-            </div>
-            <div className="absolute bottom-[28%] left-[14%] animate-pulse-3">
-                <div className="px-3.5 py-1.5 rounded-full bg-[#EA580C]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase flex items-center gap-1.5 shadow-xs">
-                    💬 Engagement Wave
-                </div>
-            </div>
-
-            {/* 5. Telemetry Vector Coordinates */}
-            <div className="absolute top-[14%] left-[28%] opacity-40 dark:opacity-30 text-[#D97B4F] dark:text-[#FF8F6B] text-xs font-black">
-                + [TX_BEACON : SYNCED]
-            </div>
-            <div className="absolute bottom-[16%] right-[25%] opacity-40 dark:opacity-30 text-[#F5C36B] dark:text-[#F5C36B] text-xs font-black">
-                + [STREAM_ID : 0xFE24]
             </div>
         </div>
     );

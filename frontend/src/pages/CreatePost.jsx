@@ -8,95 +8,18 @@ import { HiOutlinePhoto, HiOutlineVideoCamera } from 'react-icons/hi2';
 // ===== UNIQUE CELESTIAL DRAFTING ASTROLABE & CREATIVE SPARKS BACKGROUND =====
 const CreateBackgroundAnimation = () => {
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-            <style>{`
-                @keyframes astrolabeRotate {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-                @keyframes astrolabeReverse {
-                    0% { transform: rotate(360deg); }
-                    100% { transform: rotate(0deg); }
-                }
-                @keyframes sparkTwinkle {
-                    0%, 100% { transform: scale(0.6) rotate(0deg); opacity: 0.2; }
-                    50% { transform: scale(1.4) rotate(45deg); opacity: 0.85; }
-                }
-                @keyframes quillFloat {
-                    0%, 100% { transform: translateY(0px) rotate(-5deg); }
-                    50% { transform: translateY(-20px) rotate(15deg); }
-                }
-                @keyframes draftingPulse {
-                    0%, 100% { transform: scale(1); opacity: 0.4; }
-                    50% { transform: scale(1.15); opacity: 0.75; }
-                }
-                .animate-astrolabe-main {
-                    animation: astrolabeRotate 42s linear infinite;
-                    transform-origin: center center;
-                }
-                .animate-astrolabe-inner {
-                    animation: astrolabeReverse 28s linear infinite;
-                    transform-origin: center center;
-                }
-                .animate-spark-1 { animation: sparkTwinkle 3.8s ease-in-out infinite; }
-                .animate-spark-2 { animation: sparkTwinkle 5s ease-in-out infinite 1.5s; }
-                .animate-spark-3 { animation: sparkTwinkle 4.2s ease-in-out infinite 2.6s; }
-                .animate-quill { animation: quillFloat 7s ease-in-out infinite; }
-                .animate-drafting-aura { animation: draftingPulse 9s ease-in-out infinite; }
-            `}</style>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
+            {/* 1. Ambient Creative Wellspring Glow Orbs (GPU Accelerated) */}
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[420px] sm:w-[650px] h-[420px] sm:h-[650px] rounded-full bg-gradient-to-b from-[#FF8F6B]/20 via-[#D97B4F]/10 to-transparent blur-2xl transform-gpu" />
+            <div className="absolute -bottom-24 -left-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tr from-[#F5C36B]/15 via-[#EA580C]/10 to-transparent blur-2xl transform-gpu" />
 
-            {/* 1. Ambient Creative Wellspring Glow Orbs */}
-            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[420px] sm:w-[650px] h-[420px] sm:h-[650px] rounded-full bg-gradient-to-b from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl animate-drafting-aura" />
-            <div className="absolute -bottom-24 -left-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tr from-[#F5C36B]/25 via-[#EA580C]/15 to-transparent blur-3xl" />
-            <div className="absolute -bottom-24 -right-20 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-tl from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl" />
-
-            {/* 2. Celestial Drafting Astrolabe / Polyhedral Compass */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] sm:w-[720px] h-[480px] sm:h-[720px] opacity-35 dark:opacity-25">
-                <svg viewBox="0 0 500 500" className="w-full h-full animate-astrolabe-main">
-                    <circle cx="250" cy="250" r="235" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="8 8" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
-                    <circle cx="250" cy="250" r="215" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#F5C36B] dark:text-[#F5C36B]" />
-                    <polygon points="250,20 310,190 480,250 310,310 250,480 190,310 20,250 190,190" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-[#E2774C] dark:text-[#FF8F6B]" />
-                    <polygon points="250,55 388,112 445,250 388,388 250,445 112,388 55,250 112,112" fill="none" stroke="currentColor" strokeWidth="0.8" className="text-[#F5C36B]/60 dark:text-[#F5C36B]/50" />
-                </svg>
-
-                <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full animate-astrolabe-inner">
-                    <circle cx="250" cy="250" r="160" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 5" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
-                    <circle cx="250" cy="250" r="110" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#F5C36B] dark:text-[#F5C36B]" />
-                    <line x1="140" y1="140" x2="360" y2="360" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" className="text-[#D97B4F]/60 dark:text-[#FF8F6B]/50" />
-                    <line x1="140" y1="360" x2="360" y2="140" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" className="text-[#D97B4F]/60 dark:text-[#FF8F6B]/50" />
-                    <circle cx="250" cy="90" r="4.5" fill="#FF8F6B" />
-                    <circle cx="410" cy="250" r="5" fill="#F5C36B" />
-                    <circle cx="250" cy="410" r="4.5" fill="#EA580C" />
-                    <circle cx="90" cy="250" r="5" fill="#D97B4F" />
-                </svg>
-            </div>
-
-            {/* 3. Floating Creative Shimmer Sparks */}
-            <div className="absolute top-[18%] left-[12%] animate-spark-1 opacity-70">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-[#FF8F6B] dark:text-[#FF8F6B]">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                </svg>
-            </div>
-            <div className="absolute top-[28%] right-[14%] animate-spark-2 opacity-70">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#F5C36B] dark:text-[#F5C36B]">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                </svg>
-            </div>
-            <div className="absolute bottom-[22%] left-[16%] animate-spark-3 opacity-60">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-[#E2774C] dark:text-[#FF8F6B]">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                </svg>
-            </div>
-
-            {/* 4. Ambient Floating Badges */}
-            <div className="absolute top-[14%] right-[22%] animate-quill opacity-40 dark:opacity-30">
-                <div className="px-3 py-1 rounded-full bg-[#FF8F6B]/25 text-[#9E3610] dark:text-[#FF8F6B] border border-black/20 dark:border-[#FF8F6B]/40 text-[9px] font-black tracking-widest uppercase">
-                    ✨ Inspiration
-                </div>
-            </div>
-            <div className="absolute bottom-[16%] left-[24%] animate-quill opacity-40 dark:opacity-30" style={{ animationDelay: '-3.5s' }}>
-                <div className="px-3 py-1 rounded-full bg-[#F5C36B]/25 text-[#9E3610] dark:text-[#F5C36B] border border-black/20 dark:border-[#F5C36B]/40 text-[9px] font-black tracking-widest uppercase">
-                    🎬 Media Studio
+            {/* 2. Desktop Only Astrolabe SVG Compass (Hidden on mobile for smooth 60fps scroll) */}
+            <div className="hidden md:block transform-gpu">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[720px] opacity-25">
+                    <svg viewBox="0 0 500 500" className="w-full h-full">
+                        <circle cx="250" cy="250" r="235" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="8 8" className="text-[#FF8F6B]" />
+                        <circle cx="250" cy="250" r="215" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#F5C36B]" />
+                    </svg>
                 </div>
             </div>
         </div>

@@ -186,7 +186,7 @@ const Navbar = () => {
     `;
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-[#252E42] dark:border-[#2D3748] bg-[#141824] dark:bg-[#1A202C] backdrop-blur-2xl shadow-[0_8px_30px_rgba(15,23,42,0.25)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-colors duration-300">
+        <nav className="sticky top-0 z-40 w-full border-b border-[#252E42] dark:border-[#2D3748] bg-[#141824]/95 dark:bg-[#1A202C]/95 backdrop-blur-md shadow-[0_8px_30px_rgba(15,23,42,0.25)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-colors duration-300 transform-gpu">
             {/* Signature Radiant Sunset Ember Top Line */}
             <div className="h-[3px] w-full bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
