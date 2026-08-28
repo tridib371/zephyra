@@ -126,6 +126,8 @@ const Navbar = () => {
     const notificationRef = useRef(null);
     const mobileNotificationRef = useRef(null);
     const dropdownRef = useRef(null);
+    const mobileMenuRef = useRef(null);
+    const hamburgerBtnRef = useRef(null);
 
     const handleLogout = () => {
         logout();
@@ -133,6 +135,13 @@ const Navbar = () => {
         setIsMobileMenuOpen(false);
         navigate('/');
     };
+
+    // Auto-close menus on page navigation to prevent stale open overlays
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setIsNotificationOpen(false);
+        setIsProfileMenuOpen(false);
+    }, [location.pathname]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -147,10 +156,23 @@ const Navbar = () => {
             if (!isNotifClick) {
                 setIsNotificationOpen(false);
             }
+
+            if (
+                mobileMenuRef.current &&
+                !mobileMenuRef.current.contains(event.target) &&
+                hamburgerBtnRef.current &&
+                !hamburgerBtnRef.current.contains(event.target)
+            ) {
+                setIsMobileMenuOpen(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
     }, []);
 
     const handleNotificationClick = async (notification) => {
@@ -381,6 +403,7 @@ const Navbar = () => {
                         )}
 
                         <button
+                            ref={hamburgerBtnRef}
                             onClick={() => setIsMobileMenuOpen(prev => !prev)}
                             className={iconBtnClasses}
                             aria-label="Toggle menu"
@@ -481,67 +504,76 @@ const Navbar = () => {
                     )}
                 </AnimatePresence>
 
-                {/* Mobile Menu Drawer */}
-                {isMobileMenuOpen && (
-                    <div className="md:hidden pb-4 space-y-1.5 border-t border-[#252E42] dark:border-[#2D3748] pt-3 font-[Manrope] bg-[#141824] dark:bg-[#161B26] backdrop-blur-2xl rounded-b-3xl px-2 mt-1 shadow-2xl text-[#E2E8F0]">
-                        {isAuthenticated ? (
-                            <>
-                                <Link to="/feed" className={navLinkClasses('/feed')} onClick={() => setIsMobileMenuOpen(false)}>
-                                    <FeedIcon /> Feed
-                                </Link>
-                                <Link to="/discover" className={navLinkClasses('/discover')} onClick={() => setIsMobileMenuOpen(false)}>
-                                    <CompassIcon /> Discover
-                                </Link>
-                                <Link to="/messages" className={navLinkClasses('/messages')} onClick={() => setIsMobileMenuOpen(false)}>
-                                    <span className="flex items-center gap-2"><MessageIcon /> Messages</span>
-                                    {unreadMessageCount > 0 && (
-                                        <span className="ml-auto grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-[#FF8F6B] px-1.5 text-[10px] font-extrabold leading-none text-[#1A140D]">
-                                            {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
-                                        </span>
-                                    )}
-                                </Link>
-                                <Link to="/create" className="flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold text-[#1A140D] bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] rounded-full text-center shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <PlusGustIcon /> New Post
-                                </Link>
-                                <Link to="/profile" className={navLinkClasses('/profile')} onClick={() => setIsMobileMenuOpen(false)}>
-                                    <ProfileGlyphIcon /> Profile
-                                </Link>
-                                <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
-                                    <GearIcon /> Settings
-                                </Link>
-                                <hr className="my-2 border-[#252E42] dark:border-[#2D3748]" />
-                                <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-400 hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
-                                    <LogoutIcon /> Logout
-                                </button>
-                            </>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center gap-2.5 p-3 w-full">
-                                <Link
-                                    to="/register"
-                                    className="w-full max-w-[220px] px-5 py-2.5 text-center text-xs font-black bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] rounded-full shadow-md hover:brightness-110 transition-all font-[Manrope]"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Get Started
-                                </Link>
-                                <Link
-                                    to="/login"
-                                    className="w-full max-w-[220px] px-5 py-2.5 text-center text-xs font-bold border border-[#3A475C] rounded-full text-[#E2E8F0] bg-[#1E2638] hover:bg-[#252D3D] transition-all font-[Manrope]"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Sign In
-                                </Link>
-                                <Link
-                                    to="/admin"
-                                    className="flex items-center justify-center gap-1.5 pt-1 px-4 py-1.5 text-center text-xs font-bold text-[#94A3B8] hover:text-[#FF8F6B] transition-colors"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <ShieldKeyIcon />
-                                    <span>Admin Portal</span>
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                )}
+                {/* Mobile Menu Drawer (Positioned as an absolute overlay so opening/closing it does not push, resize, or shake the page) */}
+                <AnimatePresence>
+                    {isMobileMenuOpen && (
+                        <motion.div
+                            ref={mobileMenuRef}
+                            initial={{ opacity: 0, y: -8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -8 }}
+                            transition={{ duration: 0.2 }}
+                            className="md:hidden absolute top-full left-0 right-0 w-full pb-4 space-y-1.5 border-t border-b border-[#252E42] dark:border-[#2D3748] pt-3 font-[Manrope] bg-[#141824]/98 dark:bg-[#161B26]/98 backdrop-blur-xl shadow-2xl px-3 text-[#E2E8F0] z-50 transform-gpu"
+                        >
+                            {isAuthenticated ? (
+                                <>
+                                    <Link to="/feed" className={navLinkClasses('/feed')} onClick={() => setIsMobileMenuOpen(false)}>
+                                        <FeedIcon /> Feed
+                                    </Link>
+                                    <Link to="/discover" className={navLinkClasses('/discover')} onClick={() => setIsMobileMenuOpen(false)}>
+                                        <CompassIcon /> Discover
+                                    </Link>
+                                    <Link to="/messages" className={navLinkClasses('/messages')} onClick={() => setIsMobileMenuOpen(false)}>
+                                        <span className="flex items-center gap-2"><MessageIcon /> Messages</span>
+                                        {unreadMessageCount > 0 && (
+                                            <span className="ml-auto grid min-h-4.5 min-w-4.5 place-items-center rounded-full bg-[#FF8F6B] px-1.5 text-[10px] font-extrabold leading-none text-[#1A140D]">
+                                                {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
+                                            </span>
+                                        )}
+                                    </Link>
+                                    <Link to="/create" className="flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold text-[#1A140D] bg-gradient-to-r from-[#FF8F6B] to-[#F5C36B] rounded-full text-center shadow-xs" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <PlusGustIcon /> New Post
+                                    </Link>
+                                    <Link to="/profile" className={navLinkClasses('/profile')} onClick={() => setIsMobileMenuOpen(false)}>
+                                        <ProfileGlyphIcon /> Profile
+                                    </Link>
+                                    <Link to="/settings" className={navLinkClasses('/settings')} onClick={() => setIsMobileMenuOpen(false)}>
+                                        <GearIcon /> Settings
+                                    </Link>
+                                    <hr className="my-2 border-[#252E42] dark:border-[#2D3748]" />
+                                    <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-400 hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer">
+                                        <LogoutIcon /> Logout
+                                    </button>
+                                </>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center gap-2.5 p-3 w-full">
+                                    <Link
+                                        to="/register"
+                                        className="w-full max-w-[220px] px-5 py-2.5 text-center text-xs font-black bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] rounded-full shadow-md hover:brightness-110 transition-all font-[Manrope]"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Get Started
+                                    </Link>
+                                    <Link
+                                        to="/login"
+                                        className="w-full max-w-[220px] px-5 py-2.5 text-center text-xs font-bold border border-[#3A475C] rounded-full text-[#E2E8F0] bg-[#1E2638] hover:bg-[#252D3D] transition-all font-[Manrope]"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Sign In
+                                    </Link>
+                                    <Link
+                                        to="/admin"
+                                        className="flex items-center justify-center gap-1.5 pt-1 px-4 py-1.5 text-center text-xs font-bold text-[#94A3B8] hover:text-[#FF8F6B] transition-colors"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        <ShieldKeyIcon />
+                                        <span>Admin Portal</span>
+                                    </Link>
+                                </div>
+                            )}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </nav>
     );
