@@ -4,6 +4,7 @@
 
 ### *Carry your story on the wind — to every corner, to every soul.*
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-zephyra--psi.vercel.app-C2410C.svg?style=for-the-badge&logo=vercel)](https://zephyra-psi.vercel.app/)
 [![Build Status](https://img.shields.io/badge/Build-Passing-emerald.svg?style=for-the-badge&logo=github)](https://github.com/tridib371/zephyra)
 [![React 19](https://img.shields.io/badge/React-19.0-61DAFB.svg?style=for-the-badge&logo=react)](https://react.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-339933.svg?style=for-the-badge&logo=nodedotjs)](https://nodejs.org/)
@@ -15,10 +16,12 @@
 <br />
 
 <p align="center">
+  🌐 <b>Live Web Application</b>: <a href="https://zephyra-psi.vercel.app/" target="_blank"><b>https://zephyra-psi.vercel.app/</b></a>
+  <br /><br />
   <b>Zephyra</b> is a modern, high-performance, distraction-free social platform engineered for creators, artists, and storytellers. Built with a bespoke <b>Glassmorphic Dark/Light Design Engine</b>, real-time interactive feeds, 6-digit OTP email verification, Google OAuth single sign-on, and an administrative control portal.
 </p>
 
-[Explore Features](#-key-features) • [Tech Stack](#%EF%B8%8F-technology-stack) • [Installation Guide](#-getting-started) • [API Reference](#-api-endpoints-reference) • [Project Architecture](#-project-architecture)
+[🌐 Live Demo](https://zephyra-psi.vercel.app/) • [Explore Features](#-key-features) • [Tech Stack](#%EF%B8%8F-technology-stack) • [Installation Guide](#-getting-started) • [API Reference](#-api-endpoints-reference) • [Project Architecture](#-project-architecture)
 
 ---
 
