@@ -607,13 +607,13 @@ navigate(`/post/${postId}`);
                                                         }))
                                                     }
                                                     onKeyDown={(e) => {
-                                                        if (e.key === 'Enter') handleAddComment(post._id);
+                                                        if (e.key === 'Enter') handleCommentSubmit(post._id, e);
                                                     }}
                                                     placeholder="Write a comment..."
                                                     className="flex-1 px-4 py-2 text-xs sm:text-sm font-bold bg-[#FFF6EF] dark:bg-[#181C26] border-2 border-black dark:border-[#2D3546] rounded-xl outline-none focus:border-[#D97B4F] dark:focus:border-[#F5C36B] text-[#1A140D] dark:text-white placeholder-[#5E3821] dark:placeholder-gray-400 font-[Manrope]"
                                                 />
                                                 <button
-                                                    onClick={() => handleAddComment(post._id)}
+                                                    onClick={(e) => handleCommentSubmit(post._id, e)}
                                                     disabled={submittingComment[post._id] || !commentTexts[post._id]?.trim()}
                                                     className="px-4 py-2 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B] text-[#1A140D] border-2 border-black font-black text-xs rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xs cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                                 >
@@ -625,11 +625,11 @@ navigate(`/post/${postId}`);
                                             {post.comments && post.comments.length > 0 && (
                                                 <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
                                                     {post.comments.map((comment) => {
-                                                        const commentAuthor = comment.author || comment.user;
+                                                        const commentAuthor = comment.user || comment.author;
                                                         const commentAuthorName = commentAuthor?.name || 'Anonymous';
                                                         const commentAuthorUsername = commentAuthor?.username || 'user';
                                                         const commentAuthorPic = commentAuthor?.profilePicture || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg';
-                                                        const isCommentOwner = user && (commentAuthor?._id === user._id || commentAuthor?.id === user.id);
+                                                        const isCommentOwner = user && (commentAuthor?._id === user._id || commentAuthor?.id === user.id || commentAuthor?._id === user.id || commentAuthor === user._id);
 
                                                         return (
                                                             <div
@@ -659,7 +659,10 @@ navigate(`/post/${postId}`);
 
                                                                 {isCommentOwner && (
                                                                     <button
-                                                                        onClick={() => handleDeleteCommentClick(post._id, comment._id)}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            handleDeleteComment(post._id, comment._id);
+                                                                        }}
                                                                         className="text-gray-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
                                                                         title="Delete comment"
                                                                     >
