@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const { protect, requireAdmin } = require('../middleware/auth');
 const User = require('../models/User');
