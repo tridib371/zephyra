@@ -1,5 +1,7 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ReactLenis, useLenis } from 'lenis/react';
+import 'lenis/dist/lenis.css';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -42,13 +44,18 @@ const Guidelines = lazy(() => import('./pages/Guidelines'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-// Helper component that automatically scrolls window to the top on every route change
+// Helper component that automatically smoothly resets scroll to the top on every route change via Lenis
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const lenis = useLenis();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenis]);
 
   return null;
 }
@@ -112,11 +119,13 @@ function AppShell() {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <NotificationProvider>
-          <AppShell />
-        </NotificationProvider>
-      </AuthProvider>
+      <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true, touchMultiplier: 1.5 }}>
+        <AuthProvider>
+          <NotificationProvider>
+            <AppShell />
+          </NotificationProvider>
+        </AuthProvider>
+      </ReactLenis>
     </Router>
   );
 }
