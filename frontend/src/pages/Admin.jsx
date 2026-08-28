@@ -28,6 +28,8 @@ import {
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import ConfirmDialog from '../components/ConfirmDialog';
+import adminBgLight from '../assets/admin-bg-light.jpg';
+import adminBgDark from '../assets/admin-bg-dark.jpg';
 
 // Hardware-Accelerated Stable SVG Wind Breeze
 const WindBreeze = () => (
@@ -416,8 +418,21 @@ export default function Admin() {
     if (!isAdminAuthenticated) {
         return (
             <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] flex items-center justify-center overflow-hidden">
-                {/* High-Tech Animated Cyber Matrix Background */}
-                <AnimatedAdminBackground />
+                {/* Single Male Animated System Administrator Artwork Wallpapers - Clear & Sharp */}
+                <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
+                    <img
+                        src={adminBgLight}
+                        alt="Single Male Animated System Administrator Light Mode Artwork"
+                        className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden transform-gpu"
+                    />
+                    <img
+                        src={adminBgDark}
+                        alt="Single Male Animated System Administrator Dark Mode Artwork"
+                        className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block transform-gpu"
+                    />
+                    {/* Clear Light Overlay & Dark Tint Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/80 dark:via-[#0E1116]/75 dark:to-[#0E1116]/90" />
+                </div>
 
                 <div className="relative z-10 w-full max-w-md">
 
@@ -539,8 +554,21 @@ export default function Admin() {
     // =========================================================
     return (
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-6 sm:py-8 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
-            {/* High-Tech Animated Cyber Matrix Background */}
-            <AnimatedAdminBackground />
+            {/* Single Male Animated System Administrator Artwork Wallpapers - Clear & Sharp */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
+                <img
+                    src={adminBgLight}
+                    alt="Single Male Animated System Administrator Light Mode Artwork"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden transform-gpu"
+                />
+                <img
+                    src={adminBgDark}
+                    alt="Single Male Animated System Administrator Dark Mode Artwork"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block transform-gpu"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
+            </div>
 
             <div className="relative max-w-7xl mx-auto space-y-6 z-10">
 

@@ -17,6 +17,9 @@ import { FiFeather, FiWind } from 'react-icons/fi';
 import { RiLeafLine } from 'react-icons/ri';
 import { TbMessageCircleBolt } from 'react-icons/tb';
 
+import aboutBgLight from '../assets/about-bg-light.jpg';
+import aboutBgDark from '../assets/about-bg-dark.jpg';
+
 // Animated Counter component
 const StatCounter = ({ target, suffix = '', prefix = '', decimals = 0, duration = 2.2 }) => {
     const [count, setCount] = useState(0);
@@ -167,8 +170,18 @@ export default function About() {
 
             {/* Realistic Photography Background Wallpapers - Clear & Sharp */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#090B0F] dark:via-[#0E1116] dark:to-[#090B0F]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
+                <img
+                    src={aboutBgLight}
+                    alt="Zephyra Creative Studio Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={aboutBgDark}
+                    alt="Zephyra Creative Studio Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#090B0F]/75 dark:via-[#090B0F]/70 dark:to-[#090B0F]/85" />
             </div>
 
             {/* Glowing Atmospheric Orbs */}

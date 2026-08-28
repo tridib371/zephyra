@@ -14,6 +14,9 @@ import {
     HiOutlineCheck,
 } from 'react-icons/hi2';
 
+import termsBgLight from '../assets/terms-bg-light.jpg';
+import termsBgDark from '../assets/terms-bg-dark.jpg';
+
 // Wind Breeze Floating Motion Element
 const WindBreeze = () => (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
@@ -109,8 +112,18 @@ export default function Terms() {
         <div className="relative min-h-screen bg-[#F5EFE6] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
             {/* Realistic Law Library Background Wallpapers - Clear & Sharp */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#0E1116] dark:via-[#121620] dark:to-[#0A0D12]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
+                <img
+                    src={termsBgLight}
+                    alt="Law Library Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={termsBgDark}
+                    alt="Law Library Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
             </div>
 
             {/* Floating SVG Wind Animation */}

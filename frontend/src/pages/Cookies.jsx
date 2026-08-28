@@ -14,6 +14,9 @@ import {
 } from 'react-icons/hi2';
 import ConfirmDialog from '../components/ConfirmDialog';
 
+import cookiesBgLight from '../assets/cookies-bg-light.jpg';
+import cookiesBgDark from '../assets/cookies-bg-dark.jpg';
+
 // Animated wind gust SVG lines for smooth motion
 const WindBreeze = () => (
     <svg
@@ -154,8 +157,18 @@ export default function Cookies() {
         <div className="relative min-h-screen bg-[#FAF7F2] dark:bg-[#0E1116] text-gray-900 dark:text-[#EDEBE6] transition-colors duration-300 py-12 px-4 sm:px-6 lg:px-8 font-[Manrope] overflow-hidden">
             {/* Realistic Data Storage & Security Photography Wallpapers - Clear & Sharp */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#0E1116] dark:via-[#121620] dark:to-[#0A0D12]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
+                <img
+                    src={cookiesBgLight}
+                    alt="Data Storage & Key Security Light Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100 blur-none scale-100 transition-opacity duration-700 dark:hidden"
+                />
+                <img
+                    src={cookiesBgDark}
+                    alt="Encrypted Server & Cyber Security Dark Wallpaper"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 blur-[0.5px] scale-100 transition-opacity duration-700 hidden dark:block"
+                />
+                {/* Clear Light Overlay & Dark Tint Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30 dark:from-[#0E1116]/75 dark:via-[#0E1116]/70 dark:to-[#0E1116]/85" />
             </div>
 
             <div className="relative max-w-4xl mx-auto space-y-12 z-10">
