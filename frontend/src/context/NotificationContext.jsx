@@ -49,9 +49,17 @@ export const NotificationProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (authLoading) return;
+        if (authLoading || !user) return undefined;
+
         fetchNotifications();
         fetchUnreadMessageCount();
+
+        const interval = setInterval(() => {
+            fetchNotifications();
+            fetchUnreadMessageCount();
+        }, 4000);
+
+        return () => clearInterval(interval);
     }, [authLoading, user?._id]);
 
     useEffect(() => {

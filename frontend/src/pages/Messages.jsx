@@ -443,7 +443,65 @@ export default function Messages() {
         };
     }, [user]);
 
-    // 6. User search debounced effect
+    // 6. Automatic Real-Time Messaging Polling Fallback (Guarantees instant updates across devices)
+    useEffect(() => {
+        if (!user) return undefined;
+
+        const pollInterval = setInterval(async () => {
+            // A. Poll active conversation messages if open
+            const activeId = activeConversationRef.current;
+            if (activeId) {
+                try {
+                    const res = await api.get(`/messages/conversations/${activeId}`);
+                    const fetchedMsgs = res.data.messages || [];
+
+                    setMessages((prevMsgs) => {
+                        if (
+                            fetchedMsgs.length !== prevMsgs.length ||
+                            (fetchedMsgs.length > 0 &&
+                                prevMsgs.length > 0 &&
+                                fetchedMsgs[fetchedMsgs.length - 1]._id !== prevMsgs[prevMsgs.length - 1]._id)
+                        ) {
+                            setTimeout(() => scrollToBottom(), 50);
+                            return fetchedMsgs;
+                        }
+                        return prevMsgs;
+                    });
+
+                    // Auto mark as read if new message received while looking at active conversation
+                    const myId = String(user?._id || user?.id || '');
+                    const lastMsg = fetchedMsgs[fetchedMsgs.length - 1];
+                    if (lastMsg) {
+                        const senderId = String(lastMsg.sender?._id || lastMsg.sender?.id || lastMsg.sender || '');
+                        if (senderId && myId && senderId !== myId && !lastMsg.read) {
+                            api.put(`/messages/conversations/${activeId}/read`).catch(() => { });
+                        }
+                    }
+                } catch (err) {
+                    // Silent catch for background polling
+                }
+            }
+
+            // B. Poll conversation list & unread count
+            try {
+                const res = await api.get('/messages/conversations');
+                const fetchedConvs = res.data.conversations || [];
+                setConversations((prev) => {
+                    const currentSig = JSON.stringify(prev.map(c => ({ id: c._id, last: c.lastMessage?._id, unread: c.unreadCount })));
+                    const fetchedSig = JSON.stringify(fetchedConvs.map(c => ({ id: c._id, last: c.lastMessage?._id, unread: c.unreadCount })));
+                    return currentSig !== fetchedSig ? fetchedConvs : prev;
+                });
+                const totalUnread = fetchedConvs.reduce((acc, c) => acc + (c.unreadCount || 0), 0);
+                if (setUnreadMessageCount) setUnreadMessageCount(totalUnread);
+            } catch (err) {
+                // Silent catch for background polling
+            }
+        }, 2000);
+
+        return () => clearInterval(pollInterval);
+    }, [user, setUnreadMessageCount]);
+
+    // 7. User search debounced effect
     useEffect(() => {
         const q = searchQueryText.trim();
         if (!q) {
