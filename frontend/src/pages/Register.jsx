@@ -352,8 +352,7 @@ const Register = () => {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="col-span-1 lg:col-span-7 w-full max-w-md sm:max-w-lg mx-auto"
-                >
-                    <div className="relative rounded-3xl bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-2xl p-6 sm:p-9 border border-white/90 dark:border-[#252B38] shadow-[0_20px_60px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300">
+                >                    <div className="relative rounded-3xl bg-white/95 dark:bg-[#12151C]/92 backdrop-blur-2xl p-4 sm:p-9 border border-white/90 dark:border-[#252B38] shadow-[0_20px_60px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300">
 
                         {/* Top Gradient Beam Line */}
                         <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#FF8F6B] via-[#D97B4F] to-[#F5C36B]" />
@@ -530,7 +529,7 @@ const Register = () => {
                                                     Sending Verification Code...
                                                 </span>
                                             ) : (
-                                                'Continue to Email Verification →'
+                                                'Send Verification Code →'
                                             )}
                                         </button>
                                     </form>
@@ -588,15 +587,15 @@ const Register = () => {
                                         <p className="text-xs sm:text-sm text-[#334155] dark:text-[#CBD5E1] mt-1.5 font-bold font-[Manrope]">
                                             We sent a 6-digit verification code to:
                                         </p>
-                                        <div className="inline-flex items-center gap-2 mt-1 px-3 py-1 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-full text-xs font-black text-[#C2410C] dark:text-[#F5C36B]">
-                                            <span>{formData.email}</span>
+                                        <div className="inline-flex max-w-full items-center gap-1.5 sm:gap-2 mt-1 px-3 py-1 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-full text-xs font-black text-[#C2410C] dark:text-[#F5C36B]">
+                                            <span className="truncate max-w-[170px] sm:max-w-xs">{formData.email}</span>
                                             <button
                                                 type="button"
                                                 onClick={() => {
                                                     setStep('form');
                                                     setLocalError(null);
                                                 }}
-                                                className="hover:underline flex items-center gap-1 text-[11px] text-[#C2410C] dark:text-[#F5C36B] cursor-pointer"
+                                                className="hover:underline flex items-center gap-1 text-[11px] text-[#C2410C] dark:text-[#F5C36B] cursor-pointer shrink-0"
                                                 title="Edit email address"
                                             >
                                                 <HiOutlinePencilSquare className="w-3.5 h-3.5" />
@@ -629,7 +628,7 @@ const Register = () => {
 
                                     {/* 6-Digit OTP Boxes */}
                                     <form onSubmit={handleVerifyAndRegister} className="space-y-5">
-                                        <div className="flex justify-center items-center gap-2 sm:gap-2.5 my-3" onPaste={handleOtpPaste}>
+                                        <div className="flex justify-center items-center gap-1.5 sm:gap-2.5 my-3 w-full" onPaste={handleOtpPaste}>
                                             {otpValues.map((digit, idx) => (
                                                 <input
                                                     key={idx}
@@ -640,7 +639,7 @@ const Register = () => {
                                                     value={digit}
                                                     onChange={(e) => handleOtpChange(idx, e.target.value)}
                                                     onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                                                    className="w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-black bg-white dark:bg-[#0E1116] border-2 border-black dark:border-[#2D3546] dark:focus:border-[#FF8F6B] focus:border-black rounded-xl sm:rounded-2xl text-[#0F172A] dark:text-white outline-none focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#FF8F6B]/30 shadow-xs transition-all font-mono"
+                                                    className="w-9 h-12 sm:w-12 sm:h-14 text-center text-lg sm:text-2xl font-black bg-white dark:bg-[#0E1116] border-2 border-black dark:border-[#2D3546] dark:focus:border-[#FF8F6B] focus:border-black rounded-xl sm:rounded-2xl text-[#0F172A] dark:text-white outline-none focus:ring-2 focus:ring-[#E2774C] dark:focus:ring-[#FF8F6B]/30 shadow-xs transition-all font-mono shrink-0"
                                                 />
                                             ))}
                                         </div>
