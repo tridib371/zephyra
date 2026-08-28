@@ -305,21 +305,21 @@ const PostDetail = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="mt-4 flex items-center justify-between sm:justify-start gap-1 sm:gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4 overflow-x-auto no-scrollbar">
+                        <div className="mt-4 flex items-center gap-6 border-t border-[#EAECF0] dark:border-[#1F232C] pt-4">
                             <button
                                 onClick={handleLike}
-                                className={`flex items-center gap-1.5 sm:gap-2 transition text-xs font-bold cursor-pointer shrink-0 ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
+                                className={`flex items-center gap-2 transition text-xs font-bold cursor-pointer shrink-0 ${isLiked ? 'text-[#D97B4F] dark:text-[#FF8F6B]' : 'text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#FF8F6B]'}`}
                             >
                                 <HeartIcon filled={isLiked} />
                                 <span>Like</span>
                             </button>
-                            <button className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0">
+                            <button className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0">
                                 <CommentIcon />
                                 <span>Comment</span>
                             </button>
                             <button
                                 onClick={() => setIsShareOpen(true)}
-                                className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0 sm:ml-auto"
+                                className="flex items-center gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0"
                             >
                                 <ShareIcon />
                                 <span>Share</span>
