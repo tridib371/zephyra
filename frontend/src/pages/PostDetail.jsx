@@ -21,12 +21,6 @@ const CommentIcon = () => (
     </svg>
 );
 
-const BookmarkIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6">
-        <path d="M5 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v16l-7-4-7 4V4Z" strokeLinejoin="round" />
-    </svg>
-);
-
 const ShareIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6">
         <circle cx="18" cy="5" r="2.2" />
@@ -322,10 +316,6 @@ const PostDetail = () => {
                             <button className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0">
                                 <CommentIcon />
                                 <span>Comment</span>
-                            </button>
-                            <button className="flex items-center gap-1.5 sm:gap-2 text-[#475467] dark:text-[#6E7280] hover:text-[#D97B4F] dark:hover:text-[#F5C36B] transition text-xs font-bold cursor-pointer shrink-0">
-                                <BookmarkIcon />
-                                <span>Save</span>
                             </button>
                             <button
                                 onClick={() => setIsShareOpen(true)}
