@@ -1042,7 +1042,7 @@ export default function Admin() {
                                             {(p.image || p.mediaUrl) && (() => {
                                                 const mediaSrc = p.image || p.mediaUrl;
                                                 const lower = mediaSrc.toLowerCase();
-                                                const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
+                                                const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('.mkv') || lower.includes('.m4v') || lower.includes('/video/upload/') || lower.includes('/video/') || lower.startsWith('data:video');
                                                 if (isVideo) {
                                                     return (
                                                         <AutoPauseVideo

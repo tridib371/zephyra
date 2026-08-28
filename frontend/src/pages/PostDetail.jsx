@@ -269,7 +269,7 @@ const PostDetail = () => {
                                 <div className="mt-4 rounded-2xl overflow-hidden border-2 border-black dark:border-[#1F232C] bg-black/5 dark:bg-black/30">
                                     {(() => {
                                         const lower = (post.image || '').toLowerCase();
-                                        const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('/video/upload/') || lower.startsWith('data:video');
+                                        const isVideo = lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov') || lower.includes('.avi') || lower.includes('.mkv') || lower.includes('.m4v') || lower.includes('/video/upload/') || lower.includes('/video/') || lower.startsWith('data:video');
                                         if (isVideo) {
                                             return (
                                                 <AutoPauseVideo
