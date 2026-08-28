@@ -233,17 +233,17 @@ const Register = () => {
             {/* ============================================
                DEDICATED DAY & NIGHT MODE BACKGROUND WALLPAPERS
                ============================================ */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#0E1116] dark:via-[#121620] dark:to-[#0A0D12]" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
             </div>
 
             {/* Floating Ambient Glowing Beams */}
-            <div className="absolute top-1/4 left-10 w-80 sm:w-96 h-80 sm:h-96 bg-gradient-to-br from-[#FF8F6B]/20 to-[#F5C36B]/15 dark:from-[#6366F1]/15 dark:to-[#06B6D4]/15 rounded-full blur-2xl pointer-events-none transform-gpu" />
-            <div className="absolute bottom-1/4 right-10 w-80 sm:w-96 h-80 sm:h-96 bg-gradient-to-br from-[#06B6D4]/15 to-[#3B82F6]/15 dark:from-[#FF8F6B]/20 dark:to-[#F5C36B]/15 rounded-full blur-2xl pointer-events-none transform-gpu" />
+            <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-[#FF8F6B]/25 to-[#F5C36B]/20 dark:from-[#6366F1]/20 dark:to-[#06B6D4]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-br from-[#06B6D4]/20 to-[#3B82F6]/20 dark:from-[#FF8F6B]/30 dark:to-[#F5C36B]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
-            {/* Animated Floating Particles Scenario (Desktop Only) */}
-            <div className="hidden md:block absolute inset-0 pointer-events-none z-0 overflow-hidden transform-gpu">
+            {/* Animated Floating Particles Scenario */}
+            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
                 <motion.div
                     animate={{ y: [0, -35, 0], x: [0, 20, 0], opacity: [0.4, 0.8, 0.4] }}
                     transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}

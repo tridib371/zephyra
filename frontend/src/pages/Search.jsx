@@ -101,8 +101,8 @@ export default function Search() {
         <div className="min-h-screen px-4 sm:px-6 py-10 bg-[#F8F9FA] dark:bg-[#0B0D10] text-[#101828] dark:text-[#EDEBE6] font-[Manrope] transition-colors duration-300">
 
             {/* Background Ambient Orbs */}
-            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden transform-gpu">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[450px] sm:w-[750px] h-[450px] sm:h-[750px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/25 via-[#F5C36B]/15 to-transparent blur-2xl opacity-75 dark:opacity-30 transform-gpu" />
+            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[750px] h-[750px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/35 via-[#F5C36B]/25 to-transparent blur-3xl opacity-75 dark:opacity-30" />
             </div>
 
             <div className="relative z-10 max-w-6xl mx-auto space-y-8">

@@ -7,20 +7,112 @@ import { motion } from 'framer-motion';
 // ===== UNIQUE DISCOVER RADAR & CONSTELLATION NETWORK BACKGROUND =====
 const DiscoverBackgroundAnimation = () => {
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
-            {/* 1. Ambient Radial Searchlight Beacons (GPU Accelerated) */}
-            <div className="absolute -top-32 -left-32 w-96 sm:w-[540px] h-96 sm:h-[540px] rounded-full bg-gradient-to-br from-[#FF8F6B]/20 via-[#D97B4F]/10 to-transparent blur-2xl transform-gpu" />
-            <div className="absolute top-1/3 -right-28 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-bl from-[#F5C36B]/15 via-[#E2774C]/10 to-transparent blur-2xl transform-gpu" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <style>{`
+                @keyframes radarSweep {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @keyframes radarSweepReverse {
+                    0% { transform: rotate(360deg); }
+                    100% { transform: rotate(0deg); }
+                }
+                @keyframes nodePulse {
+                    0%, 100% { transform: scale(1); opacity: 0.35; }
+                    50% { transform: scale(1.6); opacity: 0.9; }
+                }
+                @keyframes beamFloat {
+                    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.45; }
+                    50% { transform: translate(-30px, 40px) scale(1.15); opacity: 0.75; }
+                }
+                @keyframes beaconFloat {
+                    0%, 100% { transform: translateY(0px) rotate(0deg); }
+                    50% { transform: translateY(-25px) rotate(180deg); }
+                }
+                .animate-radar-sweep {
+                    animation: radarSweep 32s linear infinite;
+                    transform-origin: center center;
+                }
+                .animate-radar-reverse {
+                    animation: radarSweepReverse 48s linear infinite;
+                    transform-origin: center center;
+                }
+                .animate-node-p1 { animation: nodePulse 4s ease-in-out infinite; }
+                .animate-node-p2 { animation: nodePulse 5.5s ease-in-out infinite 1.2s; }
+                .animate-node-p3 { animation: nodePulse 6s ease-in-out infinite 2.5s; }
+                .animate-beam-float { animation: beamFloat 14s ease-in-out infinite; }
+                .animate-beacon { animation: beaconFloat 9s ease-in-out infinite; }
+            `}</style>
 
-            {/* 2. Desktop Only Discovery Radar SVGs (Hidden on mobile for smooth 60fps scroll) */}
-            <div className="hidden md:block transform-gpu">
-                <div className="absolute -top-24 right-10 w-[520px] h-[520px] opacity-25">
-                    <svg viewBox="0 0 400 400" className="w-full h-full">
-                        <circle cx="200" cy="200" r="190" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" className="text-[#FF8F6B]" />
-                        <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[#F5C36B]" />
-                        <circle cx="200" cy="200" r="90" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#FF8F6B]" />
-                    </svg>
-                </div>
+            {/* 1. Ambient Radial Searchlight Beacons */}
+            <div className="absolute -top-32 -left-32 w-96 sm:w-[540px] h-96 sm:h-[540px] rounded-full bg-gradient-to-br from-[#FF8F6B]/25 via-[#D97B4F]/15 to-transparent blur-3xl animate-beam-float" />
+            <div className="absolute top-1/3 -right-28 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-gradient-to-bl from-[#F5C36B]/20 via-[#E2774C]/15 to-transparent blur-3xl animate-beam-float" style={{ animationDelay: '-7s' }} />
+            <div className="absolute -bottom-32 left-1/4 w-96 sm:w-[500px] h-96 sm:h-[500px] rounded-full bg-gradient-to-tr from-[#EA580C]/20 via-[#F5C36B]/10 to-transparent blur-3xl animate-beam-float" style={{ animationDelay: '-3.5s' }} />
+
+            {/* 2. Rotating Discovery Radar Compass (Top-Right) */}
+            <div className="absolute -top-24 -right-24 sm:right-10 w-[360px] sm:w-[520px] h-[360px] sm:h-[520px] opacity-35 dark:opacity-25">
+                <svg viewBox="0 0 400 400" className="w-full h-full animate-radar-sweep">
+                    {/* Concentric rings */}
+                    <circle cx="200" cy="200" r="190" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
+                    <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[#C25828] dark:text-[#F5C36B]" />
+                    <circle cx="200" cy="200" r="90" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
+                    <circle cx="200" cy="200" r="40" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" className="text-[#E2774C] dark:text-[#FF8F6B]" />
+                    {/* Crosshair axis */}
+                    <line x1="10" y1="200" x2="390" y2="200" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" className="text-[#D97B4F]/60 dark:text-[#FF8F6B]/50" />
+                    <line x1="200" y1="10" x2="200" y2="390" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" className="text-[#D97B4F]/60 dark:text-[#FF8F6B]/50" />
+                    {/* Radar Target Markers */}
+                    <circle cx="200" cy="60" r="4" fill="currentColor" className="text-[#EA580C] dark:text-[#FF8F6B]" />
+                    <circle cx="330" cy="200" r="5" fill="currentColor" className="text-[#D97B4F] dark:text-[#F5C36B]" />
+                    <circle cx="110" cy="290" r="3.5" fill="currentColor" className="text-[#C25828] dark:text-[#FF8F6B]" />
+                </svg>
+            </div>
+
+            {/* 3. Secondary Reverse Radar (Bottom-Left) */}
+            <div className="absolute -bottom-28 -left-28 sm:left-4 w-[300px] sm:w-[440px] h-[300px] sm:h-[440px] opacity-25 dark:opacity-20">
+                <svg viewBox="0 0 400 400" className="w-full h-full animate-radar-reverse">
+                    <circle cx="200" cy="200" r="180" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="8 8" className="text-[#F5C36B] dark:text-[#F5C36B]" />
+                    <circle cx="200" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
+                    <circle cx="200" cy="200" r="60" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 4" className="text-[#EA580C] dark:text-[#FF8F6B]" />
+                    <line x1="60" y1="60" x2="340" y2="340" stroke="currentColor" strokeWidth="1" strokeDasharray="5 5" className="text-[#D97B4F]/40 dark:text-[#FF8F6B]/30" />
+                    <line x1="60" y1="340" x2="340" y2="60" stroke="currentColor" strokeWidth="1" strokeDasharray="5 5" className="text-[#D97B4F]/40 dark:text-[#FF8F6B]/30" />
+                </svg>
+            </div>
+
+            {/* 4. Creator Constellation Network Vectors */}
+            <svg className="absolute inset-0 w-full h-full opacity-35 dark:opacity-25" xmlns="http://www.w3.org/2000/svg">
+                {/* Interconnecting Network Strands */}
+                <line x1="12%" y1="18%" x2="28%" y2="32%" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 3" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
+                <line x1="28%" y1="32%" x2="45%" y2="20%" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" className="text-[#F5C36B] dark:text-[#F5C36B]" />
+                <line x1="45%" y1="20%" x2="72%" y2="28%" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 3" className="text-[#E2774C] dark:text-[#FF8F6B]" />
+                <line x1="72%" y1="28%" x2="88%" y2="15%" stroke="currentColor" strokeWidth="1.2" strokeDasharray="5 5" className="text-[#D97B4F] dark:text-[#F5C36B]" />
+                <line x1="28%" y1="32%" x2="35%" y2="58%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" className="text-[#C25828] dark:text-[#FF8F6B]" />
+                <line x1="35%" y1="58%" x2="62%" y2="68%" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[#F5C36B] dark:text-[#F5C36B]" />
+                <line x1="62%" y1="68%" x2="85%" y2="54%" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" className="text-[#EA580C] dark:text-[#FF8F6B]" />
+                <line x1="35%" y1="58%" x2="18%" y2="82%" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[#D97B4F] dark:text-[#FF8F6B]" />
+                <line x1="62%" y1="68%" x2="75%" y2="88%" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" className="text-[#F5C36B] dark:text-[#F5C36B]" />
+
+                {/* Pulsing Star Nodes */}
+                <circle cx="12%" cy="18%" r="4.5" fill="#FF8F6B" className="animate-node-p1" />
+                <circle cx="28%" cy="32%" r="5.5" fill="#F5C36B" className="animate-node-p2" />
+                <circle cx="45%" cy="20%" r="4" fill="#D97B4F" className="animate-node-p3" />
+                <circle cx="72%" cy="28%" r="5" fill="#FF8F6B" className="animate-node-p1" />
+                <circle cx="88%" cy="15%" r="4" fill="#F5C36B" className="animate-node-p2" />
+                <circle cx="35%" cy="58%" r="5" fill="#E2774C" className="animate-node-p3" />
+                <circle cx="62%" cy="68%" r="5.5" fill="#FF8F6B" className="animate-node-p1" />
+                <circle cx="85%" cy="54%" r="4.5" fill="#F5C36B" className="animate-node-p2" />
+                <circle cx="18%" cy="82%" r="4" fill="#D97B4F" className="animate-node-p3" />
+                <circle cx="75%" cy="88%" r="5" fill="#FF8F6B" className="animate-node-p1" />
+            </svg>
+
+            {/* 5. Floating Geometric Discovery Beacons */}
+            <div className="absolute top-[22%] left-[8%] animate-beacon opacity-40 dark:opacity-30">
+                <div className="w-3.5 h-3.5 border-2 border-[#EA580C] dark:border-[#FF8F6B] rotate-45" />
+            </div>
+            <div className="absolute top-[48%] right-[10%] animate-beacon opacity-40 dark:opacity-30" style={{ animationDelay: '-4s' }}>
+                <div className="w-4 h-4 border-2 border-[#D97B4F] dark:border-[#F5C36B] rotate-12" />
+            </div>
+            <div className="absolute bottom-[20%] left-[22%] animate-beacon opacity-35 dark:opacity-25" style={{ animationDelay: '-6.5s' }}>
+                <div className="w-3 h-3 border-2 border-[#F5C36B] dark:border-[#FF8F6B] rotate-45" />
             </div>
         </div>
     );

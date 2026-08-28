@@ -398,11 +398,11 @@ export default function Home() {
     return (
         <div className="min-h-screen flex flex-col bg-[#F8F9FA] dark:bg-[#0B0D10] text-[#101828] dark:text-[#EDEBE6] font-[Manrope] transition-colors duration-300 overflow-x-hidden">
 
-            {/* Background Ambient Glow Orbs - Hardware Accelerated & Stable */}
-            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden transform-gpu">
-                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[550px] sm:w-[850px] h-[550px] sm:h-[850px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/25 via-[#F5C36B]/20 to-[#D97B4F]/10 dark:from-[#FF8F6B]/15 dark:via-[#F5C36B]/10 dark:to-transparent blur-2xl opacity-75 dark:opacity-40 transform-gpu" />
-                <div className="absolute top-1/3 -left-48 w-[450px] sm:w-[650px] h-[450px] sm:h-[650px] rounded-full bg-gradient-to-br from-[#FF8F6B]/20 via-[#D97B4F]/15 to-transparent blur-2xl opacity-65 dark:opacity-30 transform-gpu" />
-                <div className="absolute bottom-10 -right-20 w-[450px] sm:w-[700px] h-[450px] sm:h-[700px] rounded-full bg-gradient-to-tl from-[#F5C36B]/20 via-[#FF8F6B]/15 to-transparent blur-2xl opacity-65 dark:opacity-30 transform-gpu" />
+            {/* Background Ambient Glow Orbs - Tailored for both Light & Dark modes */}
+            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#FF8F6B]/35 via-[#F5C36B]/25 to-[#D97B4F]/15 dark:from-[#FF8F6B]/20 dark:via-[#F5C36B]/15 dark:to-transparent blur-3xl opacity-75 dark:opacity-40 animate-pulse" />
+                <div className="absolute top-1/3 -left-48 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-[#FF8F6B]/30 via-[#D97B4F]/20 to-transparent blur-3xl opacity-65 dark:opacity-30" />
+                <div className="absolute bottom-10 -right-20 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#F5C36B]/30 via-[#FF8F6B]/20 to-transparent blur-3xl opacity-65 dark:opacity-30" />
             </div>
 
             {/* ===== HERO SECTION ===== */}

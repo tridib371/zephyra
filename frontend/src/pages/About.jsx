@@ -166,7 +166,7 @@ export default function About() {
         <div className="relative min-h-screen overflow-hidden bg-[#FAF7F2] dark:bg-[#090B0F] text-[#0F172A] dark:text-[#EDEBE6] transition-colors duration-300 font-[Manrope]">
 
             {/* Realistic Photography Background Wallpapers - Clear & Sharp */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transform-gpu" aria-hidden="true">
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#FFF6EF] via-[#FAF7F2] to-[#F5EFE6] dark:from-[#090B0F] dark:via-[#0E1116] dark:to-[#090B0F]" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FF8F6B]/15 via-transparent to-transparent dark:from-[#FF8F6B]/10" />
             </div>
