@@ -204,6 +204,42 @@ const Settings = () => {
         });
     }, [user]);
 
+    const compressImage = (file, maxWidth = 1200, maxHeight = 1200, quality = 0.85) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        } else {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(dataUrl);
+                };
+                img.onerror = (err) => reject(err);
+            };
+            reader.onerror = (err) => reject(err);
+        });
+    };
+
     const handleFileUpload = (type) => async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -214,42 +250,54 @@ const Settings = () => {
             return;
         }
 
-        if (file.size > 10 * 1024 * 1024) {
+        if (file.size > 25 * 1024 * 1024) {
             setProfileStatusType('error');
-            setProfileStatus('Image size should be under 10MB.');
+            setProfileStatus('Image size should be under 25MB.');
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = async () => {
-            const base64 = reader.result;
-            try {
-                if (type === 'avatar') setUploadingAvatar(true);
-                if (type === 'cover') setUploadingCover(true);
-                setProfileStatus('');
+        try {
+            if (type === 'avatar') setUploadingAvatar(true);
+            if (type === 'cover') setUploadingCover(true);
+            setProfileStatus('');
 
-                const res = await api.post('/upload', { image: base64 });
-                const uploadedUrl = res.data.url;
-
-                if (type === 'avatar') {
-                    setFormData((prev) => ({ ...prev, profilePicture: uploadedUrl }));
-                    setProfileStatusType('success');
-                    setProfileStatus('Profile avatar uploaded! Click "Save Settings" to save.');
-                } else {
-                    setFormData((prev) => ({ ...prev, coverPhoto: uploadedUrl }));
-                    setProfileStatusType('success');
-                    setProfileStatus('Cover banner uploaded! Click "Save Settings" to save.');
-                }
-            } catch (err) {
-                console.error('File upload error:', err);
-                setProfileStatusType('error');
-                setProfileStatus('Failed to upload image. Please try again.');
-            } finally {
-                if (type === 'avatar') setUploadingAvatar(false);
-                if (type === 'cover') setUploadingCover(false);
+            let base64;
+            if (file.type === 'image/gif') {
+                base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                base64 = await compressImage(file, type === 'avatar' ? 600 : 1600, type === 'avatar' ? 600 : 800);
             }
-        };
-        reader.readAsDataURL(file);
+
+            const res = await api.post('/upload', { image: base64 });
+            const uploadedUrl = res.data.url;
+
+            if (type === 'avatar') {
+                setFormData((prev) => ({ ...prev, profilePicture: uploadedUrl }));
+                // Auto-save avatar to user profile
+                const updateRes = await api.put('/users/me', { profilePicture: uploadedUrl });
+                if (updateRes.data?.user) updateUser(updateRes.data.user);
+                setProfileStatusType('success');
+                setProfileStatus('Profile picture updated and saved successfully!');
+            } else {
+                setFormData((prev) => ({ ...prev, coverPhoto: uploadedUrl }));
+                // Auto-save cover photo to user profile
+                const updateRes = await api.put('/users/me', { coverPhoto: uploadedUrl });
+                if (updateRes.data?.user) updateUser(updateRes.data.user);
+                setProfileStatusType('success');
+                setProfileStatus('Cover photo updated and saved successfully!');
+            }
+        } catch (err) {
+            console.error('File upload error:', err);
+            setProfileStatusType('error');
+            setProfileStatus(err.response?.data?.message || 'Failed to upload image. Please try again.');
+        } finally {
+            if (type === 'avatar') setUploadingAvatar(false);
+            if (type === 'cover') setUploadingCover(false);
+        }
     };
 
     const handleChange = (event) => {

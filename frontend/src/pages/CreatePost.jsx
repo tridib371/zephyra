@@ -117,34 +117,81 @@ const CreatePost = () => {
     const imageInputRef = useRef(null);
     const videoInputRef = useRef(null);
 
-    const handleImageChange = (e) => {
+    const compressImage = (file, maxWidth = 1600, maxHeight = 1600, quality = 0.85) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        } else {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(dataUrl);
+                };
+                img.onerror = (err) => reject(err);
+            };
+            reader.onerror = (err) => reject(err);
+        });
+    };
+
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            if (file.size > 10 * 1024 * 1024) {
-                setError('Image size should be less than 10MB');
+            if (file.size > 25 * 1024 * 1024) {
+                setError('Image size should be less than 25MB');
                 return;
             }
             if (!file.type.startsWith('image/')) {
                 setError('Please select a valid image file (JPG, PNG, GIF, WebP)');
                 return;
             }
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setMedia(reader.result);
-                setMediaPreview(reader.result);
+            try {
+                let dataUrl;
+                if (file.type === 'image/gif') {
+                    dataUrl = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.readAsDataURL(file);
+                    });
+                } else {
+                    dataUrl = await compressImage(file);
+                }
+                setMedia(dataUrl);
+                setMediaPreview(dataUrl);
                 setMediaType('image');
-            };
-            reader.readAsDataURL(file);
-            setError('');
+                setError('');
+            } catch (err) {
+                console.error('Image processing error:', err);
+                setError('Failed to process selected image.');
+            }
         }
     };
 
     const handleVideoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Check video size (max 30MB)
-            if (file.size > 30 * 1024 * 1024) {
-                setError('Video size must be less than 30MB');
+            // Check video size (max 20MB for fast serverless upload)
+            if (file.size > 20 * 1024 * 1024) {
+                setError('Video size must be less than 20MB');
                 return;
             }
             if (!file.type.startsWith('video/')) {
@@ -187,7 +234,7 @@ const CreatePost = () => {
             if (media) {
                 setUploadingMedia(true);
                 setUploadStatus(mediaType === 'video' ? 'Uploading & optimizing video...' : 'Uploading photo...');
-                const uploadRes = await api.post('/upload', { image: media });
+                const uploadRes = await api.post('/upload', { image: media, mediaType });
                 mediaUrl = uploadRes.data.url;
                 setUploadingMedia(false);
             }

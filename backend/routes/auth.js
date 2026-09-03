@@ -7,8 +7,8 @@ const { sendOtpEmail } = require('../utils/emailService');
 const { verifyIdToken } = require('../config/firebaseAdmin');
 const router = express.Router();
 
-// Password strength regex
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+// Password strength regex (accepts all standard special characters)
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_+\-=\[\]{}|;:,.<>/~`])[A-Za-z\d@$!%*?&#^()_+\-=\[\]{}|;:,.<>/~`]{8,}$/;
 
 // Email validation regex
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
