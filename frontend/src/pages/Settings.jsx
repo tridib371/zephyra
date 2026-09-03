@@ -179,7 +179,7 @@ const Settings = () => {
         uppercase: /[A-Z]/.test(passwordData.newPassword),
         lowercase: /[a-z]/.test(passwordData.newPassword),
         number: /\d/.test(passwordData.newPassword),
-        special: /[@$!%*?&]/.test(passwordData.newPassword),
+        special: /[@$!%*?&#^()_+\-=\[\]{}|;:,.<>/~`]/.test(passwordData.newPassword),
     };
     const isNewPasswordValid = Object.values(passwordChecks).every(Boolean);
 
@@ -294,21 +294,21 @@ const Settings = () => {
         setSaving(true);
         setPasswordStatus('');
 
-        if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) {
+        if (!passwordData.newPassword || !passwordData.confirmPassword) {
             setPasswordStatusType('error');
-            setPasswordStatus('Please fill in all password fields.');
+            setPasswordStatus('Please fill in both new password and confirm password.');
             setSaving(false);
             return;
         }
 
         if (!isNewPasswordValid) {
             setPasswordStatusType('error');
-            setPasswordStatus('Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character (@, $, !, %, *, ?, &).');
+            setPasswordStatus('Password must be at least 8 characters long and contain uppercase, lowercase, number, and a special character.');
             setSaving(false);
             return;
         }
 
-        if (passwordData.currentPassword === passwordData.newPassword) {
+        if (passwordData.currentPassword && passwordData.currentPassword === passwordData.newPassword) {
             setPasswordStatusType('error');
             setPasswordStatus('New password cannot be the same as your current password. Please choose a different password.');
             setSaving(false);
@@ -737,7 +737,7 @@ const Settings = () => {
                                     </p>
                                     <p className={`flex items-center gap-1.5 ${passwordChecks.special ? 'text-emerald-800 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-bold'}`}>
                                         {passwordChecks.special ? <HiOutlineCheck className="text-xs shrink-0 stroke-[3]" /> : <HiOutlineXMark className="text-xs shrink-0 stroke-[3]" />}
-                                        <span>At least 1 special char (@$!%*?&)</span>
+                                        <span>At least 1 special char (@, $, !, %, *, ?, &, #, _, etc.)</span>
                                     </p>
                                 </motion.div>
                             )}

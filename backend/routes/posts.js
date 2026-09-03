@@ -11,16 +11,19 @@ router.post('/', protect, async (req, res) => {
     try {
         const { content, image } = req.body;
 
-        if (!content || content.trim() === '') {
+        const hasContent = typeof content === 'string' && content.trim().length > 0;
+        const hasImage = typeof image === 'string' && image.trim().length > 0;
+
+        if (!hasContent && !hasImage) {
             return res.status(400).json({
                 success: false,
-                message: 'Post content is required',
+                message: 'Please write something or attach an image/video to your post.',
             });
         }
 
         const post = await Post.create({
-            content,
-            image: image || '',
+            content: hasContent ? content.trim() : '',
+            image: hasImage ? image.trim() : '',
             author: req.user._id,
         });
 
@@ -34,7 +37,7 @@ router.post('/', protect, async (req, res) => {
         console.error('Create post error:', error);
         res.status(500).json({
             success: false,
-            message: 'Server error. Please try again.',
+            message: error.message || 'Server error. Please try again.',
         });
     }
 });

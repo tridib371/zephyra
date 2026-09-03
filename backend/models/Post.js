@@ -4,7 +4,7 @@ const PostSchema = new mongoose.Schema(
     {
         content: {
             type: String,
-            required: [true, 'Please add content to your post'],
+            default: '',
             maxlength: [2000, 'Content cannot be more than 2000 characters'],
             trim: true,
         },

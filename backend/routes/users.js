@@ -104,10 +104,10 @@ router.put('/me/password', protect, async (req, res) => {
     try {
         const { currentPassword, newPassword, confirmPassword } = req.body;
 
-        if (!currentPassword || !newPassword || !confirmPassword) {
+        if (!newPassword || !confirmPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'Please provide all password fields.',
+                message: 'Please provide both new password and confirm password.',
             });
         }
 
@@ -123,7 +123,14 @@ router.put('/me/password', protect, async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found.' });
         }
 
-        if (user.password) {
+        // If user already has a password, verify current password
+        if (user.password && user.password.trim() !== '') {
+            if (!currentPassword) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please enter your current password.',
+                });
+            }
             const isMatch = await user.matchPassword(currentPassword);
             if (!isMatch) {
                 return res.status(400).json({
@@ -131,21 +138,25 @@ router.put('/me/password', protect, async (req, res) => {
                     message: 'Current password is incorrect.',
                 });
             }
+            if (currentPassword === newPassword) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'New password cannot be the same as your current password. Please choose a different password.',
+                });
+            }
         }
 
-        if (currentPassword === newPassword) {
-            return res.status(400).json({
-                success: false,
-                message: 'New password cannot be the same as your current password. Please choose a different password.',
-            });
-        }
+        // Password strength checks (8+ chars, uppercase, lowercase, number, special char)
+        const hasMinLength = typeof newPassword === 'string' && newPassword.length >= 8;
+        const hasUpper = /[A-Z]/.test(newPassword);
+        const hasLower = /[a-z]/.test(newPassword);
+        const hasNumber = /\d/.test(newPassword);
+        const hasSpecial = /[@$!%*?&#^()_+\-=\[\]{}|;:,.<>/~`]/.test(newPassword);
 
-        // Password strength check
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        if (!passwordRegex.test(newPassword)) {
+        if (!hasMinLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
             return res.status(400).json({
                 success: false,
-                message: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &).',
+                message: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
             });
         }
 
